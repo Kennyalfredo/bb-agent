@@ -1,0 +1,60 @@
+# bb-agent — Tier-3 bug bounty hunting agent
+
+Multi-subagent system for Claude Code that automates non-applicative bug bounty
+discovery (leaked credentials, exposed cloud assets, subdomain takeover)
+across HackerOne / Bugcrowd programs that have similar rules to MELI's Tier 3.
+
+## Status
+
+- **Day 1 (2026-05-11) — DONE** — Tool environment installed, project scaffolded
+- **Day 2** — `/program-load` slash command + `program-scope-parser` subagent
+- **Day 3** — `bucket-hunter` + `ownership-verifier` (the critical pre-report check)
+- **Day 4** — `secret-hunter`
+- **Day 5** — `report-drafter` + memory wiring
+
+## Directory layout
+
+```
+bb-agent/
+├── README.md             — this file
+├── tools.md              — binary inventory (full paths, versions, compliance rules)
+├── .claude/
+│   ├── agents/           — subagent definitions (.md files with frontmatter)
+│   ├── commands/         — slash commands (e.g., /program-load, /tier3-hunt)
+│   └── skills/           — reusable knowledge (e.g., tier3-rules)
+├── memory/
+│   ├── programs/         — per-program scope JSON (mercadolibre.json, openai.json, ...)
+│   └── ownership-cache/  — ownership-verification cache (positive + negative)
+└── out/                  — scan outputs, drafted reports
+```
+
+Note: bbot scan output goes to `/mnt/files/bb-agent/` (off-root partition),
+NOT here. This dir is only for agent state + reports.
+
+## Key architectural decisions
+
+1. **Many small subagents, not one big one.** Each has restricted tools.
+2. **Ownership verifier is mandatory before drafting.** Skipping it cost us a wasted day on the `mercadolivre.s3.amazonaws.com` bucket.
+3. **One non-destructive validation call per finding source.** Tracked in state.
+4. **No auto-submit.** Reports go to `out/<program>/reports/*.md`. Human submits.
+5. **Per-program rule parsing.** Each program's restrictions become machine-readable
+   flags that downstream subagents respect.
+
+## Running anything
+
+To use the agent from Claude Code:
+
+```bash
+cd ~/bb-agent
+claude
+```
+
+Then invoke slash commands like `/program-load <h1-url>` once they're built.
+
+## Compliance rules (read tools.md for full list)
+
+- No active mass scanning
+- One validation call per source
+- No bucket file downloads
+- Verify ownership BEFORE drafting report
+- 0-day age gate (≥30 days since publication)

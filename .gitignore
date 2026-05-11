@@ -1,0 +1,35 @@
+# Drafted reports — contain validity proofs, JWTs, secret material.
+# Even in a private repo, safer to keep these on local disk only.
+out/
+
+# Logs and scratch
+*.log
+.DS_Store
+*.swp
+*.tmp
+*~
+
+# Editor / IDE
+.vscode/
+.idea/
+
+# Local-only credential storage — if anyone ever puts an .env here by mistake
+.env
+.env.*
+*.key
+*.pem
+secrets.yml
+secrets.yaml
+
+# Python cruft (in case any subagent helper scripts get added)
+__pycache__/
+*.pyc
+.venv/
+
+# Note: memory/ IS tracked. It contains:
+#   - memory/programs/*.json (per-program scope configs, useful to back up)
+#   - memory/ownership-cache/*.json (verified-owned + verified-NOT-owned assets)
+#   - memory/submissions/*.json (audit trail of what was drafted/submitted)
+# These are mildly sensitive but contain no secret material. Private repo = OK.
+#
+# If you ever change to a public repo, add `memory/` to this file FIRST.
