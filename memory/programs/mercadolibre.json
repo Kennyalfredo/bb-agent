@@ -1,0 +1,514 @@
+{
+  "program": {
+    "slug": "mercadolibre",
+    "platform": "hackerone",
+    "url": "https://hackerone.com/mercadolibre?type=team",
+    "name": "MercadoLibre",
+    "fetched_at": "2026-05-12"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "wildcard",
+        "asset": "*.adminml.com",
+        "severity_cap": "critical",
+        "notes": "Tier 1"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.mercadolibre.cl",
+        "severity_cap": "critical",
+        "notes": "Tier 1"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.mercadolibre.com",
+        "severity_cap": "critical",
+        "notes": "Tier 1"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.mercadolibre.com.ar",
+        "severity_cap": "critical",
+        "notes": "Tier 1"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.mercadolibre.com.co",
+        "severity_cap": "critical",
+        "notes": "Tier 1"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.mercadolibre.com.mx",
+        "severity_cap": "critical",
+        "notes": "Tier 1"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.mercadolibre.com.pe",
+        "severity_cap": "critical",
+        "notes": "Tier 1"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.mercadolibre.com.uy",
+        "severity_cap": "critical",
+        "notes": "Tier 1"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.mercadolivre.com.br",
+        "severity_cap": "critical",
+        "notes": "Tier 1"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.mercadopago.cl",
+        "severity_cap": "critical",
+        "notes": "Tier 1"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.mercadopago.com",
+        "severity_cap": "critical",
+        "notes": "Tier 1"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.mercadopago.com.ar",
+        "severity_cap": "critical",
+        "notes": "Tier 1"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.mercadopago.com.br",
+        "severity_cap": "critical",
+        "notes": "Tier 1"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.mercadopago.com.co",
+        "severity_cap": "critical",
+        "notes": "Tier 1"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.mercadopago.com.mx",
+        "severity_cap": "critical",
+        "notes": "Tier 1"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.mercadopago.com.pe",
+        "severity_cap": "critical",
+        "notes": "Tier 1"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.mercadopago.com.uy",
+        "severity_cap": "critical",
+        "notes": "Tier 1"
+      },
+      {
+        "type": "domain",
+        "asset": "api.mercadopago.com",
+        "severity_cap": "critical",
+        "notes": "Tier 1 - URL asset. See docs: https://www.mercadopago.com.ar/developers/en/reference"
+      },
+      {
+        "type": "domain",
+        "asset": "api.mercadolibre.com",
+        "severity_cap": "critical",
+        "notes": "Tier 1 - URL asset. See docs: https://developers.mercadolibre.com.ar/en_us/api-docs"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.mercadopago.wallet",
+        "severity_cap": "critical",
+        "notes": "Tier 1 - Mercado Pago Android (Google Play)"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "com.mercadopago.MercadoPago",
+        "severity_cap": "critical",
+        "notes": "Tier 1 - Mercado Pago iOS (id925436649)"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.mercadolibre",
+        "severity_cap": "critical",
+        "notes": "Tier 1 - Mercado Libre Android (Google Play)"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "com.3mosquitos.MercadoLibre",
+        "severity_cap": "critical",
+        "notes": "Tier 1 - Mercado Libre iOS (id463624852)"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.mercadoenvios.driver",
+        "severity_cap": "critical",
+        "notes": "Tier 1 - Mercado Envios Flex (Google Play)"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.mercadoenvios.crowdsourcing",
+        "severity_cap": "critical",
+        "notes": "Tier 1 - Mercado Envios Extra (Google Play)"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.mercadoenvios.logistics",
+        "severity_cap": "critical",
+        "notes": "Tier 1 - Mercado Envios Logistics (Google Play)"
+      },
+      {
+        "type": "other",
+        "asset": "Point Smart",
+        "severity_cap": "critical",
+        "notes": "Tier 1 - HARDWARE. MLA: https://www.mercadopago.com.ar/point-smart / MLB: https://www.mercadopago.com.br/point-smart"
+      },
+      {
+        "type": "other",
+        "asset": "Crypto",
+        "severity_cap": "critical",
+        "notes": "Tier 1 - www.mercadopago.com.mx/crypto/*, www.mercadopago.cl/crypto/*, www.mercadopago.com.br/crypto/*"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.mlstatic.com",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "logistica.redelcom.cl",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "www.mercadolibre.co.cr",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "www.mercadolibre.com.bo",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "www.mercadolibre.com.do",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "www.mercadolibre.com.ec",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "www.mercadolibre.com.gt",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "www.mercadolibre.com.hn",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "www.mercadolibre.com.ni",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "www.mercadolibre.com.pa",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "www.mercadolibre.com.py",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "www.mercadolibre.com.sv",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "www.mercadolivre.com",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "www.mercadopago.com.ec",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "biolibre.ar",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "biolibre.cl",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "biolibre.co",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "biolibre.mx",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "biolivre.com.br",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "meliplay.com.ar",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "meliplay.com.pe",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "meliplay.com.uy",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "mercadoplay.co",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "mercadoplay.com.pe",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "mercadoplay.com.uy",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "mercadoplay.pe",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "mercadoplay.uy",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "portalinmobiliario.cl",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "portalinmobiliario.com",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "tucarro.com",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "tucarro.com.co",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "tumoto.com",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.mercadolibre.android.mplay_tv",
+        "severity_cap": "critical",
+        "notes": "Tier 2 (Google Play)"
+      },
+      {
+        "type": "domain",
+        "asset": "furycloud.io",
+        "severity_cap": "critical",
+        "notes": "Tier 2 - Exposed in ZT"
+      },
+      {
+        "type": "domain",
+        "asset": "furydocs.io",
+        "severity_cap": "critical",
+        "notes": "Tier 2 - Exposed in ZT"
+      },
+      {
+        "type": "domain",
+        "asset": "mercadolibreexperience.cl",
+        "severity_cap": "critical",
+        "notes": "Tier 2"
+      },
+      {
+        "type": "domain",
+        "asset": "mercadolivreexperience.com.br",
+        "severity_cap": "critical",
+        "notes": "Tier 2 (trailing slash in source)"
+      },
+      {
+        "type": "domain",
+        "asset": "sustentabilidadmercadolibre.com",
+        "severity_cap": "critical",
+        "notes": "Tier 2 (trailing slash in source)"
+      },
+      {
+        "type": "other",
+        "asset": "Leaked Credentials",
+        "severity_cap": "high",
+        "notes": "Issues related to credentials from public sources (Tier 3 non-applicative). Severity cap high per scope CSV."
+      },
+      {
+        "type": "other",
+        "asset": "Tier 3",
+        "severity_cap": "critical",
+        "notes": "Tier 3 - Non-applicative vulnerabilities (misconfigurations, leaked credentials, exposed documents, misconfigured buckets). See policy section 'Tier 3 Non Applicative Vulnerabilities'. Fixed bounty: critical $1000 / high $750 / medium $200 / low $75. No exploitation beyond confirmation; ownership proof required."
+      }
+    ],
+    "out_of_scope": [
+      {
+        "type": "wildcard",
+        "asset": "*.kangu.com.br",
+        "reason": "Kangu - eligible_for_submission=false in scope CSV"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.gokangu.cl",
+        "reason": "Kangu - eligible_for_submission=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.gokangu.co",
+        "reason": "Kangu - eligible_for_submission=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.gokangu.mx",
+        "reason": "Kangu - eligible_for_submission=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.gokangu.uy",
+        "reason": "Kangu - eligible_for_submission=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.kangu.tech",
+        "reason": "Kangu - eligible_for_submission=false"
+      },
+      {
+        "type": "other",
+        "asset": "developersforum",
+        "reason": "Any asset related to developersforum (developersforum.mercadolibre.com.ar/.co/.cl/.com.mx/.com.ve) - eligible_for_submission=false"
+      },
+      {
+        "type": "other",
+        "asset": "Redelcom",
+        "reason": "Any other asset related to redelcom - eligible_for_submission=false"
+      },
+      {
+        "type": "domain",
+        "asset": "wow-int.mercadolibre.com",
+        "reason": "eligible_for_submission=false in scope CSV"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.mercadolibre.cn",
+        "reason": "Policy: 'Any .cn domain, such as *.mercadolibre.cn, is excluded from the scope.'"
+      }
+    ]
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": false,
+    "cve_age_min_days": 30,
+    "requires_ownership_proof": true,
+    "safe_harbor": true,
+    "submission_form": "https://hackerone.com/mercadolibre/reports/new",
+    "notes": "EXPLICIT FROM POLICY: mass_scanning_allowed=false ('Massive automated scans are not permitted. Creative testing is encouraged instead.'). automated_tools_allowed=false (same restriction; policy also says 'Please avoid uploading automatic scanning tool results.'). cve_age_min_days=30 ('0-day and other CVE vulnerabilities may be reported 30 days after initial publication'). safe_harbor=true ('Mercado Libre does not intend to take legal action or initiate law enforcement investigations against security researchers who adhere to the following guidelines'). requires_ownership_proof=true (explicit for Tier 3: 'The asset is demonstrably linked to MercadoLibre. The exposed material must be verifiably owned, managed, or created by current MercadoLibre employees... Ownership evidence: explain how the asset is linked to MercadoLibre'). SAFE DEFAULT bucket_listing_allowed=true (policy is silent on bucket listing; bb-agent compliance default). SAFE DEFAULT bucket_download_allowed=false (policy is silent on bucket download; Tier 3 explicitly says 'No exploitation beyond confirmation. The reporter must not have accessed, exfiltrated, or used the exposed data beyond confirming its existence' which strongly aligns with the safe default). ADDITIONAL RESTRICTIONS from policy: DoS prohibited, brute-force testing prohibited, mass account creation prohibited, social engineering/phishing prohibited, physical attacks prohibited, spam prohibited, malware delivery prohibited, account compromise of other users prohibited. Internal/current employees and providers may not participate; former employees only after a 1-year waiting period. Dependency confusion is OUT of scope; out-of-date third-party libraries without exploit PoC are OUT of scope; third-party scripts on ML websites are OUT of scope. Mobile considerations: do not report cert pinning, obfuscation, SafetyNet/anti-instrumentation, exported components w/o impact, or arbitrary domain loads via mercadopago:// or meli:// in-app-browser deeplinks. Subdomain takeover requires content insertion + verification page + DNS evidence + provider claim steps; do NOT steal cookies or interact with users. CSP-bypass XSS is rewarded higher than non-bypass XSS. PR=HIGH must be used in CVSS for any vuln found using test users (which can be created at https://developers.mercadolibre.com.ar/en_us/start-testing). Test cards available for payment flows. Active challenges: 'ATO 2FA BYPASS' (F4018599), 'CSP BYPASS' (F4286645). Contact: discord https://discord.gg/eTAJbRxqa2 or bugbounty@mercadolibre.com."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      {
+        "severity": "critical",
+        "min": 1000,
+        "max": 0,
+        "currency": "USD"
+      },
+      {
+        "severity": "high",
+        "min": 750,
+        "max": 0,
+        "currency": "USD"
+      },
+      {
+        "severity": "medium",
+        "min": 200,
+        "max": 200,
+        "currency": "USD"
+      },
+      {
+        "severity": "low",
+        "min": 75,
+        "max": 75,
+        "currency": "USD"
+      }
+    ]
+  },
+  "raw_policy_excerpt": "# Rewards\nMercadoLibre offers rewards to eligible reporters for qualifying vulnerabilities, with a minimum reward of $50 USD. All bounties for High and Critical reports are calculated using CVSS 3.1 via (((CVSS Score x Tier) x Severity) + Loyalty Bonus) = Bounty total. Constants: TIER 1 = 100, TIER 2 = 50, HIGH/CRITICAL = 10. Lows/mids fixed per bounty table. Low only if CVSS >= 2.0. Loyalty bonuses: Newbie 25%, Antique 4-10% (consecutive years), Fix Bypass +10%.\n\n# Tier 3 Non-Applicative Vulnerabilities\nEligible when ALL met: (1) non-applicative (misconfig/access-control/asset-management - not app code); (2) asset demonstrably linked to MercadoLibre; (3) fix is config/access change; (4) NO exploitation beyond confirmation - reporter MUST NOT have accessed, exfiltrated, or used exposed data beyond confirming existence. Single non-destructive API call to validate creds OK; going further is not. Severity: Critical $1000 / High $750 / Medium $200 / Low $75. One bounty per source location.\n\n# Eligibility and Responsible Disclosure (Safe Harbor)\nMercado Libre does not intend to take legal action or initiate law enforcement investigations against security researchers who adhere to: report without making info public until mutual agreement; allow reasonable time to resolve before publishing (ML follows HackerOne disclosure guidelines, 30-day initial response); make good-faith efforts to avoid destroying, stealing, modifying, damaging, or jeopardizing personal data/privacy of ML customers or disrupting products and services.\n\n# Restrictions (PROHIBITED)\n- Automated Scanning: Massive automated scans are not permitted. Creative testing is encouraged instead.\n- Test Users: Improper/out-of-scope use may result in ban.\n- Service Degradation may lead to ban.\n- No DoS Attacks: prohibited by cloud providers.\n- Physical Attacks against ML employees/offices/data centers prohibited.\n- Social Engineering of ML employees/contractors/vendors/providers (including phishing) prohibited.\n- Spam prohibited.\n- Account Compromise of other ML customer/employee accounts forbidden.\n- Malware delivery to ML or employees prohibited.\n- Mass Account Creation prohibited.\n- Brute Force Testing for rate-limiting determination prohibited.\n- Internal employees prohibited; former employees only after 1-year waiting period; providers/affiliated entities prohibited.\n\n# Considerations\n(a) Code Review/SAST: avoid uploading automatic scanning tool results; 0-day and other CVE vulnerabilities may be reported 30 days after initial publication (CVE List status of Published); CVEs/0-days/working exploits must be demonstrable through the internet with proper PoC; dependency confusion is out-of-scope; supply chain attacks via maliciously-published public-registry packages demonstrably affecting ML build/runtime are in-scope with working PoC.\n(b) Third-party apps must be exploitable on ML infra; out-of-date libs without PoC are out-of-scope; third-party scripts on ML websites are out-of-scope.\n(c) Mobile: do NOT report cert pinning/SSL-TLS best practices, obfuscated code, SafetyNet/anti-instrumentation/anti-tamper/root detection, exported components w/o security impact, or arbitrary-domain loads via mercadopago://in-app-browser/?url=$URL or meli://in-app-browser/?url=$URL (in-app browser treats externals as untrusted by design).\n(d) Subdomain takeover: must be possible to insert content; demonstrate with verification page, DNS (CNAME/A), provider, claim steps, HTTP/HTTPS captures; do NOT steal cookies or interact with users; no phishing.\n(e) XSS without CSP bypass receives lower/no severity vs XSS with bypass. Any .cn domain (e.g. *.mercadolibre.cn) is excluded from scope. ML reserves the right to modify the program, evaluate scope tiers, and escalate Tier 3 to Tier 2 or Tier 1 based on assessed business impact."
+}

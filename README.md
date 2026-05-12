@@ -7,7 +7,7 @@ across HackerOne / Bugcrowd programs that have similar rules to MELI's Tier 3.
 ## Status
 
 - **Day 1 (2026-05-11) — DONE** — Tool environment installed, project scaffolded
-- **Day 2** — `/program-load` slash command + `program-scope-parser` subagent
+- **Day 2 (2026-05-12) — DONE** — `/program-load` slash command + `program-scope-parser` subagent; MELI ingested at `memory/programs/mercadolibre.json` (68 in-scope, 10 out-of-scope, bug_bounty tier)
 - **Day 3** — `bucket-hunter` + `ownership-verifier` (the critical pre-report check)
 - **Day 4** — `secret-hunter`
 - **Day 5** — `report-drafter` + memory wiring

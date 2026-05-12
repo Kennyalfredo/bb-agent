@@ -13,6 +13,10 @@ out/
 .vscode/
 .idea/
 
+# Claude Code per-machine local settings (MCP enablement, allowed permissions).
+# Project-scope shared settings, if any, go in .claude/settings.json instead.
+.claude/settings.local.json
+
 # Local-only credential storage — if anyone ever puts an .env here by mistake
 .env
 .env.*
