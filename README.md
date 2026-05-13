@@ -8,7 +8,7 @@ across HackerOne / Bugcrowd programs that have similar rules to MELI's Tier 3.
 
 - **Day 1 (2026-05-11) — DONE** — Tool environment installed, project scaffolded
 - **Day 2 (2026-05-12) — DONE** — `/program-load` slash command + `program-scope-parser` subagent; MELI ingested at `memory/programs/mercadolibre.json` (68 in-scope, 10 out-of-scope, bug_bounty tier)
-- **Day 3** — `bucket-hunter` + `ownership-verifier` (the critical pre-report check)
+- **Day 3 (2026-05-13) — DONE** — `bucket-hunter` and `ownership-verifier` subagents (independent, decoupled). `/hunt-buckets <slug>` does domain-derived candidates → s3scanner Pass A → cloud_enum Pass B fallback. `/verify-ownership <slug> <asset>` runs 3 indirect checks (gh code search, gau Wayback, dnsx) with 2-of-3-positive rule and 30-day cache under `memory/ownership-cache/`. Smoke-tested against MELI: 16 candidate bucket hits; verifier correctly returned `unowned` on `mercadolivre` (the README's wasted-day asset) and conservative `unknown` on the brand-stem `mercadolibre`.
 - **Day 4** — `secret-hunter`
 - **Day 5** — `report-drafter` + memory wiring
 

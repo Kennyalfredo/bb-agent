@@ -1,0 +1,41 @@
+{
+  "slug": "mercadolibre",
+  "asset": "mercadolibre",
+  "bucket_name": "mercadolibre",
+  "dns_name": "mercadolibre.s3.amazonaws.com",
+  "fetched_at": "2026-05-13T00:00:00Z",
+  "verdict": "unknown",
+  "checks": {
+    "github_code": {
+      "status": "ambiguous",
+      "total_count": 2832,
+      "top_hits": [
+        "ctmil/meli_oerp",
+        "vespina/json",
+        "corbindavenport/shop-list",
+        "discovery-tecnologia/dsc-mercado-livre",
+        "JosueFlorian17/ScrapeFlow",
+        "FOSH-following-demand/Flow-Through-Colorimeter",
+        "xunterr/aracno",
+        "gabogabucho/scrapling-skill",
+        "ns4lin4s/mercadolibre",
+        "shikhar394/MalURL"
+      ],
+      "evidence_path": "/tmp/ownership-37fc000bfad08103-gh.json",
+      "note": "GH org 'mercadolibre' exists (verified via orgs API), but none of the top-10 code-search hits are under that org. Per spec: total_count>0 but no hits in program's org -> ambiguous."
+    },
+    "wayback": {
+      "status": "positive",
+      "hit_count": 952,
+      "evidence_path": "/tmp/ownership-37fc000bfad08103-gau-hits.txt",
+      "note": "952 in-scope-domain URLs contain the literal 'mercadolibre' substring. This is degenerate because the asset name equals the brand/domain stem; nevertheless the spec rule ('hit on in-scope domain') is satisfied."
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-w.us-east-2.amazonaws.com",
+      "evidence_path": "/tmp/ownership-37fc000bfad08103-dns.txt",
+      "note": "Bucket DNS resolves to generic AWS S3 region endpoint, not via a CNAME from a program-owned domain. Per spec, buckets default to inconclusive unless a program-domain CNAME points to them."
+    }
+  },
+  "notes": "Positive-control smoke-test case. Asset equals the program base name, so B is trivially positive on substring match. A is ambiguous (no in-org GH hits in top-10 despite 2832 total). C is inconclusive (bucket DNS chains to generic AWS). Only 1 positive signal -> verdict 'unknown' per the 2-of-3 rule. This matches the expected smoke-test outcome (NOT 'unowned')."
+}

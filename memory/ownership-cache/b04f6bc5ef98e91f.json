@@ -1,0 +1,32 @@
+{
+  "slug": "mercadolibre",
+  "asset": "mercadolivre",
+  "bucket_name": "mercadolivre",
+  "dns_name": "mercadolivre.s3.amazonaws.com",
+  "fetched_at": "2026-05-13T00:00:00Z",
+  "verdict": "unowned",
+  "checks": {
+    "github_code": {
+      "status": "negative",
+      "total_count": 0,
+      "top_hits": [],
+      "evidence_path": "/tmp/ownership-b04f6bc5ef98e91f-gh.json",
+      "query": "\"mercadolivre.s3.amazonaws.com\" in:file"
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "domains_queried": ["mercadolibre.com.ar", "mercadolivre.com.br", "mercadopago.com"],
+      "total_urls_scanned": 1037,
+      "evidence_path": "/tmp/ownership-b04f6bc5ef98e91f-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": null,
+      "a_records": ["52.218.217.67", "52.92.217.225", "3.5.81.13", "52.92.190.217", "3.5.82.241"],
+      "evidence_path": "/tmp/ownership-b04f6bc5ef98e91f-dns.txt",
+      "note": "Bucket resolves to standard AWS S3 anycast IPs. No CNAME from any program-owned domain points to this bucket (would have surfaced in Wayback check B). Per spec, bucket DNS is inconclusive by construction since anyone can register a bucket name."
+    }
+  },
+  "notes": "The 'mercadolivre' bucket (typo of 'mercadolibre', lib->liv) appears NOT owned by MercadoLibre. Despite checking 3 representative in-scope program domains (mercadolibre.com.ar, mercadolivre.com.br, mercadopago.com) via Wayback+OTX (1037 archived URLs scanned, zero references to the bucket) and a public GitHub code search (zero hits anywhere on GitHub), there is no evidence linking the bucket to MELI. Note that *.mercadolivre.com.br IS in scope (Tier 1) for MELI Brazil — but no page on that domain or any sibling has ever referenced this bucket per public archives. This matches the README's historical incident: the typo'd bucket was incorrectly attributed and wasted a day. DO NOT draft against this asset."
+}
