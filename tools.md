@@ -8,7 +8,7 @@ Subagents MUST use the full paths below — do not rely on PATH order.
 | Tool | Full path | Version | Purpose |
 |---|---|---|---|
 | bbot | `/home/kenny/.local/bin/bbot` | 2.8.4 | Multi-module recon orchestrator |
-| trufflehog | `/home/kenny/go/bin/trufflehog` | 3.95.2 | Verified-secret scanner (use `--only-verified`) |
+| trufflehog | `/home/kenny/go/bin/trufflehog` | 3.95.2 | Verified-secret scanner (use `--results=verified` on 3.95.x; older `--only-verified` flag was renamed) |
 | gitleaks | `/home/kenny/go/bin/gitleaks` | latest | Second-pass secret scanner, different ruleset |
 | noseyparker | `/home/kenny/go/bin/noseyparker` | 0.24.0 | Fast historical-commit secret scanner |
 | subfinder | `/home/kenny/go/bin/subfinder` | v2.6.8 | Passive subdomain enumeration |
