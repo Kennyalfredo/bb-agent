@@ -26,6 +26,13 @@ Two positional arguments:
 
 ## Steps
 
+### -1. Load learned rules
+Read `/home/kenny/bb-agent/memory/rules.json` (create with schema defaults if missing). Extract `rules.ownership_verifier`. Apply at these points:
+- `wayback_match_mode` (`"substring"` default, or `"word_boundary"`) — switches the Step 4 grep from `grep -F "<asset>"` to `grep -E "\b<asset>\b"` when set to `word_boundary`. Use this to defang the brand-stem degenerate-match case.
+- `min_positive_signals` (default 2) — minimum positive checks required for `owned` verdict in Step 6's aggregation. Do NOT lower below 2 in v1; rules.json schema treats 1 as an error.
+- `asset_pattern_overrides[]` — per-pattern overrides (e.g. force a specific asset to skip check B). Apply only if the asset matches `rule.pattern` (literal string or regex per the rule's `match_type`).
+Record rule firings in the cache file's `notes` field as `"applied rule <rule_id>: <one-line reason>"`.
+
 ### 0. Cache check
 - Compute `key = sha1("<slug>:<asset>")` (first 16 hex chars is enough).
 - Path: `/home/kenny/bb-agent/memory/ownership-cache/<key>.json`

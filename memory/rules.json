@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "description": "Machine-readable rules learned from past engagements. Each subagent reads its own section at the start of every run and applies the rules at the points documented in its agent .md. Rules are appended by /retro apply; never edit by hand unless you know what you're doing — /forget will land in v1.5.",
+  "bucket_hunter": {
+    "basename_skip": [],
+    "candidate_suffix_skip": []
+  },
+  "secret_hunter": {
+    "detector_ignore": [],
+    "skip_brand_stem_orgs": false,
+    "trufflehog_concurrency_override": null
+  },
+  "ownership_verifier": {
+    "wayback_match_mode": "word_boundary",
+    "wayback_match_mode_provenance": {
+      "id": "rule-ownership_verifier-wayback_match_mode-879f3",
+      "added": "2026-05-14T00:23:18Z",
+      "from_engagement": "mercadolibre",
+      "confidence": "medium",
+      "reason": "Wayback B returned 952 substring hits on bucket 'mercadolibre' purely because every in-scope URL contains the brand stem; substring mode is degenerate when asset == brand stem."
+    },
+    "min_positive_signals": 2,
+    "asset_pattern_overrides": []
+  },
+  "report_drafter": {
+    "auto_info_filter": [],
+    "severity_overrides": []
+  }
+}

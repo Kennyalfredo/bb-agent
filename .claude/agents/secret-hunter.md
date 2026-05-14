@@ -28,6 +28,13 @@ Find publicly-exposed credentials that *may* belong to the program. Output a red
 
 ## Steps
 
+### 0. Load learned rules
+Read `/home/kenny/bb-agent/memory/rules.json` (create with the schema-default skeleton if missing — see retro-analyzer for the shape). Extract `rules.secret_hunter`. Apply at these points:
+- `detector_ignore[]` — when parsing trufflehog/noseyparker output in Step 7, drop any candidate where `detector == rule.detector` AND the candidate's raw value (reconstructable from the un-redacted scanner output on `/mnt/files/...`) exactly matches one of the case-sensitive strings in `rule.match_in[]`. No regex, no fuzzy match in v1. Apply BEFORE deduplication so the dropped count is accurate.
+- `skip_brand_stem_orgs` (bool) — if true and the slug equals exactly one of the derived `gh_org_candidates`, skip Pass A for that org and rely on Pass B + C only.
+- `trufflehog_concurrency_override` (int|null) — if set, pass through as `--concurrency=` instead of the default `4`.
+Record rule firings in `summary.notes` as `"applied rule <rule_id>: <one-line reason>"` so the next retro can audit which rules fired.
+
 ### 1. Validate inputs
 - Read `/home/kenny/bb-agent/memory/programs/<slug>.json`. If missing, stop: `secret-hunter: program <slug> not ingested — run /program-load first.`
 - Read `rules.automated_tools_allowed` and `rules.mass_scanning_allowed`. Both `false` → apply the strict caps in rule 6. Otherwise use the default caps below.

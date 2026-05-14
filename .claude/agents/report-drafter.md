@@ -27,6 +27,12 @@ This is the **final gate** before a human submits a bug. Your job is to refuse d
 
 ## Steps
 
+### 0. Load learned rules
+Read `/home/kenny/bb-agent/memory/rules.json` (create with schema defaults if missing). Extract `rules.report_drafter`. Apply at these points:
+- `auto_info_filter[]` — in step 3d (severity computation), after computing the proposed severity, check each rule. If `rule.condition` evaluates true against the candidate record (use a simple boolean expression evaluator — `list_bucket==true AND no_public_read AND object_count==0`, etc.), apply `rule.action`: `skip` means refuse to draft (print the rule's reason); `cap_info` means cap severity at `info` regardless of `scope.in_scope[*].severity_cap`.
+- `severity_overrides[]` — per-detector or per-finding-class severity caps that override the class-default before the `min(proposed, cap)` calc.
+Record rule firings in the output report's HTML comment header (`<!-- applied rule <rule_id>: <reason> -->`) AND in the audit-trail entry's `notes` field.
+
 ### 1. Validate inputs
 - Read `/home/kenny/bb-agent/memory/programs/<slug>.json`. If missing → refuse with "program <slug> not ingested — run /program-load first."
 - Note `bounty.tier`, `rules.submission_form`, `rules.requires_ownership_proof` (should be true; if false, still apply the hard rule — our compliance trumps the program's permissiveness).

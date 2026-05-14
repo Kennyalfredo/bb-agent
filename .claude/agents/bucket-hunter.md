@@ -22,6 +22,12 @@ Enumerate publicly-discoverable cloud buckets that share a name root with the pr
 
 ## Steps
 
+### 0. Load learned rules
+Read `/home/kenny/bb-agent/memory/rules.json` (create with the schema-default skeleton if missing — see retro-analyzer agent for the shape). Extract `rules.bucket_hunter`. Apply at these points later in the pipeline:
+- `basename_skip[]` — drop any derived `base_name` whose `pattern` matches before Step 2's candidate generation.
+- `candidate_suffix_skip[]` — drop any generated candidate whose suffix matches before Step 3's `s3scanner` call.
+Record any rule firings in the output's `summary.notes` as `"applied rule <rule_id>: <one-line reason>"` so the next retro can audit which rules actually fired.
+
 ### 1. Validate inputs
 - Read `/home/kenny/bb-agent/memory/programs/<slug>.json`. If missing, stop and tell the user to run `/program-load` first.
 - Read `rules.bucket_listing_allowed`. If `false`, stop. Print: `bucket-hunter: bucket listing not allowed for <slug> — aborting.`
