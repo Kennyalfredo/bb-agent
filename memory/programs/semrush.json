@@ -1,0 +1,148 @@
+{
+  "program": {
+    "slug": "semrush",
+    "platform": "hackerone",
+    "url": "https://hackerone.com/semrush?type=team",
+    "name": "Semrush",
+    "fetched_at": "2026-05-13"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "wildcard",
+        "asset": "*.semrush.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true; availability/confidentiality/integrity requirements: high/high/high"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.semrush.net",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true; availability/confidentiality/integrity requirements: low/high/low"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.seoquake.com",
+        "severity_cap": "high",
+        "notes": "eligible_for_bounty=true; availability/confidentiality/integrity requirements: medium/low/low"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.seoab.io",
+        "severity_cap": "high",
+        "notes": "eligible_for_bounty=true; availability/confidentiality/integrity requirements: low/medium/low"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.scatec.io",
+        "severity_cap": "high",
+        "notes": "eligible_for_bounty=true; availability/confidentiality/integrity requirements: low/low/medium"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.sellzone.com",
+        "severity_cap": "medium",
+        "notes": "eligible_for_bounty=true; availability/confidentiality/integrity requirements: low/low/low"
+      },
+      {
+        "type": "domain",
+        "asset": "workflows.semrush.com",
+        "severity_cap": "medium",
+        "notes": "eligible_for_bounty=false; availability/confidentiality/integrity requirements: low/low/low"
+      },
+      {
+        "type": "domain",
+        "asset": "investors.semrush.com",
+        "severity_cap": "medium",
+        "notes": "eligible_for_bounty=false; availability/confidentiality/integrity requirements: low/low/low"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.prowly.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=false; no CIA requirements specified"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.myinsights.io",
+        "severity_cap": "high",
+        "notes": "eligible_for_bounty=true; availability/confidentiality/integrity requirements: low/medium/low"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.berush.com",
+        "severity_cap": "high",
+        "notes": "eligible_for_bounty=false; Registration is stopped at the moment. availability/confidentiality/integrity requirements: low/medium/low"
+      },
+      {
+        "type": "other",
+        "asset": "Other Semrush Related Asset",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true. Use this tag for any High/Critical report not related to another listed asset and not listed under Out of Scope. Only valid high and critical severity reports accepted."
+      },
+      {
+        "type": "other",
+        "asset": "Leaked/Compromised Employee accounts",
+        "severity_cap": "medium",
+        "notes": "eligible_for_bounty=true. Must be current active employee account, unique incident not previously submitted. Low-to-Medium severity. Customer accounts strictly prohibited. No direct/indirect communication with employees."
+      }
+    ],
+    "out_of_scope": [
+      {
+        "type": "domain",
+        "asset": "advocates.semrush.com",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "email.semrush.com",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false"
+      }
+    ]
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": false,
+    "cve_age_min_days": 30,
+    "requires_ownership_proof": true,
+    "safe_harbor": true,
+    "submission_form": "https://hackerone.com/semrush",
+    "notes": "safe_harbor: explicitly granted — policy states 'we will take reasonable steps not to initiate a lawsuit or law enforcement investigation against a researcher' when following policy and applicable laws, and that research is 'Authorized by Semrush and authorized in view of any applicable anti-hacking laws'. | automated_tools_allowed: set to false (safe default) — policy explicitly warns 'Automated security scans and tests may trigger our security systems and result in reactive measures' and states scanner-generated reports will not be accepted; no blanket permission for automated scanning. | mass_scanning_allowed: false (safe default) — not explicitly addressed but automated scans are discouraged. | bucket_listing_allowed: true (safe default) — not mentioned in policy. | bucket_download_allowed: false (safe default) — not mentioned in policy. | cve_age_min_days: 30 — policy explicitly states 'Public Zero-day vulnerabilities that have had an official patch for less than 1 month will be awarded on a case-by-case basis'. | requires_ownership_proof: true (safe default and policy-supported) — policy explicitly requires subdomain takeover reports to include a screenshot with the domain and custom HTTP content. | WAF note: Error 445 from WAF is expected; contact via report if blocked and believe vulnerability is real. | Researchers encouraged to use @wearehackerone.com email and set X-hackerone header with username in requests. | Promo-code available for paid Semrush functionality; issued at security team discretion, max once per 3 months."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      {
+        "severity": "critical",
+        "min": 100,
+        "max": 0,
+        "currency": "USD",
+        "notes": "case-by-case per CVSS v3.0; base_bounty=$100; no public per-severity max retrieved from API"
+      },
+      {
+        "severity": "high",
+        "min": 100,
+        "max": 0,
+        "currency": "USD",
+        "notes": "case-by-case per CVSS v3.0; base_bounty=$100; no public per-severity max retrieved from API"
+      },
+      {
+        "severity": "medium",
+        "min": 100,
+        "max": 0,
+        "currency": "USD",
+        "notes": "case-by-case per CVSS v3.0; base_bounty=$100; no public per-severity max retrieved from API"
+      },
+      {
+        "severity": "low",
+        "min": 0,
+        "max": 0,
+        "currency": "USD",
+        "notes": "policy states low-impact issues are unlikely to be eligible for bounty; case-by-case"
+      }
+    ]
+  },
+  "raw_policy_excerpt": "#Program Policy\nPlay by the rules. This includes following this policy (\"Policy\"), HackerOne's Disclosure Guidelines and any other relevant agreements.\n\nTest only with your own account(s) when investigating bugs, and do not interact with other accounts without the consent of their owners.\n\nProvide us a reasonable amount of time to resolve the issue. We usually set the following terms for fixes: Low impact - 3 months, Medium impact - 1 month, High/Critical impact - up to 2 weeks for a fully functional fix.\n\nYou have to avoid privacy violations, destruction of data, and interruption or degradation of our service.\nWe only accept the latest version of browsers for Google Chrome, Mozilla Firefox, Opera, Safari, and Edge.\n\nWhile researching, we'd like to ask you to refrain from:\n+ Denial of service.\n+ Spamming.\n+ Social engineering (including phishing) of Semrush staff or contractors.\n+ Any physical attempts against Semrush property or data centers.\n\nWe do not accept the following types of bugs:\n+ CSRF without clear impact.\n+ Any issues related to software not under Semrush's control.\n+ Spam or Social Engineering techniques, including SPF/DMARC/DKIM issues.\n+ SSL/TLS best practices that do not contain a fully functional proof of concept.\n+ Broken links.\n+ Bugs that do not represent any security risk.\n\n#Legal Terms and Safe Harbor\nWhen conducting vulnerability research according to this Policy, we consider this research conducted under this Policy to be:\n+ Authorized by Semrush and authorized in view of any applicable anti-hacking laws;\n+ Authorized in view of relevant anti-circumvention laws; and\n+ Lawful, helpful to the overall security of the Internet, and conducted in good faith.\n\nWithin the framework of the program described in this Policy, we will take reasonable steps not to initiate a lawsuit or law enforcement investigation against a researcher in response to reporting a vulnerability provided that the researcher fully complies with this Policy.\n\n#WAF and reactive protection\nYour requests can be blocked by the WAF solution we use. So if you get error 445, but you feel that you have found a vulnerability and you have serious reasons to believe that the vulnerability really exists - you can write to us about it on the report, we will investigate your case and maybe temporarily add your IP to the white list.\n\nWe believe monitoring and protecting processes must not be impacted by bug bounty. Automated security scans and tests may trigger our security systems and result in reactive measures being enforced, e.g. account or IP may be blocked.\n\n#Report\n\"Scanner output\" or scanner-generated reports will not be accepted. Please follow the report template that we provided to minimize the response time and increase your chance to get a worthy reward.\nIf you are going to submit a subdomain takeover report: to make sure that you have a full domain takeover (as h1 recommends) we have to get a screenshot with our domain (for ex. *.semrush.com) and custom HTTP content (for example h1 username) to be sure it's possible.\n\n#Rewards\nWe will reward reports according to the severity of their impact (calculated with CVSS v3.0 Calculator) on a case-by-case basis as determined by our security team. We may pay more for unique, hard-to-find bugs, or for high-quality reports; we may also pay less for bugs with complex prerequisites that lower the risk of exploitation.\n\nPublic Zero-day vulnerabilities that have had an official patch for less than 1 month will be awarded on a case-by-case basis. Public Zero-day vulnerabilities that have been publicly disclosed for less than 72 hours [are ineligible]."
+}

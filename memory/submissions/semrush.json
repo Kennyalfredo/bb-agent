@@ -1,0 +1,34 @@
+{
+  "slug": "semrush",
+  "drafts": [
+    {
+      "asset": "employee-credentials-bundle",
+      "asset_class": "leaked-credential",
+      "finding_type": "leaked-employee-credentials-bundle",
+      "severity_proposed": "medium",
+      "severity_capped": "medium",
+      "report_path": "out/semrush/reports/leaked-employee-credentials-20260514-045949.md",
+      "drafted_at": "2026-05-14T04:59:49Z",
+      "ownership_cache_ref": null,
+      "candidate_source": "/mnt/files/bb-agent/semrush/breach-data/20260514-045949.json",
+      "submitted": false,
+      "submission_url": null,
+      "platform_report_id": null,
+      "unique_employees": 4,
+      "total_records": 10,
+      "affected_emails": [
+        "ABalbi@semrush.com",
+        "ReinemanN@semrush.com",
+        "v.galperina@semrush.com",
+        "katarina.stan@semrush.com"
+      ],
+      "breach_type_breakdown": {
+        "stealer-log": 3,
+        "stealer-log-derived-ulp": 1,
+        "combolist": 6
+      },
+      "recent_stealer_infections": 2,
+      "notes": "Bundled 4-employee/10-record finding for Semrush 'Other → leaked/compromised employee credentials' scope item. Two recent (2026-05) infostealer infections (ABalbi via RedLine, ReinemanN via RedLine + Stealc/Lumma) drive severity; the other two employees are older credential redistributions. Passwords held by submitter offline — not in any file in the repo tree, available to triager via HackerOne secure attachment. Validation method: passive IntelX OSINT only, no authentication attempts against any asset. LinkedIn employment confirmation was attempted but Google blocked the scrape; v.galperina is independently corroborated via a ZoomInfo-class scrape (Affiliate Marketing Head, 2020 vintage); the other 3 need internal HR confirmation by the triage team. Audit trail: post-submission, flip submitted:true and add submission_url + platform_report_id. If the triager closes as Informative/N/A, capture verbatim reasoning in this notes field so the next /retro semrush pass can learn the pattern."
+    }
+  ]
+}
