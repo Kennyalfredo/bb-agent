@@ -1,0 +1,136 @@
+{
+  "proposal_id": "20260514-011248-8x8-bounty",
+  "slug": "8x8-bounty",
+  "generated_at": "2026-05-14T01:12:48Z",
+  "evidence_inputs": [
+    "/home/kenny/bb-agent/memory/programs/8x8-bounty.json",
+    "/home/kenny/bb-agent/out/8x8-bounty/buckets/20260514-004037.json",
+    "/home/kenny/bb-agent/out/8x8-bounty/secrets/20260514-005001.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/f1188e9b16266670.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/ae67f563529fbb51.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/ecdc4b1a6c01ba08.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/6e795cd76dcc7a77.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/d2f7b66b1302ab04.json"
+  ],
+  "metrics": {
+    "buckets_scanned": 31,
+    "secrets_scanned": 0,
+    "ownership_checks": 5,
+    "owned": 0,
+    "unowned": 0,
+    "unknown": 5,
+    "reports_drafted": 0,
+    "reports_submitted": 0
+  },
+  "narrative": "First full pass against 8x8 (HackerOne, bug_bounty tier, requires_ownership_proof=true, automated_tools_allowed=false). 31 bucket candidates (Pass A only, hard-capped at 80 due to mass_scanning_allowed=false), 0 secret candidates (Pass A+B+C clean across jitsi org + 3 forks), 5 ownership checks recorded, all five resolved to `unknown`. Zero reports drafted.\n\n**What worked.** The 2-of-3 ownership rule held the line across all five candidates: nothing was upgraded to `owned` despite three of them having GH `positive` on the surface. The wayback word-boundary rule from MELI carried over cleanly and zeroed-out hit-counts across 1500-3600 archived URLs per asset. The secret-hunter's slug-vs-org fallback to `jitsi` was the right call (Jitsi is in-scope source per the program), and the 100+-repo scan returning zero verified credentials is a useful prior for a mature OSS shop.\n\n**What didn't.** Three systemic gaps surfaced. (1) GitHub substring degeneracy on Check A: `jitsi-files` came back A=positive with 84 hits, but manual triage showed every one of those was a substring inside `jitsi-filesharing-*` event names in Lua prosody plugins — zero word-boundary matches in actual source. GH's `q='\"<asset>\" in:file'` doesn't honor word boundaries. Same shape as the MELI wayback brand-stem issue but on the GitHub side, and v1 schema has no clean home for it without a snippet-fetch capability. (2) Bucket aggregation gap: `8x8-staging` came back A=neg, B=neg, C=inconclusive and got `unknown` rather than `unowned`. For buckets, C is structurally inconclusive (a CNAME chain never proves ownership absent a program-domain CNAME), so A+B both clean negative should land as `unowned`. (3) Slug-vs-org gap in secret-hunter: slug `8x8-bounty` is not a GH org. Step-2 dedupe with cap=1 corners into a 404 — the agent recovered via base-name fallback this time, but a per-slug override map would make it deterministic. (4) Pass A timeout: 8-min cap cut trufflehog mid-stream at ~100 repos in jitsi; not a hard problem but tunability would help.\n\n**What surprised us.** All 31 buckets came back with public ACLs (`all_users_read=true` on 28 of 31, public-write on 2 of 31). At face value this looks like a goldmine; the verifier correctly resisted that pressure and kept every candidate at `unknown` absent a second positive signal. The generic stems `connect` and `jit` produced 13+ candidates between them but zero ownership signal — they're squatter-bait.\n\n**Pre-flight for next visit.** Add `connect` and `jit` to `bucket_hunter.basename_skip` to short-circuit Pass A on those families. Hardcode `gh_org_override[\"8x8-bounty\"] = [\"jitsi\", \"8x8inc\"]` so secret-hunter doesn't have to discover the org via fallback. If revisiting Jitsi for secrets, run Pass B+C only (the org has good hygiene). Reconsider how to express the GH-substring downgrade for Check A — v1.5 likely needs a snippet-fetch capability before this can be a rule rather than a narrative.",
+  "proposed_rules": [
+    {
+      "rule_id": "rule-bucket_hunter-basename_skip-c66dd",
+      "agent": "bucket_hunter",
+      "path": "basename_skip",
+      "action": "append",
+      "value": {
+        "pattern": "connect",
+        "reason": "generic stem; all-public/ambiguous bucket family in 8x8-bounty engagement (connect, connect-uploads, connect-assets ... 13+ candidates), zero owned signal across A/B/C"
+      },
+      "rationale": "13+ `connect-*` candidates from Pass A; the one taken through ownership-verification (`connect-uploads`) was A=ambiguous (124 hits, all unrelated third-party campus/social apps), B=negative, C=inconclusive. Bare 4-char stem is structurally indistinguishable from squatters.",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/8x8-bounty/buckets/20260514-004037.json",
+        "/home/kenny/bb-agent/memory/ownership-cache/6e795cd76dcc7a77.json"
+      ]
+    },
+    {
+      "rule_id": "rule-bucket_hunter-basename_skip-bf782",
+      "agent": "bucket_hunter",
+      "path": "basename_skip",
+      "action": "append",
+      "value": {
+        "pattern": "jit",
+        "reason": "3-char generic stem matches unrelated SA-MP JIT compiler plugin repos (Foundation-PAWN/samp-plugin-jit-backup); bucket family in 8x8-bounty was uniformly A=ambiguous, B=negative, C=inconclusive"
+      },
+      "rationale": "`jit-backup` ownership check: 17 GH hits all in SA-MP gaming repos referencing an unrelated open-source JIT compiler plugin, none in jitsi or 8x8 orgs; 0 wayback hits; generic AWS CNAME. 3-char stem is too short to disambiguate.",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/memory/ownership-cache/ecdc4b1a6c01ba08.json",
+        "/home/kenny/bb-agent/out/8x8-bounty/buckets/20260514-004037.json"
+      ]
+    },
+    {
+      "rule_id": "rule-secret_hunter-gh_org_override-52066",
+      "agent": "secret_hunter",
+      "path": "gh_org_override",
+      "action": "append",
+      "value": {
+        "slug_map": {
+          "8x8-bounty": ["jitsi", "8x8inc"]
+        },
+        "reason": "slug '8x8-bounty' is not a GH org; with cap=1 and dedupe, the agent corners into a 404. Real orgs are jitsi (in-scope per program) and 8x8inc."
+      },
+      "rationale": "8x8-bounty slug → GH 404. The fallback path through base-name-derived orgs recovered (landed on 'jitsi') but a per-slug override makes it deterministic and avoids burning a discovery round-trip on every run.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/8x8-bounty/secrets/20260514-005001.json",
+        "/home/kenny/bb-agent/memory/programs/8x8-bounty.json"
+      ]
+    },
+    {
+      "rule_id": "rule-ownership_verifier-bucket_aggregation_override-1c25c",
+      "agent": "ownership_verifier",
+      "path": "bucket_aggregation_override",
+      "action": "append",
+      "value": {
+        "asset_class": "bucket",
+        "when": {"a": "negative", "b": "negative", "c": "inconclusive"},
+        "verdict": "unowned",
+        "reason": "C is structurally inconclusive for buckets (CNAME chain never proves ownership absent program-domain CNAME); A+B both negative is as clean as it gets — should not stall at 'unknown'."
+      },
+      "rationale": "`8x8-staging` had A=neg (0 GH hits), B=neg (0 wayback hits across 3645 URLs), C=inconclusive (generic AWS CNAME) — verdict landed at 'unknown' but the only inconclusive signal is structural, not informational. Refinement promotes this row to 'unowned'.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/memory/ownership-cache/d2f7b66b1302ab04.json"
+      ]
+    },
+    {
+      "rule_id": "rule-ownership_verifier-asset_pattern_overrides-37c51",
+      "agent": "ownership_verifier",
+      "path": "asset_pattern_overrides",
+      "action": "append",
+      "value": {
+        "pattern": "jitsi-files",
+        "github_substring_downgrade": true,
+        "downgrade_when": {"total_count_gte": 50, "stem_length_lte": 12, "word_boundary_zero_in_owner_repo": true},
+        "from": "positive",
+        "to": "ambiguous",
+        "reason": "All 84 GH 'positive' hits for 'jitsi-files' were substring matches in 'jitsi-filesharing-*' event names; zero word-boundary hits in actual Lua source. GH q='\"<asset>\" in:file' doesn't honor word boundaries."
+      },
+      "rationale": "Mirrors the MELI wayback brand-stem fix but on Check A. v1 has no snippet-fetch primitive so the rule is keyed by an exact pattern + heuristic gate rather than a generalized word-boundary recheck; intentionally narrow until v1.5 can express the general case.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/memory/ownership-cache/f1188e9b16266670.json"
+      ]
+    }
+  ],
+  "discarded_heuristics": [
+    {
+      "heuristic": "H1",
+      "reason": "Did not fire — secret-hunter produced 0 candidates across Pass A/B/C; no noseyparker FPs to ignore."
+    },
+    {
+      "heuristic": "H2",
+      "reason": "Did not fire — every ownership-verifier asset had wayback B=negative (the word_boundary rule from MELI already neutered the brand-stem degeneracy)."
+    },
+    {
+      "heuristic": "H3",
+      "reason": "Narrative-only by spec — jitsi org had ~100 repos scanned in Pass A, 0 verified; recorded in narrative as a Pass-A downweight recommendation for future visits, no rule entry."
+    },
+    {
+      "heuristic": "H5",
+      "reason": "Did not fire — memory/submissions/8x8-bounty.json does not exist; no reports drafted or submitted."
+    },
+    {
+      "heuristic": "Insight-3 (trufflehog Pass A timeout tunability)",
+      "reason": "Narrativized due to 5-rule cap. Confidence is low; one engagement (jitsi org, ~100 repos cut at 21:07:21) does not yet justify a tunable schema field. Re-propose if a second engagement shows the same cap-cut pattern."
+    }
+  ]
+}

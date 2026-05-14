@@ -1,0 +1,33 @@
+{
+  "slug": "8x8-bounty",
+  "asset": "jit-backup",
+  "bucket_name": "jit-backup",
+  "dns_name": "jit-backup.s3.amazonaws.com",
+  "fetched_at": "2026-05-13T00:00:00Z",
+  "verdict": "unknown",
+  "checks": {
+    "github_code": {
+      "status": "ambiguous",
+      "total_count": 17,
+      "top_hits": [
+        {"repo": "Foundation-PAWN/samp-plugin-jit-backup", "path": "README.md", "html_url": "https://github.com/Foundation-PAWN/samp-plugin-jit-backup/blob/f60bfa0297fcab45405097fbdd1106c73dbb5dd7/README.md"},
+        {"repo": "openmultiplayer/web", "path": "frontend/docs/awesome.md", "html_url": "https://github.com/openmultiplayer/web/blob/f9ac17063673f63f3b597c7d41a722436829e07d/frontend/docs/awesome.md"},
+        {"repo": "sampctl/plugins", "path": "dependency-overrides.json", "html_url": "https://github.com/sampctl/plugins/blob/af1c152a02983beca4f9e1fc540f4e757f1643cd/dependency-overrides.json"},
+        {"repo": "mozyonee/chiliad-rp", "path": "Dockerfile", "html_url": "https://github.com/mozyonee/chiliad-rp/blob/a5d61256cbcf08d41fc0e604ebf3a505165bf11b/Dockerfile"},
+        {"repo": "erankavija/just-in-time", "path": "docs/how-to/deployment.md", "html_url": "https://github.com/erankavija/just-in-time/blob/5b45460c006accfc42e024e8988d064b69f6afbf/docs/how-to/deployment.md"}
+      ],
+      "evidence_path": "/tmp/ownership-ecdc4b1a6c01ba08-gh.json"
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "evidence_path": "/tmp/ownership-ecdc4b1a6c01ba08-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-w.eu-west-2.amazonaws.com.",
+      "evidence_path": "/tmp/ownership-ecdc4b1a6c01ba08-dns.txt"
+    }
+  },
+  "notes": "applied rule rule-ownership_verifier-wayback_match_mode-879f3: wayback_match_mode=word_boundary; used grep -E '\\bjit-backup\\b' instead of grep -F. 1587 URLs collected from jit.si/jitsi.net/8x8.com, 0 word-boundary hits. GitHub: 17 hits total but all are in SA-MP game repos referencing an unrelated open-source JIT compiler plugin called 'samp-plugin-jit-backup' (Foundation-PAWN org); none in jitsi or 8x8 orgs — status=ambiguous. DNS: bucket resolves (CNAME s3-w.eu-west-2.amazonaws.com, eu-west-2 region) but no CNAME from a program-owned domain pointing to it — inconclusive for bucket ownership. Two independent positive signals required for owned; achieved 0 — verdict=unknown."
+}

@@ -1,0 +1,42 @@
+{
+  "slug": "8x8-bounty",
+  "asset": "jitsi-logs",
+  "bucket_name": "jitsi-logs",
+  "dns_name": "jitsi-logs.s3.amazonaws.com",
+  "fetched_at": "2026-05-14T00:44:53Z",
+  "verdict": "unknown",
+  "checks": {
+    "github_code": {
+      "status": "positive",
+      "total_count": 49,
+      "top_hits": [
+        {"repo": "jitsi/docker-jitsi-meet", "path": "log-analyser.yml", "html_url": "https://github.com/jitsi/docker-jitsi-meet/blob/43ec99cb5b386cd05e6e21162ed8343c5da89be8/log-analyser.yml"},
+        {"repo": "r11shi/vaultbox-jitsi-meet", "path": "log-analyser/README.md", "html_url": "https://github.com/r11shi/vaultbox-jitsi-meet/blob/366570198a99eb85a3bb1d5863107b1b955e2c18/log-analyser/README.md"},
+        {"repo": "sfectonir-Pfe/mka-lms-2025", "path": "Makefile", "html_url": "https://github.com/sfectonir-Pfe/mka-lms-2025/blob/e77a1991625975d2e1a3eb8919d81dfda1660bf7/Makefile"},
+        {"repo": "nerdofmouth/agency-stack", "path": "docs/pages/components/jitsi.md", "html_url": "https://github.com/nerdofmouth/agency-stack/blob/616202589d918b2d8bcbafae2e1c8e7dd166c892/docs/pages/components/jitsi.md"},
+        {"repo": "RJKaler/jitsi-setup", "path": "jitsi-server.sh.OLD", "html_url": "https://github.com/RJKaler/jitsi-setup/blob/e08eba4a444e07e22b52b42cd32c2d2c9dc807d1/jitsi-server.sh.OLD"},
+        {"repo": "ilaydadastan/jitsi-log-analyser", "path": "otel-collector-config.yaml", "html_url": "https://github.com/ilaydadastan/jitsi-log-analyser/blob/c728f6ffa66891044cdfcb2a0109ec79aa037201/otel-collector-config.yaml"},
+        {"repo": "jzxyouok/BIM", "path": "bim/src/main/java/net/java/sip/communicator/plugin/loggingutils/LogUploadServiceImpl.java", "html_url": "https://github.com/jzxyouok/BIM/blob/96a666931f06b064570e8c7604a35ffd0610bb87/bim/src/main/java/net/java/sip/communicator/plugin/loggingutils/LogUploadServiceImpl.java"},
+        {"repo": "111016028/jitsi-meet-ai-processor", "path": "log-analyser.yml", "html_url": "https://github.com/111016028/jitsi-meet-ai-processor/blob/8134efc2fe4f3564452012aa6c45bba7c17ebef9/log-analyser.yml"},
+        {"repo": "RJKaler/jitsi-setup", "path": "server-install.sh", "html_url": "https://github.com/RJKaler/jitsi-setup/blob/e08eba4a444e07e22b52b42cd32c2d2c9dc807d1/server-install.sh"},
+        {"repo": "r11shi/vaultbox-jitsi-meet", "path": "log-analyser/otel-collector-config.yaml", "html_url": "https://github.com/r11shi/vaultbox-jitsi-meet/blob/366570198a99eb85a3bb1d5863107b1b955e2c18/log-analyser/otel-collector-config.yaml"}
+      ],
+      "evidence_path": "/tmp/ownership-ae67f563529fbb51-gh.json",
+      "notes": "total_count=49; top hit is jitsi/docker-jitsi-meet (program org) but 'jitsi-logs' in those files appears as a Docker service/container name in log-analyser configs, not clearly as an S3 bucket reference. Org match is present but context is ambiguous re: S3 vs. container name."
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "evidence_path": "/tmp/ownership-ae67f563529fbb51-gau-hits.txt",
+      "notes": "gau fetched 2483 URLs from 8x8.vc, jit.si, jitsi.net via wayback+otx; zero word-boundary matches for 'jitsi-logs'."
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-w.eu-west-3.amazonaws.com.",
+      "resolved_ips": ["16.12.19.15", "3.5.205.116"],
+      "evidence_path": "/tmp/ownership-ae67f563529fbb51-dns.txt",
+      "notes": "Bucket exists and resolves (eu-west-3). CNAME is AWS-internal only; no CNAME from a program-owned domain to this bucket was found. Per spec, bucket DNS is inconclusive unless a program domain CNAMEs to the bucket."
+    }
+  },
+  "notes": "applied rule rule-ownership_verifier-wayback_match_mode-879f3: wayback_match_mode=word_boundary. Aggregation: A=positive (jitsi org match in GH but context is Docker service name, not confirmed S3 ref), B=negative (0 wayback hits across 2483 URLs), C=inconclusive (bucket resolves but no program-domain CNAME). Two independent positives required; only one positive found. Verdict: unknown."
+}

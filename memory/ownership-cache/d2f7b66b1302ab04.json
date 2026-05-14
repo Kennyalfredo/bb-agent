@@ -1,0 +1,27 @@
+{
+  "slug": "8x8-bounty",
+  "asset": "8x8-staging",
+  "bucket_name": "8x8-staging",
+  "dns_name": "8x8-staging.s3.amazonaws.com",
+  "fetched_at": "2026-05-13T00:00:00Z",
+  "verdict": "unknown",
+  "checks": {
+    "github_code": {
+      "status": "negative",
+      "total_count": 0,
+      "top_hits": [],
+      "evidence_path": "/tmp/ownership-d2f7b66b1302ab04-gh.json"
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "evidence_path": "/tmp/ownership-d2f7b66b1302ab04-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-us-west-2-w.amazonaws.com.",
+      "evidence_path": "/tmp/ownership-d2f7b66b1302ab04-dns.txt"
+    }
+  },
+  "notes": "applied rule rule-ownership_verifier-wayback_match_mode-879f3: wayback_match_mode=word_boundary; used grep -E '\\b8x8-staging\\b' instead of grep -F. gau returned 3645 URLs from 8x8.com, 8x8.vc, jit.si but zero word-boundary hits for '8x8-staging'. GitHub code search returned total_count=0 — bucket name not found in any public repo. DNS resolves (bucket exists at s3-us-west-2-w.amazonaws.com, IPs confirmed), but AWS-generic CNAME provides no ownership signal per bucket-DNS rules. Verdict is 'unknown' rather than 'unowned' because C=inconclusive prevents the all-neg row from firing: A=neg, B=neg, C=inconclusive falls to the catch-all 'anything else' row."
+}

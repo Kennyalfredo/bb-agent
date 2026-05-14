@@ -1,0 +1,33 @@
+{
+  "slug": "8x8-bounty",
+  "asset": "jitsi-files",
+  "bucket_name": "jitsi-files",
+  "dns_name": "jitsi-files.s3.amazonaws.com",
+  "fetched_at": "2026-05-13T00:00:00Z",
+  "verdict": "unknown",
+  "checks": {
+    "github_code": {
+      "status": "positive",
+      "total_count": 84,
+      "top_hits": [
+        {"repo": "jitsi/jitsi-meet", "path": "resources/prosody-plugins/mod_filesharing_component.lua", "html_url": "https://github.com/jitsi/jitsi-meet/blob/b584e555d5907542a1269c468ae134f67aaa5b88/resources/prosody-plugins/mod_filesharing_component.lua"},
+        {"repo": "jitsi/jitsi-meet", "path": "resources/prosody-plugins/mod_fmuc.lua", "html_url": "https://github.com/jitsi/jitsi-meet/blob/b584e555d5907542a1269c468ae134f67aaa5b88/resources/prosody-plugins/mod_fmuc.lua"},
+        {"repo": "Sanjuu887/vmeet_main_platform", "path": "resources/prosody-plugins/mod_visitors.lua", "html_url": "https://github.com/Sanjuu887/vmeet_main_platform/blob/1a34ed9a2d12cbda0d436f7a1843fe6b9fd79612/resources/prosody-plugins/mod_visitors.lua"},
+        {"repo": "wzitcom/jitsi-meet-paritel", "path": "resources/prosody-plugins/mod_visitors.lua", "html_url": "https://github.com/wzitcom/jitsi-meet-paritel/blob/91e4ac1665478166e17f01fd7c97d340c913fa2f/resources/prosody-plugins/mod_visitors.lua"},
+        {"repo": "ahmadswalih/jitsi--meet-V2", "path": "resources/prosody-plugins/mod_fmuc.lua", "html_url": "https://github.com/ahmadswalih/jitsi--meet-V2/blob/05161a9d5dc9bab04616080d7e6937d11f50044d/resources/prosody-plugins/mod_fmuc.lua"}
+      ],
+      "evidence_path": "/tmp/ownership-f1188e9b16266670-gh.json"
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "evidence_path": "/tmp/ownership-f1188e9b16266670-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-w.ca-central-1.amazonaws.com.",
+      "evidence_path": "/tmp/ownership-f1188e9b16266670-dns.txt"
+    }
+  },
+  "notes": "applied rule rule-ownership_verifier-wayback_match_mode-879f3: wayback_match_mode=word_boundary. Check A is positive: jitsi/jitsi-meet (in-scope GH org) references 'jitsi-files' in prosody plugin code (total_count=84). Check B is negative: gau returned 2490 URLs across jit.si, jitsi.net, 8x8.vc; zero word-boundary hits for 'jitsi-files'. Check C is inconclusive: bucket jitsi-files.s3.amazonaws.com resolves via standard AWS S3 chain (s3-w.ca-central-1.amazonaws.com) to IPs, but no CNAME from a program-owned domain to the bucket was found — per spec, DNS is inconclusive for buckets absent such a CNAME. Aggregation: A=positive, B=negative, C=inconclusive. Two-of-three positive signals required; only one present. Verdict: unknown."
+}

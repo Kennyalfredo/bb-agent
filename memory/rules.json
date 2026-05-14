@@ -8,7 +8,22 @@
   "secret_hunter": {
     "detector_ignore": [],
     "skip_brand_stem_orgs": false,
-    "trufflehog_concurrency_override": null
+    "trufflehog_concurrency_override": null,
+    "gh_org_override": [
+      {
+        "slug_map": {
+          "8x8-bounty": [
+            "jitsi",
+            "8x8inc"
+          ]
+        },
+        "id": "rule-secret_hunter-gh_org_override-52066",
+        "added": "2026-05-14T01:12:48Z",
+        "from_engagement": "8x8-bounty",
+        "confidence": "medium",
+        "reason": "8x8-bounty slug → GH 404. The fallback path through base-name-derived orgs recovered (landed on 'jitsi') but a per-slug override makes it deterministic and avoids burning a discovery round-trip on every run."
+      }
+    ]
   },
   "ownership_verifier": {
     "wayback_match_mode": "word_boundary",
@@ -20,7 +35,40 @@
       "reason": "Wayback B returned 952 substring hits on bucket 'mercadolibre' purely because every in-scope URL contains the brand stem; substring mode is degenerate when asset == brand stem."
     },
     "min_positive_signals": 2,
-    "asset_pattern_overrides": []
+    "asset_pattern_overrides": [
+      {
+        "pattern": "jitsi-files",
+        "github_substring_downgrade": true,
+        "downgrade_when": {
+          "total_count_gte": 50,
+          "stem_length_lte": 12,
+          "word_boundary_zero_in_owner_repo": true
+        },
+        "from": "positive",
+        "to": "ambiguous",
+        "id": "rule-ownership_verifier-asset_pattern_overrides-37c51",
+        "added": "2026-05-14T01:12:48Z",
+        "from_engagement": "8x8-bounty",
+        "confidence": "medium",
+        "reason": "Mirrors the MELI wayback brand-stem fix but on Check A. v1 has no snippet-fetch primitive so the rule is keyed by an exact pattern + heuristic gate rather than a generalized word-boundary recheck; intentionally narrow until v1.5 can express the general case."
+      }
+    ],
+    "bucket_aggregation_override": [
+      {
+        "asset_class": "bucket",
+        "when": {
+          "a": "negative",
+          "b": "negative",
+          "c": "inconclusive"
+        },
+        "verdict": "unowned",
+        "id": "rule-ownership_verifier-bucket_aggregation_override-1c25c",
+        "added": "2026-05-14T01:12:48Z",
+        "from_engagement": "8x8-bounty",
+        "confidence": "medium",
+        "reason": "`8x8-staging` had A=neg (0 GH hits), B=neg (0 wayback hits across 3645 URLs), C=inconclusive (generic AWS CNAME) — verdict landed at 'unknown' but the only inconclusive signal is structural, not informational. Refinement promotes this row to 'unowned'."
+      }
+    ]
   },
   "report_drafter": {
     "auto_info_filter": [],

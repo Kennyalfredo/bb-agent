@@ -1,0 +1,784 @@
+{
+  "program": {
+    "slug": "8x8-bounty",
+    "platform": "hackerone",
+    "url": "https://hackerone.com/8x8-bounty?type=team",
+    "name": "8x8",
+    "fetched_at": "2026-05-13"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "wildcard",
+        "asset": "*.8x8.vc",
+        "severity_cap": "critical",
+        "notes": "Professional Meetings and Jitsi as a Service. 8x8 does not provide credentials; researchers responsible for any fees. eligible_for_bounty=true"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.jit.si",
+        "severity_cap": "critical",
+        "notes": "Jitsi Meet platform. Out of scope: application logic bugs or non-production features in beta.meet.jit.si. eligible_for_bounty=true"
+      },
+      {
+        "type": "source_code",
+        "asset": "https://github.com/jitsi",
+        "severity_cap": "critical",
+        "notes": "Open source Jitsi repos. PoC required on meet.jit.si, 8x8.vc, or self-hosted. Code-only vulns assessed at lower severity. eligible_for_bounty=false (submission eligible only)"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.jitsi.net",
+        "severity_cap": "critical",
+        "notes": "Out of scope: alpha.jitsi.net, moderated-pilot.jitsi.net. eligible_for_bounty=true"
+      },
+      {
+        "type": "domain",
+        "asset": "connect.8x8.com",
+        "severity_cap": "critical",
+        "notes": "Temporary exclusion: campaign.wavecell.com, contacts.8x8.com. UUID IDORs and AccountId/subAccountId IDORs out of scope. eligible_for_bounty=true"
+      },
+      {
+        "type": "domain",
+        "asset": "platform.8x8pilot.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "domain",
+        "asset": "uc.8x8pilot.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "domain",
+        "asset": "sso.8x8pilot.com",
+        "severity_cap": "critical",
+        "notes": "SSO service. MFA-bypasses requiring prior knowledge of credentials treated as MEDIUM. eligible_for_bounty=true"
+      },
+      {
+        "type": "domain",
+        "asset": "work-staging.8x8.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "domain",
+        "asset": "user-profile-staging.8x8.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.8x8staging.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "domain",
+        "asset": "sso.8x8.com",
+        "severity_cap": "critical",
+        "notes": "SSO service. MFA-bypasses requiring prior knowledge of credentials treated as MEDIUM. eligible_for_bounty=true"
+      },
+      {
+        "type": "domain",
+        "asset": "platform.8x8.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.chalet.8x8.com",
+        "severity_cap": "critical",
+        "notes": "8x8 Chat team messaging. Out of scope: third-party websites implementing 8x8 chat outside *.8x8.com. eligible_for_bounty=true"
+      },
+      {
+        "type": "domain",
+        "asset": "work.8x8.com",
+        "severity_cap": "critical",
+        "notes": "8x8 Work for Web. No test credentials provided. eligible_for_bounty=true"
+      },
+      {
+        "type": "domain",
+        "asset": "user-profile.8x8.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "wildcard",
+        "asset": "vcc-*.8x8.com",
+        "severity_cap": "critical",
+        "notes": "Contact Center Agent Workspace + Configuration Manager. Shareable Wallboard links out of scope. Third-party chat outside *.8x8.com out of scope. eligible_for_bounty=true"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "org.vom8x8.sipua",
+        "severity_cap": "critical",
+        "notes": "8x8 Work Android app. eligible_for_bounty=true"
+      },
+      {
+        "type": "domain",
+        "asset": "voapi.8x8.com",
+        "severity_cap": "critical",
+        "notes": "Backend for phone calls. Also voapi-au.8x8.com (AU), voapi-uk.8x8.com (UK). eligible_for_bounty=true"
+      },
+      {
+        "type": "domain",
+        "asset": "https://8x8.vc/xmpp-websocket",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "wildcard",
+        "asset": "https://*.chalet.8x8.com/ws/v1",
+        "severity_cap": "critical",
+        "notes": "8x8 Chat websocket endpoint. eligible_for_bounty=true"
+      },
+      {
+        "type": "domain",
+        "asset": "https://webrtc.8x8.com/",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "executable",
+        "asset": "Virtual Office Desktop",
+        "severity_cap": "critical",
+        "notes": "8x8 Work for Desktop. Download from support-portal.8x8.com. eligible_for_bounty=true"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "8x8-work",
+        "severity_cap": "critical",
+        "notes": "iOS App Store ID. https://apps.apple.com/us/app/8x8-work/id348177448. eligible_for_bounty=true"
+      },
+      {
+        "type": "wildcard",
+        "asset": "http://*.packet8.net",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "domain",
+        "asset": "cloud8.8x8.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.8x8cloud.net",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Intellectual Property on Public Domains",
+        "severity_cap": "critical",
+        "notes": "Leaks in public domains with sensitive/proprietary info impacting CIA. eligible_for_bounty=true"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.p8t.us",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.wavecell.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "domain",
+        "asset": "pay.8x8.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "domain",
+        "asset": "admin.8x8.com",
+        "severity_cap": "critical",
+        "notes": "Administration portal for users and telephony features. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "8x8 Communication APIs",
+        "severity_cap": "critical",
+        "notes": "CPaaS APIs: sms.8x8.com, chatapps.8x8.com, {product}.8x8.uk, {product}.8x8.id, {product}.us.8x8.com, {product}.{region}.cpaas-net.8x8.com. Self sign-up at connect.8x8.com. eligible_for_bounty=true"
+      },
+      {
+        "type": "domain",
+        "asset": "apps.8x8.com",
+        "severity_cap": "critical",
+        "notes": "8x8 Application Panel. eligible_for_bounty=true"
+      },
+      {
+        "type": "domain",
+        "asset": "video-agent.8x8.com",
+        "severity_cap": "high",
+        "notes": "8x8 Video Interaction one-to-one video calls. No test credentials. eligible_for_bounty=true"
+      },
+      {
+        "type": "domain",
+        "asset": "converse.8x8.com",
+        "severity_cap": "medium",
+        "notes": "8x8 Converse unified messaging. No test credentials. eligible_for_bounty=true"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.8x8.id",
+        "severity_cap": "critical",
+        "notes": "RDP: If You See Something, Say Something. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.8x8.com",
+        "severity_cap": "critical",
+        "notes": "RDP: If You See Something, Say Something. Catch-all for *.8x8.com. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.8x8pilot.com",
+        "severity_cap": "medium",
+        "notes": "RDP: If You See Something, Say Something. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.8x8.co.uk",
+        "severity_cap": "critical",
+        "notes": "RDP: If You See Something, Say Something. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.8x8.uk",
+        "severity_cap": "critical",
+        "notes": "RDP: If You See Something, Say Something. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.8x8e2e.com",
+        "severity_cap": "critical",
+        "notes": "RDP: If You See Something, Say Something. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.ucverse.com",
+        "severity_cap": "critical",
+        "notes": "RDP: If You See Something, Say Something. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "other",
+        "asset": "Third Party Application",
+        "severity_cap": "high",
+        "notes": "RDP: If You See Something, Say Something. Evaluation on case-by-case basis. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "other",
+        "asset": "Discovered Leaked Credentials",
+        "severity_cap": "high",
+        "notes": "RDP. Testing of customer credentials strictly prohibited. Submit leaked creds, authenticate only then immediately deauthenticate. Include source. Do not purchase illegally obtained credentials. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "qm-*.8x8.com",
+        "severity_cap": "critical",
+        "notes": "Quality Management & Speech Analytics. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "analytics-*.8x8.com",
+        "severity_cap": "critical",
+        "notes": "Analytics for Contact Center. Shareable Wallboard links out of scope. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "other",
+        "asset": "8x8 Partner Portal",
+        "severity_cap": "high",
+        "notes": "partnerxchange.8x8.com, 8x8.my.site.com/partnerxchange, 8x8.force.com/partnerxchange. Out of scope: non-sensitive info disclosure, UUID IDORs. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "api.8x8.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "dashboard.qa.ai.8x8.com",
+        "severity_cap": "critical",
+        "notes": "Analytics for 8x8 Work. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "8x8.my.site.com",
+        "severity_cap": "high",
+        "notes": "Account management, billing, orders, support cases portal. UUID IDORs out of scope. HackerOne in subject when testing support. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "vcc-ce.8x8.com",
+        "severity_cap": "critical",
+        "notes": "Customer Experience and Post-Call Survey Analytics. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.thinkingphones.com",
+        "severity_cap": "critical",
+        "notes": "RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.thinkingphones.net",
+        "severity_cap": "critical",
+        "notes": "RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "support-portal.8x8.com",
+        "severity_cap": "medium",
+        "notes": "RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.staging.cloud.8x8.com",
+        "severity_cap": "medium",
+        "notes": "RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.acceptance.cloud.8x8.com",
+        "severity_cap": "high",
+        "notes": "RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.prod.cloud.8x8.com",
+        "severity_cap": "critical",
+        "notes": "RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.ociadmin.cloud.8x8.com",
+        "severity_cap": "high",
+        "notes": "RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.in2tel.ie",
+        "severity_cap": "critical",
+        "notes": "RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "community.8x8.com",
+        "severity_cap": "high",
+        "notes": "RDP. Powered by Higher Logic. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.8x8testa.com",
+        "severity_cap": "medium",
+        "notes": "RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.8x8testb.com",
+        "severity_cap": "medium",
+        "notes": "RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.packet8-pilot.net",
+        "severity_cap": "medium",
+        "notes": "RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "other",
+        "asset": "Cloud Misconfigurations",
+        "severity_cap": "critical",
+        "notes": "RDP. Any Cloud asset & configuration owned by 8x8 across various Cloud providers. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.8x8hosts.internal",
+        "severity_cap": "medium",
+        "notes": "RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.8x8hosts.pilot",
+        "severity_cap": "medium",
+        "notes": "RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.call-control.ie",
+        "severity_cap": "critical",
+        "notes": "RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "other",
+        "asset": "ASN: AS32308",
+        "severity_cap": "critical",
+        "notes": "8X8-AS, US. IP ranges: 192.84.17.0/24, 216.59.140.0/24, 8.28.3.0/24, 8.28.0.0/24, 63.209.12.0/24, 8.28.2.0/24, 216.59.142.0/24, 216.59.141.0/24, 8.28.1.0/24, 162.221.239.0/24, 8.21.164.0/24, 216.59.136.0/24, 216.59.137.0/24, 192.84.18.0/24, 216.59.143.0/24, 8.25.198.0/24, 162.221.236.0/23, 192.84.16.0/24, 162.221.236.0/24, 162.221.238.0/24, 216.59.136.0/21, 192.84.16.0/22. RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "other",
+        "asset": "ASN: AS44965",
+        "severity_cap": "critical",
+        "notes": "CONTACTUAL, US. IPs: 109.70.61.0/24, 217.163.57.0/24, 66.81.220.0/24. RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "other",
+        "asset": "ASN: AS46680",
+        "severity_cap": "critical",
+        "notes": "CONTACTUAL, US. RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "other",
+        "asset": "ASN: AS49856",
+        "severity_cap": "critical",
+        "notes": "EIGHT-AS, GB. RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "other",
+        "asset": "ASN: AS62306",
+        "severity_cap": "critical",
+        "notes": "RO-8X8-AS, RO. IPs: 185.221.220.0/24. RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "other",
+        "asset": "ASN: AS62876",
+        "severity_cap": "critical",
+        "notes": "8X8-AS-CORP, US. IPs: 209.94.72.0/24. RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "other",
+        "asset": "ASN: AS133144",
+        "severity_cap": "critical",
+        "notes": "M8X8INC-AS-AP 8x8, Inc., US. IPs: 103.252.162.0/24, 103.239.164.0/24, 66.81.216.0/24, 66.81.217.0/24. RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "other",
+        "asset": "ASN: AS198554",
+        "severity_cap": "critical",
+        "notes": "DXI-AS, GB. IPs: 109.70.59.0/24, 185.173.49.0/24, 185.173.48.0/22, 109.70.58.0/24, 185.173.48.0/24. RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "other",
+        "asset": "ASN: AS395362",
+        "severity_cap": "critical",
+        "notes": "8X8-AS-1, US. IPs: 8.25.218.0/24, 38.99.96.0/24. RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "other",
+        "asset": "ASN: AS398067",
+        "severity_cap": "critical",
+        "notes": "8X8-AS-SJC01, US. RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "other",
+        "asset": "ASN: AS199687",
+        "severity_cap": "critical",
+        "notes": "IN2TEL-DB3, IE. RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "other",
+        "asset": "ASN: AS206422",
+        "severity_cap": "critical",
+        "notes": "IN2TEL-BT, IE. RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*-vpn.8x8.com",
+        "severity_cap": "high",
+        "notes": "VPN Infrastructure (Palo Alto GlobalProtect). No attempts to exploit for internal network access. No brute force or DoS on auth. Includes sgc01-vpn.8x8.com, hk-vpn.8x8.com, *-vpn-contractors.8x8.com. RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "www.fuzemeeting.com",
+        "severity_cap": "low",
+        "notes": "Fuze Platform retired Dec 31 2025. RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "fuze.me",
+        "severity_cap": "low",
+        "notes": "Fuze Platform retired Dec 31 2025. RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.fuze.site",
+        "severity_cap": "low",
+        "notes": "Fuze Platform retired Dec 31 2025. RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.fuze.com",
+        "severity_cap": "low",
+        "notes": "Fuze Platform retired Dec 31 2025. RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "vap.8x8.com",
+        "severity_cap": "critical",
+        "notes": "CPaaS Admin Back Office for voice services. RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "developer.8x8.com",
+        "severity_cap": "high",
+        "notes": "RDP. Powered by GitHub Pages. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.unreal-agents.jitsi.net",
+        "severity_cap": "medium",
+        "notes": "RDP. UnrealAgents development environment. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "unreal-agents.8x8pilot.com",
+        "severity_cap": "medium",
+        "notes": "RDP. UnrealAgents staging environment. Includes unreal-agents-tools.8x8pilot.com and unreal-agents-sys.8x8pilot.com. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.unreal-agents.com",
+        "severity_cap": "medium",
+        "notes": "RDP. UnrealAgents. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.ai.8x8.vc",
+        "severity_cap": "medium",
+        "notes": "RDP. AI Studio: Build Voice & Text AI Agents. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.preview.8x8.vc",
+        "severity_cap": "medium",
+        "notes": "RDP. AI Studio. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "callroute.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "callroute.io",
+        "severity_cap": "critical",
+        "notes": "eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "sipsynergy.co.uk",
+        "severity_cap": "critical",
+        "notes": "eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "other",
+        "asset": "ASN: AS14294",
+        "severity_cap": "low",
+        "notes": "8X8-FUZE, US. Fuze Platform retired Dec 31 2025. RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "other",
+        "asset": "ASN: AS13896",
+        "severity_cap": "low",
+        "notes": "8X8-FUZE, US. Fuze Platform retired Dec 31 2025. Multiple IP ranges. RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      },
+      {
+        "type": "other",
+        "asset": "ASN: AS10976",
+        "severity_cap": "low",
+        "notes": "8X8-FUZE, US. Fuze Platform retired Dec 31 2025. RDP. eligible_for_submission=true, eligible_for_bounty=false"
+      }
+    ],
+    "out_of_scope": [
+      {
+        "type": "mobile_android",
+        "asset": "com.spot8x8.spot",
+        "reason": "8x8 Spaces Android app. eligible_for_bounty=false, eligible_for_submission=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "http://*.callstats.io",
+        "reason": "Sold to Spearline. No longer owned by 8x8."
+      },
+      {
+        "type": "mobile_android",
+        "asset": "org.jitsi.meet",
+        "reason": "Project no longer actively developed. Community contributions only. eligible_for_submission=false"
+      },
+      {
+        "type": "domain",
+        "asset": "support.8x8.com",
+        "reason": "eligible_for_bounty=false, eligible_for_submission=false"
+      },
+      {
+        "type": "domain",
+        "asset": "www.8x8.com",
+        "reason": "eligible_for_bounty=false, eligible_for_submission=false"
+      },
+      {
+        "type": "domain",
+        "asset": "express.8x8.com",
+        "reason": "eligible_for_bounty=false, eligible_for_submission=false"
+      },
+      {
+        "type": "domain",
+        "asset": "accountmanager.8x8.com",
+        "reason": "eligible_for_bounty=false, eligible_for_submission=false"
+      },
+      {
+        "type": "domain",
+        "asset": "get8x8.com",
+        "reason": "eligible_for_bounty=false, eligible_for_submission=false"
+      },
+      {
+        "type": "domain",
+        "asset": "investors.8x8.com",
+        "reason": "eligible_for_bounty=false, eligible_for_submission=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "http://*.contactnow.8x8.com",
+        "reason": "eligible_for_bounty=false, eligible_for_submission=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "http://*.sameroom.io",
+        "reason": "eligible_for_bounty=false, eligible_for_submission=false"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "com.atlassian.JitsiMeet.ios",
+        "reason": "Jitsi Meet iOS app. Project not actively developed. Community contributions only. eligible_for_submission=false"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "8x8-meeting-rooms",
+        "reason": "8x8 Spaces iOS app. Project not actively developed. Community contributions only. eligible_for_submission=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "http://*.jitsi.org",
+        "reason": "eligible_for_bounty=false, eligible_for_submission=false"
+      },
+      {
+        "type": "executable",
+        "asset": "Jitsi Meet Desktop",
+        "reason": "Heritage project, not actively developed anymore. Community contributions only. eligible_for_submission=false"
+      },
+      {
+        "type": "domain",
+        "asset": "dashboard.qa.ai.8x8.com",
+        "reason": "supersite.8x8.com — eligible_for_bounty=false, eligible_for_submission=false"
+      },
+      {
+        "type": "domain",
+        "asset": "supersite.8x8.com",
+        "reason": "eligible_for_bounty=false, eligible_for_submission=false"
+      },
+      {
+        "type": "domain",
+        "asset": "feedback.wavecell.com",
+        "reason": "Powered by Canny. eligible_for_bounty=false, eligible_for_submission=false; max_severity=none"
+      },
+      {
+        "type": "domain",
+        "asset": "vm.8x8.com",
+        "reason": "eligible_for_bounty=false, eligible_for_submission=false"
+      },
+      {
+        "type": "domain",
+        "asset": "8x8.wavecell.com",
+        "reason": "Powered by Hubspot. eligible_for_bounty=false, eligible_for_submission=false; max_severity=none"
+      },
+      {
+        "type": "domain",
+        "asset": "www.wavecell.com",
+        "reason": "eligible_for_bounty=false, eligible_for_submission=false"
+      },
+      {
+        "type": "domain",
+        "asset": "mobileidentity.8x8.com",
+        "reason": "eligible_for_bounty=false, eligible_for_submission=false"
+      },
+      {
+        "type": "domain",
+        "asset": "community.8x8.com",
+        "reason": "Duplicate entry — already in in_scope as RDP. Listed here because eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.bell.ca",
+        "reason": "All Bell Canada domains explicitly out of scope. Applies to all partner and customer domains. max_severity=none"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.msteams.8x8.com",
+        "reason": "Assets owned and operated by Microsoft as part of 8x8 MS Teams integration. eligible_for_submission=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.mavenlab.com",
+        "reason": "Embargo testing period after acquisition. eligible_for_submission=false; max_severity=none"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.moobidesk.com",
+        "reason": "Embargo testing period after acquisition (also moobidesk-main.vercel.app). eligible_for_submission=false; max_severity=none"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.moobicast.com",
+        "reason": "Embargo testing period after acquisition. eligible_for_submission=false; max_severity=none"
+      }
+    ]
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": false,
+    "cve_age_min_days": 30,
+    "requires_ownership_proof": true,
+    "safe_harbor": true,
+    "submission_form": "https://hackerone.com/8x8-bounty/reports/new",
+    "notes": "automated_tools_allowed=false: Policy explicitly states 'Any form of automation' is prohibited under Scope Exclusions. mass_scanning_allowed=false: Derived from explicit automation prohibition. bucket_listing_allowed=true: Not addressed in policy; using safe default (our own compliance allows listing). bucket_download_allowed=false: Not addressed in policy; using safe default (conservative). cve_age_min_days=30: Policy states 'Public Zero-day vulnerabilities that have had an official patch for less than 1 month will be awarded on a case by case basis' — interpreted as 30-day minimum, though awarded case-by-case. requires_ownership_proof=true: Policy requires testing only accounts you own or with explicit permission. safe_harbor=true: Policy explicitly states 'The Gold Standard Safe Harbor applies' (https://hackerone.com/8x8-bounty/safe_harbor). Additional notes: (1) No test credentials provided for most products. (2) Researchers must tag HTTP requests with X-HackerOne: [username] in User-Agent. (3) Use [username]@wearehackerone.com alias within applications. (4) Report unique vulnerabilities once across related domains (assumed single fix). (5) DoS, spamming, social engineering, and physical attacks are explicitly prohibited. (6) Missing headers, cookie flags, SSL issues, CSRF on unauth forms, clickjacking, rate limiting, general low-severity scanner output are all out of scope. (7) Vulnerable libraries require working PoC. (8) Credential stuffing out of scope."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      {
+        "severity": "critical",
+        "min": 0,
+        "max": 0,
+        "currency": "USD"
+      },
+      {
+        "severity": "high",
+        "min": 0,
+        "max": 0,
+        "currency": "USD"
+      },
+      {
+        "severity": "medium",
+        "min": 0,
+        "max": 0,
+        "currency": "USD"
+      },
+      {
+        "severity": "low",
+        "min": 0,
+        "max": 0,
+        "currency": "USD"
+      }
+    ]
+  },
+  "raw_policy_excerpt": "At 8x8, we help companies get their employees, customers and applications talking to make people more connected and productive no matter where they are in the world. At 8x8 we value security and recognize the importance of ensuring the integrity and confidentiality of global communications.\n\n## Scope Exclusions\nWhile researching, we'd like to ask you to refrain from:\n* **Any form of automation**\n* Any activity that could lead to the disruption of our service (DoS)\n* Spamming\n* Social engineering (including phishing) of 8x8 staff or contractors\n* Any physical attempts against 8x8 property or data centers\n* Missing security headers (eg. HSTS, CSP, SPF, DMARC)\n* Missing flags on cookies\n* SSL issues (expired certs/weak ciphers/key-size/BEAST/CRIME)\n* Cross-Site Request Forgery (CSRF) on unauthenticated forms or forms with no security impact\n* Clickjacking\n* Rate limiting or brute force issues\n* General low severity issues reported by automated scanners\n* Attacks requiring MITM or physical access to a user's device\n* Vulnerable libraries or dependencies absent a working Proof of Concept\n* Comma Separated Values (CSV) injection\n* Vulnerabilities only affecting users of outdated or unpatched browsers [Less than 2 stable versions behind the latest released stable version]\n* Software version disclosure / Banner identification issues / Descriptive error messages or headers\n* Tab-nabbing\n* Self XSS without further security impact\n* Public Zero-day vulnerabilities that have had an official patch for less than 1 month will be awarded on a case by case basis.\n* Credential Stuffing: out of scope and will not be rewarded.\n\n## Testing Identification\n* Please utilize your [username]@wearehackerone.com alias when submitting information within the applications.\n* Include your HackerOne username in each HTTP request: X-HackerOne: [H1 username] appended to User-Agent.\n\n## Safe Harbor\nThe Gold Standard Safe Harbor applies (https://hackerone.com/8x8-bounty/safe_harbor).\n\n## Disclosure Policy\n* Let us know as soon as possible upon discovery of a potential security issue.\n* Please do not discuss vulnerabilities outside of the program without proper coordination and express consent from 8x8.\n* Make a good faith effort to avoid privacy violations, destruction of data, and interruption or degradation of our service.\n* Only interact with accounts you own or with explicit permission of the account holder.\n* Follow HackerOne's disclosure guidelines.\n\n## Response Targets\n* Time to first response (from report submit) - 1 business days\n* Time to triage (from report submit) - 2 business days"
+}

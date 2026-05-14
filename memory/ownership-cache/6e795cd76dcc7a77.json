@@ -1,0 +1,38 @@
+{
+  "slug": "8x8-bounty",
+  "asset": "connect-uploads",
+  "bucket_name": "connect-uploads",
+  "dns_name": "connect-uploads.s3.amazonaws.com",
+  "fetched_at": "2026-05-13T00:00:00Z",
+  "verdict": "unknown",
+  "checks": {
+    "github_code": {
+      "status": "ambiguous",
+      "total_count": 124,
+      "top_hits": [
+        {"repo": "trickest/inventory", "path": "TTS Bug Bounty/servers.txt", "html_url": "https://github.com/trickest/inventory/blob/6bf2fd954cf7c859087dd68e1bc00b216fde4470/TTS%20Bug%20Bounty/servers.txt"},
+        {"repo": "agnath18K/lumo_cli", "path": "pkg/connect/chunked.go", "html_url": "https://github.com/agnath18K/lumo_cli/blob/a09cd7d550a97126eef5bb503cb22289b6c5340b/pkg/connect/chunked.go"},
+        {"repo": "itzmayank01/campus-connect", "path": "s3-cors-fix.md", "html_url": "https://github.com/itzmayank01/campus-connect/blob/24ad7e5a696797a50592a8b6bb6139e75ac17fed/s3-cors-fix.md"},
+        {"repo": "futurist-raghav/ALUMNI-PORTAL", "path": "scratch/rebrand.py", "html_url": "https://github.com/futurist-raghav/ALUMNI-PORTAL/blob/5aa0bcf590438090a41a9dea792872fc52d0b9/scratch/rebrand.py"},
+        {"repo": "SuSanShweYeeBo2002/au_connect_api", "path": "src/config/index.js", "html_url": "https://github.com/SuSanShweYeeBo2002/au_connect_api/blob/258f8d1dcf27f1a753a82ba2beab2c6367aaa3ed/src/config/index.js"},
+        {"repo": "dayumn/CampusConnect", "path": "src/utils/setup-check.ts", "html_url": "https://github.com/dayumn/CampusConnect/blob/ad415c3a1b34aa426135570ba7dda0854e784d5f/src/utils/setup-check.ts"},
+        {"repo": "Utkal9/Social_Media_like_LinkedIn", "path": "backend/config/cloudinary.config.js", "html_url": "https://github.com/Utkal9/Social_Media_like_LinkedIn/blob/73d5ef09b94913b7dea5c739b18e9bbf121238ee/backend/config/cloudinary.config.js"},
+        {"repo": "Adeesha-Sandaruwan/StudyConnect", "path": "server/middleware/uploadMiddleware.js", "html_url": "https://github.com/Adeesha-Sandaruwan/StudyConnect/blob/eae138532c04fa00ee46871bb0c990574e0bc383/server/middleware/uploadMiddleware.js"},
+        {"repo": "MatMridul/LATAP", "path": "PRODUCTION_MOCK_AUDIT.md", "html_url": "https://github.com/MatMridul/LATAP/blob/8b2db56190978a64c7decbecae17c8a46fa64d8c/PRODUCTION_MOCK_AUDIT.md"},
+        {"repo": "kunj2210/CivicConnect", "path": "backend/src/services/storageService.ts", "html_url": "https://github.com/kunj2210/CivicConnect/blob/5f362967738f3abbc26be6889af6938b54382ba0/backend/src/services/storageService.ts"}
+      ],
+      "evidence_path": "/tmp/ownership-6e795cd76dcc7a77-gh.json"
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "evidence_path": "/tmp/ownership-6e795cd76dcc7a77-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-1-w.amazonaws.com -> s3-w.us-east-1.amazonaws.com (standard AWS S3 chain; no CNAME from program domain to bucket)",
+      "evidence_path": "/tmp/ownership-6e795cd76dcc7a77-dns.txt"
+    }
+  },
+  "notes": "applied rule wayback_match_mode=word_boundary (rule-ownership_verifier-wayback_match_mode-879f3): used grep -E '\\bconnect-uploads\\b' instead of grep -F in step 4 to avoid brand-stem degenerate matches. GH check returned 124 hits but all 10 sampled repos are unrelated third-party projects (campus apps, social media clones, CLI tools) — none owned by 8x8, 8x8inc, or jitsi. The bucket name 'connect-uploads' is a generic pattern used widely. Wayback found 0 references in crawled URLs for 8x8.com, jit.si, wavecell.com. DNS resolves via standard S3 chain with no CNAME from any in-scope 8x8 domain pointing to this bucket. Aggregate: A=ambiguous, B=negative, C=inconclusive — does not meet 2-of-3 positive threshold. Verdict: unknown."
+}
