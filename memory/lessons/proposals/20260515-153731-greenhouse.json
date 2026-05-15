@@ -1,0 +1,44 @@
+{
+  "proposal_id": "20260515-153731-greenhouse",
+  "slug": "greenhouse",
+  "generated_at": "2026-05-15T15:37:31Z",
+  "evidence_inputs": [
+    "/home/kenny/bb-agent/memory/programs/greenhouse.json",
+    "/home/kenny/bb-agent/out/greenhouse/secrets/20260515-151917.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/e3816a0825e59764.json"
+  ],
+  "metrics": {
+    "buckets_scanned": 0,
+    "secrets_scanned": 66,
+    "ownership_checks": 1,
+    "owned": 0,
+    "unowned": 1,
+    "unknown": 0,
+    "reports_drafted": 0,
+    "reports_submitted": 0
+  },
+  "narrative": "Greenhouse.io engagement (2026-05-15): secret hunt only (bucket hunt blocked by policy). Three passes run — Pass A scanned the 'greenhouse' GitHub org (trufflehog), Pass B cloned three third-party repos found via code-search, Pass C ran noseyparker over those same repos. Total 66 candidates: 1 trufflehog-verified TrelloApiKey, 65 noseyparker-only hits. Ownership verification ran for the one actionable repo owner (Sahabalam) and returned 'unowned' cleanly.\n\nWhat worked: the ownership-verifier pipeline performed exactly as intended. Sahabalam is an independent bug-bounty researcher whose 'bugbounty' repo contains a getwaymore.txt Wayback URL dump of app.interseller.io. The verifier correctly identified zero Greenhouse/Interseller affiliation: Check A returned 37 hits all in Sanskrit text corpora, Check B returned 0 hits across 3000 program-domain Wayback URLs (word_boundary mode active), Check C was structurally inapplicable (GitHub username, not a bucket). Verdict 'unowned' promoted correctly despite Check A's ambiguous total count — the note field gave the verifier enough evidence to conclude without a positive signal.\n\nWhat did not work: Pass A (trufflehog github --org=greenhouse) consumed budget for zero verified secrets. Greenhouse is a mature, security-conscious SaaS company with an active bug-bounty program; their GitHub org appears to be well-scrubbed. Pass B's one code-search repo (Sahabalam/bugbounty) contained a Wayback URL dump that generated 65 noseyparker false-positives — api_key/apikey/access_token URL query parameters and Shopify Pay transaction tokens embedded in Wayback-crawled URLs, plus two Google API keys belonging to Mozilla Rally. None of these are Greenhouse or Interseller credentials. The single trufflehog-verified TrelloApiKey was also in this same dump, meaning the key was captured in an app.interseller.io Wayback URL — it belongs to whatever third party had Trello integration active at that URL at crawl time, not to Greenhouse itself.\n\nWhat surprised us: the combination of a trufflehog-verified hit AND ownership=unowned in the same repo was a clean stress-test of the workflow gate. The Trello key is real and active (trufflehog verified it against the Trello API) but belongs to an independent researcher's captured data — not Greenhouse. Greenhouse's own policy explicitly states 'Leaked API keys due to a customer issues or mis-configuration will not be eligible for bounties,' which would cover this case even if ownership had been ambiguous.\n\nRecommended pre-flight for next greenhouse engagement: skip Pass A entirely — the org has already proven clean and re-scanning it wastes trufflehog quota with zero return. Focus any new run on Pass B/C with tighter code-search queries scoped to interseller.io (the acquired product) rather than both base names. Consider adding a repo-owner denylist entry for Sahabalam since all 66 candidates in this run originated from that researcher's archive repos. If the TrelloApiKey is still verified-active on a future run, investigate whether it appears in any Greenhouse-controlled context before pursuing further.",
+  "proposed_rules": [],
+  "discarded_heuristics": [
+    {
+      "heuristic": "H1",
+      "reason": "All 65 noseyparker-only candidates have redacted_secret values that are either real-looking URL parameter tokens (api_key/access_token from Wayback URLs), real third-party keys (Google/Mozilla Rally), or Shopify Pay transaction tokens — none match the sentinel placeholder literals (False, True, None, null, undefined, changeme, password, secret, example, todo, xxx) at the exact-value level required by v1; the one suspicious 'api_...xxxx' suffix is ambiguous from the redacted form and the full raw value is not recoverable from the output file."
+    },
+    {
+      "heuristic": "H2",
+      "reason": "wayback_match_mode is already set to 'word_boundary' (non-default, set from mercadolibre engagement); the 'set' action would be refused as the field is already non-default, and the greenhouse Wayback check correctly returned 0 hits confirming the existing rule is working."
+    },
+    {
+      "heuristic": "H3",
+      "reason": "Pass A on org 'greenhouse' returned 0 verified secrets consistent with H3 signal; however H3 specifies narrative note only (no hard rule) in v1 — the observation is captured in the narrative section above."
+    },
+    {
+      "heuristic": "H4",
+      "reason": "No bucket hunt was run (blocked by policy flags bucket_listing_allowed=false); the ownership-cache contains one entry for a GitHub username (Sahabalam), not a bare-brand bucket name, so H4's structural condition (verdict=unknown AND asset==slug AND all three checks ambiguous) does not apply."
+    },
+    {
+      "heuristic": "H5",
+      "reason": "No memory/submissions/greenhouse.json file exists; no reports were drafted or submitted during this engagement, so no platform-dismissed outcomes are available to analyze."
+    }
+  ]
+}

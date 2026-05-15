@@ -1,0 +1,46 @@
+{
+  "slug": "greenhouse",
+  "asset": "Sahabalam",
+  "bucket_name": null,
+  "dns_name": null,
+  "asset_class": "github_user",
+  "fetched_at": "2026-05-15T11:30:00Z",
+  "verdict": "unowned",
+  "checks": {
+    "github_code": {
+      "status": "ambiguous",
+      "total_count": 37,
+      "top_hits": [
+        {"repo": "OliverHellwig/sanskrit", "path": "corpus/GRETIL/sa_jIvagosvAmin-saMkalpakalpadruma.txt", "html_url": "https://github.com/OliverHellwig/sanskrit/blob/04e0778d3dc971030229179e25eea043d06ff397/corpus/GRETIL/sa_jIvagosvAmin-saMkalpakalpadruma.txt"},
+        {"repo": "sanskrit/raw_etexts", "path": "kAvyam/pradyumnAbhyudayaH_iast.md", "html_url": "https://github.com/sanskrit/raw_etexts/blob/06a178ed09d94c342fde87b322c7d87d98d2dbad/kAvyam/pradyumnAbhyudayaH_iast.md"},
+        {"repo": "mrayhanulmasud/analyzing_github_popularity", "path": "Dataset/Followers/D4stiny_followers.csv", "html_url": "https://github.com/mrayhanulmasud/analyzing_github_popularity/blob/3eb2d5a53ed880374852db6065b46f4ebe7265ef/Dataset/Followers/D4stiny_followers.csv"}
+      ],
+      "greenhouse_org_hits": 0,
+      "note": "All 37 hits are Sanskrit text corpora or unrelated repos. The string 'Sahabalam' is a Sanskrit word appearing in religious texts — none of the hits are in greenhouse/interseller/grnhse orgs.",
+      "evidence_path": "/tmp/ownership-e3816a0825e59764-gh.json"
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "gau_url_count": 3000,
+      "domains_queried": ["greenhouse.io", "app.greenhouse.io", "boards.greenhouse.io"],
+      "match_mode": "word_boundary",
+      "evidence_path": "/tmp/ownership-e3816a0825e59764-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": null,
+      "reason": "Asset is a GitHub username, not an S3 bucket or program subdomain. DNS chain check is structurally inapplicable.",
+      "evidence_path": null
+    }
+  },
+  "github_user_profile": {
+    "login": "Sahabalam",
+    "company": null,
+    "bio": null,
+    "created_at": "2019-01-20T10:26:58Z",
+    "public_repos": 246,
+    "characterization": "Independent bug-bounty researcher. Repos include altdns, Android-Reports-and-Resources, AndroidSecNotes, bugbounty — classic security recon forks. No Greenhouse/Interseller affiliation."
+  },
+  "notes": "applied rule wayback_match_mode=word_boundary: asset is a GitHub username so brand-stem degenerate-match is not a concern, but rule applied as specified. Verdict promoted to 'unowned' (not 'unknown') because: (1) A=ambiguous only because 'Sahabalam' is also a Sanskrit word — hits are in Sanskrit text corpora with zero program-org presence; (2) B=negative across 3000 program-domain URLs; (3) C=inconclusive is purely structural; (4) GitHub user profile shows unambiguous independent researcher with no Greenhouse affiliation and 246 security-research forks including a 'bugbounty/getwaymore.txt' Wayback dump — exactly matching the prior. No rule fire could produce two positive signals here by construction."
+}

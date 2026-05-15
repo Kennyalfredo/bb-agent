@@ -1,0 +1,173 @@
+{
+  "program": {
+    "slug": "greenhouse",
+    "platform": "hackerone",
+    "url": "https://hackerone.com/greenhouse?type=team",
+    "name": "Greenhouse.io",
+    "fetched_at": "2026-05-15"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "domain",
+        "asset": "app.greenhouse.io",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true. No CIA requirements specified."
+      },
+      {
+        "type": "domain",
+        "asset": "www.greenhouse.io",
+        "severity_cap": "high",
+        "notes": "eligible_for_bounty=true. availability=low, confidentiality=low, integrity=medium."
+      },
+      {
+        "type": "domain",
+        "asset": "boards.greenhouse.io",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true. availability=high, confidentiality=high, integrity=high."
+      },
+      {
+        "type": "domain",
+        "asset": "api.greenhouse.io",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true. Docs: https://developers.greenhouse.io/harvest.html and https://developers.greenhouse.io/job-board.html#retrieve-a-department. availability=high, confidentiality=high, integrity=high."
+      },
+      {
+        "type": "domain",
+        "asset": "onboarding.greenhouse.io",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true. availability=high, confidentiality=high, integrity=high."
+      },
+      {
+        "type": "domain",
+        "asset": "support.greenhouse.io",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true. availability=high, confidentiality=medium, integrity=medium."
+      },
+      {
+        "type": "domain",
+        "asset": "jss.greenhouse.io",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true. availability=medium, confidentiality=medium, integrity=medium."
+      },
+      {
+        "type": "domain",
+        "asset": "interseller.io",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true. Marketing website — policy notes it will produce fewer bounties than the main product. availability=medium, confidentiality=low, integrity=medium."
+      },
+      {
+        "type": "domain",
+        "asset": "app.interseller.io",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true. Do not spam the payment form (managed by third party, out of scope). Paywall bypass vulnerabilities are out of scope. availability=high, confidentiality=high, integrity=high."
+      },
+      {
+        "type": "other",
+        "asset": "Tier 1 Assets",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true. Added 2025-08-13. No further description in scope CSV."
+      },
+      {
+        "type": "other",
+        "asset": "Tier 2 Assets",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true. Added 2025-08-13. No further description in scope CSV."
+      },
+      {
+        "type": "other",
+        "asset": "Tier 3 Assets",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true. Added 2025-08-13. No further description in scope CSV."
+      }
+    ],
+    "out_of_scope": [
+      {
+        "type": "domain",
+        "asset": "community.greenhouse.io",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false per scope CSV."
+      },
+      {
+        "type": "domain",
+        "asset": "resources.greenhouse.io",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false per scope CSV."
+      },
+      {
+        "type": "domain",
+        "asset": "store.greenhouse.io",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false per scope CSV."
+      },
+      {
+        "type": "mobile_android",
+        "asset": "io.greenhouse.recruiting (Mobile Applications)",
+        "reason": "Explicitly listed as ineligible in policy Known Issues section."
+      },
+      {
+        "type": "other",
+        "asset": "Paywall bypass against Interseller / payment form testing",
+        "reason": "Payment form managed by third party; paywall bypass explicitly out of scope."
+      },
+      {
+        "type": "other",
+        "asset": "Downstream providers not controlled by Greenhouse (e.g. Marketo)",
+        "reason": "Explicitly out of scope per policy."
+      },
+      {
+        "type": "other",
+        "asset": "Social engineering attacks against employees",
+        "reason": "Explicitly out-of-bounds per policy."
+      },
+      {
+        "type": "other",
+        "asset": "Company Greenhouse account testing (without prior written authorization)",
+        "reason": "Testing via own company's Greenhouse account is not permitted without prior written authorization from Greenhouse."
+      },
+      {
+        "type": "other",
+        "asset": "Leaked API keys due to customer misconfiguration",
+        "reason": "Explicitly not eligible for bounties per policy."
+      }
+    ]
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": false,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": false,
+    "cve_age_min_days": 30,
+    "requires_ownership_proof": true,
+    "safe_harbor": false,
+    "submission_form": "https://hackerone.com/greenhouse",
+    "notes": "automated_tools_allowed=false: Policy explicitly states 'if we catch you using a scanner against our applications you may be subject to being banned from our bounty' and 'Output copied from any scanning, auditing, or attack tool without supporting evidence or a proof-of-concept will not be accepted.' mass_scanning_allowed=false: Derived from scanner prohibition language — no explicit mass-scan clause, but scanner ban implies this. bucket_listing_allowed=false: User-tightened from safe default — not mentioned in policy and Greenhouse bans scanners, so any unsolicited bucket touch is treated as too aggressive. bucket_download_allowed=false: Not mentioned in policy; safe default applied. cve_age_min_days=30: Policy states 'Problems related to widely publicized CVEs' are out of scope; age threshold not specified — safe default of 30 days applied. requires_ownership_proof=true: Policy requires 'a clear, detailed, and working proof of concept (PoC) that exploits the security issue'; safe default confirmed by policy. safe_harbor=false: No explicit safe harbor language found in policy — safe default applied. Pre-validated leaked credentials pay $10 each, capped at $500 per report. Test accounts not provided. Must not be on U.S. sanctions lists."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      {
+        "severity": "low",
+        "min": 50,
+        "max": 150,
+        "currency": "USD"
+      },
+      {
+        "severity": "medium",
+        "min": 200,
+        "max": 500,
+        "currency": "USD"
+      },
+      {
+        "severity": "high",
+        "min": 500,
+        "max": 1500,
+        "currency": "USD"
+      },
+      {
+        "severity": "critical",
+        "min": 1000,
+        "max": 3000,
+        "currency": "USD"
+      }
+    ]
+  },
+  "raw_policy_excerpt": "#About#\n\nGreenhouse is software to optimize your entire recruiting and onboarding process. Find better candidates, conduct more focused interviews, and make data-driven hiring decisions.\n\nThrough this security bug bounty program we collaborate with security researchers worldwide to identify and mitigate security vulnerabilities in our platform.\n\nFind a security flaw in Greenhouse? Submit a report here. If we confirm it and it's within the guidelines below we'll send you a reward.\n\n#Guidelines#\n\nRewards are contingent on you operating within these guidelines and are granted at the discretion of Greenhouse:\n\n* Domains eligible for reward: app.greenhouse.io, api.greenhouse.io, boards.greenhouse.io, greenhouse.io, onboarding.greenhouse.io\n* If you're using your company's Greenhouse account, testing is **not permitted** without prior written authorization from Greenhouse.\n* We do not provide test accounts.\n* Only issues that might impact the security of our data and supporting systems are in-scope; usability, functionality, and programming bugs are out-of-scope.\n* Social engineering attacks against employees are out-of-bounds and will not be accepted.\n* Any research or testing that impacts our application's performance or exposes confidential information to anyone else is out-of-bounds and will not be accepted.\n* Output copied from any scanning, auditing, or attack tool without supporting evidence or a proof-of-concept will not be accepted as original work and will not be accepted.\n* If we catch you using a scanner against our applications you may be subject to being banned from our bounty\n* You are not an individual on, or residing in any country on, any U.S. sanctions lists.\n* You must provide a clear, detailed, and working proof of concept (PoC) that exploits the security issue\n\n**Submissions without a working PoC will likely be rejected**\n\nSubmissions of pre-validated, compromised passwords from leaked databases will be paid out at $10 per leaked production credentials with a upper limit of $500. Reports should include the source of the leak as part of the submission. Splitting up submissions to abuse the upper limit will not be paid out.\n\n#Known Issues, Ineligible For Reward#\nThese issues are not eligible for reward due to design decisions, limitations of third-party services we use, etc.\n* Login/Logout CSRF/XSRF\n* Email configuration (SPF, DKIM, DMARC)\n* SSL/TLS ciphers or denial of service issues\n* Diffie-Hellman parameters\n* Clickjacking/UI Redress on boards.greenhouse.io (X-Frame-Options) or login pages\n* No Strict-Transport-Security header\n* Content Security Policy configuration issues\n* Issue related to links or forms outside of the greenhouse.io or grnh.se domains\n* Broken links on our company landing page, blog or marketing webpages\n* Problems related to widely publicized CVE's\n* DDoS\n* Downstream providers we do not control (e.g. Marketo)\n* Denial of service issues on form input length\n* io.greenhouse.recruiting (Mobile Applications)\n* Paywall bypass reports against Interseller. Testing of payment functionality is out of scope for the bug bounty\n* Leaked API keys due to a customer issues or mis-configuration will not be eligible for bounties.\n* Submissions of password leaks that have not been pre-validated by the researcher will not be eligible for bounties"
+}
