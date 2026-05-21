@@ -42,10 +42,12 @@ Record rule firings in the output report's HTML comment header (`<!-- applied ru
 Walk these inputs:
 - `/home/kenny/bb-agent/out/<slug>/buckets/*.json` (latest by mtime)
 - `/home/kenny/bb-agent/out/<slug>/secrets/*.json` (latest by mtime)
+- `/home/kenny/bb-agent/out/<slug>/takeovers/*.json` (latest by mtime)
 
 For each candidate in each file, derive the **verifiable asset** key:
 - Bucket candidate (`source: "s3scanner"` or `"cloud_enum"`) → `asset = candidate.name`.
 - Secret candidate (`source` includes `"trufflehog"` or `"noseyparker"`) → `asset = candidate.repo_owner` (the GH org/user, not the secret itself — that's not directly verifiable; the repo owner is).
+- Takeover candidate (`source: "subzy"`) → `asset = candidate.subdomain`.
 
 For each unique `asset` derived:
 - Compute `key = sha1("<slug>:<asset>")` (first 16 hex chars, matching ownership-verifier's convention).
@@ -53,7 +55,7 @@ For each unique `asset` derived:
 - Read `memory/submissions/<slug>.json` if it exists; mark `already_drafted: true` for any asset that has a draft within 30 days.
 
 Produce a list, ordered:
-1. **Draftable now** — verdict `owned`, fresh (≤30 days), no recent draft, AND (if it's a secret candidate) at least one of its records has `verified: true`. Noseyparker-only candidates are excluded from this list since they would be refused at draft time (rule 3d).
+1. **Draftable now** — verdict `owned`, fresh (≤30 days), no recent draft, AND (if it's a secret candidate) at least one of its records has `verified: true`, AND (if it's a bucket candidate) `acl_recheck.verified_listable` is `true` when present, AND (if it's a takeover candidate) `subzy_status == "VULNERABLE"`. Noseyparker-only candidates are excluded (rule 3d). Bucket candidates where `acl_recheck.verified_listable == false` (s3scanner false positives caught by the recheck gate) are excluded — they cannot reach critical severity and are typically not worth a report.
 2. **Needs ownership verification** — no cache entry or stale verdict.
 3. **Cannot draft** — verdict `unknown` or `unowned`, OR already drafted within 30 days, OR secret candidate where all records are unverified.
 
@@ -94,20 +96,25 @@ End with: `Reply '/draft-report <slug> <asset>' to draft a specific one.`
 
 #### 3c. Locate the candidate record
 - Determine asset class:
-  1. If the ownership-cache file has a populated `bucket_name`, treat it as **bucket-class** first; if `bucket_name == dns_name` and lookups in `buckets/*.json` fail, fall back to secret-class.
-  2. If the ownership-cache file is silent on bucket fields (or fields are null), search both `/home/kenny/bb-agent/out/<slug>/buckets/*.json` (matching by `candidate.name`) AND `/home/kenny/bb-agent/out/<slug>/secrets/*.json` (matching by `candidate.repo_owner`). The first non-empty match wins; if both match (rare), prefer the one whose timestamp is more recent.
-- For a bucket asset: open the latest `/home/kenny/bb-agent/out/<slug>/buckets/*.json`, find the candidate where `name == <asset>`. If multiple matches, pick the most recent file by mtime.
-- For a secret asset (GH owner): open the latest `/home/kenny/bb-agent/out/<slug>/secrets/*.json`, find ALL candidates where `repo_owner == <asset>`. There may be several (one report bundles all secrets from one owner).
-- If no candidate record exists for this asset → refuse: `"No scan output found for <asset> under /home/kenny/bb-agent/out/<slug>/. Run /hunt-buckets or /hunt-secrets <slug> first."`
+  1. If the ownership-cache file has a populated `bucket_name`, treat it as **bucket-class** first; if `bucket_name == dns_name` and lookups in `buckets/*.json` fail, fall back to other classes.
+  2. If the asset matches an entry in `out/<slug>/takeovers/*.json` `candidate.subdomain`, treat it as **takeover-class**.
+  3. If the ownership-cache file is silent on bucket fields (or fields are null), search `out/<slug>/buckets/*.json` (by `candidate.name`), `out/<slug>/secrets/*.json` (by `candidate.repo_owner`), and `out/<slug>/takeovers/*.json` (by `candidate.subdomain`). The first non-empty match wins; if multiple match (rare), prefer the most recent file by mtime.
+- For a bucket asset: open the latest `out/<slug>/buckets/*.json`, find the candidate where `name == <asset>`. If multiple matches, pick the most recent file by mtime.
+- For a secret asset (GH owner): open the latest `out/<slug>/secrets/*.json`, find ALL candidates where `repo_owner == <asset>`. There may be several (one report bundles all secrets from one owner).
+- For a takeover asset: open the latest `out/<slug>/takeovers/*.json`, find the candidate where `subdomain == <asset>`. Exactly one match expected.
+- If no candidate record exists for this asset → refuse: `"No scan output found for <asset> under /home/kenny/bb-agent/out/<slug>/. Run /hunt-buckets, /hunt-secrets, or /hunt-takeovers <slug> first."`
 
 #### 3d. Severity computation
-- Find the parent wildcard/domain in `scope.in_scope[]` that the asset belongs to (best-match by suffix). For a bucket whose name maps to a base domain in scope, use that domain's `severity_cap`. For a secret in a GH owner that maps to the program org, use the most permissive in-scope `severity_cap` (usually `critical` for Tier 1).
+- Find the parent wildcard/domain in `scope.in_scope[]` that the asset belongs to (best-match by suffix). For a bucket whose name maps to a base domain in scope, use that domain's `severity_cap`. For a secret in a GH owner that maps to the program org, use the most permissive in-scope `severity_cap` (usually `critical` for Tier 1). For a takeover subdomain, use the `severity_cap` of the matched in-scope wildcard.
+- For bucket candidates, **read `candidate.acl_recheck` first if present** (added by bucket-hunter's Step 4.5 anonymous list-objects recheck). The recheck is authoritative over s3scanner's ACL flags. If `acl_recheck.verified_listable == false` → refuse to draft: `"Bucket <name> was flagged listable by s3scanner but the anonymous aws s3api recheck returned <result>; not a reportable public-read condition. See <evidence_path> for the recheck transcript."` If `acl_recheck` is absent (pre-recheck candidate JSON or recheck errored), fall back to `acl.*` flags with a `summary.notes` warning.
 - Propose:
-  - **Bucket exposure with `all_users_read: true`** → `critical`
-  - **Bucket with `auth_users_read: true` and `all_users_read: false`** → `medium`
-  - **Bucket exists but only `list_bucket: true` (no public read)** → `low` (often an info finding; sometimes refused by the program)
+  - **Bucket exposure with `all_users_read: true` AND `acl_recheck.verified_listable: true`** → `critical`
+  - **Bucket with `auth_users_read: true`, `all_users_read: false`, AND `acl_recheck.verified_listable: true`** → `medium`
+  - **Bucket exists but only `list_bucket: true` (no public read) AND `acl_recheck.verified_listable: true`** → `low` (often an info finding; sometimes refused by the program)
   - **Verified leaked secret (trufflehog `verified: true`)** → `high` by default; `critical` if the detector is in `["AWS", "GCP", "Azure", "PrivateKey", "JWT-with-admin-claims"]`.
   - **Unverified secret (noseyparker only, no issuer-side validation)** → refuse to draft. Print: `"Candidate not verified — drafter requires trufflehog-verified secrets only. Investigate by hand if you believe it's real."`
+  - **Takeover candidate (`subzy_status: "VULNERABLE"` with a known fingerprint engine)** → `high` by default; `critical` if the engine is in `["Heroku", "AWS/S3", "Azure", "Fastly"]` (these allow full content control, cookie scope abuse, or session capture under the parent domain). `medium` if the engine is in `["GitHub Pages", "Tumblr", "Surge", "Helpjuice"]` (limited to static content under the dangling subdomain).
+  - **Takeover candidate with `subzy_status != "VULNERABLE"`** → refuse to draft. Print: `"Subzy status is <status>, not VULNERABLE. Manual triage required."`
 - Final severity = `min(proposed, cap)`. If `cap == "info"`, refuse: `"Asset is in scope but capped at info; not worth drafting."`
 
 #### 3e. Render markdown
@@ -129,10 +136,22 @@ Markdown structure (both templates share the header; body differs):
 | Submission URL | <rules.submission_form or "see program page"> |
 | Severity (proposed → capped) | <proposed> → **<final>** |
 | Asset | `<asset>` |
-| Asset class | bucket / leaked-secret |
+| Asset class | bucket / leaked-secret / subdomain-takeover |
 | Ownership verdict | owned (cached <fetched_at>; see `memory/ownership-cache/<key>.json`) |
 | Bounty tier | <bounty.tier> |
 | Draft timestamp (UTC) | <ts> |
+<!-- If program.platform == "bugcrowd", append a row: -->
+| VRT P-tier (Bugcrowd) | **P<n>** — see Bugcrowd's VRT taxonomy mapping below |
+
+**Bugcrowd VRT mapping (only when `program.platform == "bugcrowd"`):**
+- After computing the final severity, map it to Bugcrowd's VRT P-tier and add the row above:
+  - `critical` → `P1`
+  - `high` → `P2`
+  - `medium` → `P3`
+  - `low` → `P4`
+  - `info` → `P5`
+- For H1 reports, omit the VRT row entirely (H1's severity is just CVSS/H1-tier).
+- Bugcrowd's submission form has a dropdown for VRT category (e.g., `Server Security Misconfiguration > Cloud Security Configuration > Sensitive Data Exposure`). The drafter does not auto-classify VRT category — leave that selection to the human at submission time. The VRT P-tier above is severity, not category.
 
 <!-- VDP banner here if tier == "vdp" -->
 
@@ -169,6 +188,14 @@ For each candidate from this `repo_owner`:
 - **Git URL:** `<git_url>`
 - **Raw evidence path (local):** `<evidence_path>` (mode 0600/0700; not in this report)
 
+<takeover variant>
+- **Subdomain:** `<subdomain>`
+- **CNAME chain:** `<cname[0]>` (resolved via dnsx)
+- **Dangling-service fingerprint engine:** `<engine>` (matched against can-i-take-over-xyz database via subzy)
+- **Subzy status:** `VULNERABLE` (fingerprint string observed in single passive HTTP GET; the dangling endpoint is unclaimed at the third-party provider)
+- **In-scope wildcard match:** `<in_scope_wildcard_match>` (per `scope.in_scope[]` of program JSON; ownership-verifier's `in_scope_subdomain_override` rule applies)
+- **Detection-only:** the candidate was identified by fingerprint match. bb-agent did NOT register/claim the dangling endpoint. The program should verify by attempting to register at `<engine>` themselves (out of scope for this report).
+
 ## Steps to reproduce (non-destructive)
 
 <bucket>
@@ -180,6 +207,11 @@ For each candidate from this `repo_owner`:
 1. Browse to `<git_url>`.
 2. The redacted credential prefix `<redacted_secret>` matches an active <issuer> token (verified passively by trufflehog 3.95.x via `--results=verified`).
 3. Do NOT use the credential to authenticate. Validity was confirmed at scan time; further use is out of scope for the report.
+
+<takeover>
+1. `dig +short CNAME <subdomain>` confirms the dangling CNAME points to `<cname[0]>` (a third-party service at `<engine>`).
+2. Visit `https://<subdomain>` and observe the response body containing the `<engine>` "not found / project does not exist / no such app" fingerprint (the exact string subzy matched is in the scan log at the evidence path).
+3. **Do NOT register the dangling endpoint at `<engine>` to "prove" exploitation** — that is the takeover itself and out of scope for a detection-only report. The program should claim the endpoint on their side (cancel the dangling CNAME, or reclaim the third-party app).
 
 ## Impact
 
@@ -205,10 +237,10 @@ For each candidate from this `repo_owner`:
 
 ---
 
-<!-- Submission checklist for the human:
+<!-- Submission checklist for the human (rule-report_drafter-auto_info_filter-8a2f1 applies — keep local paths out of this block too; future paste-fail-safe):
 [ ] Re-read the report and the redacted prefix; replace any remaining redacted placeholders if the program requires the full secret (most programs do NOT — they accept the redacted prefix + git URL).
 [ ] Confirm the platform's submission form: <rules.submission_form>
-[ ] After submitting, edit memory/submissions/<slug>.json:
+[ ] After submitting, update the local audit-trail entry for this engagement:
     - submitted: true
     - submission_url: <H1 or BC URL>
     - platform_report_id: <id>

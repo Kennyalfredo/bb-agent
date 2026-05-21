@@ -82,22 +82,39 @@ Expected noise (don't chase): repos that vendor Ruby `.gem` tarballs or other bi
 
 Skip an org if a 404 comes back on the first probe (org doesn't exist on GH); record that in `summary.notes`.
 
-### 5. Pass B — GH code search → shallow clone → trufflehog filesystem
-For each `base_name` (cap per rule 6), do exactly one code-search call:
-```bash
-/home/kenny/.local/bin/gh api -X GET search/code \
-  -f q='"<base_name>" in:file' \
-  -H "Accept: application/vnd.github+json" \
-  --jq '[.items[] | {repo: .repository.full_name, path: .path, html_url: .html_url}] | .[0:20]' \
-  > "$EVID/gh-codesearch-<base_name>.json" 2> "$EVID/gh-codesearch-<base_name>.err"
+### 5. Pass B — GH code search (dorked) → shallow clone → trufflehog filesystem
+
+A single broad query `"<base_name>" in:file` produces a flood of irrelevant blog posts and SDK docs. To raise the signal-to-noise ratio, run **multiple targeted dorks** per base_name, each pre-filtering for high-value file types or secret prefixes. This closes the gap that caused FN on Opera (canonical org `operasoftware`, not `opera`, was found via dorked searches surfacing `opera.com` email addresses in `.env` files).
+
+Default dork set (run all 6 per base_name; ≤3 of these under strict mode — pick `.env`, `.npmrc`, and `aws_access_key_id`):
+
+```
+"<base_name>" extension:env
+"<base_name>" filename:.npmrc _authToken
+"<base_name>" "aws_access_key_id"
+"<base_name>" "-----BEGIN RSA PRIVATE KEY-----"
+"<base_name>" filename:config.yml
+"<base_name>" "api_key" extension:json
 ```
 
-(Quota note: `gh api search/code` is subject to the code-search rate limit, not the core rate limit. The `--jq` post-processing happens client-side, so `gh api rate_limit` output may not reflect the call. Just count the calls you made — they're capped at one per base_name and ≤6 default / ≤3 strict by design, well under the per-minute budget.)
+For each dork, run **exactly one** code-search call:
+```bash
+/home/kenny/.local/bin/gh api -X GET search/code \
+  -f q='<dork query>' \
+  -H "Accept: application/vnd.github+json" \
+  --jq '[.items[] | {repo: .repository.full_name, path: .path, html_url: .html_url, score: .score}] | .[0:30]' \
+  > "$EVID/gh-codesearch-<base_name>-<dork-slug>.json" 2> "$EVID/gh-codesearch-<base_name>-<dork-slug>.err"
+```
 
-Then choose up to **5 unique repos** (3 under strict mode) across all base_name queries, preferring:
+`<dork-slug>` = the dork's distinguishing token (e.g. `env`, `npmrc`, `aws-key`, `rsa-pk`, `config-yml`, `api-key-json`).
+
+Quota note: `gh api search/code` is on the code-search rate limit (30/min authenticated). Default budget: 6 base_names × 6 dorks = 36 calls. That fits within ~2 min of the rate budget; serialize the calls or insert a 2s sleep between each if you exceed 30 in a 60s window. Strict mode budget: 3 base_names × 3 dorks = 9 calls. Track each call in `summary.codesearch_calls` and emit per-dork hit counts in `summary.dork_hits[<base>][<dork>]`.
+
+Aggregate the JSON outputs across all dorks for a base_name. Dedupe by `repo` (same repo may hit on multiple dorks — that's a stronger signal). Then choose up to **5 unique repos** (3 under strict mode) across all dorks/base_names, preferring:
 1. Repos whose owner login matches a `gh_org_candidate` (highest signal — but Pass A already covered the org itself; here we pick *forks/derivatives* not under the org).
-2. Repos with the program's brand name in the repo name.
-3. Otherwise, the first occurrence in code-search order.
+2. Repos that hit on **multiple dorks** for the same base_name (cross-dork corroboration; very strong).
+3. Repos with the program's brand name in the repo name.
+4. Otherwise, the first occurrence in code-search-`score` descending order.
 
 For each chosen repo `<owner>/<name>`:
 ```bash
@@ -169,7 +186,13 @@ Schema:
   "summary": {
     "github_orgs_scanned": ["mercadolibre"],
     "base_names": ["mercadolibre", "mercadopago", "adminml"],
-    "codesearch_calls": 3,
+    "dorks_run": ["env", "npmrc", "aws-key", "rsa-pk", "config-yml", "api-key-json"],
+    "codesearch_calls": 18,
+    "dork_hits": {
+      "mercadolibre": {"env": 12, "npmrc": 0, "aws-key": 3, "rsa-pk": 0, "config-yml": 1, "api-key-json": 7},
+      "mercadopago":  {"env": 4,  "npmrc": 1, "aws-key": 0, "rsa-pk": 0, "config-yml": 0, "api-key-json": 2},
+      "adminml":      {"env": 0,  "npmrc": 0, "aws-key": 0, "rsa-pk": 0, "config-yml": 0, "api-key-json": 0}
+    },
     "repos_cloned": 4,
     "candidates_total": 19,
     "candidates_verified": 2,
@@ -214,6 +237,7 @@ Reply with:
 - Don't authenticate to the secret's issuer with the candidate token. `--only-verified` already did one passive issuer probe. We do not stack a second.
 - Don't open a PR / issue / fork on the leaking repo to nudge a fix. Reporting is the program's job, post-triage.
 - Don't run trufflehog without `--results=verified` in Pass A or B — unverified noise will swamp the candidate list. Pass C (noseyparker) is our *unverified* sweep, on purpose, against a different ruleset.
+- Don't collapse the dork set back to one broad query. The dorks exist because Opera-style FN (canonical org name mismatch with brand stem) is real and dorks surface canonical owners that a single `"<base>" in:file` query misses.
 - Don't widen scope by scanning random GH orgs that share part of the slug. Only the orgs you derived in step 2.
 - Don't write any secret value to a file under `/home/kenny/bb-agent/out/`. Redact first. Raw evidence stays on `/mnt/files/...` with `0600`.
 - Don't call ownership-verifier yourself — same decoupling principle as bucket-hunter.

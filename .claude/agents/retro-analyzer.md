@@ -46,6 +46,7 @@ If the first arg is neither a known slug nor the literal `apply`, refuse with: `
 For the slug, collect:
 - `/home/kenny/bb-agent/out/<slug>/buckets/*.json` (all timestamps)
 - `/home/kenny/bb-agent/out/<slug>/secrets/*.json` (all timestamps)
+- `/home/kenny/bb-agent/out/<slug>/takeovers/*.json` (all timestamps)
 - `/home/kenny/bb-agent/out/<slug>/reports/*.md` (drafted reports, if any)
 - `/home/kenny/bb-agent/memory/ownership-cache/*.json` filtered by `slug == <slug>`
 - `/home/kenny/bb-agent/memory/submissions/<slug>.json` (may not exist)
@@ -157,8 +158,8 @@ Schema:
   "proposed_rules": [
     {
       "rule_id": "rule-<agent>-<path>-<short-hash>",
-      "agent": "secret_hunter | bucket_hunter | ownership_verifier | report_drafter",
-      "path": "detector_ignore | basename_skip | wayback_match_mode | ...",
+      "agent": "secret_hunter | bucket_hunter | takeover_hunter | ownership_verifier | report_drafter",
+      "path": "detector_ignore | basename_skip | fingerprint_engine_ignore | subdomain_skip | wayback_match_mode | in_scope_subdomain_override | ...",
       "action": "append | set",
       "value": { /* the actual rule body */ },
       "rationale": "<one short sentence pointing to the evidence>",

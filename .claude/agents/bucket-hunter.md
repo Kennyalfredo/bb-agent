@@ -26,6 +26,7 @@ Enumerate publicly-discoverable cloud buckets that share a name root with the pr
 Read `/home/kenny/bb-agent/memory/rules.json` (create with the schema-default skeleton if missing — see retro-analyzer agent for the shape). Extract `rules.bucket_hunter`. Apply at these points later in the pipeline:
 - `basename_skip[]` — drop any derived `base_name` whose `pattern` matches before Step 2's candidate generation.
 - `candidate_suffix_skip[]` — drop any generated candidate whose suffix matches before Step 3's `s3scanner` call.
+- `s3scanner_acl_recheck_required[0]` (object) — if `enabled=true`, run Step 4.5 (post-scan anonymous list-objects-v2 recheck) on every s3scanner-flagged candidate. Use the rule's `recheck_command` template with `{bucket_name}` substitution. If `disqualify_if_access_denied=true`, the recheck overrides s3scanner's ACL claim and writes the authoritative result to the candidate's `acl_recheck` field.
 Record any rule firings in the output's `summary.notes` as `"applied rule <rule_id>: <one-line reason>"` so the next retro can audit which rules actually fired.
 
 ### 1. Validate inputs
@@ -84,6 +85,34 @@ Run **once**:
 ```
 Parse the JSONL. A "hit" = any bucket where the entry indicates `exists=true` (s3scanner uses the field `bucket_exists` or similar — inspect the first lines of output to confirm the actual key names and adapt your parsing). Capture: bucket name, region, ACL flags (auth_users / all_users / list / read / write), and any object-count summary s3scanner emits.
 
+### 4.5. ACL recheck — anonymous list-objects-v2 (s3scanner FP defang)
+
+s3scanner's `perm_all_users_read=ALLOWED` / `auth_users_read=true` reports the *ACL grant* but does NOT execute the actual list-objects API. Bucket policies frequently deny what ACL appears to grant (and vice versa). Across snapchat/automattic/opera engagements, 11+ buckets flagged ALLOWED by s3scanner returned `AccessDenied` on the actual list call — every one would have been a false-positive report.
+
+For every candidate from Step 4 that s3scanner flagged as `bucket_exists=true`, run the anonymous list-objects-v2 recheck **once**:
+
+```bash
+/home/kenny/.local/bin/aws s3api list-objects-v2 \
+  --no-sign-request \
+  --bucket "<name>" \
+  --max-items 1 \
+  --output json \
+  > /tmp/bucket-hunter-<slug>-recheck-<name>.json \
+  2> /tmp/bucket-hunter-<slug>-recheck-<name>.err
+```
+
+`--max-items 1` is the smallest probe that confirms list access (we never need objects, just success/AccessDenied). This is exactly one API call per bucket — the rule 1 "one validation call per candidate" budget. Counts toward the per-candidate ceiling; do not retry.
+
+Classify the result by the exit code + stderr content:
+- exit 0 with valid JSON in stdout → `result: "success"`, `verified_listable: true`. Buckets here are actually publicly listable; this is the only path to a critical-severity bucket report.
+- exit ≠ 0, stderr contains `AccessDenied` → `result: "AccessDenied"`, `verified_listable: false`. s3scanner's ACL claim was a false positive; downgrade.
+- exit ≠ 0, stderr contains `NoSuchBucket` → `result: "NoSuchBucket"`, `verified_listable: false`. Bucket doesn't actually exist (s3scanner detected a region redirect but the bucket vanished between scan and recheck — race condition). Drop or mark.
+- exit ≠ 0, anything else (timeout, DNS, network) → `result: "error"`, `verified_listable: null`. **Trust s3scanner's flag in this case** since we couldn't confirm; record the stderr snippet in `acl_recheck.error_snippet`.
+
+Apply the rule's `disqualify_if_access_denied`:
+- If `true` (current default) AND `result == "AccessDenied"`: do NOT modify the original `acl` object (preserve s3scanner lineage), but the candidate's downstream severity is governed by `acl_recheck.verified_listable`. Report-drafter is updated to prefer `acl_recheck.verified_listable` when present; an `AccessDenied`-rechecked candidate cannot reach `critical` severity.
+- If `result == "success"`: this is a confirmed publicly-listable bucket — the report-worthy class.
+
 ### 5. Pass B — cloud_enum fallback (only if Pass A returned zero hits)
 If Pass A produced no hits, fall back to `cloud_enum` for each base name (max 5 bases — pick the most distinctive):
 ```bash
@@ -121,6 +150,13 @@ Schema:
         "all_users_read": false,
         "all_users_write": false
       },
+      "acl_recheck": {
+        "result": "AccessDenied",
+        "verified_listable": false,
+        "command_run": "aws s3api list-objects-v2 --no-sign-request --bucket mercadolibre-backups --max-items 1",
+        "error_snippet": "An error occurred (AccessDenied) when calling the ListObjectsV2 operation: Access Denied",
+        "rule_id": "rule-bucket_hunter-s3scanner_acl_recheck_required-37651"
+      },
       "source": "s3scanner",
       "ownership_status": "UNVERIFIED",
       "raw_evidence_path": "/tmp/bucket-hunter-mercadolibre-passA.jsonl"
@@ -132,9 +168,10 @@ Schema:
 ### 7. Report back to the parent
 Reply with:
 - output file path
-- candidate count and bucket-hit count
+- candidate count, s3scanner-flagged count, **post-recheck verified-listable count** (the only count that can actually become a critical report)
 - whether Pass B was triggered
-- the **literal next step** the user should run: `/verify-ownership <slug> <bucket-name>` for each hit.
+- which candidates were s3scanner-flagged but `acl_recheck.result == "AccessDenied"` (false positives — important visibility per the rule)
+- the **literal next step** the user should run: `/verify-ownership <slug> <bucket-name>` for each verified-listable hit. Do NOT recommend verify-ownership on `AccessDenied`-rechecked candidates — they cannot become a public-read report.
 
 ## Don'ts
 - Don't download any object. `s3scanner` flags `-download` etc. are banned.

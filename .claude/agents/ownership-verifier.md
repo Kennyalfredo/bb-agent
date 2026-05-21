@@ -31,6 +31,7 @@ Read `/home/kenny/bb-agent/memory/rules.json` (create with schema defaults if mi
 - `wayback_match_mode` (`"substring"` default, or `"word_boundary"`) — switches the Step 4 grep from `grep -F "<asset>"` to `grep -E "\b<asset>\b"` when set to `word_boundary`. Use this to defang the brand-stem degenerate-match case.
 - `min_positive_signals` (default 2) — minimum positive checks required for `owned` verdict in Step 6's aggregation. Do NOT lower below 2 in v1; rules.json schema treats 1 as an error.
 - `asset_pattern_overrides[]` — per-pattern overrides (e.g. force a specific asset to skip check B). Apply only if the asset matches `rule.pattern` (literal string or regex per the rule's `match_type`).
+- `in_scope_subdomain_override[0]` (object) — if `enabled=true` AND the asset is a subdomain (Step 2 normalization classes it as `dns_name`, not `bucket_name`) AND the subdomain falls under any wildcard pattern in `scope.in_scope[]` (longest-suffix match), set Step 6's verdict directly to `owned` regardless of A/B/C aggregation. Rationale: the program declared the wildcard as their attack surface; any DNS record under it is theirs by zone-control proof. This is the canonical ownership case for takeover-hunter candidates and replaces the need for 2-of-3 cross-signal corroboration when scope inclusion is itself the proof.
 Record rule firings in the cache file's `notes` field as `"applied rule <rule_id>: <one-line reason>"`.
 
 ### 0. Cache check
@@ -42,7 +43,7 @@ Record rule firings in the cache file's `notes` field as `"applied rule <rule_id
 - Read `/home/kenny/bb-agent/memory/programs/<slug>.json`.
 - Extract:
   - in-scope domains (strip leading `*.`)
-  - the org's likely GitHub org name(s) — derive heuristically from the program name; if the program JSON lists none, just try the slug itself (e.g. `mercadolibre` → search GH org `mercadolibre`).
+  - the org's likely GitHub org name(s) — derive heuristically from the program name; if the program JSON lists none, fall back to the slug. **If the slug starts with a platform prefix (`bc-` for Bugcrowd, `int-` for Intigriti), strip it before using as a GH-org guess** — the GitHub org is `t-mobile` (not `bc-t-mobile`) and `aikido` (not `int-aikido`). The full prefixed slug is still used for cache keys, ownership-cache filenames, and program-JSON lookup; the strip is GH-search-only. The strip list (`{"bc-", "int-"}`) is the canonical place to extend when adding new platforms.
 
 ### 2. Normalize the asset
 - If `<asset>` is `<x>.s3.amazonaws.com`, extract `<x>` as the bucket name.
@@ -102,6 +103,13 @@ Interpretation:
 - For a bucket — bucket DNS doesn't help by itself (anyone can register a bucket named `mercadolibre-foo`). So for buckets, C is mostly **inconclusive** unless there's a CNAME from a program domain *to* the bucket — which would actually be detected via Wayback / B. Mark **C=inconclusive** for buckets unless you find a CNAME from a program domain pointing to the bucket DNS (then **C=positive**).
 
 ### 6. Aggregate verdict
+
+**6a. Scope-based override (subdomain + in-scope wildcard).** Before the A/B/C aggregation, check `rules.ownership_verifier.in_scope_subdomain_override`. If enabled AND the asset is a subdomain AND it falls under any `scope.in_scope[]` wildcard (longest-suffix match against patterns like `*.example.com` or bare `example.com`):
+- Set verdict to `owned`, skip the table below.
+- Record `applied rule rule-ownership_verifier-in_scope_subdomain_override-... : subdomain under in-scope wildcard <matched-pattern>` in `notes`.
+- Set all three checks' status to whatever they actually returned (don't fake them) — the override supersedes the table, not the evidence.
+
+**6b. A/B/C table aggregation** (applies when 6a did NOT fire):
 
 | A | B | C | Verdict |
 |---|---|---|---|

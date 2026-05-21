@@ -18,7 +18,7 @@ Subagents MUST use the full paths below — do not rely on PATH order.
 | katana | `/home/kenny/go/bin/katana` | latest | Modern web crawler |
 | naabu | `/home/kenny/go/bin/naabu` | latest | Fast port scanner |
 | pdtm | `/home/kenny/go/bin/pdtm` | latest | ProjectDiscovery tool manager |
-| subzy | `/home/kenny/go/bin/subzy` | latest | Subdomain takeover scanner (uses can-i-take-over-xyz) |
+| subzy | `/home/kenny/go/bin/subzy` | latest | Subdomain takeover scanner (uses can-i-take-over-xyz). Used by `takeover-hunter` as the fingerprint engine. CLI: `subzy run --targets <file> --output <file>.json --vuln --hide_fails --concurrency 20 --timeout 15`. `--vuln` saves only VULNERABLE entries. |
 | amass | `/home/kenny/.local/bin/amass` | older | OWASP subdomain enumeration |
 | s3scanner | `/home/kenny/go/bin/s3scanner` | dev | S3 bucket permission scanner |
 | cloud_enum | `/usr/local/bin/cloud_enum` | system | Multi-cloud (AWS/GCS/Azure) enumerator |
@@ -38,6 +38,7 @@ Subagents MUST use the full paths below — do not rely on PATH order.
 
 - `dig`, `curl`, `jq` — standard utilities
 - `git` — for cloning repos
+- `aws` — `/home/kenny/.local/bin/aws` (aws-cli/1.37.2). Used by `bucket-hunter` Step 4.5 for the anonymous list-objects-v2 recheck that defangs s3scanner ACL false positives: `aws s3api list-objects-v2 --no-sign-request --bucket <n> --max-items 1`. Never call with credentials; `--no-sign-request` is mandatory for compliance with the "passive-only" hard rule.
 - `~/.bbot/tools/` — bbot's bundled binaries (httpx 2022, trufflehog 3.90.8, massdns, ffuf, gowitness, jadx, nuclei, retirejs, smuggler, telerik). Older but usable if needed.
 
 ## API key file
@@ -47,6 +48,20 @@ Subagents MUST use the full paths below — do not rely on PATH order.
 - Postman PAK
 
 ⚠️ Rotate keys when done with each engagement.
+
+## Slug-prefix convention
+
+Programs from different platforms can share a brand name (`cloudflare` exists on multiple platforms). To prevent ownership-cache / submissions-log collisions across platforms, non-H1 programs are stored with a per-platform prefix in `memory/programs/<slug>.json`:
+
+| Platform | Slug form | Example | URL pattern parsed |
+|---|---|---|---|
+| HackerOne | bare handle | `cloudflare` | `https://hackerone.com/<handle>` |
+| Bugcrowd | `bc-<engagement-slug>` | `bc-t-mobile` | `https://bugcrowd.com/engagements/<engagement-slug>` |
+| Intigriti | `int-<handle>` | `int-aikido` | `https://www.intigriti.com/programs/<company-handle>/<handle>/detail` |
+
+The prefix is stripped only for the GitHub-org guess in `ownership-verifier` (the GH org is `t-mobile`, not `bc-t-mobile`). Everywhere else — ownership-cache filenames, submissions log, program JSON, candidate scan output paths — the prefixed slug is used verbatim.
+
+When adding a new platform, register the prefix in `ownership-verifier.md` Step 1 (the prefix-strip list) and in this table.
 
 ## Output convention
 
