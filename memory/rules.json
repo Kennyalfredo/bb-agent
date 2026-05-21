@@ -229,6 +229,19 @@
         "added": "2026-05-21T15:29:17Z",
         "from_engagement": "moonpay",
         "confidence": "medium"
+      },
+      {
+        "patterns": [
+          "*avada*",
+          "*avada-training*"
+        ],
+        "match_type": "repo_name_glob",
+        "reason": "3 Vietnamese developer bootcamp repos with avada in name (trantuananh-17/product-reviews, XuanTho2k/Simple-Sales-Pop, trunghoang12202/avada-training-app) all contained the same Avada marketplace token; avada-named repos are structurally vendor training repos, not Shopify-org infrastructure",
+        "id": "rule-secret_hunter-repo_name_skip-a244d",
+        "added": "2026-05-21T19:23:00Z",
+        "from_engagement": "shopify",
+        "confidence": "medium",
+        "reason": "Three distinct bootcamp repos with 'avada' in their name all carry the identical Avada marketplace token; skipping avada-named repos prevents cloning cost and FP propagation on future Shopify-adjacent codesearch runs."
       }
     ],
     "skip_brand_stem_orgs": false,
@@ -473,6 +486,16 @@
         "added": "2026-05-21T19:00:00Z",
         "from_engagement": "int-watsons",
         "confidence": "medium"
+      },
+      {
+        "cname_target": "wc.shopify.com",
+        "match_type": "exact",
+        "reason": "54/60 CNAME-bearing subdomains in shopify engagement resolve to wc.shopify.com, Shopify internal wildcard redirect cluster (live A 23.227.38.33); never a dangling takeover candidate",
+        "id": "rule-takeover_hunter-cname_hub_skip-a2fdc",
+        "added": "2026-05-21T19:23:00Z",
+        "from_engagement": "shopify",
+        "confidence": "medium",
+        "reason": "54/60 CNAMEs resolve to wc.shopify.com (Shopify's own live redirect mesh); hub-skip would have cut subzy input from 60 to 6 and prevented the one FP that still required two rules to discharge."
       }
     ],
     "subzy_known_fp_patterns": [
@@ -497,6 +520,17 @@
         "from_engagement": "int-watsons",
         "confidence": "medium",
         "reason_provenance": "Two independent Emarsys suite CNAMEs (suite16 and suite40) both triggered subzy's Unbounce fingerprint in the same engagement; live body recheck in both cases showed live Emarsys SAP service headers and no Unbounce branding — dual corroboration in a single run."
+      },
+      {
+        "fingerprint_engine": "Cargo Collective",
+        "cname_endpoint_pattern": "*",
+        "live_body_signature": "generic server 404 (no Cargo Collective branding)",
+        "reason": "Cargo Collective fingerprint fires on any bare 404 regardless of hosting platform (sendgrid.net bc-seek, *.elb.amazonaws.com int-watsons, *.shopifycloud.com shopify); 3rd corroboration; require actual Cargo branding string in body",
+        "id": "rule-takeover_hunter-subzy_known_fp_patterns-466fa",
+        "added": "2026-05-21T19:23:00Z",
+        "from_engagement": "shopify",
+        "confidence": "medium",
+        "reason": "Third consecutive engagement (bc-seek SendGrid, int-watsons ELB, shopify PaaS) confirms Cargo fingerprint fires on any bare 404; a wildcard endpoint pattern subsumes all three per-platform entries and prevents future one-off additions."
       }
     ]
   },

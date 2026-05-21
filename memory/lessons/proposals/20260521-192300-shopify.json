@@ -1,0 +1,132 @@
+{
+  "proposal_id": "20260521-192300-shopify",
+  "slug": "shopify",
+  "generated_at": "2026-05-21T19:23:00Z",
+  "evidence_inputs": [
+    "/home/kenny/bb-agent/memory/programs/shopify.json",
+    "/home/kenny/bb-agent/out/shopify/buckets/20260521-191643.json",
+    "/home/kenny/bb-agent/out/shopify/secrets/20260521-191505.json",
+    "/home/kenny/bb-agent/out/shopify/takeovers/20260521-191527.json"
+  ],
+  "metrics": {
+    "buckets_scanned": 80,
+    "secrets_scanned": 0,
+    "ownership_checks": 0,
+    "owned": 0,
+    "unowned": 0,
+    "unknown": 0,
+    "reports_drafted": 0,
+    "reports_submitted": 0
+  },
+  "narrative": "Shopify engagement (2026-05-21) scanned one of H1's most mature programs ($90K–$200K critical bounty, 1188 public GitHub repos). Three passes were run: bucket-hunter Pass A (80 candidates, 14 s3scanner-flagged, 14 AccessDenied on recheck), secret-hunter Passes A/B/C (0 verified candidates), and takeover-hunter (1369 raw subdomains → 100 strict-cap → 60 CNAME → 1 subzy VULNERABLE → 0 confirmed after two independent disqualification gates). Zero reports were drafted or submitted.\n\nThe takeover pass surfaced a significant structural observation: 54 of the 60 CNAME-bearing subdomains in the alphabetical-cap-100 sample all resolve to wc.shopify.com, Shopify's internal wildcard redirect cluster (live A record 23.227.38.33). This is Shopify's own infrastructure; none of these subdomains are individually dangling. Adding wc.shopify.com to cname_hub_skip with an exact match would have reduced the effective CNAME candidate pool from 60 to 6 before subzy, eliminating 90% of subzy scan cost on future Shopify runs. The Cargo Collective FP that was ultimately disqualified by two existing rules (subzy_body_recheck_required + subzy_known_fp_patterns) came from the remaining 6 non-hub CNAMEs — both defense layers fired correctly.\n\nThe Cargo Collective fingerprint engine has now produced false positives in three consecutive engagements across three completely different hosting platforms: bc-seek (SendGrid edge), int-watsons (AWS ELB), and shopify (Shopify PaaS *.shopifycloud.com). The common thread is that Cargo's fingerprint pattern fires on any generic nginx/Apache 404, regardless of the CNAME endpoint's actual service identity. The existing subzy_known_fp_patterns entries are per-endpoint-pattern rules (*.sendgrid.net, *.elb.amazonaws.com), but this engagement makes clear the rule should be expressed as a wildcard: Cargo Collective fingerprint fires on bare 404s universally, not just on specific CDN endpoints. A generalized rule requiring actual Cargo branding in the live body would subsume all three per-endpoint rules and eliminate future one-off additions.\n\nPass B (codesearch) in secrets correctly identified the vendor_repo_credentials anti-pattern: three Vietnamese Shopify-app developer bootcamp repos (trantuananh-17/product-reviews, XuanTho2k/Simple-Sales-Pop, trunghoang12202/avada-training-app) all carry the identical Avada marketplace npm registry token. This is the fourth time the vendor_repo_credentials pattern has fired; the previous rules captured template repo-name patterns. A direct repo_name_skip rule on the 'avada' glob would catch this specific recurring cluster before cloning. The Avada token itself could also be suppressed via detector_ignore, though this is lower-priority since the vendor_repo_credentials heuristic already identifies the FP class at the repo level.\n\nPass A (trufflehog org scan) exited after scanning only 56 of 1188 repos (~4.7% coverage) in approximately 63 seconds — far below the 2700-second floor set by passA_timeout_floor_secs-d3ea2. This is not a rules-layer issue: the timeout floor rule tells the wrapper to allocate ≥2700s, but trufflehog itself appears to have an independent early-exit condition (possibly hitting GitHub API rate limits on the org enumeration call, or trufflehog's own internal scan limit). The 1132 unscanned repos include Shopify/shopify-app, Shopify/cli, Shopify/ruby-lsp, Shopify/sorbet, and other critical infrastructure. If revisiting this engagement, Pass A should be re-run with explicit per-repo targeting (Pass B style) focused on the high-value repos that trufflehog missed, rather than the blind org scan. Additionally, the strict-mode cap (alphabetical truncation to 100 subdomains) silently dropped all shopifycloud.com and shopify.io subdomains whose names sort alphabetically after the shopify.com entries in the list. A round-robin truncation across seed domains would give more uniform coverage.",
+  "proposed_rules": [
+    {
+      "rule_id": "rule-takeover_hunter-cname_hub_skip-a2fdc",
+      "agent": "takeover_hunter",
+      "path": "cname_hub_skip",
+      "action": "append",
+      "value": {
+        "cname_target": "wc.shopify.com",
+        "match_type": "exact",
+        "reason": "54/60 CNAME-bearing subdomains in shopify engagement resolve to wc.shopify.com, Shopify internal wildcard redirect cluster (live A 23.227.38.33); never a dangling takeover candidate"
+      },
+      "rationale": "54/60 CNAMEs resolve to wc.shopify.com (Shopify's own live redirect mesh); hub-skip would have cut subzy input from 60 to 6 and prevented the one FP that still required two rules to discharge.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/shopify/takeovers/20260521-191527.json"
+      ]
+    },
+    {
+      "rule_id": "rule-takeover_hunter-subzy_known_fp_patterns-466fa",
+      "agent": "takeover_hunter",
+      "path": "subzy_known_fp_patterns",
+      "action": "append",
+      "value": {
+        "fingerprint_engine": "Cargo Collective",
+        "cname_endpoint_pattern": "*",
+        "live_body_signature": "generic server 404 (no Cargo Collective branding)",
+        "reason": "Cargo Collective fingerprint fires on any bare 404 regardless of hosting platform (sendgrid.net bc-seek, *.elb.amazonaws.com int-watsons, *.shopifycloud.com shopify); 3rd corroboration; require actual Cargo branding string in body"
+      },
+      "rationale": "Third consecutive engagement (bc-seek SendGrid, int-watsons ELB, shopify PaaS) confirms Cargo fingerprint fires on any bare 404; a wildcard endpoint pattern subsumes all three per-platform entries and prevents future one-off additions.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/shopify/takeovers/20260521-191527.json",
+        "/home/kenny/bb-agent/memory/rules.json"
+      ]
+    },
+    {
+      "rule_id": "rule-secret_hunter-repo_name_skip-a244d",
+      "agent": "secret_hunter",
+      "path": "repo_name_skip",
+      "action": "append",
+      "value": {
+        "patterns": [
+          "*avada*",
+          "*avada-training*"
+        ],
+        "match_type": "repo_name_glob",
+        "reason": "3 Vietnamese developer bootcamp repos with avada in name (trantuananh-17/product-reviews, XuanTho2k/Simple-Sales-Pop, trunghoang12202/avada-training-app) all contained the same Avada marketplace token; avada-named repos are structurally vendor training repos, not Shopify-org infrastructure"
+      },
+      "rationale": "Three distinct bootcamp repos with 'avada' in their name all carry the identical Avada marketplace token; skipping avada-named repos prevents cloning cost and FP propagation on future Shopify-adjacent codesearch runs.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/shopify/secrets/20260521-191505.json"
+      ]
+    },
+    {
+      "rule_id": "rule-bucket_hunter-basename_skip-fe69f",
+      "agent": "bucket_hunter",
+      "path": "basename_skip",
+      "action": "append",
+      "value": {
+        "pattern": "shopify",
+        "reason": "bare brand stem bucket is degenerate in ownership-verifier: all checks would be structurally ambiguous/inconclusive; AccessDenied on recheck; same pattern as indrive, snapchat, seek bare-stem skips; 14/14 s3scanner flagged all returned AccessDenied"
+      },
+      "rationale": "Bare 'shopify' bucket ownership would lock at unknown via the same structural degeneracy as indrive/snapchat/seek; s3scanner ACL flag was a FP (RequesterPays variant, AccessDenied on actual recheck).",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/shopify/buckets/20260521-191643.json"
+      ]
+    },
+    {
+      "rule_id": "rule-secret_hunter-detector_ignore-076f6",
+      "agent": "secret_hunter",
+      "path": "detector_ignore",
+      "action": "append",
+      "value": {
+        "detector": "NPM Registry Token",
+        "match_in": [
+          "OUujfnlIk="
+        ],
+        "reason": "Avada platform npm registry token (registry.avada.io) found in 3 Vietnamese Shopify-app training repos in Pass B; same token across all 3 repos (trantuananh-17, XuanTho2k, trunghoang12202); vendor_repo_credentials FP pattern — token belongs to Avada marketplace, not Shopify"
+      },
+      "rationale": "Identical Avada NPM registry token appeared in 3 distinct training repos across Pass B; adding to detector_ignore prevents re-surfacing on future Shopify-org codesearch runs if cloning re-encounters these repos.",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/shopify/secrets/20260521-191505.json"
+      ]
+    }
+  ],
+  "discarded_heuristics": [
+    {
+      "heuristic": "H1",
+      "reason": "All 3 noseyparker candidates in Pass C were process.env.* runtime references with no literal secret values — no detector/value combination meets the H1 boolean/placeholder literal threshold."
+    },
+    {
+      "heuristic": "H2",
+      "reason": "No ownership-verifier cache entries were created for this engagement (no buckets passed the s3scanner_acl_recheck_required gate); H2 wayback degeneracy check cannot fire without ownership cache entries."
+    },
+    {
+      "heuristic": "H3",
+      "reason": "H3 fires as narrative-only (no rule entry) when Pass A returns 0 verified candidates in a large org; this is captured in the narrative above as a process flag rather than a rule."
+    },
+    {
+      "heuristic": "H4",
+      "reason": "No ownership-verifier cache entries exist for shopify engagement; H4 requires verdict==unknown entries in the ownership cache, which are absent because no candidate survived the s3scanner_acl_recheck_required gate."
+    },
+    {
+      "heuristic": "H5",
+      "reason": "memory/submissions/shopify.json does not exist; no submission outcomes recorded; H5 cannot fire."
+    }
+  ]
+}
