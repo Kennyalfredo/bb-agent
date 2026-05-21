@@ -50,102 +50,100 @@
       },
       {
         "pattern": "found",
-        "reason": "bare-common-word bucket name is structurally unresolvable; all three ownership checks returned ambiguous/inconclusive in elastic engagement; confirmed same pattern as indrive bare-brand problem across 2 engagements",
+        "reason": "Bucket 'found' returned all checks ambiguous/inconclusive in elastic engagement (A=ambiguous — 10,832 org:elastic prose hits, 0 bucket-specific; B=ambiguous — 34 phrase-collision hits from 'not found'/'results found'; C=inconclusive — found.elastic.co exists but CNAMEs to Fastly, not to this bucket). Bucket is empty (0 objects). Cross-engagement corroboration with indrive 'indrive' bare-brand unknown verdict — pattern observed in 2 distinct engagements.",
         "id": "rule-bucket_hunter-basename_skip-ab4c5",
         "added": "2026-05-16T04:30:00Z",
         "from_engagement": "elastic",
-        "confidence": "medium",
-        "reason": "Bucket 'found' returned all checks ambiguous/inconclusive in elastic engagement (A=ambiguous — 10,832 org:elastic prose hits, 0 bucket-specific; B=ambiguous — 34 phrase-collision hits from 'not found'/'results found'; C=inconclusive — found.elastic.co exists but CNAMEs to Fastly, not to this bucket). Bucket is empty (0 objects). Cross-engagement corroboration with indrive 'indrive' bare-brand unknown verdict — pattern observed in 2 distinct engagements."
+        "confidence": "medium"
       },
       {
         "pattern": "snapchat",
-        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in snapchat engagement",
+        "reason": "Check A returned 0 GH hits; Check B inconclusive (CDX timeout, gau returned 0 URLs); Check C inconclusive (generic AWS CNAME) — no ownership path exists for this 9-char bare brand name; Snap's infrastructure is GCP-based, not bare-name S3.",
         "id": "rule-bucket_hunter-basename_skip-31083",
         "added": "2026-05-16T00:00:00Z",
         "from_engagement": "snapchat",
-        "confidence": "low",
-        "reason": "Check A returned 0 GH hits; Check B inconclusive (CDX timeout, gau returned 0 URLs); Check C inconclusive (generic AWS CNAME) — no ownership path exists for this 9-char bare brand name; Snap's infrastructure is GCP-based, not bare-name S3."
+        "confidence": "low"
       },
       {
         "pattern": "snapchat-backup",
-        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in snapchat engagement",
+        "reason": "A=ambiguous (197 GH hits all third-party memory-downloaders, 0 in Snap org); B=inconclusive (gau 0 bytes, pattern mirrors backup-cloudflare from cloudflare engagement); C=inconclusive — no ownership path; bucket_aggregation_override did not fire; verdict locked at unknown.",
         "id": "rule-bucket_hunter-basename_skip-eb54c",
         "added": "2026-05-16T00:00:00Z",
         "from_engagement": "snapchat",
-        "confidence": "low",
-        "reason": "A=ambiguous (197 GH hits all third-party memory-downloaders, 0 in Snap org); B=inconclusive (gau 0 bytes, pattern mirrors backup-cloudflare from cloudflare engagement); C=inconclusive — no ownership path; bucket_aggregation_override did not fire; verdict locked at unknown."
+        "confidence": "low"
       },
       {
         "pattern": "snapchat-data",
-        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in snapchat engagement",
+        "reason": "A=ambiguous (212 GH hits, all third-party — breach archives, fan tools, data-viz scrapers, 0 in Snap org); B=negative; C=inconclusive — bucket_aggregation_override did not fire (A not negative); verdict locked at unknown.",
         "id": "rule-bucket_hunter-basename_skip-06e32",
         "added": "2026-05-16T00:00:00Z",
         "from_engagement": "snapchat",
-        "confidence": "low",
-        "reason": "A=ambiguous (212 GH hits, all third-party — breach archives, fan tools, data-viz scrapers, 0 in Snap org); B=negative; C=inconclusive — bucket_aggregation_override did not fire (A not negative); verdict locked at unknown."
+        "confidence": "low"
       },
       {
         "pattern": "wordpress",
-        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in wordpress engagement; program policy explicitly states third-party S3 buckets with wordpress in the name are NOT owned by WordPress",
+        "reason": "Program out_of_scope section explicitly disclaims all AWS/S3 buckets with 'wordpress' in the name; bare stem 'wordpress' is globally popular — every s3scanner hit is a third-party site or plugin backup, not the open-source project.",
         "id": "rule-bucket_hunter-basename_skip-921e2",
         "added": "2026-05-21T14:00:00Z",
         "from_engagement": "wordpress",
-        "confidence": "medium",
-        "reason": "Program out_of_scope section explicitly disclaims all AWS/S3 buckets with 'wordpress' in the name; bare stem 'wordpress' is globally popular — every s3scanner hit is a third-party site or plugin backup, not the open-source project."
+        "confidence": "medium"
       },
       {
         "pattern": "wordcamp",
-        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in wordpress engagement; program policy context: WordPress/Automattic do not operate branded S3 infrastructure",
+        "reason": "'wordcamp' bucket found in scan returned AccessDenied on recheck; program policy covers the entire wordpress brand family; WordCamp is a community event brand with no S3 infrastructure.",
         "id": "rule-bucket_hunter-basename_skip-9647b",
         "added": "2026-05-21T14:00:00Z",
         "from_engagement": "wordpress",
-        "confidence": "low",
-        "reason": "'wordcamp' bucket found in scan returned AccessDenied on recheck; program policy covers the entire wordpress brand family; WordCamp is a community event brand with no S3 infrastructure."
+        "confidence": "low"
       },
       {
         "pattern": "buddypress",
-        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in wordpress engagement; program policy context: WordPress/Automattic do not operate branded S3 infrastructure",
+        "reason": "'buddypress' and 'buddypress-cdn' buckets found in scan returned AccessDenied on recheck; BuddyPress is a WordPress sub-project with no independent S3 footprint.",
         "id": "rule-bucket_hunter-basename_skip-e8c52",
         "added": "2026-05-21T14:00:00Z",
         "from_engagement": "wordpress",
-        "confidence": "low",
-        "reason": "'buddypress' and 'buddypress-cdn' buckets found in scan returned AccessDenied on recheck; BuddyPress is a WordPress sub-project with no independent S3 footprint."
+        "confidence": "low"
       },
       {
         "pattern": "moonpay",
-        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in moonpay engagement",
+        "reason": "The bare 'moonpay' bucket (us-west-1, AccessDenied) is the brand stem with no suffix; ownership-verifier would lock at unknown for the same structural reasons as indrive, snapchat, and other bare-stem entries in basename_skip.",
         "id": "rule-bucket_hunter-basename_skip-6b18b",
         "added": "2026-05-21T15:29:17Z",
         "from_engagement": "moonpay",
-        "confidence": "low",
-        "reason": "The bare 'moonpay' bucket (us-west-1, AccessDenied) is the brand stem with no suffix; ownership-verifier would lock at unknown for the same structural reasons as indrive, snapchat, and other bare-stem entries in basename_skip."
+        "confidence": "low"
       },
       {
         "pattern": "seek",
-        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in bc-seek engagement",
+        "reason": "The bare 4-char 'seek' bucket (us-east-1, AccessDenied on recheck) is the brand stem; ownership-verifier would lock at unknown for the same structural reasons as indrive, snapchat, and other bare-stem entries in basename_skip — the name is too common and too short to distinguish squatters from the program.",
         "id": "rule-bucket_hunter-basename_skip-c9755",
         "added": "2026-05-21T18:15:17Z",
         "from_engagement": "bc-seek",
-        "confidence": "low",
-        "reason": "The bare 4-char 'seek' bucket (us-east-1, AccessDenied on recheck) is the brand stem; ownership-verifier would lock at unknown for the same structural reasons as indrive, snapchat, and other bare-stem entries in basename_skip — the name is too common and too short to distinguish squatters from the program."
+        "confidence": "low"
       },
       {
         "pattern": "jobsdb",
-        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in bc-seek engagement",
+        "reason": "The bare 'jobsdb' bucket (us-east-1, AccessDenied on recheck) is SEEK's Asian operations brand stem; GH code-search dork hits in bc-seek secrets pass showed 'jobsdb' overwhelmingly references rudderlabs/rudder-server forks (it's a popular RudderStack pipeline destination), making ownership-verifier Check A structurally ambiguous with no path to resolution.",
         "id": "rule-bucket_hunter-basename_skip-9b9ff",
         "added": "2026-05-21T18:15:17Z",
         "from_engagement": "bc-seek",
-        "confidence": "low",
-        "reason": "The bare 'jobsdb' bucket (us-east-1, AccessDenied on recheck) is SEEK's Asian operations brand stem; GH code-search dork hits in bc-seek secrets pass showed 'jobsdb' overwhelmingly references rudderlabs/rudder-server forks (it's a popular RudderStack pipeline destination), making ownership-verifier Check A structurally ambiguous with no path to resolution."
+        "confidence": "low"
       },
       {
         "pattern": "jobstreet",
-        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in bc-seek engagement",
+        "reason": "The bare 'jobstreet' bucket (ap-southeast-1, AccessDenied on recheck) is SEEK's Southeast Asia brand stem; at 9 chars it's recognisable but GH code-search for 'jobstreet' would return hundreds of third-party job-aggregator, scraper, and RudderStack pipeline configs with no reliable way to isolate SEEK-owned infrastructure references.",
         "id": "rule-bucket_hunter-basename_skip-58f2b",
         "added": "2026-05-21T18:15:17Z",
         "from_engagement": "bc-seek",
+        "confidence": "low"
+      },
+      {
+        "pattern": "watsons",
+        "reason": "bare brand stem bucket is degenerate in ownership-verifier: IBM Watson SDK overlap makes GH check A structurally ambiguous; verified AccessDenied on recheck (9th consecutive clean-negative engagement); bare-stem watsons bucket is indistinguishable from squatters",
+        "id": "rule-bucket_hunter-basename_skip-0806e",
+        "added": "2026-05-21T19:08:48Z",
+        "from_engagement": "int-watsons",
         "confidence": "low",
-        "reason": "The bare 'jobstreet' bucket (ap-southeast-1, AccessDenied on recheck) is SEEK's Southeast Asia brand stem; at 9 chars it's recognisable but GH code-search for 'jobstreet' would return hundreds of third-party job-aggregator, scraper, and RudderStack pipeline configs with no reliable way to isolate SEEK-owned infrastructure references."
+        "reason_provenance": "The 'watsons' bucket (ap-south-1) returned AccessDenied on recheck; GH Check A would be structurally ambiguous due to IBM Watson SDK collision — same structural argument as the existing bare-stem skip entries for indrive, snapchat, seek, and others."
       }
     ],
     "candidate_suffix_skip": [],
@@ -154,12 +152,11 @@
         "enabled": true,
         "recheck_command": "aws s3api list-objects-v2 --no-sign-request --bucket {bucket_name}",
         "disqualify_if_access_denied": true,
-        "reason": "S3scanner perm_all_users_read=ALLOWED does not equal actual ListBucket success; bucket policy can deny what ACL appears to grant. Confirmed false-positive at scale: 8/8 Opera buckets showed ALLOWED by s3scanner but all 8 returned AccessDenied on recheck.",
+        "reason": "8/8 Opera buckets flagged ALLOWED by s3scanner returned AccessDenied on aws s3api list-objects-v2 --no-sign-request recheck — third corroboration of this pattern (Snapchat sc-core was first; Valve likely second); promotes the human-mediated memory note to a machine-enforced gate.",
         "id": "rule-bucket_hunter-s3scanner_acl_recheck_required-37651",
         "added": "2026-05-17T00:00:00Z",
         "from_engagement": "bc-opera",
-        "confidence": "medium",
-        "reason": "8/8 Opera buckets flagged ALLOWED by s3scanner returned AccessDenied on aws s3api list-objects-v2 --no-sign-request recheck — third corroboration of this pattern (Snapchat sc-core was first; Valve likely second); promotes the human-mediated memory note to a machine-enforced gate."
+        "confidence": "medium"
       }
     ]
   },
@@ -167,7 +164,9 @@
     "detector_ignore": [
       {
         "detector": "CloudflareAPIKey",
-        "match_in": ["144c9defac04969c7bfad8efaa8ea194"],
+        "match_in": [
+          "144c9defac04969c7bfad8efaa8ea194"
+        ],
         "reason": "Well-known Cloudflare SDK dummy API key used in cloudflare-go test fixtures; appears in NP CloudflareAPIKey findings across multiple _test.go files in cloudflare/cloudflare-go engagement",
         "id": "rule-secret_hunter-detector_ignore-00eaa",
         "added": "2026-05-15T18:46:14Z",
@@ -177,58 +176,59 @@
       },
       {
         "detector": "Stripe API Test Key",
-        "match_in": ["sk_test_JieJALRz7rPz7boV17oMma7a"],
-        "reason": "2 noseyparker hits in wordpress engagement (stripe-php/tests/SourceTest.php + ProductTest.php); key appears in PHPUnit setUp() test fixtures and is a known Stripe SDK test constant, not an active credential",
+        "match_in": [
+          "sk_test_JieJALRz7rPz7boV17oMma7a"
+        ],
+        "reason": "sk_test_JieJALRz7rPz7boV17oMma7a appeared in 2 distinct test fixture files (SourceTest.php, ProductTest.php) inside a vendored stripe-php library; context is PHPUnit setUp() — structurally identical to the canonical SDK README example key already suppressed.",
         "id": "rule-secret_hunter-detector_ignore-9c696",
         "added": "2026-05-21T14:00:00Z",
         "from_engagement": "wordpress",
-        "confidence": "medium",
-        "reason": "sk_test_JieJALRz7rPz7boV17oMma7a appeared in 2 distinct test fixture files (SourceTest.php, ProductTest.php) inside a vendored stripe-php library; context is PHPUnit setUp() — structurally identical to the canonical SDK README example key already suppressed."
+        "confidence": "medium"
       }
     ],
     "noseyparker_path_skip": [
       {
         "path_pattern": "*.rest",
         "match_type": "glob",
-        "reason": "Developer REST test fixture files (.rest) produce Generic Password NP hits on fixture data (e.g. Nigerian phone number fixtures); confirmed FP in int-nmt engagement (denniskern/swerve and codetipster/oudioo)",
+        "reason": "Both noseyparker Generic Password FPs in this engagement came from a .rest HTTP test fixture file (codetipster/oudioo) containing dev placeholder passwords and a phone number — structurally fixture data, never real credentials.",
         "id": "rule-secret_hunter-noseyparker_path_skip-fc13d",
         "added": "2026-05-21T16:33:46Z",
         "from_engagement": "int-nmt",
-        "confidence": "low",
-        "reason": "Both noseyparker Generic Password FPs in this engagement came from a .rest HTTP test fixture file (codetipster/oudioo) containing dev placeholder passwords and a phone number — structurally fixture data, never real credentials."
+        "confidence": "low"
       },
       {
         "path_pattern": "README.md",
         "detector": "Generic Password",
         "match_condition": "value_matches_bcrypt_hash",
-        "reason": "README documentation examples frequently contain bcrypt hashes as illustrative examples; these produce Generic Password NP hits that are structurally never real credentials",
+        "reason": "The denniskern/swerve README produced 2 Generic Password NP hits on a bcrypt hash in a documentation example; bcrypt hashes in README files are tutorial artifacts, never operational credentials.",
         "id": "rule-secret_hunter-noseyparker_path_skip-13f5a",
         "added": "2026-05-21T16:33:46Z",
         "from_engagement": "int-nmt",
-        "confidence": "low",
-        "reason": "The denniskern/swerve README produced 2 Generic Password NP hits on a bcrypt hash in a documentation example; bcrypt hashes in README files are tutorial artifacts, never operational credentials."
+        "confidence": "low"
       }
     ],
     "repo_name_skip": [
       {
-        "patterns": ["integrate_{brand}_with_"],
+        "patterns": [
+          "integrate_{brand}_with_"
+        ],
         "match_type": "repo_name_substring_template",
-        "reason": "Freelancer/student integration tutorial repos embed the target vendor name as product; Infura key in Shahid-Nawaz-Pahore/integrate_moonpay_with_dapp confirmed unowned in moonpay engagement; moonpay engagement is 3rd confirmed vendor_repo_credentials instance",
+        "reason": "Repos named `integrate_<vendor>_with_*` are structurally tutorial/freelancer projects using the vendor's public API; the 3rd confirmed vendor_repo_credentials FP instance used exactly this naming pattern.",
         "id": "rule-secret_hunter-repo_name_skip-63c81",
         "added": "2026-05-21T15:29:17Z",
         "from_engagement": "moonpay",
-        "confidence": "medium",
-        "reason": "Repos named `integrate_<vendor>_with_*` are structurally tutorial/freelancer projects using the vendor's public API; the 3rd confirmed vendor_repo_credentials FP instance used exactly this naming pattern."
+        "confidence": "medium"
       },
       {
-        "patterns": ["authenticate-with-{brand}"],
+        "patterns": [
+          "authenticate-with-{brand}"
+        ],
         "match_type": "repo_name_substring_template",
-        "reason": "Tutorial/demo repos using target vendor as the service being authenticated against; Shahid-Nawaz-Pahore/authenticate-with-moonpay co-present with integrate_moonpay_with_dapp in moonpay engagement confirming independent-dev identity",
+        "reason": "Repos named `authenticate-with-<vendor>` are co-present with `integrate_<vendor>_with_` in the same freelancer profile, confirming the pattern is a naming convention for vendor-integration tutorials.",
         "id": "rule-secret_hunter-repo_name_skip-8c13d",
         "added": "2026-05-21T15:29:17Z",
         "from_engagement": "moonpay",
-        "confidence": "medium",
-        "reason": "Repos named `authenticate-with-<vendor>` are co-present with `integrate_<vendor>_with_` in the same freelancer profile, confirming the pattern is a naming convention for vendor-integration tutorials."
+        "confidence": "medium"
       }
     ],
     "skip_brand_stem_orgs": false,
@@ -263,13 +263,32 @@
       {
         "when": "pass_a_org_has_few_repos",
         "few_repos_threshold": 10,
-        "suggest_suffixes": ["software", "inc", "corp", "labs", "-inc", "-corp", "-labs", "-software"],
-        "reason": "When stem-derived GH org has fewer repos than threshold, the canonical org may use stem+suffix form (e.g. opera->operasoftware); surfacing alternatives prevents false negatives under strict 1-org cap",
+        "suggest_suffixes": [
+          "software",
+          "inc",
+          "corp",
+          "labs",
+          "-inc",
+          "-corp",
+          "-labs",
+          "-software"
+        ],
+        "reason": "Pass A resolved github.com/opera (3 repos) rather than github.com/operasoftware (50+ repos) because the 1-org strict cap forced the bare-stem guess; a supplement that flags low-repo-count orgs for stem+suffix retry would have caught this.",
         "id": "rule-secret_hunter-gh_org_supplement-f0e66",
         "added": "2026-05-17T00:00:00Z",
         "from_engagement": "bc-opera",
+        "confidence": "medium"
+      }
+    ],
+    "codesearch_base_skip": [
+      {
+        "pattern": "watsons",
+        "reason": "IBM Watson AI SDK collision: bare base name overloads code-search with watson-developer-cloud/ibm-mas/WatsonX SDK hits (25-30 FPs per dork); structurally degenerate for A.S. Watson Group; use domain-qualified queries only",
+        "id": "rule-secret_hunter-codesearch_base_skip-6f4c8",
+        "added": "2026-05-21T19:08:48Z",
+        "from_engagement": "int-watsons",
         "confidence": "medium",
-        "reason": "Pass A resolved github.com/opera (3 repos) rather than github.com/operasoftware (50+ repos) because the 1-org strict cap forced the bare-stem guess; a supplement that flags low-repo-count orgs for stem+suffix retry would have caught this."
+        "reason_provenance": "Pass B dorks for bare 'watsons' returned 24–30 hits per dork in int-watsons, 100% attributable to IBM Watson AI repos (watson-developer-cloud, ibm-mas, ibm-client-engineering, WatsonX SDK) — the name collision is structural and permanent; domain-qualified alternatives returned 0 hits confirming no A.S. Watson GH footprint."
       }
     ]
   },
@@ -322,7 +341,10 @@
         "asset_class": "bucket",
         "when": {
           "a": "positive",
-          "b_in": ["negative", "inconclusive"],
+          "b_in": [
+            "negative",
+            "inconclusive"
+          ],
           "c": "inconclusive"
         },
         "a_gate": {
@@ -343,14 +365,25 @@
       {
         "asset_class": "bucket",
         "when": {
-          "a_in": ["negative", "ambiguous"],
-          "b_in": ["negative", "inconclusive"],
+          "a_in": [
+            "negative",
+            "ambiguous"
+          ],
+          "b_in": [
+            "negative",
+            "inconclusive"
+          ],
           "c": "positive"
         },
         "c_gate": {
           "bucket_name_exact_matches_wildcard_stem": true,
           "apex_zone_nameservers": "program_controlled",
-          "registrar_class": ["MarkMonitor", "CSC", "Safenames", "GANDI Corporate"]
+          "registrar_class": [
+            "MarkMonitor",
+            "CSC",
+            "Safenames",
+            "GANDI Corporate"
+          ]
         },
         "verdict": "owned",
         "note": "enterprise-registrar + program-controlled DNS + wildcard-stem exact-match is sufficient evidence; internal-services wildcards in scope cannot be impersonated by third parties at scale",
@@ -408,32 +441,62 @@
       {
         "cname_target": "swerve.bild.de",
         "match_type": "exact",
-        "reason": "Internal Bild redirect mesh: 34 bild.de promo/campaign subdomains CNAME to swerve.bild.de; this is a hub-and-spoke redirect service owned by Bild, not a dangling endpoint; observed in int-nmt engagement",
+        "reason": "34 bild.de campaign subdomains (100euro.bild.de, 150.bild.de, 12monate.bild.de, etc.) all CNAME to swerve.bild.de which is a live Bild-owned internal redirect mesh — none are individually dangling.",
         "id": "rule-takeover_hunter-cname_hub_skip-14622",
         "added": "2026-05-21T16:33:46Z",
         "from_engagement": "int-nmt",
-        "confidence": "low",
-        "reason": "34 bild.de campaign subdomains (100euro.bild.de, 150.bild.de, 12monate.bild.de, etc.) all CNAME to swerve.bild.de which is a live Bild-owned internal redirect mesh — none are individually dangling."
+        "confidence": "low"
       },
       {
         "cname_target": "schneevonmorgen.com",
         "match_type": "suffix",
-        "reason": "Damoh ad-platform: 57 welt.de subdomains CNAME to schneevonmorgen.com (claimed, live ad-injection service); not a dangling endpoint; observed in int-nmt engagement",
+        "reason": "57 welt.de subdomains CNAME-delegate to schneevonmorgen.com (Damoh ad platform) which is fully live and claimed — this is a normal CDN/ad-tech delegation pattern, not an exploitable dangling endpoint.",
         "id": "rule-takeover_hunter-cname_hub_skip-2fcb9",
         "added": "2026-05-21T16:33:46Z",
         "from_engagement": "int-nmt",
-        "confidence": "low",
-        "reason": "57 welt.de subdomains CNAME-delegate to schneevonmorgen.com (Damoh ad platform) which is fully live and claimed — this is a normal CDN/ad-tech delegation pattern, not an exploitable dangling endpoint."
+        "confidence": "low"
       },
       {
         "cname_target": "cdn.cloudflare.net",
         "match_type": "suffix",
-        "reason": "Cloudflare Anycast proxy: 80+ SEEK/JobStreet/JobsDB subdomains CNAME to *.cdn.cloudflare.net; Cloudflare proxy infrastructure is always live and never dangling; observed in bc-seek engagement (87% CNAME rate, 80+ of 87 CNAMEs to Cloudflare)",
+        "reason": "80 of 87 bc-seek CNAMEs resolved to *.cdn.cloudflare.net; Cloudflare Anycast is always live so these can never be dangling takeover candidates; suffix match on cdn.cloudflare.net drops all of them before subzy.",
         "id": "rule-takeover_hunter-cname_hub_skip-78489",
         "added": "2026-05-21T18:15:17Z",
         "from_engagement": "bc-seek",
+        "confidence": "medium"
+      },
+      {
+        "cname_target": "emarsys.net",
+        "match_type": "suffix",
+        "reason": "2 subdomains in int-watsons CNAME to suiteN.emarsys.net; subzy flagged both as Unbounce VULNERABLE; body recheck showed Emarsys is live (302 to suite{N}.emarsys.net/docroot.html, x-af suite headers). Emarsys is a SAP enterprise service, structurally not user-claimable. Adding as cname_hub_skip suffix prevents wasting subzy capacity and prevents Unbounce FP propagation.",
+        "id": "rule-takeover_hunter-cname_hub_skip-a3f91",
+        "added": "2026-05-21T19:00:00Z",
+        "from_engagement": "int-watsons",
+        "confidence": "medium"
+      }
+    ],
+    "subzy_known_fp_patterns": [
+      {
+        "fingerprint_engine": "Cargo Collective",
+        "cname_endpoint_pattern": "*.elb.amazonaws.com",
+        "live_body_signature": "generic Apache 404 (no Cargo Collective branding)",
+        "reason": "Cargo Collective fingerprint fires on generic Apache 404 served from AWS ELB CNAME target. Observed: m.newsletter.watsons.com.tr CNAME aswatson-prod1-ssl-req-157263-151311547.eu-west-1.elb.amazonaws.com. Extends prior bc-seek SendGrid FP class to AWS ELB hosts.",
+        "id": "rule-takeover_hunter-subzy_known_fp_patterns-92c1f",
+        "added": "2026-05-21T19:08:48Z",
+        "from_engagement": "int-watsons",
         "confidence": "medium",
-        "reason": "80 of 87 bc-seek CNAMEs resolved to *.cdn.cloudflare.net; Cloudflare Anycast is always live so these can never be dangling takeover candidates; suffix match on cdn.cloudflare.net drops all of them before subzy."
+        "reason_provenance": "m.newsletter.watsons.com.tr CNAMEs to an AWS ELB host; subzy flagged Cargo Collective VULNERABLE but live body was a generic Apache 404 with zero Cargo branding — same FP mechanism as bc-seek/SendGrid, showing the Cargo fingerprint fires on any bare 404 irrespective of the hosting platform."
+      },
+      {
+        "fingerprint_engine": "Unbounce",
+        "cname_endpoint_pattern": "*.emarsys.net",
+        "live_body_signature": "Emarsys SAP 404 page (x-af/x-hf headers, 302 to suiteN.emarsys.net/docroot.html; no Unbounce branding)",
+        "reason": "Unbounce fingerprint fires on Emarsys SAP email platform generic 404. Two corroborations in one engagement: suite16.emarsys.net (link.watsons.com.tr) and suite40.emarsys.net (links.reg.watsons.com.hk). Emarsys is not user-claimable; SAP enterprise service.",
+        "id": "rule-takeover_hunter-subzy_known_fp_patterns-30027",
+        "added": "2026-05-21T19:08:48Z",
+        "from_engagement": "int-watsons",
+        "confidence": "medium",
+        "reason_provenance": "Two independent Emarsys suite CNAMEs (suite16 and suite40) both triggered subzy's Unbounce fingerprint in the same engagement; live body recheck in both cases showed live Emarsys SAP service headers and no Unbounce branding — dual corroboration in a single run."
       }
     ]
   },
@@ -454,7 +517,9 @@
     "severity_overrides": [],
     "require_cap_refinement_when_all_caps_unknown": {
       "enabled": true,
-      "applies_to_platforms": ["bugcrowd"],
+      "applies_to_platforms": [
+        "bugcrowd"
+      ],
       "reason": "Bugcrowd dump via arkadiyt/bounty-targets-data does not carry per-target severity caps; all caps default to unknown which causes report_drafter severity min(proposed, cap) to silently downgrade every finding to medium"
     },
     "require_cap_refinement_when_all_caps_unknown_provenance": {

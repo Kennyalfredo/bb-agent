@@ -1,0 +1,120 @@
+{
+  "proposal_id": "20260521-190402-int-watsons",
+  "slug": "int-watsons",
+  "generated_at": "2026-05-21T19:04:02Z",
+  "evidence_inputs": [
+    "/home/kenny/bb-agent/memory/programs/int-watsons.json",
+    "/home/kenny/bb-agent/out/int-watsons/buckets/20260521-185801.json",
+    "/home/kenny/bb-agent/out/int-watsons/secrets/20260521-185611.json",
+    "/home/kenny/bb-agent/out/int-watsons/takeovers/20260521T185922Z.json"
+  ],
+  "metrics": {
+    "buckets_scanned": 80,
+    "secrets_scanned": 20,
+    "ownership_checks": 0,
+    "owned": 0,
+    "unowned": 0,
+    "unknown": 0,
+    "reports_drafted": 0,
+    "reports_submitted": 0,
+    "takeover_candidates_subzy": 3,
+    "takeover_candidates_confirmed": 0,
+    "takeover_candidates_disqualified_by_body_recheck": 3
+  },
+  "narrative": "A.S. Watson Group (int-watsons) engagement ran all three passes — secrets, buckets, takeovers — across 122 scope assets spanning 10 brands (Watsons, Park N Shop, Fortress, LookAtMe, Drogas, Moneyback) in 9+ countries. The result was a clean triple-negative: 0 verified secrets, 0 listable buckets, 0 confirmed takeover candidates. The engagement's primary value was validating the new subzy_body_recheck_required gate (added 30 minutes before the run based on bc-seek learnings) and uncovering two new FP-class patterns that expand the known false-positive taxonomy.\n\nThe secrets pass exposed a structural problem with the brand name 'watsons' as a code-search base name: IBM Watson AI (ibm-mas, watson-developer-cloud, ibm-client-engineering, WatsonX SDK) generates 25–30 false-positive hits per dork, making bare-stem code search meaningless for this program. The Pass B domain-qualified queries (watsons.com.hk/env, drogas.lt/env, etc.) all returned 0 hits, confirming there is no GitHub footprint for A.S. Watson Group's operational infrastructure. The as-watson org exists but has 0 public repos; 14 other org-name candidates all 404'd. This is a structurally different problem from operator negligence — A.S. Watson is a conglomerate operating in Asia and Europe where public GitHub presence is not part of their engineering culture. Future secret-hunting on this program should skip Pass A entirely and skip bare 'watsons' in Pass B dorks; domain-qualified queries are the only viable approach.\n\nThe buckets pass confirmed the 9th consecutive engagement with 100% s3scanner ACL false-positive rate: 13 flagged candidates, 13 AccessDenied on recheck. No ownership verification was needed. The bare 'watsons' bucket (ap-south-1) is the brand stem and warrants a basename_skip entry for the same structural reasons as prior bare-stem entries (indrive, snapchat, seek, etc.) — IBM Watson SDK overlap makes GH code-search Check A degenerate for this name specifically.\n\nThe takeovers pass provided the first end-to-end validation of rule-takeover_hunter-subzy_body_recheck_required-e91f7. Subzy flagged 3 candidates VULNERABLE; all 3 failed body recheck and were disqualified. Two new FP classes emerged: (1) Cargo Collective fingerprint on an AWS ELB CNAME — the same FP class as the bc-seek SendGrid finding, confirming the pattern generalises to any generic 404-serving infrastructure, not just SendGrid edge. (2) Emarsys (SAP) / Unbounce fingerprint collision — two independent instances in one engagement (suite16.emarsys.net for Turkey, suite40.emarsys.net for Hong Kong), providing strong dual corroboration. The emarsys.net cname_hub_skip rule was auto-written mid-run by the takeover-hunter agent (rule-takeover_hunter-cname_hub_skip-a3f91, confidence medium, already in rules.json). This is the first confirmed instance of mid-run rule auto-codification by a subagent — the entry appears correct on inspection, but the ID was computed from a different canonical form than retro-analyzer would produce (a3f91 vs the b9b9d this retro computes), indicating the agent used non-canonical field ordering. This is a process hygiene concern worth monitoring: auto-added rules should still pass through retro review for consistency, and agents should be reminded the canonical form requires sort_keys=True in JSON serialization.\n\nRecommended pre-flight for next int-watsons run: skip Pass A (0 public repos, no footprint); skip bare 'watsons' in Pass B dorks (IBM Watson collision, use watsons.com.hk/watsons.co.th etc. only); skip Emarsys CNAMEs in takeover pass (cname_hub_skip already applied); note that Akamai EdgeKey (*.aswatson.com.edgekey.net) and AWS ELB are the dominant infrastructure patterns — neither is a subdomain-takeover target.",
+  "proposed_rules": [
+    {
+      "rule_id": "rule-secret_hunter-codesearch_base_skip-6f4c8",
+      "agent": "secret_hunter",
+      "path": "codesearch_base_skip",
+      "action": "append",
+      "value": {
+        "pattern": "watsons",
+        "reason": "IBM Watson AI SDK collision: bare base name overloads code-search with watson-developer-cloud/ibm-mas/WatsonX SDK hits (25-30 FPs per dork); structurally degenerate for A.S. Watson Group; use domain-qualified queries only"
+      },
+      "rationale": "Pass B dorks for bare 'watsons' returned 24–30 hits per dork in int-watsons, 100% attributable to IBM Watson AI repos (watson-developer-cloud, ibm-mas, ibm-client-engineering, WatsonX SDK) — the name collision is structural and permanent; domain-qualified alternatives returned 0 hits confirming no A.S. Watson GH footprint.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/int-watsons/secrets/20260521-185611.json"
+      ]
+    },
+    {
+      "rule_id": "rule-takeover_hunter-subzy_known_fp_patterns-92c1f",
+      "agent": "takeover_hunter",
+      "path": "subzy_known_fp_patterns",
+      "action": "append",
+      "value": {
+        "fingerprint_engine": "Cargo Collective",
+        "cname_endpoint_pattern": "*.elb.amazonaws.com",
+        "live_body_signature": "generic Apache 404 (no Cargo Collective branding)",
+        "reason": "Cargo Collective fingerprint fires on generic Apache 404 served from AWS ELB CNAME target. Observed: m.newsletter.watsons.com.tr CNAME aswatson-prod1-ssl-req-157263-151311547.eu-west-1.elb.amazonaws.com. Extends prior bc-seek SendGrid FP class to AWS ELB hosts."
+      },
+      "rationale": "m.newsletter.watsons.com.tr CNAMEs to an AWS ELB host; subzy flagged Cargo Collective VULNERABLE but live body was a generic Apache 404 with zero Cargo branding — same FP mechanism as bc-seek/SendGrid, showing the Cargo fingerprint fires on any bare 404 irrespective of the hosting platform.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/int-watsons/takeovers/20260521T185922Z.json"
+      ]
+    },
+    {
+      "rule_id": "rule-takeover_hunter-subzy_known_fp_patterns-30027",
+      "agent": "takeover_hunter",
+      "path": "subzy_known_fp_patterns",
+      "action": "append",
+      "value": {
+        "fingerprint_engine": "Unbounce",
+        "cname_endpoint_pattern": "*.emarsys.net",
+        "live_body_signature": "Emarsys SAP 404 page (x-af/x-hf headers, 302 to suiteN.emarsys.net/docroot.html; no Unbounce branding)",
+        "reason": "Unbounce fingerprint fires on Emarsys SAP email platform generic 404. Two corroborations in one engagement: suite16.emarsys.net (link.watsons.com.tr) and suite40.emarsys.net (links.reg.watsons.com.hk). Emarsys is not user-claimable; SAP enterprise service."
+      },
+      "rationale": "Two independent Emarsys suite CNAMEs (suite16 and suite40) both triggered subzy's Unbounce fingerprint in the same engagement; live body recheck in both cases showed live Emarsys SAP service headers and no Unbounce branding — dual corroboration in a single run.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/int-watsons/takeovers/20260521T185922Z.json"
+      ]
+    },
+    {
+      "rule_id": "rule-bucket_hunter-basename_skip-0806e",
+      "agent": "bucket_hunter",
+      "path": "basename_skip",
+      "action": "append",
+      "value": {
+        "pattern": "watsons",
+        "reason": "bare brand stem bucket is degenerate in ownership-verifier: IBM Watson SDK overlap makes GH check A structurally ambiguous; verified AccessDenied on recheck (9th consecutive clean-negative engagement); bare-stem watsons bucket is indistinguishable from squatters"
+      },
+      "rationale": "The 'watsons' bucket (ap-south-1) returned AccessDenied on recheck; GH Check A would be structurally ambiguous due to IBM Watson SDK collision — same structural argument as the existing bare-stem skip entries for indrive, snapchat, seek, and others.",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/int-watsons/buckets/20260521-185801.json",
+        "/home/kenny/bb-agent/out/int-watsons/secrets/20260521-185611.json"
+      ]
+    }
+  ],
+  "auto_applied_rules_this_engagement": [
+    {
+      "rule_id": "rule-takeover_hunter-cname_hub_skip-a3f91",
+      "note": "Auto-written mid-run by takeover-hunter agent. Already in rules.json. Retro computes a different ID (rule-takeover_hunter-cname_hub_skip-b9b9d) for the same logical entry because the agent serialized fields in non-canonical order (not sort_keys=True). The rule content is correct; the ID divergence is a process hygiene concern — agents must use sort_keys=True canonical JSON when auto-generating rule IDs, or delegate all ID assignment to retro-analyzer. No retro proposal needed for the rule itself; flag the process gap in narrative."
+    }
+  ],
+  "discarded_heuristics": [
+    {
+      "heuristic": "H1",
+      "reason": "0 secret candidates in this engagement — no noseyparker output to analyze for detector false-positives."
+    },
+    {
+      "heuristic": "H2",
+      "reason": "Ownership-verifier was not run for this engagement (0 candidates passed into it); no wayback checks were performed."
+    },
+    {
+      "heuristic": "H3",
+      "reason": "Fired as narrative-only per spec: as-watson org had 0 public repos so Pass A returned 0 findings; narrative documents the pattern (conglomerate with no public GH footprint — de-prioritize Pass A on future runs). No machine rule emitted per H3 spec."
+    },
+    {
+      "heuristic": "H4",
+      "reason": "No ownership-verifier runs means no 'unknown' verdict cache entries for this engagement. The 'watsons' bare-stem bucket is captured under a direct basename_skip rule proposal (R4) instead."
+    },
+    {
+      "heuristic": "H5",
+      "reason": "No submissions recorded (memory/submissions/int-watsons.json does not exist); heuristic requires post-submission outcome data."
+    }
+  ]
+}
