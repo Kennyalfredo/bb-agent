@@ -19,6 +19,20 @@ Entries are appended by `retro-analyzer` via `/retro apply`. The corresponding r
 
 <!-- Entries below this line, newest first -->
 
+## 2026-05-21 — moonpay
+**Proposal**: `memory/lessons/proposals/20260521-152917-moonpay.json`
+**Applied rules**: rule-secret_hunter-repo_name_skip-63c81, rule-secret_hunter-repo_name_skip-8c13d, rule-bucket_hunter-basename_skip-6b18b
+
+MoonPay engagement (H1, 2026-05-21): 80 bucket candidates scanned (22 s3scanner-flagged → 0 verified listable; 22/22 AccessDenied on aws s3api recheck), 1 trufflehog-verified Infura key in third-party repo, first-ever takeover-hunter run (211 subdomains → 1 CNAME → 0 takeover candidates), 0 reports drafted.
+
+The secret-hunter pipeline found exactly one verified credential: an Infura RPC key in Shahid-Nawaz-Pahore/integrate_moonpay_with_dapp/backend/.env. The ownership-verifier correctly resolved this to `unowned` by cross-referencing B=negative (0 Wayback hits linking MoonPay to this account), A=ambiguous (0 moonpay org GH hits), C=inconclusive (N/A for a GitHub account), and decisive profile metadata (COMSATS University CS student, no company affiliation, 2 integration-named repos using MoonPay as a product label). This is the third confirmed instance of the vendor_repo_credentials pattern: a freelancer or student builds a tutorial project against a vendor's public API and commits credentials that belong to them or their client, not the vendor. The repo-name fingerprint is stable: repos named `integrate_<vendor>_with_<tech>` and `authenticate-with-<vendor>` are structurally integration tutorials and should be deprioritized or skipped during Pass B cloning.
+
+The bucket pipeline confirmed, for the sixth consecutive engagement, a 100% s3scanner false-positive rate: 22/22 candidates that s3scanner flagged as existing returned AccessDenied on bare aws s3api list-objects-v2 --no-sign-request recheck. The existing s3scanner_acl_recheck_required rule (rule-bucket_hunter-s3scanner_acl_recheck_required-37651) is doing its job — all 22 were eliminated before any ownership work was attempted. At this point the pattern is so consistent that the recheck gate is load-bearing infrastructure, not a heuristic. No new bucket rule is warranted beyond adding `moonpay` to basename_skip to prevent future ownership-verifier work on the bare brand name (which would lock at unknown for the same structural reasons as indrive, snapchat, and others).
+
+The takeover-hunter run surfaced an important structural observation: MoonPay deploys moonpay.com and moonpaycloud.com behind Cloudflare proxy, which means Cloudflare's own CNAME infrastructure absorbs the public DNS for ~96% of enumerated subdomains. Only 1/100 checked subdomains (mail.moonpay.com → eu.sparkpostmail.com) exposed a third-party CNAME — and subzy confirmed it as active (SparkPost is a live mail relay). Cloudflare-proxied wildcard scopes produce structurally suppressed takeover surfaces: the CNAME layer is hidden behind Cloudflare Anycast, so even subzy cannot fingerprint potential dangling endpoints. This is a narrative observation only — no hard rule is warranted since Cloudflare proxy detection belongs in scope-parsing, not in takeover-hunter.
+
+Recommended pre-flight for next MoonPay revisit: skip Pass A trufflehog org scan (moonpay has only 4 public repos, gh_org_supplement already confirmed no suffix variants exist); run Pass B only against dork hits that do NOT match `integrate_moonpay_with_` or `authenticate-with-moonpay` repo name patterns; skip bucket-hunter entirely or set basename_skip for `moonpay` stem before running (22-candidate 100% FP batch is operational noise); takeover surface is likely zero under Cloudflare proxy unless a new non-proxied subdomain appears.
+
 ## 2026-05-21 — wordpress
 **Proposal**: `memory/lessons/proposals/20260521-134714-wordpress.json`
 **Applied rules**: rule-secret_hunter-detector_ignore-9c696, rule-bucket_hunter-basename_skip-921e2, rule-bucket_hunter-basename_skip-9647b, rule-bucket_hunter-basename_skip-e8c52

@@ -1,0 +1,217 @@
+{
+  "program": {
+    "slug": "moonpay",
+    "platform": "hackerone",
+    "url": "https://hackerone.com/moonpay",
+    "name": "MoonPay",
+    "fetched_at": "2026-05-21"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "domain",
+        "asset": "moonpay.com",
+        "severity_cap": "critical",
+        "notes": "Cloudflare DDoS, TypeScript, Cloudflare WAF"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.moonpaycloud.com",
+        "severity_cap": "critical",
+        "notes": "Cloudflare WAF, Cloudflare DDoS"
+      },
+      {
+        "type": "domain",
+        "asset": "hypermint.com",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.hypermint.com",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.moonpay.com",
+        "severity_cap": "critical",
+        "notes": "Cloudflare WAF, Cloudflare DDoS"
+      },
+      {
+        "type": "source_code",
+        "asset": "https://github.com/moonpay",
+        "severity_cap": "critical",
+        "notes": "Archived repositories are excluded and considered out of scope."
+      },
+      {
+        "type": "mobile_android",
+        "asset": "https://play.google.com/store/apps/details?id=com.moonpay",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "https://apps.apple.com/app/id1635031432",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "domain",
+        "asset": "web3.moonpay.com",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "domain",
+        "asset": "sell.moonpay.com",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "domain",
+        "asset": "buy.moonpay.com",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "domain",
+        "asset": "auth.moonpay.com",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "domain",
+        "asset": "app.moonpay.com",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "domain",
+        "asset": "api.moonpay.com",
+        "severity_cap": "critical",
+        "notes": ""
+      }
+    ],
+    "out_of_scope": [
+      {
+        "type": "domain",
+        "asset": "clicks.moonpay.com",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "qr.moonpay.com",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "page.moonpay.com",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "support.moonpay.com",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "docs.moonpay.com",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.plexlabs.io",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "plexlabs.io",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "request-headers-no-proxy.moonpay.com",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "request-headers.moonpay.com",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "docs.hypermint.com",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "help.moonpay.com",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "storefront.hypermint.com",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "ethpass.xyz",
+        "reason": "Explicit: 'Don't report for this domain as will be not rewarded'; eligible_for_submission=false"
+      },
+      {
+        "type": "domain",
+        "asset": "dev.moonpay.com",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false"
+      },
+      {
+        "type": "domain",
+        "asset": "payload-marketing.moonpay.com",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false"
+      },
+      {
+        "type": "source_code",
+        "asset": "https://github.com/moonpay/moonpay-sign",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false; max_severity=none"
+      },
+      {
+        "type": "source_code",
+        "asset": "https://github.com/moonpay/moonpay-demo-integrations",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false; max_severity=none"
+      },
+      {
+        "type": "source_code",
+        "asset": "https://github.com/moonpay/devops-challenge",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false; max_severity=none"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.hel.io",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false; max_severity=critical listed but not submittable"
+      }
+    ]
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": false,
+    "cve_age_min_days": 30,
+    "requires_ownership_proof": true,
+    "safe_harbor": true,
+    "submission_form": "https://hackerone.com/moonpay",
+    "notes": "Safe harbor explicitly granted: 'Any activities conducted in a manner consistent with this policy will be considered authorized conduct and we will not initiate legal action against you.' Third-party legal action defense also promised. | mass_scanning_allowed: defaulted false — policy explicitly prohibits 'Any activity that could contribute to the disruption of our service (DoS)' and 'Unconfirmed reports from automated vulnerability scanners'; no explicit automated scanning allowance found. | automated_tools_allowed: defaulted false — policy flags unconfirmed automated scanner reports as out of scope. | bucket_listing_allowed: defaulted true (our compliance default); policy does not address S3 bucket access. | bucket_download_allowed: defaulted false — no explicit grant; safe default applied. | requires_ownership_proof: defaulted true — policy says 'Only interact with accounts you own or with explicit permission.' | cve_age_min_days: explicitly 30 days — policy states 'Publicly-known zero-day vulnerabilities will not be considered for eligibility until more than 30 days have passed since patch availability.' | Notable out-of-scope items: pk_* prefixed API keys are publishable/non-sensitive; CSRF on unauthenticated forms; subdomain takeovers require supporting evidence; vulnerabilities on subdomains pointing to third-party services; root/jailbreak bypass; certificate pinning bypass for mobile apps. | Archived GitHub repositories under github.com/moonpay are explicitly out of scope."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      {
+        "severity": "critical",
+        "min": 0,
+        "max": 0,
+        "currency": "USD"
+      }
+    ]
+  },
+  "raw_policy_excerpt": "#MoonPay Bug Bounty Program\n\nAt MoonPay, we are committed to maintaining the security and privacy of our products and customers. We believe that working with the security research community through our bug bounty program is a crucial part of our overall security strategy.\n\n#Program Rules\n\nPlease provide detailed reports with reproducible steps. If the report is not detailed enough to reproduce the issue, the issue will not be eligible for a reward.\n* Submit one vulnerability per report, unless you need to chain vulnerabilities to provide impact.\n* Social engineering (e.g. phishing, vishing, smishing) is prohibited.\n* Make a good faith effort to avoid privacy violations, destruction of data, and interruption or degradation of our service. Only interact with accounts you own or with explicit permission of the account holder.\n\n#Out of scope vulnerabilities\n* Unconfirmed reports from automated vulnerability scanners\n* Any activity that could contribute to the disruption of our service (DoS).\n* Theoretical subdomain takeovers with no supporting evidences\n* Vulnerabilities on subdomains that point to third party services.\n* Disclosure of API keys with the prefix `pk_*`. These are publishable keys and are not sensitive.\n* Invalid or stale employee credential dumps - we already monitor haveibeenpwned.com and other sources.\n\n#Program Eligibility\n* Publicly-known zero-day vulnerabilities will not be considered for eligibility until more than 30 days have passed since patch availability.\n\n#Safe Harbor\n\nAny activities conducted in a manner consistent with this policy will be considered authorized conduct and we will not initiate legal action against you. If legal action is initiated by a third party against you in connection with activities conducted under this policy, we will take steps to make it known that your actions were conducted in compliance with this policy."
+}

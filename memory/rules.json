@@ -110,6 +110,15 @@
         "from_engagement": "wordpress",
         "confidence": "low",
         "reason": "'buddypress' and 'buddypress-cdn' buckets found in scan returned AccessDenied on recheck; BuddyPress is a WordPress sub-project with no independent S3 footprint."
+      },
+      {
+        "pattern": "moonpay",
+        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in moonpay engagement",
+        "id": "rule-bucket_hunter-basename_skip-6b18b",
+        "added": "2026-05-21T15:29:17Z",
+        "from_engagement": "moonpay",
+        "confidence": "low",
+        "reason": "The bare 'moonpay' bucket (us-west-1, AccessDenied) is the brand stem with no suffix; ownership-verifier would lock at unknown for the same structural reasons as indrive, snapchat, and other bare-stem entries in basename_skip."
       }
     ],
     "candidate_suffix_skip": [],
@@ -148,6 +157,28 @@
         "from_engagement": "wordpress",
         "confidence": "medium",
         "reason": "sk_test_JieJALRz7rPz7boV17oMma7a appeared in 2 distinct test fixture files (SourceTest.php, ProductTest.php) inside a vendored stripe-php library; context is PHPUnit setUp() — structurally identical to the canonical SDK README example key already suppressed."
+      }
+    ],
+    "repo_name_skip": [
+      {
+        "patterns": ["integrate_{brand}_with_"],
+        "match_type": "repo_name_substring_template",
+        "reason": "Freelancer/student integration tutorial repos embed the target vendor name as product; Infura key in Shahid-Nawaz-Pahore/integrate_moonpay_with_dapp confirmed unowned in moonpay engagement; moonpay engagement is 3rd confirmed vendor_repo_credentials instance",
+        "id": "rule-secret_hunter-repo_name_skip-63c81",
+        "added": "2026-05-21T15:29:17Z",
+        "from_engagement": "moonpay",
+        "confidence": "medium",
+        "reason": "Repos named `integrate_<vendor>_with_*` are structurally tutorial/freelancer projects using the vendor's public API; the 3rd confirmed vendor_repo_credentials FP instance used exactly this naming pattern."
+      },
+      {
+        "patterns": ["authenticate-with-{brand}"],
+        "match_type": "repo_name_substring_template",
+        "reason": "Tutorial/demo repos using target vendor as the service being authenticated against; Shahid-Nawaz-Pahore/authenticate-with-moonpay co-present with integrate_moonpay_with_dapp in moonpay engagement confirming independent-dev identity",
+        "id": "rule-secret_hunter-repo_name_skip-8c13d",
+        "added": "2026-05-21T15:29:17Z",
+        "from_engagement": "moonpay",
+        "confidence": "medium",
+        "reason": "Repos named `authenticate-with-<vendor>` are co-present with `integrate_<vendor>_with_` in the same freelancer profile, confirming the pattern is a naming convention for vendor-integration tutorials."
       }
     ],
     "skip_brand_stem_orgs": false,

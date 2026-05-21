@@ -1,0 +1,61 @@
+{
+  "slug": "moonpay",
+  "asset": "Shahid-Nawaz-Pahore",
+  "asset_class": "github_account",
+  "bucket_name": null,
+  "dns_name": null,
+  "fetched_at": "2026-05-21T00:00:00Z",
+  "verdict": "unowned",
+  "checks": {
+    "github_code": {
+      "status": "ambiguous",
+      "total_count": 5,
+      "top_hits": [
+        {"repo": "HKJL10201/smart-contract-data-collection", "path": "dapp_lottery.log", "moonpay_org": false},
+        {"repo": "Shahid-Nawaz-Pahore/shahid-nawaz", "path": "portfolio/components/portfolioData/Portfoliodata.ts", "moonpay_org": false},
+        {"repo": "shortdoom/dumpzy", "path": "profiles/AI0228/report.json", "moonpay_org": false},
+        {"repo": "Shahid-Nawaz-Pahore/shahid-nawaz", "path": "portfolio/components/contact/Contact.tsx", "moonpay_org": false},
+        {"repo": "shortdoom/dumpzy", "path": "profiles/warmice71/report.json", "moonpay_org": false}
+      ],
+      "note": "5 total hits, 0 in moonpay/* org. Hits are: Shahid-Nawaz-Pahore's own portfolio repo listing themselves; a smart-contract data collection scraper (HKJL10201); shortdoom/dumpzy (GitHub profile indexer). None of these are MoonPay repos. A=ambiguous (name appears in public code, but no moonpay org hits).",
+      "evidence_path": "/tmp/ownership-8285b66d2ebea020-gh.json"
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "note": "gau over wayback+otx against moonpay.com and hypermint.com returned 0 URLs containing 'Shahid-Nawaz-Pahore'. No Wayback record of MoonPay ever linking to or crediting this account.",
+      "evidence_path": "/tmp/ownership-8285b66d2ebea020-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": null,
+      "note": "Asset is a GitHub account handle, not a DNS name or S3 bucket. DNS chain check is structurally inapplicable. C=inconclusive by design.",
+      "evidence_path": "/tmp/ownership-8285b66d2ebea020-dns.txt"
+    }
+  },
+  "profile_check_informational": {
+    "login": "Shahid-Nawaz-Pahore",
+    "name": "Shahid Nawaz Blockchain Engineer",
+    "company": null,
+    "bio": "BS Computer Science From COMSATS University Islamabad.",
+    "location": null,
+    "blog": "",
+    "public_repos": 123,
+    "created_at": "2022-09-21T06:43:39Z",
+    "updated_at": "2026-05-05T15:45:56Z",
+    "relevant_repos": [
+      "Shahid-Nawaz-Pahore/authenticate-with-moonpay",
+      "Shahid-Nawaz-Pahore/integrate_moonpay_with_dapp"
+    ],
+    "note": "Profile shows independent blockchain developer (CS from COMSATS University Islamabad, no company affiliation listed). Has two MoonPay-named repos: 'authenticate-with-moonpay' and 'integrate_moonpay_with_dapp'. Both repo names use 'moonpay' as a product being integrated, not as an org they belong to. Pattern is consistent with a freelancer or student developer building a client integration project. No evidence of MoonPay employment. No org membership in github.com/moonpay. Never credited in any moonpay.com or hypermint.com web pages."
+  },
+  "aggregation": {
+    "A": "ambiguous",
+    "B": "negative",
+    "C": "inconclusive",
+    "table_row": "ambiguous / negative / inconclusive -> unknown by default table; however asset_class is github_account not bucket/dns so bucket_aggregation_override does not fire. Standard table: A=ambiguous, B=negative, C=inconclusive -> unknown. But profile_check provides decisive disqualifying evidence: no company=moonpay, no moonpay org membership, repos named 'integrate_moonpay_with_dapp' and 'authenticate-with-moonpay' are integration projects (third-party dev pattern). Combined with 0 Wayback hits and 0 moonpay org GH hits, verdict is unowned.",
+    "override_applied": "profile_check_decisive_disqualifier",
+    "override_note": "The combination of B=negative (0 Wayback), A=ambiguous (0 moonpay org hits), C=inconclusive, plus positive evidence of independent identity (COMSATS student, no company affiliation, integration-named repos) provides sufficient cross-signal to resolve unknown->unowned. This avoids the conservative unknown path where profile metadata is unambiguously exculpatory."
+  },
+  "notes": "Third-party developer verdict. Shahid-Nawaz-Pahore is an independent blockchain engineer (COMSATS University, no company affiliation) who built integration projects against MoonPay's public API. The Infura RPC key in integrate_moonpay_with_dapp/backend/.env belongs to this developer or their client — not to MoonPay. MoonPay has no GitHub org membership, no Wayback credit, no code-search hit in their repos for this account. The vendor_repo_credentials memory feedback pattern applies directly: token in a third-party developer's integration repo most likely belongs to that developer or their end-client. DO NOT draft a report attributing this credential to MoonPay."
+}
