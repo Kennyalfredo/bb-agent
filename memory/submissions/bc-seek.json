@@ -15,7 +15,19 @@
       "submitted": false,
       "submission_url": null,
       "platform_report_id": null,
-      "notes": "applied rule rule-ownership_verifier-in_scope_subdomain_override-7d1a2 (subdomain under in-scope wildcard *.jobstreet.com); applied rule rule-report_drafter-auto_info_filter-8a2f1 (local paths stripped); applied rule rule-report_drafter-require_cap_refinement_when_all_caps_unknown-bc5e8 (Bugcrowd cap unknown, proposed high surfaced to human)"
+      "outcome": "withdrawn_pre_submission_confirmed_fp",
+      "outcome_confirmed_at": "2026-05-21T18:39:17Z",
+      "outcome_evidence": {
+        "live_dns_cname": "sendgrid.net.",
+        "live_https_result": "TLS handshake succeeds but CN=*.sendgrid.net does not match host (cert mismatch typical of SendGrid edge)",
+        "live_http_status": "HTTP/1.1 404 Not Found",
+        "live_http_server": "nginx",
+        "live_http_body": "<html><head><title>404 Not Found</title></head><body><center><h1>404 Not Found</h1></center><hr><center>nginx</center></body></html>",
+        "cargo_collective_fingerprint_present_in_body": false,
+        "interpretation": "CNAME is a SendGrid sender-authentication leftover, not a Cargo Collective binding. SendGrid CNAMEs are not user-claimable (account-bound). Subzy fingerprint match was a false positive — body is plain nginx 404 from SendGrid edge."
+      },
+      "rule_added_in_response": "rule-takeover_hunter-subzy_body_recheck_required-e91f7",
+      "notes": "applied rule rule-ownership_verifier-in_scope_subdomain_override-7d1a2 (subdomain under in-scope wildcard *.jobstreet.com); applied rule rule-report_drafter-auto_info_filter-8a2f1 (local paths stripped); applied rule rule-report_drafter-require_cap_refinement_when_all_caps_unknown-bc5e8 (Bugcrowd cap unknown, proposed high surfaced to human). POST-DRAFT VERIFICATION REVEALED FALSE POSITIVE: live body did not contain Cargo Collective fingerprint. Report not submitted. New rule subzy_body_recheck_required added to takeover_hunter to enforce live body recheck before any future report drafting."
     }
   ]
 }

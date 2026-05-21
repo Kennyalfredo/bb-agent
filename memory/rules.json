@@ -380,6 +380,30 @@
     "fingerprint_engine_ignore": [],
     "subdomain_skip": [],
     "subzy_concurrency_override": null,
+    "subzy_body_recheck_required": [
+      {
+        "enabled": true,
+        "recheck_commands": [
+          "curl -s --max-time 10 -L https://{subdomain}",
+          "curl -s --max-time 10 -L http://{subdomain}"
+        ],
+        "fingerprint_assertion": "Live HTTP response body MUST contain the can-i-take-over-xyz fingerprint string for the matched service. If body is empty, 0 bytes, or contains a generic webserver default (nginx default 404, Apache default 403, AWS S3 NoSuchBucket XML, Cloudflare 'Site not Configured', SendGrid edge 404, etc.), the candidate is a subzy false positive and must be disqualified before passing to report-drafter.",
+        "disqualify_if_body_fingerprint_absent": true,
+        "known_false_positive_patterns": [
+          {
+            "pattern": "subzy_match=Cargo Collective AND cname_chain_endpoint=sendgrid.net",
+            "live_body_observed": "HTTP/1.1 404 Not Found served by nginx (SendGrid edge), 146-byte body containing only the nginx default 404 template",
+            "reason": "SendGrid sender-authentication CNAMEs return plain nginx 404 from SendGrid's edge. SendGrid CNAMEs are not user-claimable (tied to authenticated accounts via API keys + ownership verification), so even if subzy's fingerprint matched coincidentally, no exploitable takeover scenario exists."
+          }
+        ],
+        "reason": "Subzy's fingerprint match against can-i-take-over-xyz is a single passive GET at scan time; the fingerprint database has stale/loose patterns and false-positive overlap with generic 404 pages. Confirmed FP in bc-seek 15705866.careerfair.jobstreet.com: subzy claimed Cargo Collective dangling, but live body is plain nginx 404 from SendGrid edge — no Cargo branding, no claimable binding. Without this gate the takeover-hunter pipeline propagates FPs through ownership-verifier and report-drafter (no live verification was done at any stage in v1) and ships a false-positive report. Symmetric to bucket_hunter.s3scanner_acl_recheck_required which catches the same class of FP on bucket-listing claims.",
+        "id": "rule-takeover_hunter-subzy_body_recheck_required-e91f7",
+        "added": "2026-05-21T19:00:00Z",
+        "from_engagement": "bc-seek",
+        "confidence": "medium",
+        "reason_provenance": "bc-seek 15705866.careerfair.jobstreet.com flagged VULNERABLE by subzy on the Cargo Collective fingerprint. Post-draft live verification returned plain nginx 404 from SendGrid edge, no Cargo branding in body, CNAME target is sendgrid.net (sender-authentication leftover, not a Cargo Collective hostname), and SendGrid CNAMEs are structurally not user-claimable. Single confirmed FP today; confidence kept at medium pending future corroboration (mirror of s3scanner ACL gate which is also at medium)."
+      }
+    ],
     "cname_hub_skip": [
       {
         "cname_target": "swerve.bild.de",

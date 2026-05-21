@@ -30,6 +30,8 @@ Read `/home/kenny/bb-agent/memory/rules.json` (create with the schema-default sk
 - `fingerprint_engine_ignore[]` — drop any subzy hit whose `engine` matches before Step 6 candidate build (e.g. retire known-FP fingerprints).
 - `subdomain_skip[]` — drop any enumerated subdomain whose name matches a literal/regex before Step 4 dnsx (e.g. internal staging suffixes that always look dangling but aren't).
 - `subzy_concurrency_override` (int|null) — passes through as `--concurrency=` instead of the default 20.
+- `cname_hub_skip[]` — drop any dnsx CNAME result whose target matches an `exact` or `suffix` entry, before Step 6 subzy (hub-and-spoke CDN/ad-platform delegations are never individually dangling).
+- `subzy_body_recheck_required[]` — **mandatory live HTTP body recheck after subzy match.** If `enabled: true`, every subzy `VULNERABLE` hit must pass through Step 6.5 below before reaching the candidate output. Symmetric to bucket_hunter's s3scanner_acl_recheck_required — subzy's single passive GET is not authoritative (8th-style FP class). Disqualify candidates whose live response body does not contain the can-i-take-over-xyz fingerprint string.
 
 Record any rule firings in the output's `summary.notes` as `"applied rule <rule_id>: <one-line reason>"`.
 
@@ -117,17 +119,68 @@ Parse `$EVID/subzy.json`. The expected shape is a JSON array of objects per subd
 
 Apply `rules.takeover_hunter.fingerprint_engine_ignore[]` here — drop matches where `engine` is in the ignore list, before building the candidate array.
 
+### 6.5. Live body recheck (mandatory FP gate)
+
+**Why this step exists:** subzy's fingerprint match against can-i-take-over-xyz is a single passive GET at scan time. The fingerprint patterns can match coincidental keyword overlap with generic 404 pages (nginx default, Apache default, SendGrid edge 404, Cloudflare "Site not Configured", AWS S3 NoSuchBucket XML). Without this gate the pipeline propagates FPs through ownership-verifier and report-drafter and ships false-positive submissions. Symmetric to bucket_hunter's `s3scanner_acl_recheck_required` gate which catches the same class of FP on bucket-listing claims. See `rule-takeover_hunter-subzy_body_recheck_required-e91f7` in rules.json and the bc-seek (methodology hotfix) lessons.md entry for the originating failure case.
+
+If `rules.takeover_hunter.subzy_body_recheck_required[0].enabled == true` (default), for every surviving `VULNERABLE` subzy hit:
+
+1. Issue a read-only HTTP body fetch on both schemes (HTTPS first, HTTP fallback if HTTPS fails handshake or returns 0 bytes):
+   ```bash
+   curl -s --max-time 10 -L -k "https://<subdomain>" > "$EVID/recheck-<subdomain>.https.body" 2>&1
+   curl -sI --max-time 10 -L -k "https://<subdomain>" > "$EVID/recheck-<subdomain>.https.headers" 2>&1
+   curl -s --max-time 10 -L     "http://<subdomain>" > "$EVID/recheck-<subdomain>.http.body" 2>&1
+   curl -sI --max-time 10 -L    "http://<subdomain>" > "$EVID/recheck-<subdomain>.http.headers" 2>&1
+   ```
+   The `-k` on HTTPS is necessary because dangling subdomains often present a SAN-mismatched cert (e.g. `CN=*.sendgrid.net` on a `*.example.com` host) that would otherwise abort the connection. We're reading the body for verification, not establishing trust.
+
+2. Look up the expected fingerprint string for the subzy engine match. The canonical source is `https://github.com/EdOverflow/can-i-take-over-xyz/issues/<issue-number>` — the issue body contains the fingerprint signature. Common fingerprints (non-exhaustive):
+   - **Heroku**: `No such app` / `herokucdn.com/error-pages/no-such-app.html`
+   - **GitHub Pages**: `There isn't a GitHub Pages site here.`
+   - **AWS S3**: `<Code>NoSuchBucket</Code>` (XML)
+   - **Shopify**: `Sorry, this shop is currently unavailable.`
+   - **Fastly**: `Fastly error: unknown domain`
+   - **Cargo Collective**: `<title>404 Page not found</title>` plus `Cargo` branding text in body
+   - **Tumblr**: `Whatever you were looking for doesn't currently exist at this address.`
+
+3. Set `body_fingerprint_confirmed`:
+   - `true` if the response body (either HTTPS or HTTP) contains the engine's fingerprint string.
+   - `false` if the body is empty (0 bytes), is a generic webserver default (nginx `<center><h1>404 Not Found</h1></center><hr><center>nginx</center>` pattern, Apache `<title>404 Not Found</title>` with the Apache footer, etc.), or does not contain the engine fingerprint.
+
+4. If `body_fingerprint_confirmed: false`, the candidate is a confirmed subzy FP. Drop it from the candidate list, but write a `disqualified_candidates[]` entry to the output JSON for audit-trail visibility (so the operator can see what subzy flagged vs what survived the recheck):
+
+```json
+{
+  "subdomain": "<host>",
+  "cname": ["<cname>"],
+  "fingerprint_engine": "<engine>",
+  "subzy_status": "VULNERABLE",
+  "body_fingerprint_confirmed": false,
+  "live_http_status": "HTTP/1.1 404 Not Found",
+  "live_http_server": "nginx",
+  "live_body_excerpt": "<first 200 chars of body>",
+  "disqualification_reason": "subzy fingerprint engine '<engine>' not present in live body; generic <server> default page returned"
+}
+```
+
+5. If `body_fingerprint_confirmed: true`, the candidate proceeds to Step 7 with the same flag set, plus a `live_body_excerpt` field carrying the first 200 chars of the matching response.
+
+Record the recheck firing in `summary.notes`: `"applied rule rule-takeover_hunter-subzy_body_recheck_required-e91f7: rechecked N subzy hits, M confirmed, K disqualified"`.
+
 ### 7. Build candidate list
-For each surviving subzy hit, build a candidate object:
+For each surviving subzy hit **that also passed the Step 6.5 body recheck (`body_fingerprint_confirmed: true`)**, build a candidate object:
 ```json
 {
   "subdomain": "<host>",
   "cname": ["<cname-1>", "<cname-2>"],
   "fingerprint_engine": "<engine>",
   "subzy_status": "VULNERABLE",
+  "body_fingerprint_confirmed": true,
+  "live_body_excerpt": "<first 200 chars of the matching response>",
   "in_scope_wildcard_match": "<original wildcard from scope.in_scope[] that this subdomain falls under, e.g. *.example.com>",
-  "source": "subzy",
+  "source": "subzy+body_recheck",
   "raw_evidence_path": "<EVID>/subzy.json",
+  "recheck_evidence_path": "<EVID>/recheck-<subdomain>.{http,https}.{body,headers}",
   "ownership_status": "UNVERIFIED"
 }
 ```
@@ -150,10 +203,13 @@ Schema:
     "seed_domains": ["example.com", "example.org"],
     "subdomains_enumerated": 247,
     "subdomains_with_cname": 89,
+    "subzy_vulnerable_pre_recheck": 3,
+    "subzy_vulnerable_post_body_recheck": 2,
+    "subzy_disqualified_by_body_recheck": 1,
     "takeover_candidates": 2,
     "fingerprint_engines_seen": ["Heroku", "GitHub Pages"],
     "ownership_status": "UNVERIFIED — run /verify-ownership <slug> <subdomain> before drafting. Subdomains under in-scope wildcards auto-satisfy Check C via DNS-zone control; verifier's in_scope_subdomain_override rule then promotes to owned without needing A or B positive.",
-    "notes": "<freeform — truncation, missing tools, oddities>"
+    "notes": "<freeform — truncation, missing tools, oddities, recheck rule firings>"
   },
   "candidates": [
     {
@@ -161,10 +217,26 @@ Schema:
       "cname": ["old-heroku-app.herokuapp.com"],
       "fingerprint_engine": "Heroku",
       "subzy_status": "VULNERABLE",
+      "body_fingerprint_confirmed": true,
+      "live_body_excerpt": "No such app\nThere's nothing here, sorry — the Heroku app may have been deleted or renamed...",
       "in_scope_wildcard_match": "*.example.com",
-      "source": "subzy",
+      "source": "subzy+body_recheck",
       "raw_evidence_path": "<EVID>/subzy.json",
+      "recheck_evidence_path": "<EVID>/recheck-abandoned-thing.example.com.{http,https}.{body,headers}",
       "ownership_status": "UNVERIFIED"
+    }
+  ],
+  "disqualified_candidates": [
+    {
+      "subdomain": "legacy-promo.example.com",
+      "cname": ["sendgrid.net"],
+      "fingerprint_engine": "Cargo Collective",
+      "subzy_status": "VULNERABLE",
+      "body_fingerprint_confirmed": false,
+      "live_http_status": "HTTP/1.1 404 Not Found",
+      "live_http_server": "nginx",
+      "live_body_excerpt": "<html><head><title>404 Not Found</title></head>...nginx footer...",
+      "disqualification_reason": "subzy fingerprint engine 'Cargo Collective' not present in live body; generic nginx default 404 returned from SendGrid edge"
     }
   ]
 }
@@ -185,6 +257,6 @@ Reply with:
 - Don't widen scope by enumerating domains the program doesn't list as in-scope. Only seeds derived from `scope.in_scope[]`.
 - Don't call ownership-verifier yourself — same decoupling as bucket-hunter/secret-hunter.
 - Don't draft a report. That's `report-drafter`.
-- Don't run nuclei / httpx / browsers against the subdomain to "confirm" — subzy already did the fingerprint match in one GET.
-- Don't fetch the subdomain's response body yourself for the report. The redacted subzy log is the evidence.
+- Don't run nuclei / httpx / browsers against the subdomain to "confirm" — the `curl -s` body recheck in Step 6.5 is the single allowed verification request. No additional probes beyond that.
+- DO fetch the subdomain's response body once via `curl -s` in Step 6.5 — that is the mandatory FP gate enforced by `rule-takeover_hunter-subzy_body_recheck_required-e91f7`. (This supersedes the v1 policy of "subzy log is the only evidence"; that policy permitted shipping confirmed FPs to report-drafter.)
 - Don't add fields outside the output schema. Use `summary.notes` for oddities.
