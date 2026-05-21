@@ -1,0 +1,54 @@
+{
+  "slug": "cloudflare",
+  "asset": "backup-cloudflare",
+  "bucket_name": "backup-cloudflare",
+  "dns_name": "backup-cloudflare.s3.amazonaws.com",
+  "asset_class": "aws_s3_bucket",
+  "fetched_at": "2026-05-15T18:11:30Z",
+  "verdict": "unknown",
+  "checks": {
+    "github_code": {
+      "status": "ambiguous",
+      "total_count": 61,
+      "top_hits": [
+        {"repo": "ishapiro/markdown-website", "path": "backup-cloudflare.mjs", "html_url": "https://github.com/ishapiro/markdown-website/blob/7f85ac340938b34ad8af00d80c561495b92076a5/backup-cloudflare.mjs"},
+        {"repo": "tim-arnold/librarycard", "path": "scripts/backup-cloudflare.sh", "html_url": "https://github.com/tim-arnold/librarycard/blob/a7d0701d2219a791e56e896b6667d43947bb41c6/scripts/backup-cloudflare.sh"},
+        {"repo": "ibksturm/dnscrypt-switzerland", "path": "etc/dnsdist/dnsdist.conf.d/02.iana.conf", "html_url": "https://github.com/ibksturm/dnscrypt-switzerland/blob/e6b51b9bfc260881e284d6a29a3f7966e5f3c895/etc/dnsdist/dnsdist.conf.d/02.iana.conf"},
+        {"repo": "Yurang2/IZEN-design-team", "path": "docs/RECOVERY_CLOUDFLARE_HOSTING.md", "html_url": "https://github.com/Yurang2/IZEN-design-team/blob/dddd1d2290b667188b3e1c7118b5ac5c989b3f7d/docs/RECOVERY_CLOUDFLARE_HOSTING.md"},
+        {"repo": "pl4nty/homelab", "path": "kubernetes/cluster-1/backups/cloudflare/backup.yaml", "html_url": "https://github.com/pl4nty/homelab/blob/23d5ac549f21be4d4bbbc0358bbaca04554ee06b/kubernetes/cluster-1/backups/cloudflare/backup.yaml"},
+        {"repo": "bailyschmeltzer/Commander", "path": "backups/cloudflare-kv/README.md", "html_url": "https://github.com/bailyschmeltzer/Commander/blob/64bee25505c6929128bf98b4606084d0ea6eae7c/backups/cloudflare-kv/README.md"},
+        {"repo": "ArtemioPadilla/unified-remote-tunnel", "path": "docs/BACKUP_SYSTEM_GUIDE.md", "html_url": "https://github.com/ArtemioPadilla/unified-remote-tunnel/blob/9de173bd9d311270e7594f40f225493371e82c16/docs/BACKUP_SYSTEM_GUIDE.md"},
+        {"repo": "dreakian/UT_Data-Analytics-Certificate-Program_XTOL_Materials", "path": "Course 5/outputs_folder/1656103033816.0_00033/part-00003", "html_url": "https://github.com/dreakian/UT_Data-Analytics-Certificate-Program_XTOL_Materials/blob/6a29d3c37cea857561b5423dc2e1c510402a5cdd/Course%205/outputs_folder/1656103033816.0_00033/part-00003"},
+        {"repo": "kenlasko/k8s", "path": "archive/apps/testweb/restore.yaml", "html_url": "https://github.com/kenlasko/k8s/blob/2b537821117aa3f129ea2da0881fe2eb1f8ada2f/archive/apps/testweb/restore.yaml"},
+        {"repo": "tim-arnold/code-samples", "path": "github-actions/complex-actions-suite/cloudflare-backup.yml", "html_url": "https://github.com/tim-arnold/code-samples/blob/24b01b1f418a5287b252d99a78de71e9cb09c2f4/github-actions/complex-actions-suite/cloudflare-backup.yml"}
+      ],
+      "org_hits": 0,
+      "notes": "61 total GH hits; 0 in cloudflare org. All hits are third-party backup scripts or documentation referencing Cloudflare as a service — not an S3 bucket reference. Pattern mirrors cloudflare-prod precedent (path-artifact false positives). Status: ambiguous.",
+      "evidence_path": "/tmp/ownership-c9e3e8942755f8ec-gh.json"
+    },
+    "wayback": {
+      "status": "inconclusive",
+      "hit_count": 0,
+      "notes": "gau returned 0 bytes output for cloudflare.com, cloudflareworkers.com, teams.cloudflare.com. Config warning: /home/kenny/.gau.toml not found (non-fatal). No URLs returned from wayback/OTX — likely rate-limited or index gap; cannot treat as a genuine negative.",
+      "evidence_path": "/tmp/ownership-c9e3e8942755f8ec-gau.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-1-w.amazonaws.com -> s3-w.us-east-1.amazonaws.com",
+      "resolved_ips": ["16.182.40.241", "16.182.96.105", "54.231.199.1", "16.15.229.178", "16.15.199.204", "16.182.71.193", "16.15.223.17", "52.216.60.241"],
+      "notes": "Bucket resolves via generic AWS S3 CNAME chain (s3-1-w.amazonaws.com -> s3-w.us-east-1.amazonaws.com). All S3 buckets share this CNAME pattern regardless of owner. No CNAME from any cloudflare.com domain pointing to this bucket. Inconclusive by construction for bucket assets.",
+      "evidence_path": "/tmp/ownership-c9e3e8942755f8ec-dns.txt"
+    }
+  },
+  "aggregation": {
+    "A": "ambiguous",
+    "B": "inconclusive",
+    "C": "inconclusive",
+    "positive_signals": 0,
+    "min_positive_signals_required": 2,
+    "rules_applied": [],
+    "bucket_aggregation_override_fired": false,
+    "bucket_aggregation_override_reason": "Override requires A=negative; A=ambiguous here (61 GH hits in third-party repos) — rule did not fire"
+  },
+  "notes": "applied rule wayback_match_mode=word_boundary: used grep -E \\bbackup-cloudflare\\b on gau output (returned empty). GH Check A: 61 hits are generic 'backup scripts for Cloudflare' pattern — same class as cloudflare-prod precedent false positives; none in cloudflare org; status=ambiguous not positive. gau returned 0 URLs (config missing, possible rate-limit) → inconclusive not negative. DNS shows generic AWS CNAME — inconclusive by construction. Zero positive signals out of minimum 2 required. Conservative default: unknown."
+}

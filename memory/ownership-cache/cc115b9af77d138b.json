@@ -1,0 +1,31 @@
+{
+  "slug": "automattic",
+  "asset": "gravatar-uploads",
+  "bucket_name": "gravatar-uploads",
+  "dns_name": "gravatar-uploads.s3.amazonaws.com",
+  "fetched_at": "2026-05-16T00:00:00Z",
+  "verdict": "unowned",
+  "checks": {
+    "github_code": {
+      "status": "negative",
+      "total_count": 0,
+      "top_hits": [],
+      "evidence_path": "/tmp/ownership-cc115b9af77d138b-gh.json"
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "urls_scanned": 3163,
+      "domains_queried": ["gravatar.com", "wordpress.com", "automattic.com"],
+      "match_mode": "word_boundary",
+      "evidence_path": "/tmp/ownership-cc115b9af77d138b-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-1-w.amazonaws.com / s3-w.us-east-1.amazonaws.com (generic AWS CNAMEs, no program-domain pointer)",
+      "resolved_ips": ["16.15.212.225", "52.217.207.1", "54.231.224.25", "16.15.212.8", "3.5.28.104", "52.217.80.188", "54.231.139.9", "52.216.49.209"],
+      "evidence_path": "/tmp/ownership-cc115b9af77d138b-dns.txt"
+    }
+  },
+  "notes": "applied rule rule-ownership_verifier-bucket_aggregation_override-1c25c: A=negative (0 GH hits total), B=negative (0 word-boundary hits across 3163 URLs from gravatar.com+wordpress.com+automattic.com), C=inconclusive (generic AWS CNAME chain, no program-domain CNAME to bucket) — override promotes A=neg/B=neg/C=inconclusive to 'unowned' for bucket asset class. wayback_match_mode=word_boundary applied per rule rule-ownership_verifier-wayback_match_mode-879f3. No asset_pattern_overrides matched 'gravatar-uploads'."
+}

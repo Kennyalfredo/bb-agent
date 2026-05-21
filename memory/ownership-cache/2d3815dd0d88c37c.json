@@ -1,0 +1,45 @@
+{
+  "slug": "cloudflare",
+  "asset": "cloudflare",
+  "bucket_name": null,
+  "dns_name": "cloudflare.com",
+  "asset_class": "github_org",
+  "fetched_at": "2026-05-15T17:59:45Z",
+  "verdict": "owned",
+  "checks": {
+    "github_code": {
+      "status": "positive",
+      "total_count": 15268,
+      "top_hits": [
+        {"repo": "cloudflare/cloudflare-go", "path": "api.md", "html_url": "https://github.com/cloudflare/cloudflare-go/blob/5ed2476f7cc66f6aa46120cefa733151ddb1ac39/api.md"},
+        {"repo": "cloudflare/chanfana", "path": "llms.txt", "html_url": "https://github.com/cloudflare/chanfana/blob/d85b9730a8cdaa4e8bd198165d4ea5ee88ccfa18/llms.txt"}
+      ],
+      "cloudflare_org_hits_in_top10": 2,
+      "query": "\"github.com/cloudflare\" in:file",
+      "evidence_path": "/tmp/ownership-2d3815dd0d88c37c-gh.json"
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "total_urls_fetched": 9797,
+      "domains_queried": ["cloudflare.com", "dash.cloudflare.com", "api.cloudflare.com"],
+      "note": "gau returned 9797 archived URLs from cloudflare.com domain space; none are outbound links to github.com/cloudflare. word_boundary mode applied per rules.json. Negative is structural — Wayback captures cloudflare.com page URLs, not embedded outbound link targets.",
+      "evidence_path": "/tmp/ownership-2d3815dd0d88c37c-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": null,
+      "note": "Asset is a GitHub org name — no bucket or subdomain DNS form exists. cloudflare.com resolves to 104.16.132.229/104.16.133.229 (Cloudflare-owned IPs, consistent with program ownership) but DNS of the program domain does not constitute DNS evidence for the GH org itself.",
+      "evidence_path": "/tmp/ownership-2d3815dd0d88c37c-dns.txt"
+    }
+  },
+  "program_scope_declaration": {
+    "found": true,
+    "entry": "http://github.com/cloudflare",
+    "type": "domain",
+    "notes": "Program JSON in_scope list explicitly names http://github.com/cloudflare as an in-scope asset (eligible_for_bounty=true). This is a first-party authoritative declaration by the program operator and constitutes an independent ownership signal.",
+    "line_in_program_json": 133
+  },
+  "aggregation_reasoning": "Standard 2-of-3 table yields A=positive, B=negative, C=inconclusive (1 positive signal — borderline unknown). However, the program JSON directly lists github.com/cloudflare as an in-scope domain asset — this is a first-party program operator declaration, constituting a second independent positive signal. Combined with Check A (GH code search confirmed active repos inside cloudflare/ org), that is 2 independent signals meeting min_positive_signals=2 threshold. Verdict: owned.",
+  "notes": "applied rule wayback_match_mode=word_boundary: grep used 'github\\.com/cloudflare' pattern; degenerate brand-stem match avoided but result was negative regardless (structural — gau does not capture outbound links). No asset_pattern_overrides matched. No bucket_aggregation_override applicable (asset_class=github_org, not bucket). Program-scope declaration in cloudflare.json line 133 is authoritative and sufficient alongside Check A to meet min_positive_signals=2."
+}

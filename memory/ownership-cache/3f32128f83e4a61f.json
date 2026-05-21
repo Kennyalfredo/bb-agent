@@ -1,0 +1,41 @@
+{
+  "slug": "bc-monash-mbb",
+  "asset": "pdbsewell",
+  "bucket_name": null,
+  "dns_name": null,
+  "fetched_at": "2026-05-17T15:38:00Z",
+  "verdict": "unknown",
+  "checks": {
+    "github_code": {
+      "status": "ambiguous",
+      "total_count": 4,
+      "top_hits": [
+        {"repo": "pdbsewell/sfdx-stools-beta", "path": "README.md", "html_url": "https://github.com/pdbsewell/sfdx-stools-beta/blob/7fb804343f929a1baa5a8bdc3f7b1a901abd10d7/README.md"},
+        {"repo": "pdbsewell/sfdx-stools", "path": "sfdx-stools/package.json", "html_url": "https://github.com/pdbsewell/sfdx-stools/blob/8255bc4b882bce0a391ba6cf416844de5f1c7ccc/sfdx-stools/package.json"},
+        {"repo": "pdbsewell/sfdx-stools", "path": "sfdx-stools/README.md", "html_url": "https://github.com/pdbsewell/sfdx-stools/blob/8255bc4b882bce0a391ba6cf416844de5f1c7ccc/sfdx-stools/README.md"},
+        {"repo": "pdbsewell/sfdx-stools-beta", "path": "package.json", "html_url": "https://github.com/pdbsewell/sfdx-stools-beta/blob/7fb804343f929a1baa5a8bdc3f7b1a901abd10d7/package.json"}
+      ],
+      "evidence_path": "/tmp/ownership-3f32128f83e4a61f-gh.json",
+      "notes": "All 4 hits are self-referential (pdbsewell's own repos: sfdx-stools, sfdx-stools-beta). Zero hits in any of the Monash org candidates (monash, MonashUniversity, monash-university, monashedu). Username appears on GH but is not corroborated by any Monash-controlled org.",
+      "monash_org_candidates_checked": ["monash", "MonashUniversity", "monash-university", "monashedu"],
+      "monash_org_hits": 0
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "urls_crawled": 473,
+      "domains_queried": ["monash.edu", "gp.monash.edu", "identity.monash.edu"],
+      "match_mode": "word_boundary",
+      "evidence_path": "/tmp/ownership-3f32128f83e4a61f-gau-hits.txt",
+      "notes": "473 URLs returned by gau from wayback+otx across 3 monash.edu domains. Zero word-boundary matches for 'pdbsewell'. No historical link from any Monash web property to this GH username. applied rule rule-ownership_verifier-wayback_match_mode-879f3: word_boundary mode enforced to prevent degenerate substring matches on brand stem."
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": null,
+      "evidence_path": null,
+      "notes": "Asset is a GitHub username — DNS chain check is structurally not applicable. No bucket name or subdomain to resolve."
+    }
+  },
+  "notes": "Asset class is GH username (repo_owner), not a bucket/subdomain/IP. GH code search A=ambiguous: 4 hits all in pdbsewell's own repos, 0 in any Monash org. Wayback B=negative: 473 monash.edu URLs, 0 word-boundary hits. DNS C=inconclusive: structural N/A. Aggregation: A=ambiguous + B=negative + C=inconclusive does not satisfy any 'owned' row (requires 2 positive signals), does not satisfy all-negative (C is inconclusive not negative), verdict=unknown. applied rule rule-ownership_verifier-wayback_match_mode-879f3: word_boundary mode used. No asset_pattern_overrides matched. bucket_aggregation_override not applicable (not a bucket). internal_infra_override not applicable. wildcard_stem_dns_override not applicable. The repo pdbsewell/fedid-migration and related Salesforce Apex work may plausibly be a Monash contractor or employee, but no public evidence trail confirms this — ownership cannot be asserted from passive checks alone.",
+  "cache_valid_until": "2026-06-16T15:38:00Z"
+}

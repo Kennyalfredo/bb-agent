@@ -1,0 +1,53 @@
+{
+  "slug": "automattic",
+  "asset": "woocommerce-backup",
+  "bucket_name": "woocommerce-backup",
+  "dns_name": "woocommerce-backup.s3.amazonaws.com",
+  "fetched_at": "2026-05-16T00:00:00Z",
+  "verdict": "unknown",
+  "checks": {
+    "github_code": {
+      "status": "ambiguous",
+      "total_count": 69,
+      "top_hits": [
+        {"repo": "Mocsid/wordpress-docker", "path": "common/custom-scripts/update-woocommerce.sh"},
+        {"repo": "bhubbard/wp-plugin-uninstalls", "path": "output/automatic-product-categories-for-woocommerce/uninstall.php"},
+        {"repo": "samueljackson-collab/Portfolio-Project", "path": "projects/08-web-data/PRJ-WEB-001/RUNBOOK.md"},
+        {"repo": "jejakbelajar/jejakbelajar.github.io", "path": "extension-woocommerce-certifier-facture/index.html"},
+        {"repo": "nekekala/Sonusphere", "path": "wp-content/plugins/duplicator/readme.txt"},
+        {"repo": "djrams810/StockSentinel", "path": "dopelganer.html"},
+        {"repo": "paulowinw/itindublin", "path": "wp-content/updraft/plugins-old/duplicator/readme.txt"},
+        {"repo": "bhubbard/wp-plugin-uninstalls", "path": "output/automatic-product-categories-for-woocommerce/uninstall.sh"},
+        {"repo": "samueljackson-collab/Portfolio-Project", "path": "wiki-export/portfolio/08-web-data/runbook.md"},
+        {"repo": "afterpartyai/llms_txt_store", "path": "com/d/u/p/l/i/c/a/t/o/r/llms.txt"}
+      ],
+      "org_hits_automattic": 0,
+      "org_hits_woocommerce": 0,
+      "evidence_path": "/tmp/ownership-af16bd950e58e621-gh.json"
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "domains_queried": ["woocommerce.com", "wordpress.com", "automattic.com"],
+      "total_urls_crawled": 1956,
+      "match_mode": "word_boundary",
+      "applied_rule": "applied rule rule-ownership_verifier-wayback_match_mode-879f3: word_boundary grep used instead of substring to prevent brand-stem degenerate matches",
+      "evidence_path": "/tmp/ownership-af16bd950e58e621-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-w.eu-central-1.amazonaws.com.",
+      "resolved_ips": ["3.5.138.153", "52.219.169.99", "3.5.138.225", "3.5.121.18", "3.5.121.181", "3.5.135.23", "3.5.137.181", "3.5.139.247"],
+      "notes": "Bucket resolves to generic AWS eu-central-1 S3 regional endpoint; no CNAME from a program-owned domain; DNS provides no ownership signal for S3 buckets per protocol",
+      "evidence_path": "/tmp/ownership-af16bd950e58e621-dns.txt"
+    }
+  },
+  "aggregation": {
+    "a": "ambiguous",
+    "b": "negative",
+    "c": "inconclusive",
+    "bucket_aggregation_override_fired": false,
+    "bucket_aggregation_override_reason": "Override rule-ownership_verifier-bucket_aggregation_override-1c25c requires A=negative; A=ambiguous (69 third-party GH hits exist), so override did not fire"
+  },
+  "notes": "applied rule rule-ownership_verifier-wayback_match_mode-879f3: word_boundary grep used for Wayback B check. bucket_aggregation_override did not fire: A=ambiguous (69 GH hits, all third-party — WP Docker scripts, plugin uninstall dumps, student portfolios, Duplicator plugin readmes), not A=negative. The bucket name 'woocommerce-backup' is a semantically plausible Automattic bucket name (WooCommerce is explicitly in-scope per program JSON line 108-111), but the brand+backup suffix pattern is structurally indistinguishable from any of the thousands of independent WooCommerce shop owners who might name their own backup buckets identically. No direct tie to Automattic/woocommerce GitHub orgs or any in-scope domain in 1,956 Wayback URLs. Verdict: unknown. Human decision required before drafting."
+}

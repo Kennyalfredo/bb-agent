@@ -1,0 +1,809 @@
+{
+  "program": {
+    "slug": "indrive",
+    "platform": "hackerone",
+    "url": "https://hackerone.com/indrive",
+    "name": "inDrive",
+    "fetched_at": "2026-05-15"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "wildcard",
+        "asset": "*.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core services. Broad wildcard covering all indriverapp.com subdomains. Technologies: Elasticsearch, AWS, Go, GCP, GraphQL, IBM Cloud, MySQL, PHP, Redis."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.indrive.com",
+        "severity_cap": "high",
+        "notes": "Max severity capped at high per CSV (high/high/high CIA). Eligible for bounty."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.indriver.com",
+        "severity_cap": "medium",
+        "notes": "Max severity capped at medium per CSV (low/low/low CIA). Eligible for bounty."
+      },
+      {
+        "type": "wildcard",
+        "asset": "https://*.indriver.io",
+        "severity_cap": "critical",
+        "notes": "Eligible for bounty."
+      },
+      {
+        "type": "wildcard",
+        "asset": "intercity-*.eu-east-1.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core. MySQL, Nginx, Go."
+      },
+      {
+        "type": "wildcard",
+        "asset": "ab-api-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "as-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "as-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "ath-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "ath-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "baf-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "bdu-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "cas-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "cht-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "cht-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "co-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "co-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "co-in-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "courier-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "dh-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "dr-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "es-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "es-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "fch-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "fe-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "fe-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "g2-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "g2-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "gt-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "gt-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "gvt-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "icl-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "idp-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "in-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "in-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "inc-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "inc-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "isa-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "msg-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "msg-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "nha-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "nha-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "no-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "no-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "pa-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "pa-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "pc-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "pc-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "pm-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "pm-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "pot-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "pot-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "pr-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "ra-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "ra-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "rc-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "rp-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "rp-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "rs-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "rsm-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "sc-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "sfc-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "sfc-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "sn-api-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "sn-api-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "sur-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "tr-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "tr-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "txm-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "vm-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "was-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "wlr-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "wildcard",
+        "asset": "api-gw-cf.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "No tag label in CSV; eligible for bounty."
+      },
+      {
+        "type": "wildcard",
+        "asset": "bid.*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Eligible for bounty."
+      },
+      {
+        "type": "wildcard",
+        "asset": "ic3.*.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Eligible for bounty."
+      },
+      {
+        "type": "wildcard",
+        "asset": "mch*.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Eligible for bounty."
+      },
+      {
+        "type": "wildcard",
+        "asset": "pay*.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Eligible for bounty."
+      },
+      {
+        "type": "wildcard",
+        "asset": "pr*.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Eligible for bounty."
+      },
+      {
+        "type": "wildcard",
+        "asset": "st*.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Eligible for bounty."
+      },
+      {
+        "type": "wildcard",
+        "asset": "sub*.aws.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Eligible for bounty."
+      },
+      {
+        "type": "wildcard",
+        "asset": "wd2*.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Eligible for bounty."
+      },
+      {
+        "type": "domain",
+        "asset": "new-order.eu-east-1.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core. Redis, MySQL, Kubernetes, Go, AWS."
+      },
+      {
+        "type": "domain",
+        "asset": "watchdocs.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core. JS, GCP, Docker, Vue, Redis, PHP, Nginx, MySQL."
+      },
+      {
+        "type": "domain",
+        "asset": "priority.eu-east-1.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core. IBM Cloud, AWS, Kubernetes, MySQL, Nginx, Redis."
+      },
+      {
+        "type": "domain",
+        "asset": "profile-api.eu-east-1.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core. Go, MySQL, AWS."
+      },
+      {
+        "type": "domain",
+        "asset": "messenger.eu-east-1.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core. Redis, Nginx, MySQL, Kubernetes, IBM Cloud, Go."
+      },
+      {
+        "type": "domain",
+        "asset": "ab-platform-api.eu-east-1.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core. Nginx, MySQL, JS, IBM Cloud, Go, AWS, React."
+      },
+      {
+        "type": "domain",
+        "asset": "truck-api.eu-east-1.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core. Go, IBM Cloud, MySQL, Nginx."
+      },
+      {
+        "type": "domain",
+        "asset": "file-storage-front.eu-east-1.indriverapp.com",
+        "severity_cap": "critical",
+        "notes": "Core. MySQL, AWS, Redis, Go."
+      },
+      {
+        "type": "domain",
+        "asset": "cargo.indrive.com",
+        "severity_cap": "critical",
+        "notes": "Core. Go, Redis, MySQL."
+      },
+      {
+        "type": "domain",
+        "asset": "volans.tech",
+        "severity_cap": "critical",
+        "notes": "Eligible for bounty."
+      },
+      {
+        "type": "domain",
+        "asset": "wga.volans.tech",
+        "severity_cap": "critical",
+        "notes": "Eligible for bounty."
+      },
+      {
+        "type": "domain",
+        "asset": "external.indrive.dev",
+        "severity_cap": "critical",
+        "notes": "Eligible for bounty."
+      },
+      {
+        "type": "domain",
+        "asset": "debug.clairvoyance.indrive.tech",
+        "severity_cap": "critical",
+        "notes": "Eligible for bounty."
+      },
+      {
+        "type": "domain",
+        "asset": "ingest.clairvoyance.indrive.tech",
+        "severity_cap": "critical",
+        "notes": "Eligible for bounty."
+      },
+      {
+        "type": "domain",
+        "asset": "alternativa.film",
+        "severity_cap": "high",
+        "notes": "Non-core. Medium CIA."
+      },
+      {
+        "type": "domain",
+        "asset": "auroratechaward.com",
+        "severity_cap": "high",
+        "notes": "Non-core. Medium CIA."
+      },
+      {
+        "type": "domain",
+        "asset": "https://cas-cf.euce1.indriverapp.com/api/passkey",
+        "severity_cap": "critical",
+        "notes": "Core. AWS, Go, Kubernetes. Path-specific endpoint."
+      },
+      {
+        "type": "domain",
+        "asset": "job.ryadom.kz",
+        "severity_cap": "critical",
+        "notes": "Non-core."
+      },
+      {
+        "type": "domain",
+        "asset": "ryadom.kz",
+        "severity_cap": "critical",
+        "notes": "Non-core."
+      },
+      {
+        "type": "domain",
+        "asset": "couriers.indrive.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "domain",
+        "asset": "careers.indrive.com",
+        "severity_cap": "critical",
+        "notes": "Non-core."
+      },
+      {
+        "type": "domain",
+        "asset": "coaching.supernovas.indrive.com",
+        "severity_cap": "critical",
+        "notes": "Non-core."
+      },
+      {
+        "type": "domain",
+        "asset": "indrive.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "domain",
+        "asset": "intercity.indrive.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "domain",
+        "asset": "media.indrive.com",
+        "severity_cap": "critical",
+        "notes": "Non-core."
+      },
+      {
+        "type": "domain",
+        "asset": "movie.indrive.com",
+        "severity_cap": "high",
+        "notes": "Non-core."
+      },
+      {
+        "type": "domain",
+        "asset": "url-checker.indrive.com",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "domain",
+        "asset": "www.supernovas.indrive.com",
+        "severity_cap": "critical",
+        "notes": "Non-core."
+      },
+      {
+        "type": "domain",
+        "asset": "oymyakon.indriver.io",
+        "severity_cap": "high",
+        "notes": "Non-core."
+      },
+      {
+        "type": "domain",
+        "asset": "teammate.indriver.io",
+        "severity_cap": "critical",
+        "notes": "Core."
+      },
+      {
+        "type": "domain",
+        "asset": "blog.indrive.com",
+        "severity_cap": "critical",
+        "notes": "Eligible for bounty."
+      },
+      {
+        "type": "domain",
+        "asset": "delivery-webview.indrive.com",
+        "severity_cap": "critical",
+        "notes": "Eligible for bounty."
+      },
+      {
+        "type": "domain",
+        "asset": "invisionu.education",
+        "severity_cap": "critical",
+        "notes": "Eligible for bounty."
+      },
+      {
+        "type": "domain",
+        "asset": "api.ryadom.kz",
+        "severity_cap": "critical",
+        "notes": "Non-core."
+      },
+      {
+        "type": "domain",
+        "asset": "landing.ryadom.kz",
+        "severity_cap": "critical",
+        "notes": "Non-core."
+      },
+      {
+        "type": "domain",
+        "asset": "sso.ryadom.kz",
+        "severity_cap": "critical",
+        "notes": "Non-core."
+      },
+      {
+        "type": "domain",
+        "asset": "web.ryadom.kz",
+        "severity_cap": "critical",
+        "notes": "Non-core."
+      }
+    ],
+    "out_of_scope": [
+      {
+        "type": "other",
+        "asset": "sinet.startup.inDriver (Google Play App ID)",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false in CSV."
+      },
+      {
+        "type": "domain",
+        "asset": "super-services.indriverapp.com",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false in CSV."
+      },
+      {
+        "type": "domain",
+        "asset": "servicos.indrive.com",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false in CSV."
+      },
+      {
+        "type": "wildcard",
+        "asset": "bus.*.indrive.com",
+        "reason": "eligible_for_submission=false, eligible_for_bounty=false in CSV."
+      },
+      {
+        "type": "other",
+        "asset": "Social engineering against employees",
+        "reason": "Explicitly prohibited in policy."
+      },
+      {
+        "type": "other",
+        "asset": "DoS / DDoS attacks",
+        "reason": "Strictly prohibited."
+      },
+      {
+        "type": "other",
+        "asset": "Attempting to access other users' accounts or data beyond what is needed to prove the bug",
+        "reason": "Will not be rewarded; explicitly called out."
+      },
+      {
+        "type": "other",
+        "asset": "Server configuration issues (open ports, TLS versions, SSL certificates, DNS config)",
+        "reason": "Infrastructure vulnerabilities — explicitly excluded."
+      },
+      {
+        "type": "other",
+        "asset": "Google Maps API key",
+        "reason": "Explicitly excluded from scope."
+      },
+      {
+        "type": "other",
+        "asset": "SPF/DKIM/DMARC issues",
+        "reason": "Explicitly excluded."
+      },
+      {
+        "type": "other",
+        "asset": "Clickjacking / Self-XSS / Framing / Man-in-the-Middle",
+        "reason": "Explicitly excluded."
+      },
+      {
+        "type": "other",
+        "asset": "Vulnerabilities in partner services not directly affecting inDrive security",
+        "reason": "Explicitly excluded."
+      },
+      {
+        "type": "other",
+        "asset": "Social Media subdomain takeover reports (Instagram, Twitter, Facebook) — temporarily excluded",
+        "reason": "Temporarily not accepting per policy footnote."
+      }
+    ]
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": true,
+    "cve_age_min_days": 30,
+    "requires_ownership_proof": true,
+    "safe_harbor": false,
+    "submission_form": "https://hackerone.com/indrive",
+    "notes": "AUTOMATED TOOLS: Policy explicitly permits automated scanning but with hard rate limits — max 5 requests/second (300 req/min) to a single host across all tools and threads, and max 5 parallel threads at any time. This is stricter than a blanket 'allowed'. mass_scanning_allowed=false is consistent with these limits. | BUCKET LISTING: bucket_listing_allowed defaulted to true — not addressed in the policy; the program has no statement on S3/GCS bucket interaction. If a passive finding surfaces bucket exposure, it may be reportable under 'information disclosure' categories. | BUCKET DOWNLOAD: defaulted to false (safe default) — not addressed in policy. | CVE AGE: defaulted to 30 days. Policy says public 0-days 'may be considered duplicates within a few days after publication if the vulnerability is known to our team' — ambiguous window, 30 days is conservative. | SAFE HARBOR: not explicitly stated in policy text retrieved; defaulted to false (safe). | REQUIRES_OWNERSHIP_PROOF: defaulted to true; policy says 'use your own accounts, phone numbers' and prohibits accessing others' data. | LEAKED CREDENTIALS: Policy does not mention leaked credential reports. The program rewards 'information disclosure' (IDOR, memory leaks, etc.) with bounties ranging $250-$5000 depending on data sensitivity and Core vs Non-core classification. A leaked credential finding would likely be evaluated under the IDOR/information-disclosure rows. Verify asset is in-scope before submitting. | SCOPE GOTCHA: Scope divided into Core (higher bounty) and Non-core (lower bounty). Identifiable via 'Technology: Core/Non-core' filter on H1 scope page. If asset not found in scope list, submit anyway — triage team will classify. | TELEGRAM CHANNEL: Program posts updates and endpoint CSV files at https://t.me/indrive_bbp — links [1] and [2] contain additional endpoint lists for scanning. | BOUNTY DECISION TIMELINE: Bounty decision within 30 days after triage; reports reviewed within 15 days."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      { "severity": "critical", "min": 8000, "max": 15000, "currency": "USD", "notes": "Core: RCE non-isolated=$15000, RCE isolated=$8000. Non-core: $4000-$8000." },
+      { "severity": "high", "min": 1000, "max": 8000, "currency": "USD", "notes": "Core: SQLi/LFR/XXE=$4000-8000, SSRF non-blind=$4000, Info disclosure (critical data)=$5000, SSRF blind=$1500, Admin bypass=$3000, Admin blind XSS=$2000, Account takeover (no interaction)=$2000, Auth bypass=$1000. Non-core roughly half." },
+      { "severity": "medium", "min": 250, "max": 2000, "currency": "USD", "notes": "Core: Info disclosure (low sensitivity)=$500, XSS=$300-400. Non-core: $150-$250." },
+      { "severity": "low", "min": 50, "max": 100, "currency": "USD", "notes": "Core: Subdomain takeover=$100. Non-core: $50." }
+    ]
+  },
+  "raw_policy_excerpt": "Security is a top priority at inDrive. If you believe you've found a security bug in our in-scope applications or infrastructure, we are happy to work with you to resolve the issue promptly and ensure you are fairly rewarded for your discovery.\n\n#Update to the Scope Policy (from 09/09/2025)\n\ninDrive is not only about ride-hailing - we also contribute to education, sports, environmental initiatives, and other social projects. To make our bug bounty program clearer, we divide the scope into Core and Non-core services:\n- Core services are directly connected to our main app infrastructure (backend, frontend resources). E.g., no-gw-cf.<region>.aws.indriverapp.com, couriers.indrive.com.\n- Non-core services are additional projects of inDrive, such as web resources related to social, non-profit, experimental initiatives and partner integrations.\n\n#We will not pay a reward if we detect:\n* Social engineering directed at the company's employees\n* Attempt to access arbitrary user's account or data or another vulnerability post-exploitation not required to demonstrate the bug presence\n* Distributed network/request flooding and other resource exhaustion attacks. Automated scanning tools must be limited to 5 request per second (300 requests per minute) to one target host summing up all tools and threads running in parallel and must not exceed 5 parallel requests at the same time (5 threads).\n\n#We do not initiate security investigations regarding:\n* Messages from security scanners without clear PoC and impact\n* Self-XSS; Framing; Social engineering; Clickjacking; SPF/DKIM/DMARC issues; Man-in-the-Middle\n* Infrastructure vulnerabilities: Server config issues (open ports, TLS), SSL cert issues, DNS config\n* Google API key (for google maps)\n* Vulnerabilities in partner services not directly affecting inDrive security\n\n#Strictly prohibited: DoS/DDoS attacks; Threats/harm to company employees.\n\n#Reward payment table (Core / Non-core):\n| RCE non-isolated | 15000 / 8000 | Critical |\n| RCE isolated | 8000 / 4000 | High |\n| SQLi | 4000-8000 / 2000-4000 | High-Critical |\n| LFR/RFI/XXE | 4000 / 2000 | High-Critical |\n| SSRF non-blind | 4000 / 1000-2000 | High |\n| SSRF blind | 1500 / 750 | High |\n| Info disclosure critical data | 5000 / 2500 | High |\n| Info disclosure sensitive (bulk) | 2000 / 1000 | High |\n| Info disclosure sensitive (other) | 1000 / 500 | High |\n| Info disclosure low sensitivity | 500 / 250 | Medium |\n| Admin auth bypass | 3000 / 1000-1500 | High |\n| Admin blind XSS | 2000 / 500-1000 | Medium-High |\n| Account takeover (no interaction) | 2000 / 500-800 | Medium-High |\n| Account takeover (with interaction) | 1000 / 400 | Medium-High |\n| Auth bypass (JWT/passkey/OTP/OAuth) | 1000 / 500 | High |\n| XSS | 300-400 / 150-200 | Medium |\n| Subdomain takeover | 100 / 50 | Low |"
+}

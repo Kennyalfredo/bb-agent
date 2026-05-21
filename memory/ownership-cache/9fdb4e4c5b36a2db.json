@@ -1,0 +1,48 @@
+{
+  "slug": "automattic",
+  "asset": "wordpress-prod",
+  "bucket_name": "wordpress-prod",
+  "dns_name": "wordpress-prod.s3.amazonaws.com",
+  "fetched_at": "2026-05-16T00:00:00Z",
+  "verdict": "unowned",
+  "checks": {
+    "github_code": {
+      "status": "negative",
+      "total_count_org": 0,
+      "total_count_global": 3156,
+      "top_hits": [
+        {"repo": "dcos/examples", "path": "wordpress/1.8/README.md", "note": "DC/OS WordPress deployment example — env name only"},
+        {"repo": "puppetlabs/docs-archive", "path": "pipelines-for-containers/team/gs_pipeline_set_up.md", "note": "Puppet pipeline docs — deployment stage name"},
+        {"repo": "tomdev/teh_s3_bucketeers", "path": "common_bucket_prefixes.txt", "note": "CRITICAL: this name appears in a generic S3 bucket enumeration wordlist — confirms it is a common generic pattern"},
+        {"repo": "rix4uni/BugBountyData", "path": "data/woven.com.txt", "note": "Third-party bug bounty URL dump — unrelated"},
+        {"repo": "bu-ist/webrouter-prod", "path": "maps/hosts.map.erb", "note": "Boston University web router — unrelated"}
+      ],
+      "evidence_path": "/tmp/ownership-9fdb4e4c5b36a2db-gh.json",
+      "interpretation": "0 hits in Automattic org (org-scoped search). Global 3156 hits are all third-party — 'wordpress-prod' is a generic WordPress production environment name used ubiquitously. Presence in teh_s3_bucketeers wordlist confirms this is a common enumeration target, not an Automattic-specific asset."
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "urls_scanned": 2000,
+      "domains_queried": ["wordpress.com", "automattic.com", "tumblr.com"],
+      "match_mode": "word_boundary",
+      "evidence_path": "/tmp/ownership-9fdb4e4c5b36a2db-gau-hits.txt",
+      "interpretation": "2000 URLs crawled from 3 Automattic program domains via wayback+otx. Zero URLs reference 'wordpress-prod' as a word-boundary match. No historical linkage from any Automattic-controlled page to this bucket."
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-3-w.amazonaws.com",
+      "resolved_ips": ["3.5.70.49", "3.5.69.7", "3.5.72.109", "3.5.67.222", "52.92.36.9", "3.5.72.78", "3.5.64.207", "3.5.74.39"],
+      "evidence_path": "/tmp/ownership-9fdb4e4c5b36a2db-dns.txt",
+      "interpretation": "Bucket resolves via generic AWS S3 CNAME (s3-3-w.amazonaws.com). No CNAME from any Automattic/WordPress-owned domain points to this bucket. DNS provides no ownership signal for buckets — anyone can register 'wordpress-prod' as an S3 bucket name."
+    }
+  },
+  "aggregation": {
+    "method": "bucket_aggregation_override",
+    "rule_id": "rule-ownership_verifier-bucket_aggregation_override-1c25c",
+    "conditions_matched": {"a": "negative", "b": "negative", "c": "inconclusive"},
+    "verdict_before_override": "unknown",
+    "verdict_after_override": "unowned"
+  },
+  "notes": "applied rule rule-ownership_verifier-bucket_aggregation_override-1c25c: A=negative (0 Automattic org hits), B=negative (0 wayback hits across 2000 URLs on 3 program domains, word_boundary mode), C=inconclusive (generic AWS CNAME — structural, not informational); override promotes unknown to unowned. Applied rule rule-ownership_verifier-wayback_match_mode-879f3: used word_boundary grep mode for Check B per global rule. No asset_pattern_overrides matched 'wordpress-prod'. The bucket name 'wordpress-prod' is a generic WordPress production environment label — confirmed by its appearance in tomdev/teh_s3_bucketeers/common_bucket_prefixes.txt (a public S3 wordlist), meaning any third party could have registered this bucket. The brand+suffix context note (brand+'-prod') does NOT apply here because 'wordpress' is the open-source project name, not an Automattic-exclusive brand stem — countless WordPress hosting providers and self-hosters use this naming pattern."
+}

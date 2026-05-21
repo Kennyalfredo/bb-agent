@@ -1,0 +1,32 @@
+{
+  "slug": "snapchat",
+  "asset": "spectacles",
+  "bucket_name": "spectacles",
+  "dns_name": "spectacles.s3.amazonaws.com",
+  "fetched_at": "2026-05-16T00:00:00Z",
+  "verdict": "unowned",
+  "checks": {
+    "github_code": {
+      "status": "negative",
+      "total_count": 0,
+      "top_hits": [],
+      "evidence_path": "/tmp/ownership-c17911f1f429039a-gh.json"
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "total_urls_scanned": 8331,
+      "domains_queried": ["snap.com", "snapchat.com", "spectacles.com"],
+      "match_mode": "word_boundary",
+      "evidence_path": "/tmp/ownership-c17911f1f429039a-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-3-w.amazonaws.com",
+      "resolved_ips": ["3.5.75.105", "3.5.75.74", "3.5.74.81", "52.218.61.194", "3.5.75.18", "3.5.74.101", "52.92.32.137", "52.92.19.241"],
+      "note": "Standard AWS S3 regional CNAME — generic, proves only the bucket exists in AWS. No program-domain-to-bucket CNAME found.",
+      "evidence_path": "/tmp/ownership-c17911f1f429039a-dns.txt"
+    }
+  },
+  "notes": "applied rule rule-ownership_verifier-wayback_match_mode-879f3: word_boundary grep used for Wayback check to avoid bare-brand substring degenerate-match. applied rule rule-ownership_verifier-bucket_aggregation_override-1c25c: A=neg + B=neg + C=inconclusive pattern matches override rule; verdict promoted from unknown to unowned. Context: spectacles.com IS in scope for snapchat program (severity_cap: low), but the S3 bucket 'spectacles' is a bare-brand name (eyeglass product line) with zero ownership evidence. The 8,331 Wayback URLs from snap.com/snapchat.com/spectacles.com contain zero references to spectacles.s3.amazonaws.com. GH code search across all of GitHub found 0 files referencing the bucket URL. DNS resolves to generic AWS S3 endpoint — bucket exists but Snap ownership cannot be established."
+}

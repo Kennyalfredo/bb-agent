@@ -1,0 +1,36 @@
+{
+  "slug": "snapchat",
+  "asset": "snapchat",
+  "bucket_name": "snapchat",
+  "dns_name": "snapchat.s3.amazonaws.com",
+  "fetched_at": "2026-05-16T16:16:31Z",
+  "verdict": "unknown",
+  "checks": {
+    "github_code": {
+      "status": "negative",
+      "total_count": 0,
+      "top_hits": [],
+      "evidence_path": "/tmp/ownership-985cf6d745df8fe9-gh.json"
+    },
+    "wayback": {
+      "status": "inconclusive",
+      "hit_count": 0,
+      "evidence_path": "/tmp/ownership-985cf6d745df8fe9-gau.txt",
+      "notes": "gau returned 0 URLs across snapchat.com/snap.com/bitmoji.com; direct Wayback CDX API timed out (curl exit 28); cannot distinguish true-negative from network-unreachable — marked inconclusive per protocol"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-1-w.amazonaws.com -> s3-w.us-east-1.amazonaws.com",
+      "resolves": true,
+      "evidence_path": "/tmp/ownership-985cf6d745df8fe9-dns.txt",
+      "notes": "Bucket resolves via generic AWS S3 CNAME chain (expected for any existing S3 bucket). No CNAME from a Snap-controlled domain (*.snapchat.com, *.sc-core.net, *.sc-corp.net) pointing to this bucket. DNS provides no ownership signal for buckets."
+    }
+  },
+  "rules_applied": [
+    "applied rule rule-ownership_verifier-wayback_match_mode-879f3: word_boundary mode active — grep used -E \"\\bsnapchat\\.s3\\.amazonaws\\.com\\b\" (moot: gau returned 0 URLs)",
+    "applied rule rule-ownership_verifier-bucket_aggregation_override-1c25c: checked condition A=negative,B=negative,C=inconclusive — did NOT fire because B=inconclusive (not negative); verdict remains unknown",
+    "checked asset_pattern_overrides[]: pattern 'jitsi-files' does not match 'snapchat' — no override applied",
+    "checked bucket_hunter.basename_skip[]: 'snapchat' not in skip list — all checks proceeded"
+  ],
+  "notes": "Bare brand name bucket (9 chars). Snap Inc infrastructure is GCP-based (feelinsonice-hrd.appspot.com) and uses sc-core.net/sc-corp.net — no known S3 footprint under the bare brand name. Zero GH evidence of Snap referencing this bucket in code. Wayback inconclusive due to network timeout. DNS is generic AWS — bucket exists but any AWS account could hold a bucket named 'snapchat'. Pattern matches prior bare-brand unknowns: indrive (indrive.s3, 7 chars) and elastic (found.s3). Two-of-three positive signal threshold cannot be met — verdict locked at unknown."
+}

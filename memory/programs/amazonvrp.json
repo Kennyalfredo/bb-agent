@@ -1,0 +1,665 @@
+{
+  "program": {
+    "slug": "amazonvrp",
+    "platform": "hackerone",
+    "url": "https://hackerone.com/amazonvrp",
+    "name": "Amazon Vulnerability Research Program",
+    "fetched_at": "2026-05-15"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "other",
+        "asset": "Other Amazon Retail Sites (Please only actively test explicitly stated scope)",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "other",
+        "asset": "Other Amazon Retail Mobile Apps (Please only actively test explicitly stated scope)",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "other",
+        "asset": "Amazon Subsidiaries (Please only actively test explicitly stated scope)",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.amazon.*",
+        "severity_cap": "critical",
+        "notes": "All international retail marketplaces: amazon.com, amazon.co.uk, amazon.in, amazon.de, amazon.fr, amazon.co.jp, amazon.ca, amazon.cn, amazon.it, amazon.es, amazon.nl, amazon.ae, amazon.sg, amazon.se, amazon.sa, amazon.eg, amazon.pl, amazon.com.au, amazon.com.tr, amazon.com.br, amazon.com.mx, amazon.com.be, amazon.co.za, amazon.com.ng, amazon.com.co, amazon.cl"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.mShop.android.shopping",
+        "severity_cap": "critical",
+        "notes": "Amazon Shopping - https://play.google.com/store/apps/details?id=com.amazon.mShop.android.shopping"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "297606951",
+        "severity_cap": "critical",
+        "notes": "Amazon Shopping - https://apps.apple.com/us/app/amazon-shopping/id297606951"
+      },
+      {
+        "type": "other",
+        "asset": "Other Amazon Retail Assets (Please only actively test explicitly stated scope)",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "other",
+        "asset": "https://www.amazonpay.in/*",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "amazonpayinsurance.in",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.cl",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.co.za",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.com.au",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.com.br",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.com.co",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.com.mx",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.com.ng",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.com.tr",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.pl",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.com.be",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.ae",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.ca",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.cn",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.co.jp",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.co.uk",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.de",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.eg",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.es",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.fr",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.in",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.it",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.nl",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.sa",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.se",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.sg",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.amazon.com",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "other",
+        "asset": "GenAI Apps under *.amazon.*",
+        "severity_cap": "critical",
+        "notes": "Catchall for any GenAI applications found under *.amazon.*. Rufus is an example."
+      },
+      {
+        "type": "wildcard",
+        "asset": "primevideo.com/*",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "amazon.speech.sim",
+        "severity_cap": "critical",
+        "notes": "Amazon Alexa - Show Mode for L - https://play.google.com/store/apps/details?id=amazon.speech.sim"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "1552455423",
+        "severity_cap": "critical",
+        "notes": "Amazon Astro - https://apps.apple.com/us/app/amazon-astro/id1552455423"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.mShop.android.business.shopping",
+        "severity_cap": "critical",
+        "notes": "Amazon Business - https://play.google.com/store/apps/details?id=com.amazon.mShop.android.business.shopping"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "1498197033",
+        "severity_cap": "critical",
+        "notes": "Amazon Business - https://apps.apple.com/us/app/amazon-business-b2b-shopping/id1498197033"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "1265170914",
+        "severity_cap": "critical",
+        "notes": "Amazon Live Creator - https://apps.apple.com/us/app/amazon-live-creator/id1265170914"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.mp3",
+        "severity_cap": "critical",
+        "notes": "Amazon Music (incl. wearOS watch variant) - https://play.google.com/store/apps/details?id=com.amazon.mp3"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "510855668",
+        "severity_cap": "critical",
+        "notes": "Amazon Music - https://apps.apple.com/us/app/amazon-music-songs-podcasts/id510855668"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "6452192521",
+        "severity_cap": "critical",
+        "notes": "Amazon One - https://apps.apple.com/us/app/amazon-one/id6452192521"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "545519333",
+        "severity_cap": "critical",
+        "notes": "Amazon Prime Video - https://apps.apple.com/us/app/amazon-prime-video/id545519333"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "1475021574",
+        "severity_cap": "critical",
+        "notes": "Amazon Music for Artists - https://apps.apple.com/us/app/amazon-music-for-artists/id1475021574"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "1454725763",
+        "severity_cap": "critical",
+        "notes": "Amazon Flex - https://apps.apple.com/us/app/itunes-store/1454725763"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "1276296103",
+        "severity_cap": "critical",
+        "notes": "Amazon Relay - https://apps.apple.com/us/app/itunes-store/1276296103"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.flex.rabbit",
+        "severity_cap": "critical",
+        "notes": "Amazon Flex - https://play.google.com/store/apps/details?id=com.amazon.flex.rabbit"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.imdbtv.livingroom",
+        "severity_cap": "critical",
+        "notes": "Amazon Freevee (TV/Android TV) - https://play.google.com/store/apps/details?id=com.imdbtv.livingroom"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.amazonvideo.livingroom",
+        "severity_cap": "critical",
+        "notes": "Amazon Prime Video (TV/Android TV) - https://play.google.com/store/apps/details?id=com.amazon.amazonvideo.livingroom"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.mp3.automotiveOS",
+        "severity_cap": "critical",
+        "notes": "Amazon Music - Automotive (AAOS) - https://play.google.com/store/apps/details?id=com.amazon.mp3.automotiveOS"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.localqueen",
+        "severity_cap": "critical",
+        "notes": "GlowRoad: Resell & Earn Online - https://play.google.com/store/apps/details?id=com.localqueen"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.helix.prod",
+        "severity_cap": "critical",
+        "notes": "Amazon Hub Counter - https://play.google.com/store/apps/details?id=com.amazon.helix.prod"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "6471528064",
+        "severity_cap": "critical",
+        "notes": "Amazon Kids + Parents Dashboard - https://apps.apple.com/us/app/amazon-kids-parent-dashboard/id6471528064"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.tahoe.grownups",
+        "severity_cap": "critical",
+        "notes": "Amazon Kids + Parent Dashboard - https://play.google.com/store/apps/details?id=com.amazon.tahoe.grownups"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.sft.rangoli.seller.app",
+        "severity_cap": "critical",
+        "notes": "SmartBiz by Amazon Web Builder - https://play.google.com/store/apps/details?id=com.amazon.sft.rangoli.seller.app"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "1532153219",
+        "severity_cap": "critical",
+        "notes": "Amazon Freevee - https://apps.apple.com/us/app/amazon-freevee-movies-live-tv/id1532153219"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.imdb.tv.mobile.app",
+        "severity_cap": "critical",
+        "notes": "Amazon Freevee - https://play.google.com/store/apps/details?id=com.amazon.imdb.tv.mobile.app"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.minitv.android.app",
+        "severity_cap": "critical",
+        "notes": "Amazon miniTV - https://play.google.com/store/apps/details?id=com.amazon.minitv.android.app"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.ziggy.android",
+        "severity_cap": "critical",
+        "notes": "Amazon Music for Artists - https://play.google.com/store/apps/details?id=com.amazon.ziggy.android"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.music.tv",
+        "severity_cap": "critical",
+        "notes": "Amazon Music TV (Android TV) - https://play.google.com/store/apps/details?id=com.amazon.music.tv"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "1579372261",
+        "severity_cap": "critical",
+        "notes": "Amazon Business (IN) - https://apps.apple.com/in/app/amazon-business-india-b2b/id1579372261"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "in.amazon.mShop.android.business.shopping",
+        "severity_cap": "critical",
+        "notes": "Amazon Business (IN) - https://play.google.com/store/apps/details?id=in.amazon.mShop.android.business.shopping"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "1478350915",
+        "severity_cap": "critical",
+        "notes": "Amazon Shopping (IN) - https://apps.apple.com/in/app/amazon-india-shop-pay-minitv/id1478350915"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "in.amazon.mShop.android.shopping",
+        "severity_cap": "critical",
+        "notes": "Amazon Shopping (IN) - https://play.google.com/store/apps/details?id=in.amazon.mShop.android.shopping"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.relay",
+        "severity_cap": "critical",
+        "notes": "Amazon Relay - https://play.google.com/store/apps/details?id=com.amazon.relay"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.avod.thirdpartyclient",
+        "severity_cap": "critical",
+        "notes": "Amazon Prime Video - https://play.google.com/store/apps/details?id=com.amazon.avod.thirdpartyclient"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "794141485",
+        "severity_cap": "critical",
+        "notes": "Amazon Seller - https://apps.apple.com/us/app/itunes-store/794141485"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.sellerflexmobile",
+        "severity_cap": "critical",
+        "notes": "Amazon Seller Flex App - https://play.google.com/store/apps/details?id=com.amazon.sellerflexmobile"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.shopperpanel.android.mobile.app",
+        "severity_cap": "critical",
+        "notes": "Amazon Shopper Panel - https://play.google.com/store/apps/details?id=com.amazon.shopperpanel.android.mobile.app"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "1494755014",
+        "severity_cap": "critical",
+        "notes": "Amazon Shopper Panel - https://apps.apple.com/us/app/amazon-shopper-panel/id1494755014"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "342576766",
+        "severity_cap": "critical",
+        "notes": "Amazon Shopping (CN) - https://apps.apple.com/cn/app/id342576766"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "358861688",
+        "severity_cap": "critical",
+        "notes": "Amazon Shopping (FR) - https://apps.apple.com/fr/app/amazon-fr/id358861688"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "348712880",
+        "severity_cap": "critical",
+        "notes": "Amazon Shopping (DE) - https://apps.apple.com/de/app/amazon/id348712880"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "374254473",
+        "severity_cap": "critical",
+        "notes": "Amazon Shopping (JP) - https://apps.apple.com/jp/app/id374254473"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "335187483",
+        "severity_cap": "critical",
+        "notes": "Amazon Shopping (UK) - https://apps.apple.com/gb/app/amazon/id335187483"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "1592204907",
+        "severity_cap": "critical",
+        "notes": "Amazon Sidewalk Bridge Pro - https://apps.apple.com/us/app/amazon-sidewalk-bridge-pro/id1592204907"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "6444868926",
+        "severity_cap": "critical",
+        "notes": "Amazon Vendor - https://apps.apple.com/us/app/amazon-vendor/id6444868926"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.vendormobile.android",
+        "severity_cap": "critical",
+        "notes": "Amazon Vendor - https://play.google.com/store/apps/details?id=com.amazon.vendormobile.android"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "988788863",
+        "severity_cap": "critical",
+        "notes": "Selling Services on Amazon - https://apps.apple.com/us/app/selling-services-on-amazon/id988788863"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.technician.android",
+        "severity_cap": "critical",
+        "notes": "Selling Services on Amazon - https://play.google.com/store/apps/details?id=com.amazon.technician.android"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.primenow.seller.android",
+        "severity_cap": "critical",
+        "notes": "PN Seller - https://play.google.com/store/apps/details?id=com.amazon.primenow.seller.android"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "1057338687",
+        "severity_cap": "critical",
+        "notes": "PN Seller - https://apps.apple.com/us/app/pn-seller/id1057338687"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.vendormobile.india.android",
+        "severity_cap": "critical",
+        "notes": "Vendor Central (IN) - https://play.google.com/store/apps/details?id=com.amazon.vendormobile.india.android"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "1659883691",
+        "severity_cap": "critical",
+        "notes": "Vendor Central (IN) - https://apps.apple.com/in/app/vendor-central-india/id1659883691"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.sellermobile.android",
+        "severity_cap": "critical",
+        "notes": "Amazon Seller - https://play.google.com/store/apps/details?id=com.amazon.sellermobile.android"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.astro",
+        "severity_cap": "critical",
+        "notes": "Amazon Astro - https://play.google.com/store/apps/details?id=com.amazon.astro"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.warhol.android",
+        "severity_cap": "critical",
+        "notes": "Amazon Live Creator - https://play.google.com/store/apps/details?id=com.amazon.warhol.android"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.amazonone.androidapp",
+        "severity_cap": "critical",
+        "notes": "Amazon One - https://play.google.com/store/apps/details?id=com.amazon.amazonone.androidapp"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.kisan.app",
+        "severity_cap": "critical",
+        "notes": "Amazon Kisan - https://play.google.com/store/apps/details?id=com.amazon.kisan.app"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "1151746202",
+        "severity_cap": "critical",
+        "notes": "Transparency app - https://apps.apple.com/us/app/transparency/id1151746202"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "6479334468",
+        "severity_cap": "critical",
+        "notes": "Amazon Shipping - https://apps.apple.com/us/app/amazon-shipping/id6479334468"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "6560104638",
+        "severity_cap": "critical",
+        "notes": "Amazon Fire TV Recast|Blaster - https://apps.apple.com/us/app/amazon-fire-tv-recast-blaster/id6560104638"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.aba.application",
+        "severity_cap": "critical",
+        "notes": "https://play.google.com/store/apps/details?id=com.amazon.aba.application"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.enterprise.access.android",
+        "severity_cap": "critical",
+        "notes": "AEA - Amazon Employees - https://play.google.com/store/apps/details?id=com.amazon.enterprise.access.android"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.firetv.recast.blaster.aosp",
+        "severity_cap": "critical",
+        "notes": "Amazon Fire TV Recast|Blaster - https://play.google.com/store/apps/details?id=com.amazon.firetv.recast.blaster.aosp"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.ihm.candycane",
+        "severity_cap": "critical",
+        "notes": "Store Ops by Amazon - https://play.google.com/store/apps/details?id=com.amazon.ihm.candycane"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.amazon.swa.mobileapp",
+        "severity_cap": "critical",
+        "notes": "Amazon Shipping - https://play.google.com/store/apps/details?id=com.amazon.swa.mobileapp"
+      }
+    ],
+    "out_of_scope": [
+      {
+        "type": "other",
+        "asset": "Amazon Web Services (AWS)",
+        "reason": "All AWS-related services are out of scope; report via https://aws.amazon.com/security/vulnerability-reporting/"
+      },
+      {
+        "type": "domain",
+        "asset": "amazongames.com"
+      },
+      {
+        "type": "other",
+        "asset": "Contact Us Functionality"
+      },
+      {
+        "type": "other",
+        "asset": "AWS and AWS customer assets are strictly out of scope"
+      },
+      {
+        "type": "other",
+        "asset": "*.*a2z*.*"
+      },
+      {
+        "type": "other",
+        "asset": "*.dev"
+      },
+      {
+        "type": "other",
+        "asset": "*.aws.*"
+      },
+      {
+        "type": "other",
+        "asset": "Anything considered a non-prod asset",
+        "reason": "URLs containing test, qa, integ, preprod, gamma, beta, user-aliases, or region names (us-east, us-west)"
+      },
+      {
+        "type": "other",
+        "asset": "Anything which redirects to AWS"
+      },
+      {
+        "type": "other",
+        "asset": "learning.logistics.amazon.com"
+      }
+    ]
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": true,
+    "cve_age_min_days": 30,
+    "requires_ownership_proof": true,
+    "safe_harbor": true,
+    "submission_form": "https://hackerone.com/amazonvrp",
+    "notes": "automated_tools_allowed=True: explicitly allowed with User-Agent 'amazonvrpresearcher_yourh1username', rate-capped at 5 req/sec per service; scanners without this UA string risk IP block. mass_scanning_allowed=False: the 5 req/sec cap and explicit prohibition on brute-force/DoS applies. safe_harbor=True: explicitly granted — Amazon will not bring legal action for good-faith compliance. bucket_listing_allowed=True: safe default applied; no explicit bucket policy stated in rules. bucket_download_allowed=False: safe default applied; no explicit bucket policy stated. cve_age_min_days=30: safe default applied; zero-days are eligible at Amazon's discretion but no explicit minimum age stated. requires_ownership_proof=True: policy explicitly requires using only own accounts; account ban recovery requires a card statement (ownership proof). Bounty amounts not published; min/max set to 0 as placeholders. IMPORTANT: OpSec findings (leaked credentials, leaked business documents) receive reputation points only, no monetary bounty. Do NOT use 3rd-party XSS infrastructure (XSS Hunter etc.); must self-host. Subdomain takeover PoC: serve HTML only on a hidden path with H1 username in HTML comment — no content on index. Accounts for testing must use yourh1username@wearehackerone.com email format. AWS IP space (https://ip-ranges.amazonaws.com/ip-ranges.json) and AWS customer assets are strictly forbidden even if they appear to be Amazon-branded via Shodan SSL certs."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      {
+        "severity": "critical",
+        "min": 0,
+        "max": 0,
+        "currency": "USD"
+      },
+      {
+        "severity": "high",
+        "min": 0,
+        "max": 0,
+        "currency": "USD"
+      },
+      {
+        "severity": "medium",
+        "min": 0,
+        "max": 0,
+        "currency": "USD"
+      },
+      {
+        "severity": "low",
+        "min": 0,
+        "max": 0,
+        "currency": "USD"
+      }
+    ]
+  },
+  "raw_policy_excerpt": "#Amazon Vulnerability Research Program (VRP) - Program Policy\n\n#Rules of Engagement (Testing)\n- Use User-Agent string 'amazonvrpresearcher_yourh1username' while testing.\n- Limited usage of automated scanners/tools is allowed with the above User-Agent applied; scanners must be configured to not send more than 5 requests per second to any particular service.\n- Use of scanning tools without the User-Agent string may result in account/IP getting blocked by automated protections.\n- Do not use 3rd party sites when testing (e.g. XSS Hunter variants). Only utilize assets that you expressly own and control yourself.\n- When testing a subdomain takeover, do not publish anything on the index page. Serve an HTML file on a hidden path containing your HackerOne username in an HTML comment.\n- Create Amazon accounts using yourh1username@wearehackerone.com.\n\n#Always Out of Scope\n- Anything which contains 'aws' in the subdomain\n- Anything which is .a2z.\n- Anything which ends with *.dev\n- Anything which redirects to AWS\n- URLs with text: test, qa, integ, preprod, gamma, beta, user-aliases, regions (us-east, us-west)\n- AWS and AWS customer assets\n- Security issues in the AWS IP Space (https://ip-ranges.amazonaws.com/ip-ranges.json)\n\n#Legal Safe Harbor\nAmazon will not bring any legal action against anyone who makes a good faith effort to comply with program policies, or for any accidental or good faith violation of this policy.\n\n#Operational Security Issues\nOpSec issues (leaked employee passwords, leaked business documents, etc.) will only receive reputation points — no monetary reward.\n\n#Non-eligible Vulnerabilities\nClickjacking, Self XSS, Email Spoofing/SPF, Subdomain Takeover for out-of-scope items, Scanner Outputs, DOS/DDOS, Missing Cookie Flags, Content Spoofing, Stack Traces/Path Disclosure/Directory Listings, CSV Injection, Reflected File Download, Auth User Enumeration, Password Complexity, HTTP Trace Method, Host Header Injection without demonstrable impact, CSRF with minimal impact.\n\n#Bounty Eligibility Note\nBounty amounts are not published. offers_bounties=true per GraphQL. Program is open (submission_state=open)."
+}

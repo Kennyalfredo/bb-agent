@@ -1,0 +1,34 @@
+{
+  "slug": "indrive",
+  "asset": "indrive-test",
+  "bucket_name": "indrive-test",
+  "dns_name": "indrive-test.s3.amazonaws.com",
+  "fetched_at": "2026-05-15T00:00:00Z",
+  "verdict": "unknown",
+  "checks": {
+    "github_code": {
+      "status": "ambiguous",
+      "total_count": 3,
+      "top_hits": [
+        {"repo": "mezmer42/bootkit", "path": "qemu/qemu_start.sh", "html_url": "https://github.com/mezmer42/bootkit/blob/ac7a796250f9e1ddc83fce027b51e4465f88a1d3/qemu/qemu_start.sh"},
+        {"repo": "rix4uni/BugBountyData", "path": "data/qad.com.txt", "html_url": "https://github.com/rix4uni/BugBountyData/blob/d1beea62027c5684ed9ed6a6a10a07834ad952e9/data/qad.com.txt"},
+        {"repo": "artista7/cognito-backend", "path": "atnp/sample-data.py", "html_url": "https://github.com/artista7/cognito-backend/blob/0ab27573ac2a9a57a9b07a926f56d8798cf6ee6e/atnp/sample-data.py"}
+      ],
+      "evidence_path": "/tmp/ownership-5922879c1735a393-gh.json"
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "urls_scanned": 15426,
+      "evidence_path": "/tmp/ownership-5922879c1735a393-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-ap-southeast-1-w.amazonaws.com.",
+      "resolved_ips": ["3.5.147.237", "52.219.132.172", "52.219.125.101", "3.5.151.247", "3.5.147.64", "3.5.149.200", "52.219.184.5", "3.5.149.255"],
+      "note": "Bucket resolves to generic AWS ap-southeast-1 CNAME — confirms existence but not ownership. No CNAME from any program-owned domain to this bucket found.",
+      "evidence_path": "/tmp/ownership-5922879c1735a393-dns.txt"
+    }
+  },
+  "notes": "applied rule wayback_match_mode=word_boundary: grepped for \\bindrive-test\\b across 15426 URLs (indriverapp.com, indrive.com, indriver.com) — 0 hits. GH search returned 3 hits: mezmer42/bootkit (qemu startup script), rix4uni/BugBountyData (a bucket enumeration dump), artista7/cognito-backend (cognito sample data) — all third-party repos with 0 hits inside the indrive/indriverapp/indriver org namespace. bucket_aggregation_override rule not triggered because A=ambiguous (not negative). Standard aggregation table: A=ambiguous + B=negative + C=inconclusive = unknown. -test suffix may indicate non-prod dev bucket; rix4uni/BugBountyData hit suggests the name was picked up by an external bucket scanner, not from a program codebase reference."
+}

@@ -1,0 +1,21 @@
+{
+  "slug": "toolsforhumanity",
+  "drafts": [
+    {
+      "asset": "worldcoin",
+      "asset_class": "secret",
+      "finding_type": "leaked-secret",
+      "severity_proposed": "high",
+      "severity_capped": "high",
+      "report_path": "out/toolsforhumanity/reports/worldcoin-20260517-173711.md",
+      "drafted_at": "2026-05-17T17:37:11Z",
+      "ownership_cache_ref": "memory/ownership-cache/f5b339d87d1d31be.json",
+      "candidate_source": "out/toolsforhumanity/secrets/20260517-172026.json",
+      "submitted": true,
+      "submitted_at": "2026-05-17",
+      "submission_url": "https://hackerone.com/reports/3742794",
+      "platform_report_id": "3742794",
+      "notes": "2 trufflehog-verified candidates bundled: Alchemy (signup-sequencer/e2e_tests/compose.yml, commit f679ddf, first_seen 2024-04-29) + Infura (simulator/WalletProvider.tsx, commit edc2cc1, first_seen 2022-04-20). Proposed high = min(high, critical cap). Rule rule-report_drafter-require_cap_refinement_when_all_caps_unknown-bc5e8 evaluated: applies_to_platforms=[bugcrowd] only — did not fire (platform=hackerone). Rule rule-report_drafter-auto_info_filter-8a2f1 applied: all local filesystem paths stripped from final report markdown. Auto_info_filter bucket-listing rules did not fire (finding class = credential-leak, not bucket-listing). 7 NoseyParker-only Postgres URI candidates excluded (unverified local-dev/test fixtures). GenericAPIKey (G5CK...QQNH) excluded (NP-only, tx-sitter local e2e fixture, TX_SITTER__SERVER__DISABLE_AUTH=true in same file). Reportability caveat noted in report: TFH policy requires working PoC against production for open-source repo findings; trufflehog passive issuer verification satisfies this threshold."
+    }
+  ]
+}

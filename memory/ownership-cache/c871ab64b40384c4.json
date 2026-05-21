@@ -1,0 +1,33 @@
+{
+  "slug": "snapchat",
+  "asset": "sc-core-backup",
+  "bucket_name": "sc-core-backup",
+  "dns_name": "sc-core-backup.s3.amazonaws.com",
+  "fetched_at": "2026-05-16T00:00:00Z",
+  "verdict": "unowned",
+  "checks": {
+    "github_code": {
+      "status": "negative",
+      "total_count": 0,
+      "top_hits": [],
+      "evidence_path": "/tmp/ownership-c871ab64b40384c4-gh.json"
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "urls_crawled": 3772,
+      "domains_queried": ["snap.com", "snapchat.com", "sc-core.net"],
+      "match_mode": "word_boundary",
+      "evidence_path": "/tmp/ownership-c871ab64b40384c4-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-3-w.amazonaws.com",
+      "resolved_ips": ["52.92.35.145", "3.5.67.233", "3.5.74.31", "3.5.74.39", "52.92.36.97", "3.5.67.237", "3.5.67.238", "3.5.73.101"],
+      "note": "Bucket resolves via generic AWS CNAME (s3-3-w.amazonaws.com) — any registered S3 bucket resolves this way. No CNAME from a program-owned domain pointing to this bucket found. sc-core.net wildcard is a DNS zone Snap controls, but sc-core-backup is a bucket name, not a subdomain of sc-core.net; C=inconclusive for buckets per protocol.",
+      "evidence_path": "/tmp/ownership-c871ab64b40384c4-dns.txt"
+    }
+  },
+  "aggregation_rule_fired": "rule-ownership_verifier-bucket_aggregation_override-1c25c",
+  "notes": "applied rule rule-ownership_verifier-bucket_aggregation_override-1c25c: A=negative (0 GH hits), B=negative (0 word-boundary hits across 3772 URLs from snap.com/snapchat.com/sc-core.net), C=inconclusive (generic AWS CNAME, not a program-domain CNAME) — override promotes to unowned. wayback_match_mode=word_boundary applied per rules.json rule-ownership_verifier-wayback_match_mode-879f3. The *.sc-core.net Tier A wildcard scope entry was considered: sc-core-backup is a bucket name, not a DNS host under sc-core.net, so zone-ownership does not transfer. Bucket does resolve in AWS (bucket exists), but existence is not proof of program ownership."
+}

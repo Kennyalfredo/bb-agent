@@ -1,0 +1,50 @@
+{
+  "slug": "automattic",
+  "asset": "wpcloud",
+  "bucket_name": "wpcloud",
+  "dns_name": "wpcloud.s3.amazonaws.com",
+  "fetched_at": "2026-05-16T19:25:00Z",
+  "verdict": "owned",
+  "checks": {
+    "github_code": {
+      "status": "positive",
+      "total_count": 379,
+      "top_hits": [
+        {"repo": "Automattic/jetpack", "path": "projects/plugins/wpcloud-sso/jetpack-wpcloud-sso.php", "html_url": "https://github.com/Automattic/jetpack/blob/7f2679ddd52ee9c24bc7131444b1f2d2423b35d3/projects/plugins/wpcloud-sso/jetpack-wpcloud-sso.php"},
+        {"repo": "Automattic/wp-calypso", "path": "client/components/wp-cloud-logo/index.jsx", "html_url": "https://github.com/Automattic/wp-calypso/blob/602e4f7a6fe6225d55f4202fddb6665a9730d848/client/components/wp-cloud-logo/index.jsx"},
+        {"repo": "Automattic/wpcloud-station", "path": "plugin/wpcloud-station.php", "html_url": "https://github.com/Automattic/wpcloud-station/blob/37b97df9a6c3853e3be53925be73df37230a82fb/plugin/wpcloud-station.php"},
+        {"repo": "Automattic/jetpack", "path": "projects/plugins/wpcloud-sso/README.md", "html_url": "https://github.com/Automattic/jetpack/blob/7f2679ddd52ee9c24bc7131444b1f2d2423b35d3/projects/plugins/wpcloud-sso/README.md"},
+        {"repo": "Automattic/wp-calypso", "path": "client/dashboard/domains/domain-dns/utils.ts", "html_url": "https://github.com/Automattic/wp-calypso/blob/602e4f7a6fe6225d55f4202fddb6665a9730d848/client/dashboard/domains/domain-dns/utils.ts"},
+        {"repo": "Automattic/wpcloud-station", "path": "plugin/cli/class-wpcloud-cli.php", "html_url": "https://github.com/Automattic/wpcloud-station/blob/37b97df9a6c3853e3be53925be73df37230a82fb/plugin/cli/class-wpcloud-cli.php"},
+        {"repo": "Automattic/jetpack", "path": "projects/plugins/wpcloud-sso/readme.txt", "html_url": "https://github.com/Automattic/jetpack/blob/7f2679ddd52ee9c24bc7131444b1f2d2423b35d3/projects/plugins/wpcloud-sso/readme.txt"},
+        {"repo": "Automattic/newspack-migration-tools", "path": "docs/fg-helper.md", "html_url": "https://github.com/Automattic/newspack-migration-tools/blob/7f877075c85b6839cee85897e7de971ea26f2322/docs/fg-helper.md"},
+        {"repo": "Automattic/jetpack-wpcloud-sso", "path": "jetpack_vendor/i18n-map.php", "html_url": "https://github.com/Automattic/jetpack-wpcloud-sso/blob/1f2eae6a0535e0df08b6a6645a923bb92b9990b1/jetpack_vendor/i18n-map.php"},
+        {"repo": "Automattic/wpcloud-externals-example", "path": "README.md", "html_url": "https://github.com/Automattic/wpcloud-externals-example/blob/2cbd96981af7a274ef5cbb9ec79040c10f0a3a84/README.md"}
+      ],
+      "evidence_path": "/tmp/ownership-2aa0594f718a1d86-gh.json",
+      "note": "All 10 top hits are in Automattic/ org repos. Three repos are named after the brand: Automattic/wpcloud-station, Automattic/jetpack-wpcloud-sso, Automattic/wpcloud-externals-example. a_gate: exact_literal confirmed — wpcloud appears as a standalone token in repo and file names, not as a substring embedded in a longer word."
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 74,
+      "evidence_path": "/tmp/ownership-2aa0594f718a1d86-gau-hits.txt",
+      "note": "74 word-boundary hits found but ALL are wpcloud.com/* URLs (the domain itself). Zero hits from wordpress.com, automattic.com, wpvip.com pages referencing the S3 bucket. This is the brand-stem degenerate-match: every URL on wpcloud.com contains the word 'wpcloud'. No cross-domain page reference to the S3 bucket was found. B=negative per strict definition. Internal-infra buckets are not web-crawled — B will structurally never be positive for this asset class; internal_infra_override accounts for this."
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-3-w.amazonaws.com.",
+      "resolved_ips": ["3.5.73.93", "3.5.66.62", "52.92.35.73", "52.92.0.241", "3.5.71.96", "3.5.73.110", "3.5.75.86", "3.5.69.45"],
+      "evidence_path": "/tmp/ownership-2aa0594f718a1d86-dns.txt",
+      "note": "Generic AWS S3 CNAME (s3-3-w.amazonaws.com). No CNAME from a program-owned domain pointing to this bucket. Per rules, DNS is inconclusive for S3 buckets unless a program-domain CNAME exists. S3 DNS is structurally generic — C will never be positive for this asset class; internal_infra_override accounts for this. Supplemental: wpcloud.com resolves to 192.0.78.24-25 NetName=AUTOMATTIC, confirming wpcloud.com is Automattic-owned (orthogonal to bucket check)."
+    }
+  },
+  "verdict_rationale": "Stale cache (2026-05-16T00:00:00Z, verdict=unknown) re-evaluated after rules.json update at 2026-05-16T19:20:21Z. New rule rule-ownership_verifier-internal_infra_override-74f17 fires: A=positive (exact_literal match in program_org repos — 379 hits in Automattic/* including 3 dedicated repos named Automattic/wpcloud-station, Automattic/jetpack-wpcloud-sso, Automattic/wpcloud-externals-example), B=negative (structural: internal-infra bucket never web-crawled), C=inconclusive (structural: S3 DNS always generic). All three a_gate conditions met: match_type=exact_literal confirmed (wpcloud as standalone token, not substring), match_scope=program_org confirmed (all Automattic/* hits), substring_brand_stem_does_not_qualify passed (repos are named after the service, not brand-stem coincidence). Verdict promoted from unknown to owned.",
+  "rules_applied": [
+    "applied rule rule-ownership_verifier-wayback_match_mode-879f3: word_boundary grep used for Check B to avoid brand-stem degenerate match on wpcloud.com URLs",
+    "applied rule rule-ownership_verifier-internal_infra_override-74f17: A=positive (exact_literal, 379 Automattic/* hits, 3 dedicated repos) + B=negative + C=inconclusive matches when{a:positive, b_in:[negative,inconclusive], c:inconclusive}; a_gate satisfied — wpcloud is an exact literal token in program-org source code (Automattic/wpcloud-station repo name itself), not a brand-stem substring; structural B/C impossibility for internal-infra S3 buckets confirmed; verdict promoted from unknown to owned",
+    "asset_pattern_overrides: none matched 'wpcloud'",
+    "bucket_aggregation_override: did not fire (A is positive, not negative)",
+    "wildcard_stem_dns_override: did not fire (A is positive)"
+  ],
+  "notes": "Re-verified 2026-05-16T19:25:00Z. Prior verdict was unknown (fetched_at 2026-05-16T00:00:00Z) — treated as stale per parent instruction. Rule rule-ownership_verifier-internal_infra_override-74f17 added at 2026-05-16T19:20:21Z fires on this exact signal pattern. a_gate exact_literal confirmed: 'wpcloud' is a standalone service name appearing as repo prefixes (Automattic/wpcloud-station, Automattic/jetpack-wpcloud-sso, Automattic/wpcloud-externals-example) — this is not a brand-stem substring collision. wpcloud.com RDAP NetName=AUTOMATTIC provides supplemental corroboration that the wpcloud service is Automattic-owned. Program scope JSON lists 'WP Cloud' as a critical-severity asset. Bucket: eu-west-1, auth-read, 20,788 objects."
+}

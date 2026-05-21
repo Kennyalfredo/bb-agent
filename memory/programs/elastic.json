@@ -1,0 +1,534 @@
+{
+  "program": {
+    "slug": "elastic",
+    "platform": "hackerone",
+    "url": "https://hackerone.com/elastic",
+    "name": "Elastic",
+    "fetched_at": "2026-05-15"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "domain",
+        "asset": "cloud.elastic.co",
+        "severity_cap": "critical",
+        "notes": "Must use @wearehackerone.com email to create trial. Right to withhold bounty if non-H1 email used. Only latest supported versions eligible. Rate-limiting on /api/v1/users/_login is explicitly OOS."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.elastic.co",
+        "severity_cap": "critical",
+        "notes": "All subdomains in scope UNLESS listed in out-of-scope."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.found.io",
+        "severity_cap": "critical",
+        "notes": "Internal assets; subdomain takeovers welcome."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.swiftype.com",
+        "severity_cap": "critical",
+        "notes": "Application-layer DoS explicitly out of scope for this asset."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.elstc.co",
+        "severity_cap": "critical",
+        "notes": "Not all services here are equal in importance; nuanced triage expected."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.elasticnet.co",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.eops.nl",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "other",
+        "asset": "Other (unlisted Elastic-owned assets)",
+        "severity_cap": "critical",
+        "notes": "Program explicitly says unknown assets they own can be filed here; they do not want scope to block findings."
+      },
+      {
+        "type": "other",
+        "asset": "Elastic Package Registry (github.com/elastic/package-registry, epr.elastic.co)",
+        "severity_cap": "critical",
+        "notes": "Ability to modify the registry is of particular interest."
+      },
+      {
+        "type": "other",
+        "asset": "Elastic Synthetics Monitoring",
+        "severity_cap": "critical",
+        "notes": "Requires @wearehackerone.com Observability deployment on cloud.elastic.co."
+      },
+      {
+        "type": "other",
+        "asset": "elastic.co credentials",
+        "severity_cap": "low",
+        "notes": "EXPLICIT IN-SCOPE asset for leaked credentials. Severity cap is LOW. Availability=none, Confidentiality=low, Integrity=none — indicates bounty-eligible but capped at low severity."
+      },
+      {
+        "type": "executable",
+        "asset": "Beats - Auditbeat",
+        "severity_cap": "critical",
+        "notes": "Supported versions only. Includes Docker and source."
+      },
+      {
+        "type": "executable",
+        "asset": "Beats - Filebeat",
+        "severity_cap": "critical",
+        "notes": "Supported versions only."
+      },
+      {
+        "type": "executable",
+        "asset": "Beats - Heartbeat",
+        "severity_cap": "critical",
+        "notes": "Supported versions only."
+      },
+      {
+        "type": "executable",
+        "asset": "Beats - Metricbeat",
+        "severity_cap": "critical",
+        "notes": "Supported versions only."
+      },
+      {
+        "type": "executable",
+        "asset": "Beats - Packetbeat",
+        "severity_cap": "critical",
+        "notes": "Supported versions only."
+      },
+      {
+        "type": "executable",
+        "asset": "Beats - Winlogbeat",
+        "severity_cap": "critical",
+        "notes": "Supported versions only."
+      },
+      {
+        "type": "executable",
+        "asset": "Beats - Osquerybeat",
+        "severity_cap": "critical",
+        "notes": "Supported versions only."
+      },
+      {
+        "type": "executable",
+        "asset": "Beats (multi-beat issues)",
+        "severity_cap": "critical",
+        "notes": "Covers cross-beat issues; source at github.com/elastic/beats."
+      },
+      {
+        "type": "executable",
+        "asset": "Elastic Agent",
+        "severity_cap": "critical",
+        "notes": "Supported versions only. Source at github.com/elastic/elastic-agent."
+      },
+      {
+        "type": "executable",
+        "asset": "Elastic Cloud Enterprise (ECE)",
+        "severity_cap": "critical",
+        "notes": "Supported versions only."
+      },
+      {
+        "type": "executable",
+        "asset": "Elastic Cloud on Kubernetes (ECK)",
+        "severity_cap": "critical",
+        "notes": "Supported versions only. Scope limited to Orchestrator security issues; not Elasticsearch/Kibana deployed via ECK."
+      },
+      {
+        "type": "executable",
+        "asset": "Elastic Enterprise Search",
+        "severity_cap": "critical",
+        "notes": "Supported versions only."
+      },
+      {
+        "type": "executable",
+        "asset": "Elastic Maps Server",
+        "severity_cap": "critical",
+        "notes": "Supported versions only."
+      },
+      {
+        "type": "executable",
+        "asset": "Elasticsearch",
+        "severity_cap": "critical",
+        "notes": "Supported versions only. Source at github.com/elastic/elasticsearch."
+      },
+      {
+        "type": "executable",
+        "asset": "Logstash",
+        "severity_cap": "critical",
+        "notes": "Supported versions only."
+      },
+      {
+        "type": "executable",
+        "asset": "Observability - APM Agents",
+        "severity_cap": "critical",
+        "notes": "Supported versions only. Covers .NET, Java, JS RUM, Go, Node.js, PHP, Python, Ruby agents."
+      },
+      {
+        "type": "executable",
+        "asset": "Observability - APM Server",
+        "severity_cap": "critical",
+        "notes": "Supported versions only."
+      },
+      {
+        "type": "executable",
+        "asset": "Fleet Server",
+        "severity_cap": "critical",
+        "notes": "Source at github.com/elastic/fleet-server."
+      },
+      {
+        "type": "executable",
+        "asset": "Kibana",
+        "severity_cap": "critical",
+        "notes": "Supported versions only. Source at github.com/elastic/kibana."
+      },
+      {
+        "type": "other",
+        "asset": "Software Supply Chain (GitHub Actions, Buildkite)",
+        "severity_cap": "critical",
+        "notes": "Covers github.com/elastic .github/workflows, dependency confusion (requires verifiable proof of download by Elastic infra), actual credential exfiltration from Buildkite/GitHub Actions, command injection against build services. NPM/PyPI webhook pings from arbitrary IPs insufficient for dependency confusion."
+      },
+      {
+        "type": "other",
+        "asset": "Elastic Clients (Java, JS, Ruby, Go, .NET, PHP, Python, Eland, Rust)",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "executable",
+        "asset": "Elastic Defend (EDR/EPP)",
+        "severity_cap": "critical",
+        "notes": "Scope: LPE from non-admin, confidentiality of Defend logs by non-admin, unauthorized C2 by non-admin, system crash from unprivileged user. OOS: findings requiring admin/root, bypassing Tamper Protection as admin, physical access, crashing Defend (bug not security bug), bypassing protection layers."
+      },
+      {
+        "type": "executable",
+        "asset": "Elastic Distributions of OpenTelemetry (EDOT)",
+        "severity_cap": "critical",
+        "notes": "Covers Collector, .NET, Java, Node.js, PHP, Python, Cloud Forwarder AWS, iOS, Android."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.elastic.dev",
+        "severity_cap": "critical",
+        "notes": "Nuanced triage; not all services equally important."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.ela.st",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.elastic.wtf",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.elasticacademy.com",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.elasticaccelerationzone.co",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.elasticapm.co",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.elasticbeats.wtf",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.elasticcloud.wtf",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.elasticgov.com",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.elasticloud.wtf",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.elasticon.co",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.elasticon.com",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.elasticpartneracademy.com",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.elasticps.co",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.elasticsearch.com",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.elasticsearch.fr",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.elasticsearch.jp",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.elasticsearch.org",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.elasticsearch.wtf",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.estccdn.com",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.insight.io",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.kibana.wtf",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.logstash.net",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.logstash.wtf",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.prelert.com",
+        "severity_cap": "critical",
+        "notes": ""
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.theelasticast.com",
+        "severity_cap": "critical",
+        "notes": ""
+      }
+    ],
+    "out_of_scope": [
+      {
+        "type": "domain",
+        "asset": "learn.elastic.co",
+        "reason": "eligible_for_submission=false"
+      },
+      {
+        "type": "domain",
+        "asset": "link.email.elastic.co",
+        "reason": "eligible_for_submission=false"
+      },
+      {
+        "type": "domain",
+        "asset": "track.email.elastic.co",
+        "reason": "eligible_for_submission=false"
+      },
+      {
+        "type": "domain",
+        "asset": "sendgrid.elastic.co",
+        "reason": "eligible_for_submission=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "https://github.com/elastic/*/wiki",
+        "reason": "Wikis are public on purpose."
+      },
+      {
+        "type": "wildcard",
+        "asset": "https://github.com/swiftype/*/wiki",
+        "reason": "Wikis are meant to be public."
+      },
+      {
+        "type": "domain",
+        "asset": "community.elastic.co",
+        "reason": "eligible_for_submission=false"
+      },
+      {
+        "type": "domain",
+        "asset": "discuss.elastic.co",
+        "reason": "eligible_for_submission=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.keephq.dev",
+        "reason": "Deprecated post-acquisition; infrastructure to be decommissioned. eligible_for_submission=false."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.kbndev.co",
+        "reason": "eligible_for_submission=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.es.io",
+        "reason": "eligible_for_submission=false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.jina.ai",
+        "reason": "eligible_for_submission=false"
+      },
+      {
+        "type": "other",
+        "asset": "Third-party systems, domains, services and components",
+        "reason": "Policy explicitly states third-party issues are ineligible for bounty. Elastic will help communicate to third-party if unresponsive."
+      },
+      {
+        "type": "other",
+        "asset": "Legacy / end-of-life product versions",
+        "reason": "Issues must be reproducible on currently maintained releases."
+      },
+      {
+        "type": "other",
+        "asset": "Recent acquisitions (within 6 months of acquisition date)",
+        "reason": "Acquisitions OOS for bug bounty for at least 6 months post-close."
+      },
+      {
+        "type": "other",
+        "asset": "Subdomain takeovers on typosquatted or parked/reserved domains for phishing",
+        "reason": "Explicitly OOS."
+      },
+      {
+        "type": "other",
+        "asset": "Application-level DoS against Swiftype",
+        "reason": "Explicitly OOS."
+      },
+      {
+        "type": "other",
+        "asset": "XSS without CSP bypass",
+        "reason": "XSS without CSP bypass OOS; may be assessed case-by-case at low severity."
+      },
+      {
+        "type": "other",
+        "asset": "Rate limiting / brute force issues",
+        "reason": "Explicitly OOS."
+      },
+      {
+        "type": "other",
+        "asset": "Volumetric attacks (DDoS/flooding)",
+        "reason": "Never eligible for bounty."
+      },
+      {
+        "type": "other",
+        "asset": "Missing best practices (CSP, SSL/TLS, SPF/DKIM/DMARC, HttpOnly/Secure cookies)",
+        "reason": "All explicitly OOS."
+      },
+      {
+        "type": "other",
+        "asset": "Clickjacking on non-sensitive pages, CSRF on unauthenticated/non-sensitive forms",
+        "reason": "Explicitly OOS."
+      },
+      {
+        "type": "other",
+        "asset": "Social engineering (phishing, vishing, smishing)",
+        "reason": "Prohibited."
+      },
+      {
+        "type": "other",
+        "asset": "Tabnabbing, open redirects (unchained), broken documentation links",
+        "reason": "Explicitly OOS."
+      },
+      {
+        "type": "other",
+        "asset": "Issues requiring admin/root OS privileges (all products)",
+        "reason": "Elastic aligns with MSRC stance: admin-kernel boundary is not a security boundary."
+      },
+      {
+        "type": "other",
+        "asset": "Issues requiring admin-level product access where impact is limited to Low Availability",
+        "reason": "Explicitly OOS."
+      },
+      {
+        "type": "other",
+        "asset": "Paid feature access for free / at a discount",
+        "reason": "Explicitly OOS."
+      }
+    ]
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": false,
+    "cve_age_min_days": 30,
+    "requires_ownership_proof": true,
+    "safe_harbor": true,
+    "submission_form": "https://hackerone.com/elastic",
+    "notes": "safe_harbor=true: policy explicitly states 'Any activities conducted in a manner consistent with this policy will be considered authorized conduct and we will not initiate legal action against you.' Full safe harbor including third-party action coverage. | mass_scanning_allowed=false: set to safe default; policy says 'make a good faith effort to avoid... interruption or degradation of our service' but no explicit mass-scanning clause; safe default applied. | automated_tools_allowed=false: set to safe default; no explicit policy statement permitting automated scanning; safe default applied. | bucket_listing_allowed=true / bucket_download_allowed=false: no explicit bucket policy present; defaults applied per schema spec. | cve_age_min_days=30: no explicit CVE age requirement stated; safe default applied. | requires_ownership_proof=true: for Software Supply Chain / dependency confusion, policy explicitly requires 'verifiable proof that the dependency has been downloaded by Elastic employees or Elastic owned infrastructure'; applies to supply-chain category. For other assets default applies. | LEAKED CREDS GOTCHA: 'elastic.co credentials' is an EXPLICIT in-scope asset with severity_cap=low and bounty_eligible=true. Policy also states that for Software Supply Chain, 'actual credential exfiltration or leaks (not theoretical) from build services' is in scope at up to critical. Passive GH-leak findings for elastic.co creds therefore qualify but will be graded LOW unless chained to supply chain / build service compromise. | THIRD-PARTY TOKENS: 'Security issues in third party systems, domains, services and components fall outside this policy and are not eligible for a bounty.' Tokens found in elastic repos that belong to third parties (e.g. vendor API keys) are OOS; only tokens belonging to Elastic itself are in scope. | ACQUISITION WINDOW: Recent acquisitions are OOS for 6 months post-close. keephq.dev is explicitly marked ineligible (decommissioning). jina.ai and es.io also currently OOS per CSV. | CLOUD TESTING: Must use @wearehackerone.com email; bounty withheld if non-H1 email used. | XSS: Requires CSP bypass to be in scope; otherwise case-by-case at low."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      {
+        "severity": "critical",
+        "min": 0,
+        "max": 0,
+        "currency": "USD",
+        "notes": "Exact bounty amounts not available via public GraphQL; offers_bounties=true confirmed. Policy states 'Product Vulnerabilities' pay significantly more than 'Other'. Bounty decisions at Elastic's discretion."
+      }
+    ]
+  },
+  "raw_policy_excerpt": "The Elastic team appreciates the security community and shares the goal of keeping our businesses, customers, and the internet safe. Elastic values your efforts and promises to remain responsive; update you as your reports are triaged and remediated. We award bounty eligible reports at triage and hope to work together on an ongoing basis.\n\nElastic's bounty structure falls under two umbrellas: Product Vulnerabilities & Other. While we accept vulnerabilities on any assets that we own/control, we are _particularly_ interested in vulnerabilities in our products, and as such will pay significantly more as indicated in our bounty structure.\n\n## What we're interested in\n* Attacks that lead to compromise of Elastic user data\n* Widespread compromise of Elastic user accounts\n* Remote code execution on systems and applications\n* Access to administrator/superuser accounts\n* Arbitrary access to a user's sensitive data/functionality\n* Kibana XSS and CSRF\n* Access to underlying containers\n* Access to unauthorized data as authenticated user\n* Privilege escalation as authenticated user to non superuser\n* Authenticated SSRF\n\n##Out of scope\n* Security issues in third party systems, domains, services and components fall outside this policy and are not eligible for a bounty. We encourage you to submit these to the third party owner.\n* Findings that require administrative or root operating system privileges are out of scope.\n* Findings in legacy or end-of-life product versions.\n* Subdomain takeovers on typosquatted domains or parked/reserved domains for phishing\n* Application-level Denial of Service attacks against Swiftype\n* Cross-site scripting vulnerabilities that are not accompanied by a bypass of our content security policy.\n* Volumetric attacks (e.g., network flooding, request flooding, port flooding, required traffic volume scaling with deployment size) are never eligible for bounty rewards.\n* Recent acquisitions by Elastic are out of Scope for the Bug Bounty program for at least 6 months after the acquisition is complete.\n\n# Software Supply Chain scope excerpt:\nActual credential exfiltration or leaks (not theoretical) from build services (below)\nDependency Confusion. When reporting dependency confusion attacks please include verifiable proof that the dependency has been downloaded by Elastic employees or Elastic owned infrastructure.\n\n# elastic.co credentials asset:\nIn-scope, bounty-eligible, severity_cap=low, availability=none, confidentiality=low, integrity=none.\n\n# Safe Harbor\nAny activities conducted in a manner consistent with this policy will be considered authorized conduct and we will not initiate legal action against you. If legal action is initiated by a third party against you in connection with activities conducted under this policy, we will take steps to make it known that your actions were conducted in compliance with this policy."
+}

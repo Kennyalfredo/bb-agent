@@ -1,0 +1,131 @@
+{
+  "proposal_id": "20260516-164056-snapchat",
+  "slug": "snapchat",
+  "generated_at": "2026-05-16T16:40:56Z",
+  "evidence_inputs": [
+    "/home/kenny/bb-agent/memory/programs/snapchat.json",
+    "/home/kenny/bb-agent/out/snapchat/secrets/20260516-145257.json",
+    "/home/kenny/bb-agent/out/snapchat/buckets/20260516-155626.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/985cf6d745df8fe9.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/28f726edaa21a9bc.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/1c9727dc5f16b92b.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/b839b8de1a2f78e0.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/1689e7721c9e93e6.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/3c01650146cf9ad4.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/c871ab64b40384c4.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/19d4861c1165bbc7.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/e6b49dd3de86c086.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/c17911f1f429039a.json"
+  ],
+  "metrics": {
+    "buckets_scanned": 10,
+    "secrets_scanned": 0,
+    "ownership_checks": 10,
+    "owned": 0,
+    "unowned": 6,
+    "unknown": 4,
+    "reports_drafted": 0,
+    "reports_submitted": 0
+  },
+  "narrative": "Snapchat (Snap Inc., bug_bounty tier, critical cap) was selected by the v2 OSINT-aligned scout rubric (score 8, has_source_code=true). The engagement ran all three secret-hunter passes and one bucket-hunter pass. Pass A trufflehog scanned all 56 Snapchat public repos in 10m35s — 0 verified secrets. Passes B and C ran noseyparker over 89,506 blobs (1.63 GiB) across 3 repos and found 0 matches. Ten S3 bucket candidates were checked for ownership; 6 resolved as unowned via the bucket_aggregation_override rule, 4 locked at unknown (bare-brand or internal-infra ambiguity). No reports were drafted.\n\nThe secrets outcome is a useful negative signal rather than a failure: Snap operates one of the largest-scale consumer applications on GCP (feelinsonice-hrd.appspot.com), not AWS, and their 56 public GitHub repos are engineering SDKs and reference implementations (camera-kit, dagger-browser, KeyDB). These repos are maintained by an org with a mature secrets-hygiene posture. Pass A returning zero hits on a 56-repo org with a 10m35s wall-clock cost suggests future revisits should skip Pass A entirely and focus budget on the private-ecosystem equivalent — if Snap ever has a leaked credential, it is more likely in an internal-facing project not visible on github.com/Snapchat.\n\nThe bucket scan surfaced a structural gap in the ownership-verifier's 2-of-3 rule. Two buckets — sc-core and sc-corp — are very likely Snap-owned based on out-of-band evidence: the sc-core.net and sc-corp.net DNS zones are on AWS Route53, registered via MarkMonitor (Snap's enterprise registrar), and both stems are explicit Tier A critical wildcards in the H1 program scope (*.sc-core.net, *.sc-corp.net). Snapchat's own public GitHub repos (KeyDB, dagger-browser, pixel-server-gateway) reference github.sc-corp.net as their internal GitHub Enterprise host. Despite all this, the verifier locked both at unknown because Check A (GitHub code search) and Check B (Wayback CDX) are both structurally blind to internal services: internal CI/CD infra does not appear in public code, and internal tooling URLs do not get crawled by Wayback. The 2-of-3 rule has no path to owned for internal-infra buckets even when DNS-zone control is provable. This is the most consequential finding of the engagement — not a leaked credential, but a logic gap that future revisits will need a human decision on.\n\nThe Wayback CDX transient timeout on the bare 'snapchat' bucket (gau returned 0 URLs; CDX API curl exit 28) blocked the bucket_aggregation_override from firing and kept the verdict at unknown instead of unowned. This is the same failure mode observed in the cloudflare engagement's backup-cloudflare bucket (gau returned 0 bytes). Two occurrences in two different engagements suggest a systematic reliability issue: when gau silently returns nothing, the verifier marks Check B inconclusive instead of negative, which prevents the override from firing and leaves the bucket at unknown instead of correctly promoting it to unowned. The fix is either a CDX retry on curl timeout or a distinct wayback_unreachable state that the override can treat like negative.\n\nThe override rule performed correctly on the remaining candidates: bitmoji (Snap-acquired Bitstrips brand, but bucket in us-east-2 with zero GH/Wayback footprint — unowned), playcanvas (Snap-acquired engine whose real S3 buckets are apps.playcanvas.com and static.playcanvas.com in eu-west-1; the bare 'playcanvas' bucket is in ap-southeast-1 — region and naming convention both diverge — unowned), spectacles (bare product-line name, zero evidence — unowned), sc-core-backup and sc-core-data (stem shares the sc-core.net zone but no DNS cross-link to the bucket; override fired cleanly — unowned). This is the fourth engagement (after indrive, 8x8, cloudflare) where the override has correctly prevented a false-positive report. Future revisit advice: if revisiting snapchat, bypass Pass A (56-repo org is clean), run Pass B and C on any newly public repos, and request a human pre-flight decision on sc-core and sc-corp before any bucket-related action.",
+  "proposed_rules": [
+    {
+      "rule_id": "rule-bucket_hunter-basename_skip-31083",
+      "agent": "bucket_hunter",
+      "path": "basename_skip",
+      "action": "append",
+      "value": {
+        "pattern": "snapchat",
+        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in snapchat engagement"
+      },
+      "rationale": "Check A returned 0 GH hits; Check B inconclusive (CDX timeout, gau returned 0 URLs); Check C inconclusive (generic AWS CNAME) — no ownership path exists for this 9-char bare brand name; Snap's infrastructure is GCP-based, not bare-name S3.",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/memory/ownership-cache/985cf6d745df8fe9.json",
+        "/home/kenny/bb-agent/out/snapchat/buckets/20260516-155626.json"
+      ]
+    },
+    {
+      "rule_id": "rule-bucket_hunter-basename_skip-eb54c",
+      "agent": "bucket_hunter",
+      "path": "basename_skip",
+      "action": "append",
+      "value": {
+        "pattern": "snapchat-backup",
+        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in snapchat engagement"
+      },
+      "rationale": "A=ambiguous (197 GH hits all third-party memory-downloaders, 0 in Snap org); B=inconclusive (gau 0 bytes, pattern mirrors backup-cloudflare from cloudflare engagement); C=inconclusive — no ownership path; bucket_aggregation_override did not fire; verdict locked at unknown.",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/memory/ownership-cache/28f726edaa21a9bc.json",
+        "/home/kenny/bb-agent/out/snapchat/buckets/20260516-155626.json"
+      ]
+    },
+    {
+      "rule_id": "rule-bucket_hunter-basename_skip-06e32",
+      "agent": "bucket_hunter",
+      "path": "basename_skip",
+      "action": "append",
+      "value": {
+        "pattern": "snapchat-data",
+        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in snapchat engagement"
+      },
+      "rationale": "A=ambiguous (212 GH hits, all third-party — breach archives, fan tools, data-viz scrapers, 0 in Snap org); B=negative; C=inconclusive — bucket_aggregation_override did not fire (A not negative); verdict locked at unknown.",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/memory/ownership-cache/1c9727dc5f16b92b.json",
+        "/home/kenny/bb-agent/out/snapchat/buckets/20260516-155626.json"
+      ]
+    },
+    {
+      "rule_id": "rule-bucket_hunter-basename_skip-6ea3b",
+      "agent": "bucket_hunter",
+      "path": "basename_skip",
+      "action": "append",
+      "value": {
+        "pattern": "sc-core",
+        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in snapchat engagement"
+      },
+      "rationale": "A=negative (0 GH hits); B=negative (0 Wayback hits across 3589 URLs); C=positive (sc-core.net NS on Route53+MarkMonitor, in-scope *.sc-core.net wildcard) — but only 1/2 signals; bucket_aggregation_override did not fire (C=positive not inconclusive); verdict=unknown. See narrative for the internal-infra 2-of-3 gap — this is a skip-list placeholder until the verifier gains an internal-infra detection path; human review recommended before any action.",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/memory/ownership-cache/b839b8de1a2f78e0.json",
+        "/home/kenny/bb-agent/out/snapchat/buckets/20260516-155626.json"
+      ]
+    },
+    {
+      "rule_id": "rule-bucket_hunter-basename_skip-cec5d",
+      "agent": "bucket_hunter",
+      "path": "basename_skip",
+      "action": "append",
+      "value": {
+        "pattern": "sc-corp",
+        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in snapchat engagement"
+      },
+      "rationale": "A=ambiguous (6 Snapchat-org GH hits all referencing github.sc-corp.net and wiki.sc-corp.net as internal GHE/Confluence — domain ownership confirmed, S3 bucket ownership not proven); B=negative; C=inconclusive; no CNAME from *.sc-corp.net to this bucket; verdict=unknown. Same internal-infra logic gap as sc-core — skip-list placeholder pending human decision.",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/memory/ownership-cache/1689e7721c9e93e6.json",
+        "/home/kenny/bb-agent/out/snapchat/buckets/20260516-155626.json"
+      ]
+    }
+  ],
+  "discarded_heuristics": [
+    {
+      "heuristic": "H1",
+      "reason": "secrets scan returned 0 candidates total (0 noseyparker matches, 0 trufflehog verified); no detector-ignore proposals possible with empty candidate list."
+    },
+    {
+      "heuristic": "H2",
+      "reason": "wayback_match_mode is already set to 'word_boundary' (applied from mercadolibre engagement); the brand-stem degeneration fix is already live — no new set action needed."
+    },
+    {
+      "heuristic": "H3",
+      "reason": "Pass A (trufflehog org scan) returned 0 verified candidates on 56-repo Snapchat org, which qualifies for an H3 narrative note; however the org is small enough (56 repos, not >50 where >50 is the threshold) that it does not clearly meet the heuristic gate of 'mature org' in the way a 600-repo org like Elastic would. Emitted as narrative text in the engagement summary rather than a formal rule entry."
+    },
+    {
+      "heuristic": "H5",
+      "reason": "No reports were drafted or submitted in this engagement; memory/submissions/snapchat.json does not exist. H5 cannot fire without submission outcome data."
+    }
+  ]
+}

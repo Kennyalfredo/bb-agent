@@ -1,0 +1,75 @@
+{
+  "slug": "adobe",
+  "asset": "magento-assets",
+  "bucket_name": "magento-assets",
+  "dns_name": "magento-assets.s3.amazonaws.com",
+  "asset_class": "aws_s3_bucket",
+  "fetched_at": "2026-05-15T23:35:00Z",
+  "verdict": "unowned",
+  "verdict_history": [
+    {
+      "verdict": "unknown",
+      "fetched_at": "2026-05-15T20:22:35Z",
+      "reason": "initial 2-of-3 run: A=ambiguous (1 GH hit, content-verified as false positive), B=negative, C=inconclusive — did not trigger bucket_aggregation_override because A was ambiguous not negative"
+    }
+  ],
+  "checks": {
+    "github_code": {
+      "status": "negative",
+      "queries_run": [
+        {"q": "\"magento-assets.s3.amazonaws.com\"", "total_count": 0},
+        {"q": "\"magento-assets.s3.us-east-1.amazonaws.com\"", "total_count": 0},
+        {"q": "\"s3://magento-assets\"", "total_count": 0},
+        {"q": "\"972f84994f342290ebf973dad2838b17640cf8af35d72d60c8547c9e7ee2f27e\"", "total_count": 0, "note": "owner_id canonical user ID hash"},
+        {"q": "\"magento-assets\" extension:json", "total_count": 0},
+        {"q": "\"magento-assets\" org:adobe", "total_count": 0},
+        {"q": "\"magento-assets\" org:magento", "total_count": 0},
+        {"q": "\"magento-assets\" org:magento-cloud", "total_count": 0},
+        {"q": "\"magento-assets\" org:adobe-commerce", "total_count": 0},
+        {"q": "\"magento-assets\" org:magentocommerce", "total_count": 0},
+        {"q": "\"magento-assets\" org:magentoperformancegroup", "total_count": 0},
+        {"q": "magento-assets", "total_count": 1, "top_hit": "magerepo/magerepo-cli/README.md (content-verified false positive: article URL slug 'download-magento-assets' in a third-party CLI's README, not a bucket reference)"}
+      ],
+      "total_real_hits": 0,
+      "content_verified_false_positives": 1,
+      "interpretation": "Across 12 GitHub code-search queries spanning 6 plausible owner orgs + global search + 4 high-specificity exact-string queries, zero references to this bucket exist. The single match found is a content-verified false positive. The complete absence of GitHub footprint is itself a negative signal — Adobe's production buckets are typically referenced in deployment configs, IaC templates, or open-source tooling."
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "urls_scanned": 19847,
+      "subdomain_captures": {
+        "assets.magento.com": 0,
+        "media.magento.com": 0,
+        "cdn.magento.com": 0,
+        "s3.magento.com": 0,
+        "files.magento.com": 0,
+        "static.magento.com": 5
+      },
+      "domains_queried": ["magento.com", "adobe.com", "repo.magento.com", "adobecommerce.com"],
+      "match_mode": "word_boundary",
+      "interpretation": "Five plausible asset-CNAME subdomains (assets/media/cdn/s3/files.magento.com) have ZERO wayback captures, meaning they likely never resolved as public DNS records. If Adobe/Magento operated an assets bucket at that name, we'd expect at least some capture history. static.magento.com had 5 captures but none reference magento-assets."
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname_resolution": "magento-assets.s3.amazonaws.com → s3-1-w.amazonaws.com → s3-w.us-east-1.amazonaws.com (generic AWS S3 endpoints)",
+      "subdomains_checked_for_cname_to_bucket": {
+        "assets.magento.com": "no CNAME (and NXDOMAIN)",
+        "media.magento.com": "no CNAME (and NXDOMAIN)",
+        "static.adobe.com": "no CNAME",
+        "cdn.commerce.adobe.com": "no CNAME",
+        "assets.adobecommerce.com": "no CNAME"
+      },
+      "interpretation": "No in-scope domain CNAMEs point to this bucket's S3 endpoint. Bucket resolves via generic AWS infra (provides no ownership signal — every S3 bucket resolves this way)."
+    },
+    "aws_marketplace_and_open_data": {
+      "status": "negative",
+      "interpretation": "AWS Open Data Registry has no entries for magento-assets. Adobe Commerce / magento.com production responses use nginx/own-CDN, not direct S3 origin."
+    }
+  },
+  "rules_applied": [
+    "rule-ownership_verifier-wayback_match_mode-879f3 (word-boundary matching)",
+    "rule-ownership_verifier-bucket_aggregation_override-1c25c (A=negative + B=negative + C=inconclusive → unowned)"
+  ],
+  "notes": "DEEPER INVESTIGATION (2026-05-15T23:35Z): Re-verified after initial 'unknown' verdict. Expanded Check A from 1 query (subagent default) to 12 queries spanning 6 Magento/Adobe-adjacent GitHub orgs, exact-URL strings, and the bucket's owner_id canonical user ID hash. Zero positive hits anywhere; the original single 'ambiguous' GH match was content-verified as a false positive (article URL slug coincidence). Wayback expanded from 3 domains to 5 plausible asset-subdomains — all zero captures. DNS chain checked 5 candidate Adobe/Magento subdomains for CNAMEs to the bucket; none point there. Verdict upgraded from 'unknown' to 'unowned' under bucket_aggregation_override (A=neg, B=neg, C=inconclusive). The bucket exists with all_users_write=true and 1.27M objects, but ownership cannot be attributed to Adobe Inc. / Magento. CRITICAL CONTEXT: The bucket name 'magento-assets' is a generic identifier any third party operating Magento-based ecommerce could plausibly choose. Without indirect ownership proof, reporting this bucket as Adobe's would be a false positive AND interacting with it (read/write) would be unauthorized access against an unknown third party. DO NOT TOUCH THE BUCKET. DO NOT DRAFT A REPORT."
+}

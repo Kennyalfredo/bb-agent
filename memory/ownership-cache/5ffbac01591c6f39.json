@@ -1,0 +1,40 @@
+{
+  "slug": "automattic",
+  "asset": "tumblr-backup",
+  "bucket_name": "tumblr-backup",
+  "dns_name": "tumblr-backup.s3.amazonaws.com",
+  "fetched_at": "2026-05-16T18:59:55Z",
+  "verdict": "unowned",
+  "checks": {
+    "github_code": {
+      "status": "negative",
+      "total_count": 0,
+      "top_hits": [],
+      "evidence_path": "/tmp/ownership-5ffbac01591c6f39-gh-automattic.json",
+      "notes": "Searched org:Automattic and org:tumblr separately. Both returned total_count=0. No references to 'tumblr-backup' in either GitHub org."
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "evidence_path": "/tmp/ownership-5ffbac01591c6f39-gau-hits.txt",
+      "notes": "gau ran against tumblr.com, automattic.com, wordpress.com — returned 1000 URLs total. word_boundary grep (\btumblr-backup\b) found 0 hits. applied rule rule-ownership_verifier-wayback_match_mode-879f3: wayback_match_mode=word_boundary"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-3-w.amazonaws.com",
+      "resolved_ips": ["3.5.67.222", "3.5.66.62", "3.5.74.0", "3.5.67.209", "3.5.71.99", "3.5.75.62", "3.5.70.49", "3.5.72.78"],
+      "evidence_path": "/tmp/ownership-5ffbac01591c6f39-dns.txt",
+      "notes": "Bucket DNS resolves via generic AWS global S3 CNAME (s3-3-w.amazonaws.com). No CNAME from any program-owned domain pointing to this bucket. Inconclusive by construction for buckets — anyone can register this name."
+    }
+  },
+  "aggregation": {
+    "a": "negative",
+    "b": "negative",
+    "c": "inconclusive",
+    "standard_table_result": "unknown",
+    "override_applied": "rule-ownership_verifier-bucket_aggregation_override-1c25c",
+    "override_condition": "a=negative, b=negative, c=inconclusive for asset_class=bucket",
+    "final_verdict": "unowned"
+  },
+  "notes": "applied rule rule-ownership_verifier-wayback_match_mode-879f3: word_boundary grep used for Wayback check to avoid brand-stem degenerate matches on 'tumblr' URL paths. applied rule rule-ownership_verifier-bucket_aggregation_override-1c25c: A=neg, B=neg, C=inconclusive for a bucket promotes standard 'unknown' to 'unowned'. Tumblr is Automattic-owned (acquired 2019) and in-scope, but ownership of the S3 bucket specifically cannot be established — the bucket name 'tumblr-backup' is a brand+suffix pattern that any third party could have registered; no code references and no public archive hits corroborate Automattic provenance. Region eu-west-1 not determinative (anyone can create a bucket in any region)."
+}

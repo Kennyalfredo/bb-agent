@@ -1,0 +1,76 @@
+{
+  "proposal_id": "20260516-030843-indrive",
+  "slug": "indrive",
+  "generated_at": "2026-05-16T03:08:43Z",
+  "evidence_inputs": [
+    "/home/kenny/bb-agent/memory/programs/indrive.json",
+    "/home/kenny/bb-agent/out/indrive/buckets/20260516T025839Z.json",
+    "/home/kenny/bb-agent/out/indrive/secrets/20260516T025839Z.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/021ff8d6dd6b25ab.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/357cd3deec9be91f.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/5922879c1735a393.json"
+  ],
+  "metrics": {
+    "buckets_scanned": 75,
+    "secrets_scanned": 0,
+    "ownership_checks": 3,
+    "owned": 0,
+    "unowned": 1,
+    "unknown": 2,
+    "reports_drafted": 0,
+    "reports_submitted": 0
+  },
+  "narrative": "Full passive sweep against inDrive (HackerOne bug_bounty, $50–$15k, 113 in-scope assets, Core/Non-core split). Bucket-hunter tested 75 candidates; 3 exist (`indrive` us-east-1, `indrive-files` us-west-2, `indrive-test` ap-southeast-1). All three are private (list 403). Secret-hunter ran trufflehog Passes A+B+C against 2 inDriver org repos (handbook, UDF) plus 1 fan mirror; noseyparker scanned the same 3 repos for historical pattern matches. Result: 0 verified secrets, 0 noseyparker matches, 0 candidates of any kind. Ownership-verifier ran on all 3 existing buckets: `indrive-files` → unowned (clean A=neg + B=neg + C=inc, aggregation-override rule fired correctly); `indrive` → unknown; `indrive-test` → unknown. Net reportable findings: 0.\n\nThe `indrive-files` unowned verdict was a clean win for the aggregation-override rule (rule-ownership_verifier-bucket_aggregation_override-1c25c from the 8x8 engagement). GH returned 0 results for `indrive-files`, wayback word-boundary returned 0 hits across 15,426 archived URLs, and DNS was a generic AWS CNAME — the rule correctly promoted the verdict from unknown to unowned, saving a manual triage decision.\n\nThe `indrive` bucket exposed a residual gap in the word_boundary wayback rule. The rule (from mercadolibre) was already live and was applied correctly: word_boundary mode grepped for `\\bindrive\\b` across 15,426 archived URLs. It still returned 10,627 hits — not because word_boundary failed, but because the brand stem 'indrive' appears verbatim in the program's own URL paths (e.g., paths under `indrive.com` that contain the word 'indrive' as a path segment or query token). Word_boundary cannot disambiguate self-reference when the asset name equals the root brand token that the company uses everywhere in its own URLs. The `indrive` bucket is therefore structurally unresolvable via Wayback for the same reason that 'mercadolibre' was — but unlike that engagement where word_boundary recovered a useful 0-hit result, here even word_boundary saturates. This is a second data point that bare-brand-name buckets should be skipped in bucket-hunter rather than handed to ownership-verifier.\n\nThe `indrive-test` bucket produced 3 GitHub hits, none inside the inDriver org namespace: a QEMU startup script (mezmer42/bootkit), a bucket-enumeration dump by a bounty aggregator (rix4uni/BugBountyData), and a Cognito sample-data file (artista7/cognito-backend). The BugBountyData hit is the canonical signature of an external scanner picking up the name independently — it tells us nothing about who owns the bucket. Because A=ambiguous (not negative), the aggregation-override rule correctly did not fire and verdict remained unknown.\n\nThe inDriver GH org is structurally thin: 2 public repos (handbook and UDF), neither containing application source code. Pass A trufflehog scanned 2,810 chunks / 12 MB across both and returned 0 verified hits. This is not the same as the mature-org H3 signal seen on MercadoLibre (101 repos, 2.7 GB, long history) — inDriver publishes almost nothing publicly on GitHub, so the 0-verified result reflects an extremely small attack surface, not organizational hygiene over a large codebase. The 81 repos surfaced by GH code search were almost entirely brand-name noise (bug-bounty aggregators, unrelated projects). If revisiting inDrive for secrets, the meaningful sources are not on GitHub at all; consider mobile APK static analysis or traffic interception paths instead. Pass A+B+C against the org is not worth repeating.",
+  "proposed_rules": [
+    {
+      "rule_id": "rule-bucket_hunter-basename_skip-0c97f",
+      "agent": "bucket_hunter",
+      "path": "basename_skip",
+      "action": "append",
+      "value": {
+        "pattern": "indrive",
+        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in indrive engagement"
+      },
+      "rationale": "Bucket 'indrive' is the 7-char bare brand name; A=ambiguous (51 inDriver org hits are all self-referential docs), B=ambiguous even under word_boundary (10,627 hits from brand token in company's own URL paths), C=inconclusive — all three checks were structurally blocked and verdict locked at unknown with no path to resolution.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/memory/ownership-cache/021ff8d6dd6b25ab.json",
+        "/home/kenny/bb-agent/out/indrive/buckets/20260516T025839Z.json"
+      ]
+    },
+    {
+      "rule_id": "rule-bucket_hunter-basename_skip-14e03",
+      "agent": "bucket_hunter",
+      "path": "basename_skip",
+      "action": "append",
+      "value": {
+        "pattern": "indrive-test",
+        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in indrive engagement"
+      },
+      "rationale": "Bucket 'indrive-test' returned A=ambiguous (3 GitHub hits, all third-party repos with zero hits in inDriver org — one is a bucket-enumeration dump by external scanner, one is unrelated QEMU script, one is Cognito sample data), B=negative (0 wayback hits), C=inconclusive; aggregation-override rule did not fire because A is not negative, so verdict is locked at unknown.",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/memory/ownership-cache/5922879c1735a393.json",
+        "/home/kenny/bb-agent/out/indrive/buckets/20260516T025839Z.json"
+      ]
+    }
+  ],
+  "discarded_heuristics": [
+    {
+      "heuristic": "H1",
+      "reason": "Noseyparker returned 0 matches across all 3 repos scanned; no candidates to evaluate for false-positive patterns."
+    },
+    {
+      "heuristic": "H2",
+      "reason": "wayback_match_mode is already set to 'word_boundary' (non-default scalar, live rule from mercadolibre). The indrive engagement confirms word_boundary is still insufficient for bare-brand names whose root token appears in every company URL path — but this cannot be encoded as a new 'set' rule without overwriting a non-default value, which is prohibited in v1 apply-mode. Captured as narrative instead; recommend the human consider whether a 'skip_wayback_when_brand_stem_collision_rate_gt=threshold' flag is the right v1.5 path."
+    },
+    {
+      "heuristic": "H3",
+      "reason": "H3 fires only as a narrative note (no rule entry per spec), and the inDriver org is not a 'mature-org' in the H3 sense (2 public repos, 12 MB, not 50+ repos). The 0-verified Pass A result here reflects a thin public footprint, not organizational hygiene over a large codebase. Addressed in narrative."
+    },
+    {
+      "heuristic": "H5",
+      "reason": "No submissions file exists for indrive (memory/submissions/indrive.json missing); heuristic requires recorded platform outcomes to fire."
+    }
+  ]
+}

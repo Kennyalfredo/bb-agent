@@ -1,0 +1,45 @@
+{
+  "slug": "snapchat",
+  "asset": "sc-corp",
+  "bucket_name": "sc-corp",
+  "dns_name": "sc-corp.s3.amazonaws.com",
+  "fetched_at": "2026-05-16T16:09:32Z",
+  "verdict": "unknown",
+  "checks": {
+    "github_code": {
+      "status": "ambiguous",
+      "total_count": 6,
+      "top_hits": [
+        {"repo": "Snapchat/KeyDB", "path": "ci.yaml", "context": "references wiki.sc-corp.net and github.sc-corp.net (Snap internal infra)"},
+        {"repo": "Snapchat/dagger-browser", "path": "browser/.env", "context": "REACT_APP_REPO_URL=https://github.sc-corp.net/Snapchat/android"},
+        {"repo": "Snapchat/KeyDB", "path": "build.yaml", "context": "references github.sc-corp.net/Snapchat/img (Snap internal GHE)"},
+        {"repo": "Snapchat/pixel-server-gateway", "path": "static/readme.html", "context": "deploy link to github.sc-corp.net/Snapchat/pixel-server-gateway"},
+        {"repo": "Snapchat/snap-for-developers-sample", "path": "snap-kit/sticker-kit/src/schemas/json/schema.json", "context": "wiki.sc-corp.net reference for locale codes"},
+        {"repo": "Snapchat/pixel-server-gateway", "path": "docs/index.html", "context": "github.sc-corp.net deploy button"}
+      ],
+      "notes": "All 6 org:Snapchat hits reference github.sc-corp.net or wiki.sc-corp.net (Snap internal GitHub Enterprise and Confluence). No hit references sc-corp.s3.amazonaws.com. Searches for org:Snap (0 hits) and org:snap-inc (0 hits) also ran. A separate global search for 'sc-corp.s3.amazonaws.com' returned 0 hits anywhere on GitHub. The hits confirm Snap owns sc-corp.net but do not prove they own the S3 bucket named sc-corp.",
+      "evidence_path": "/tmp/ownership-1689e7721c9e93e6-gh.json"
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "notes": "gau returned 618 URLs across snapchat.com, sc-corp.net, snap.com. word_boundary grep (applied per rule-ownership_verifier-wayback_match_mode-879f3) matched 136 lines, but ALL 136 are Wayback-archived pages FROM sc-corp.net itself (bare domain http://sc-corp.net:80/act.htm, bicorp.htm, hunsa.htm, etc.) — these are pre-Snap-era archives of what appears to be a Thai industrial company. None of the 136 hits reference sc-corp.s3.amazonaws.com or are hosted on a Snap in-scope domain (snapchat.com, snap.com) referencing the bucket. Hit count set to 0 to reflect 0 bucket-specific hits.",
+      "evidence_path": "/tmp/ownership-1689e7721c9e93e6-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-ap-northeast-1-w.amazonaws.com",
+      "notes": "sc-corp.s3.amazonaws.com resolves via CNAME to s3-ap-northeast-1-w.amazonaws.com (confirms ap-northeast-1 region, bucket exists). sc-corp.net NS records are AWS Route53 (ns-924.awsdns-51.net etc.), confirming Snap controls the sc-corp.net DNS zone. Subdomains github.sc-corp.net, wiki.sc-corp.net, www.sc-corp.net, static.sc-corp.net, assets.sc-corp.net, cdn.sc-corp.net, s3.sc-corp.net all CNAME to snapcrackleproxy.sc-corp.net (GCP 35.190.16.123). No CNAME from any *.sc-corp.net subdomain points to sc-corp.s3.amazonaws.com. Per rules: bucket DNS is inconclusive unless a program-domain CNAME points to the bucket.",
+      "evidence_path": "/tmp/ownership-1689e7721c9e93e6-dns.txt"
+    }
+  },
+  "aggregation_logic": {
+    "A": "ambiguous",
+    "B": "negative",
+    "C": "inconclusive",
+    "bucket_aggregation_override_fired": false,
+    "override_check": "override requires A=negative AND B=negative AND C=inconclusive; A=ambiguous does not satisfy condition",
+    "result": "No two-positive-signal threshold met; verdict=unknown"
+  },
+  "notes": "applied rule rule-ownership_verifier-wayback_match_mode-879f3: word_boundary grep used for Wayback check; 136 substring matches collapsed to 0 bucket-relevant hits. bucket_aggregation_override (rule-ownership_verifier-bucket_aggregation_override-1c25c) NOT fired: requires A=negative but A=ambiguous (6 in-org Snapchat references to sc-corp.net infrastructure). STRONG CONTEXTUAL SIGNAL (not counted as formal positive): sc-corp.net is explicitly listed as *.sc-corp.net Tier A critical in-scope asset in snapchat program; Snap GitHub repos (org:Snapchat) reference github.sc-corp.net as their internal GHE and wiki.sc-corp.net as internal Confluence; sc-corp.net is on Route53 managed by Snap. The bucket name 'sc-corp' shares the exact namespace stem. However, anyone can register an S3 bucket named 'sc-corp' and no evidence directly ties this bucket to Snap. Verdict=unknown; human decision required before drafting a report."
+}

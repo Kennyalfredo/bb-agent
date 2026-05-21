@@ -1,0 +1,34 @@
+{
+  "slug": "automattic",
+  "asset": "wordpress-backup",
+  "bucket_name": "wordpress-backup",
+  "dns_name": "wordpress-backup.s3.amazonaws.com",
+  "fetched_at": "2026-05-16T00:00:00Z",
+  "verdict": "unowned",
+  "checks": {
+    "github_code": {
+      "status": "negative",
+      "total_count": 0,
+      "top_hits": [],
+      "evidence_path": "/tmp/ownership-c033af50b328b96e-gh.json",
+      "notes": "Org-restricted search (org:Automattic) returned 0 results. Broad search returned 3,180 hits globally but ALL are third-party repos: CVE databases (trickest/cve), backup scripts (xalgorithm/epyc-kube, mayur-chavhan/WordOps-Backup), tutorial articles (apachecn/kinsta-blog-zh, oldratlee.github.com), community plugins (pcloudcom/wp-pcloud-backup-plugin). Zero hits inside the Automattic org. A=negative."
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "evidence_path": "/tmp/ownership-c033af50b328b96e-gau-hits.txt",
+      "notes": "gau crawled 1,400 URLs across wordpress.com, automattic.com, tumblr.com. word_boundary grep (-E '\\bwordpress-backup\\b') per rules.json wayback_match_mode=word_boundary returned 0 hits. B=negative."
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-1-w.amazonaws.com., s3-w.us-east-1.amazonaws.com.",
+      "evidence_path": "/tmp/ownership-c033af50b328b96e-dns.txt",
+      "notes": "wordpress-backup.s3.amazonaws.com resolves via generic AWS S3 CNAMEs (s3-1-w.amazonaws.com -> s3-w.us-east-1.amazonaws.com) to IPs 3.5.28.104, 52.217.80.188, 54.231.139.9, etc. These are standard AWS S3 routing records not indicative of any specific bucket owner. No CNAME from a program-controlled domain (wordpress.com, automattic.com, tumblr.com) points to this bucket. Per rules: bucket DNS is inconclusive unless a program-domain CNAME is present. C=inconclusive."
+    }
+  },
+  "applied_rules": [
+    "applied rule rule-ownership_verifier-wayback_match_mode-879f3: word_boundary grep applied to gau output (prevents brand-stem degenerate substring matches)",
+    "applied rule rule-ownership_verifier-bucket_aggregation_override-1c25c: A=negative + B=negative + C=inconclusive on bucket asset triggers override verdict from 'unknown' to 'unowned'"
+  ],
+  "notes": "Bucket name 'wordpress-backup' is a generic descriptive phrase (product-name + common-suffix) used widely across the WordPress ecosystem by third parties. 3,180 GH results globally but zero in Automattic/WordPress org. The brand stem 'wordpress' is the product name itself — any operator running WordPress might name a backup bucket 'wordpress-backup'. bucket_aggregation_override fired: A=neg, B=neg, C=inconclusive -> unowned. DO NOT draft a report against this asset."
+}

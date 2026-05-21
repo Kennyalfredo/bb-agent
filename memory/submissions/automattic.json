@@ -1,0 +1,33 @@
+{
+  "slug": "automattic",
+  "drafts": [
+    {
+      "asset": "a8c-jetpack-e2e-reports",
+      "asset_class": "bucket",
+      "finding_type": "exposed-bucket",
+      "bundled_assets": ["wpvip", "wpcloud"],
+      "bundle_strategy": "same-root-cause — all 3 buckets share identical policy misconfiguration; filed as one report per Automattic's stated policy (same bug, different hosts → file within existing report)",
+      "severity_proposed": "high",
+      "severity_capped": "high",
+      "severity_cap_source": "min(proposed=high, cap=critical) — all 3 assets map to critical-capped in-scope entries (WordPress VIP, WP Cloud, Jetpack)",
+      "report_path": "out/automattic/reports/a8c-jetpack-e2e-reports-bundle-20260516-193539.md",
+      "drafted_at": "2026-05-16T19:35:39Z",
+      "ownership_cache_refs": {
+        "a8c-jetpack-e2e-reports": "memory/ownership-cache/0af5fad045bf7ce0.json",
+        "wpvip": "memory/ownership-cache/00a486a91e889634.json",
+        "wpcloud": "memory/ownership-cache/2aa0594f718a1d86.json"
+      },
+      "candidate_sources": [
+        "out/automattic/buckets/20260516-170305.json",
+        "out/automattic/buckets/20260516-190609.json",
+        "out/_shared/recheck-20260516-pre-report.json"
+      ],
+      "notes": "Misconfiguration is in bucket POLICY (not ACL) — policy grants public s3:ListBucket to anonymous; legacy ACL shows all_users_read=DENIED but policy overrides. All 3 buckets confirmed listable unauthenticated via aws s3api list-objects-v2 --no-sign-request. Rules fired: internal_infra_override-74f17 (all 3 assets). No auto_info_filter or severity_override rules fired (lists empty in rules.json). Customer identifiers in wpvip/wpcloud sample keys redacted to <customer-N>/<tenant> placeholders.",
+      "submitted": true,
+      "submission_url": "https://hackerone.com/reports/3741482",
+      "platform_report_id": "3741482",
+      "submitted_at": "2026-05-16T22:00:00Z",
+      "pre_submission_disclaimer_noted": "Automattic platform showed pre-submission disclaimer disavowing wordpress/cloudup/cloudup-prod buckets. None in our bundle. Our 3 (a8c-jetpack-e2e-reports, wpvip, wpcloud) confirmed not on disavow list."
+    }
+  ]
+}

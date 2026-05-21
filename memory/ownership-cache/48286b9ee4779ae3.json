@@ -1,0 +1,61 @@
+{
+  "slug": "elastic",
+  "asset": "elastic-static",
+  "bucket_name": "elastic-static",
+  "dns_name": "elastic-static.s3.amazonaws.com",
+  "asset_class": "aws_s3_bucket",
+  "fetched_at": "2026-05-16T03:31:03Z",
+  "verdict": "unowned",
+  "verdict_history": [],
+  "checks": {
+    "github_code": {
+      "status": "negative",
+      "queries_run": [
+        {"q": "\"elastic-static.s3.amazonaws.com\"", "total_count": 0},
+        {"q": "\"s3://elastic-static\"", "total_count": 0},
+        {"q": "\"elastic-static\" org:elastic", "total_count": 0}
+      ],
+      "interpretation": "Zero hits in any form. The bucket name does not appear anywhere in Elastic's own GitHub org or in any public bucket-reference exact-string form. Pure negative."
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "urls_scanned": 13175,
+      "domains_queried": ["elastic.co", "found.io", "swiftype.com", "elstc.co", "elasticsearch.com"],
+      "match_mode": "word_boundary",
+      "interpretation": "Zero matches across 13,175 archived URLs on the 5 brand stems. No Elastic-controlled page has ever linked to or mentioned this bucket name."
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname_resolution": "elastic-static.s3.amazonaws.com → s3-1-w.amazonaws.com → s3-w.us-east-1.amazonaws.com (generic AWS infra)",
+      "subdomains_checked_for_cname_to_bucket": {
+        "assets.elastic.co": "no CNAME",
+        "cdn.elastic.co": "no CNAME",
+        "static.elastic.co": "no CNAME",
+        "files.elastic.co": "no CNAME",
+        "media.elastic.co": "no CNAME",
+        "s3.elastic.co": "no CNAME",
+        "content.elastic.co": "Fastly CDN (not S3)",
+        "images.elastic.co": "no CNAME"
+      },
+      "interpretation": "No in-scope subdomain CNAMEs to this bucket. content.elastic.co (the most plausible candidate) routes to Fastly, suggesting Elastic uses Fastly CDN for static content, not direct-S3 hosting."
+    },
+    "content_evidence": {
+      "status": "strong_negative",
+      "object_count": 687,
+      "object_sample": [
+        "ecmascript/appview_js.js",
+        "ecmascript/calendar-en.js",
+        "ecmascript/fckeditor/editor/_source/classes/fckcontextmenu.js",
+        "ecmascript/fckeditor/editor/_source/classes/fckdomrange.js",
+        "ecmascript/fckeditor/editor/_source/classes/fckenterkey.js"
+      ],
+      "interpretation": "Bucket contents are FCKeditor source — a WYSIWYG JavaScript editor that was deprecated in 2009-2010 (replaced by CKEditor 3.0). FCKeditor PREDATES Elastic (founded 2012) and Elastic has never shipped a WYSIWYG editor in any of its products (Kibana, ECE, Cloud, Beats, Logstash, Elasticsearch). The content is structurally inconsistent with any Elastic product. This is strong evidence the bucket belongs to an unrelated third party that happened to register the generic descriptive name 'elastic-static'."
+    }
+  },
+  "rules_applied": [
+    "rule-ownership_verifier-wayback_match_mode-879f3 (word-boundary matching)",
+    "rule-ownership_verifier-bucket_aggregation_override-1c25c (A=negative + B=negative + C=inconclusive → unowned)"
+  ],
+  "notes": "Bucket is publicly listable (objects_enumerated=true, num_objects=687, bucket_size=4MB) — that part of the finding IS real and reproducible. BUT the bucket does not belong to Elastic. Content (FCKeditor pre-2010) plus zero ownership signals across A/B/C confirms a third-party squatter on a generic descriptive name. DO NOT DRAFT A REPORT. DO NOT TOUCH BUCKET CONTENTS (already passively listed via s3scanner -enumerate; no GetObject)."
+}

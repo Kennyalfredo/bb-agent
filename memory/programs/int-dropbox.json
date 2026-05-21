@@ -1,0 +1,218 @@
+{
+  "program": {
+    "slug": "int-dropbox",
+    "platform": "intigriti",
+    "url": "https://www.intigriti.com/programs/dropbox/dropbox/detail",
+    "name": "Dropbox Bug Bounty",
+    "fetched_at": "2026-05-18"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "domain",
+        "asset": "Dropbox.com",
+        "severity_cap": "critical",
+        "notes": "Dropbox Application"
+      },
+      {
+        "type": "domain",
+        "asset": "sign.dropbox.com",
+        "severity_cap": "critical",
+        "notes": "Sign by Dropbox (formerly HelloSign)"
+      },
+      {
+        "type": "domain",
+        "asset": "HelloSign.com",
+        "severity_cap": "critical",
+        "notes": "HelloSign (now Dropbox Sign)"
+      },
+      {
+        "type": "domain",
+        "asset": "dash.ai",
+        "severity_cap": "critical",
+        "notes": "Web Browser Extension"
+      },
+      {
+        "type": "other",
+        "asset": "dash.dropbox.com",
+        "severity_cap": "critical",
+        "notes": "Dash by Dropbox MacOS and PC"
+      },
+      {
+        "type": "domain",
+        "asset": "api.dropbox.com",
+        "severity_cap": "critical",
+        "notes": "Dropbox Public API"
+      },
+      {
+        "type": "other",
+        "asset": "Dropbox Desktop Application",
+        "severity_cap": "critical",
+        "notes": "Dropbox for MacOS and PC"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "327630330",
+        "severity_cap": "high",
+        "notes": "Dropbox iOS Application"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "6450553960",
+        "severity_cap": "high",
+        "notes": "Dash by Dropbox iOS Application"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "1080074001",
+        "severity_cap": "high",
+        "notes": "Dropbox EMM iOS Application"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.dropbox.dash",
+        "severity_cap": "high",
+        "notes": "Dash by Dropbox Android Application"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.dropbox.android",
+        "severity_cap": "high",
+        "notes": "Dropbox Android Application"
+      },
+      {
+        "type": "domain",
+        "asset": "HelloFax.com",
+        "severity_cap": "high",
+        "notes": "HelloFax Web Application"
+      },
+      {
+        "type": "domain",
+        "asset": "docsend.com",
+        "severity_cap": "high",
+        "notes": "Docsend Web Application"
+      },
+      {
+        "type": "domain",
+        "asset": "app.Reclaim.ai",
+        "severity_cap": "high",
+        "notes": "Reclaim.ai Web Application"
+      },
+      {
+        "type": "domain",
+        "asset": "dropbox.com",
+        "severity_cap": "high",
+        "notes": "Paper by Dropbox Application; original endpoint: dropbox.com/paper"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.dropbox.com",
+        "severity_cap": "medium"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.dropboxer.net",
+        "severity_cap": "medium"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.dropboxforum.com",
+        "severity_cap": "medium"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.dropboxpartners.com",
+        "severity_cap": "medium"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.hellofax.com",
+        "severity_cap": "medium"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.docsend.com",
+        "severity_cap": "medium"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.reclaim.ai",
+        "severity_cap": "medium"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.helloworks.com",
+        "severity_cap": "medium"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.hellosign.com",
+        "severity_cap": "medium"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.dash.ai",
+        "severity_cap": "medium"
+      },
+      {
+        "type": "domain",
+        "asset": "replay.dropbox.com",
+        "severity_cap": "medium",
+        "notes": "Replay by Dropbox"
+      }
+    ],
+    "out_of_scope": [
+      {
+        "type": "other",
+        "asset": "Boxcryptor",
+        "reason": "Including: *.boxcryptor.com"
+      },
+      {
+        "type": "other",
+        "asset": "Formswift",
+        "reason": "Including: *.formswift.com"
+      },
+      {
+        "type": "other",
+        "asset": "Dropbox Passwords",
+        "reason": "Including: iOS and Android Applications"
+      },
+      {
+        "type": "other",
+        "asset": "Dropbox Capture Windows Desktop App"
+      },
+      {
+        "type": "other",
+        "asset": "Dropbox Capture macOS Desktop App"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.dropbox.paper",
+        "reason": "Paper by Dropbox Android Application"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "1126623662",
+        "reason": "Paper by Dropbox iOS Application"
+      }
+    ]
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": false,
+    "cve_age_min_days": 30,
+    "requires_ownership_proof": true,
+    "safe_harbor": false,
+    "submission_form": "https://app.intigriti.com/researcher/programs/dropbox/dropbox/submit",
+    "notes": "SAFE DEFAULTS APPLIED — mass_scanning_allowed: defaulted false (not explicit in dump). bucket_listing_allowed: defaulted true (internal compliance allows listing). bucket_download_allowed: defaulted false (not explicit in dump). automated_tools_allowed: defaulted false (not explicit in dump). cve_age_min_days: defaulted 30 (not explicit in dump). requires_ownership_proof: defaulted true (not explicit in dump). safe_harbor: defaulted false (not present in Intigriti dump; Intigriti's platform-level safe harbor may apply — verify on program page). submission_form: best-guess Intigriti researcher submit URL; confirm the URL at https://www.intigriti.com/programs/dropbox/dropbox/detail before pasting. Program status: open. tacRequired: false. twoFactorRequired: false. No 'No Bounty' tier entries found in scope — all in-scope assets are bounty-eligible at Tier 1/2/3 levels."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      { "severity": "critical", "min": 100, "max": 15000, "currency": "USD" }
+    ]
+  },
+  "raw_policy_excerpt": "Scope ingested from arkadiyt/bounty-targets-data dump (intigriti_data.json fetched 2026-05-18). Full policy text not captured — read https://www.intigriti.com/programs/dropbox/dropbox/detail before drafting. Bounty table is coarse-grained — only program-level min_bounty ($100 USD) and max_bounty ($15000 USD) known from dump; manually refine per-tier payouts from the program's Rewards tab before drafting medium/low severity reports. All per-asset severity_cap values derived from Intigriti Tier mapping: Tier 1 = critical, Tier 2 = high, Tier 3 = medium, No Bounty = info."
+}

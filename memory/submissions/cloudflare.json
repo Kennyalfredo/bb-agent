@@ -1,0 +1,30 @@
+{
+  "slug": "cloudflare",
+  "drafts": [
+    {
+      "asset": "cloudflare",
+      "asset_class": "github_org",
+      "finding_type": "leaked-secret",
+      "severity_proposed": "high",
+      "severity_capped": "high",
+      "report_path": "out/cloudflare/reports/cloudflare-20260515-180450.md",
+      "drafted_at": "2026-05-15T18:04:50Z",
+      "ownership_cache_ref": "memory/ownership-cache/2d3815dd0d88c37c.json",
+      "candidate_source": "out/cloudflare/secrets/20260515-170543.json",
+      "submitted": true,
+      "submitted_at": "2026-05-15T18:30:00Z",
+      "submission_url": "https://hackerone.com/reports/3738898",
+      "platform_report_id": "3738898",
+      "followups": [
+        {
+          "type": "poc-comment",
+          "posted_at": "2026-05-15T19:45:00Z",
+          "trigger": "triager h1_analyst_diablo requested PoC demonstrating exploitation",
+          "file_path": "out/cloudflare/reports/cloudflare-20260515-180450-followup-poc.md",
+          "content_summary": "Per-token identity reads (Storyblok /spaces/me, Monday me query) + scope-of-access reads (846 stories total in Storyblok space, 100 board IDs returned by Monday limit-100 query) + JWT scope analysis (per: me:write cryptographically proven) + API doc citations. All read-only, no third-party content names dumped, all third-party identifiers redacted in the comment."
+        }
+      ],
+      "notes": "Included: Monday JWT (eyJh...O8lc, cloudflare/moltworker commit 9eb6fe78) and StoryblokAccessToken (rII7...Qwtt, cloudflare/moltworker commits 9a1daf5c and 9eb6fe78). Excluded: 9x Postgres EBI findings (hh-pgsql-public.ebi.ac.uk intentionally public tutorial DB, not a security finding). No auto_info_filter or severity_overrides rules fired (both arrays empty in rules.json). Proposed high (SaaS token detectors: Monday, Storyblok — not in critical-class list). Scope cap: github.com/cloudflare severity_cap=critical. Final: min(high, critical)=high. Discovered during PoC that both tokens belong to third-party accounts (Storyblok=GWM/Great Wall Motors NZ, Monday=Paul Giurin@ADME Advertising Pty Ltd, account 229224, JWT issued 2021-05-27) — reframed as supply-chain finding."
+    }
+  ]
+}

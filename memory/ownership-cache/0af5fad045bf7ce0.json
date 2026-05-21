@@ -1,0 +1,54 @@
+{
+  "slug": "automattic",
+  "asset": "a8c-jetpack-e2e-reports",
+  "bucket_name": "a8c-jetpack-e2e-reports",
+  "dns_name": "a8c-jetpack-e2e-reports.s3.amazonaws.com",
+  "fetched_at": "2026-05-16T19:25:00Z",
+  "verdict": "owned",
+  "checks": {
+    "github_code": {
+      "status": "positive",
+      "total_count": 6,
+      "top_hits": [
+        {"repo": "Automattic/jetpack-e2e-reports", "path": "src/config.js", "html_url": "https://github.com/Automattic/jetpack-e2e-reports/blob/34f4bd844eccc75a6d1313e11f9fa9972aecb5d6/src/config.js"},
+        {"repo": "Automattic/jetpack-e2e-reports", "path": "bin/s3-client.js", "html_url": "https://github.com/Automattic/jetpack-e2e-reports/blob/34f4bd844eccc75a6d1313e11f9fa9972aecb5d6/bin/s3-client.js"},
+        {"repo": "Automattic/jetpack-e2e-reports", "path": "bin/sync-local-data.sh", "html_url": "https://github.com/Automattic/jetpack-e2e-reports/blob/34f4bd844eccc75a6d1313e11f9fa9972aecb5d6/bin/sync-local-data.sh"},
+        {"repo": "Automattic/jetpack-e2e-reports", "path": "bin/generate-report-s3.sh", "html_url": "https://github.com/Automattic/jetpack-e2e-reports/blob/34f4bd844eccc75a6d1313e11f9fa9972aecb5d6/bin/generate-report-s3.sh"},
+        {"repo": "Automattic/jetpack-e2e-reports", "path": "bin/deprecated/cleanup-s3.sh", "html_url": "https://github.com/Automattic/jetpack-e2e-reports/blob/34f4bd844eccc75a6d1313e11f9fa9972aecb5d6/bin/deprecated/cleanup-s3.sh"},
+        {"repo": "Automattic/jetpack-e2e-reports", "path": "public/404.html", "html_url": "https://github.com/Automattic/jetpack-e2e-reports/blob/34f4bd844eccc75a6d1313e11f9fa9972aecb5d6/public/404.html"}
+      ],
+      "evidence_path": "/tmp/ownership-0af5fad045bf7ce0-gh-automattic.json"
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "url_count": 284,
+      "domains_checked": ["jetpack.com", "wordpress.com", "automattic.com"],
+      "match_mode": "word_boundary",
+      "evidence_path": "/tmp/ownership-0af5fad045bf7ce0-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-1-w.amazonaws.com / s3-w.us-east-1.amazonaws.com",
+      "resolution": "52.217.112.49 (and 7 other S3 IPs, us-east-1 pool)",
+      "note": "Generic AWS S3 CNAME pool; no program-controlled domain CNAME pointing to the bucket; inconclusive for bucket ownership by construction",
+      "evidence_path": "/tmp/ownership-0af5fad045bf7ce0-dns.txt"
+    }
+  },
+  "verdict_provenance": "rule_override",
+  "rule_fired": "rule-ownership_verifier-internal_infra_override-74f17",
+  "rule_fired_at": "2026-05-16T19:25:00Z",
+  "rule_gate_evaluation": {
+    "asset_class_bucket": true,
+    "a_positive": true,
+    "b_in_neg_or_inconcl": true,
+    "c_inconclusive": true,
+    "a_gate_exact_literal": true,
+    "a_gate_in_program_org": true,
+    "a_gate_not_brand_stem_substring": true,
+    "all_gates_passed": true
+  },
+  "previous_verdict": "unknown",
+  "previous_fetched_at": "2026-05-16T19:10:00Z",
+  "notes": "Re-evaluated 2026-05-16T19:25:00Z after rule internal_infra_override-74f17 was added at 2026-05-16T19:20:21Z. Applied rule rule-ownership_verifier-internal_infra_override-74f17: A=positive (exact-literal bucket name in program-org repo), B=negative (structural — internal CI artifact store is not web-crawled), C=inconclusive (structural — all S3 buckets CNAME to generic AWS pools); rule promotes verdict from unknown to owned. A=positive signal is the strongest of any engagement: bucket name 'a8c-jetpack-e2e-reports' appears verbatim in 6 files (src/config.js, bin/s3-client.js, bin/sync-local-data.sh, bin/generate-report-s3.sh, bin/deprecated/cleanup-s3.sh, public/404.html) inside the dedicated Automattic/jetpack-e2e-reports repo whose sole purpose is serving Jetpack E2E test reports from this bucket. The 'a8c-' prefix is Automattic's well-known internal shorthand (a8c = Automattic's ticker/internal code). B=negative and C=inconclusive are both structurally unavoidable for internal-infra buckets and provide zero negative signal — they simply cannot be positive for this asset class. The base aggregation table's 2-of-3 requirement is overridden by this rule for exactly this structural pattern. Cache was stale (pre-rule); verdict was unknown; new verdict is owned."
+}

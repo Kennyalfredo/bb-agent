@@ -1,0 +1,57 @@
+{
+  "slug": "snapchat",
+  "asset": "sc-core",
+  "bucket_name": "sc-core",
+  "dns_name": "sc-core.s3.amazonaws.com",
+  "fetched_at": "2026-05-16T19:25:00Z",
+  "verdict": "owned",
+  "checks": {
+    "github_code": {
+      "status": "negative",
+      "total_count": 0,
+      "top_hits": [],
+      "evidence_path": "/tmp/ownership-b839b8de1a2f78e0-gh.json",
+      "notes": "Searched 'sc-core' in:file org:Snapchat — 0 hits. Also searched 'sc-core.s3.amazonaws.com' in:file (any org) — 0 hits. A=negative."
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "evidence_path": "/tmp/ownership-b839b8de1a2f78e0-gau-hits.txt",
+      "notes": "gau ran against snapchat.com, sc-core.net, bitmoji.com via wayback+otx providers. 3589 URLs collected. grep -E '\\bsc-core\\b' returned 0 hits. B=negative. Applied rule rule-ownership_verifier-wayback_match_mode-879f3: word_boundary mode used."
+    },
+    "dns_chain": {
+      "status": "positive",
+      "cname": "s3-w.us-east-1.amazonaws.com",
+      "evidence_path": "/tmp/ownership-b839b8de1a2f78e0-dns.txt",
+      "notes": "sc-core.s3.amazonaws.com CNAME resolves: s3-1-w.amazonaws.com -> s3-w.us-east-1.amazonaws.com with live IPs — bucket exists in us-east-1. sc-core.net NS records: ns-1617.awsdns-10.co.uk, ns-1360.awsdns-42.org, ns-69.awsdns-08.com, ns-743.awsdns-28.net (AWS Route53 — consistent with Snap infrastructure). sc-core.net registrar: MarkMonitor Inc. (enterprise domain protection used by Snap Inc.). Registrant shielded by DNStination Inc. WHOIS privacy proxy (standard enterprise pattern). *.sc-core.net is an explicitly listed in-scope Tier A (critical severity cap) wildcard asset in the Snapchat H1 program with note 'Snapchat internal services'. Zone is Snap-controlled; bucket stem matches program asset exactly. C=positive."
+    }
+  },
+  "aggregation": {
+    "A": "negative",
+    "B": "negative",
+    "C": "positive",
+    "positive_count": 1,
+    "min_required": 2,
+    "table_verdict": "unknown",
+    "override_fired": true,
+    "override_rule": "rule-ownership_verifier-wildcard_stem_dns_override-a18c1",
+    "override_verdict": "owned",
+    "override_gate_evaluation": {
+      "a_in_negative_or_ambiguous": true,
+      "b_in_negative_or_inconclusive": true,
+      "c_positive": true,
+      "bucket_name_exact_matches_wildcard_stem": "sc-core == stem of *.sc-core.net",
+      "apex_zone_nameservers_program_controlled": "AWS Route53 (awsdns-*) — Snap-controlled",
+      "registrar_class_match": "MarkMonitor Inc."
+    }
+  },
+  "out_of_band": {
+    "program_scope_match": "*.sc-core.net is explicit in-scope Tier A wildcard in Snapchat H1 program (critical severity cap, note: 'Snapchat internal services')",
+    "registrar": "MarkMonitor Inc. — enterprise domain protection registrar used by Snap Inc. for core properties",
+    "whois_privacy": "DNStination Inc. WHOIS privacy proxy — standard large-enterprise WHOIS masking pattern",
+    "nameservers": "AWS Route53 (awsdns-*) — consistent with Snap infrastructure",
+    "bucket_resolves": true,
+    "bucket_region": "us-east-1"
+  },
+  "notes": "applied rule rule-ownership_verifier-wayback_match_mode-879f3: word_boundary grep used for Wayback check to avoid brand-stem degenerate matches. applied rule rule-ownership_verifier-wildcard_stem_dns_override-a18c1: C=positive with all three C-gates satisfied (bucket name 'sc-core' exact-matches stem of in-scope wildcard '*.sc-core.net'; apex zone on AWS Route53 which is program-controlled; registrar is MarkMonitor Inc., enterprise-class) — override promotes verdict from 'unknown' to 'owned'. Previous cache (fetched_at 2026-05-16T16:08:05Z) returned 'unknown' because rule-ownership_verifier-wildcard_stem_dns_override-a18c1 did not exist at that time. Re-evaluated 2026-05-16T19:25:00Z after rule addition."
+}

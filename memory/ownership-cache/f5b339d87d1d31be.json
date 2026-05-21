@@ -1,0 +1,44 @@
+{
+  "slug": "toolsforhumanity",
+  "asset": "worldcoin",
+  "bucket_name": null,
+  "dns_name": null,
+  "asset_class": "repo_owner",
+  "fetched_at": "2026-05-17T00:00:00Z",
+  "verdict": "owned",
+  "checks": {
+    "github_code": {
+      "status": "positive",
+      "total_count": 1434,
+      "top_hits": [
+        {"repo": "worldcoin/orb-software", "path": "nix/machines/worldcoin-hil-munich-2/configuration.nix", "html_url": "https://github.com/worldcoin/orb-software/blob/4814f789cc249b4e67b8e7f68d0da0976636ea4d/nix/machines/worldcoin-hil-munich-2/configuration.nix"},
+        {"repo": "worldcoin/Remainder_CE", "path": "frontend/src/worldcoin_mpc.rs", "html_url": "https://github.com/worldcoin/Remainder_CE/blob/2fc4de638d7e4bf82eb3c4ab9dd8bc2a26133e0f/frontend/src/worldcoin_mpc.rs"},
+        {"repo": "worldcoin/orb-hardware", "path": "battery/README.MD", "html_url": "https://github.com/worldcoin/orb-hardware/blob/3a2c4cdad0011fc991546b81dd5a943836aae445/battery/README.MD"},
+        {"repo": "worldcoin/semaphore-rs", "path": "mit-license.md", "html_url": "https://github.com/worldcoin/semaphore-rs/blob/00df132aaa769ef350e2a3f2598a9f877184465b/mit-license.md"},
+        {"repo": "worldcoin/signup-sequencer", "path": "LICENSE.md", "html_url": "https://github.com/worldcoin/signup-sequencer/blob/f2dec58e5e73804c03f6656f96b1f2859636c0dd/LICENSE.md"},
+        {"repo": "worldcoin/developer-portal", "path": "web/middleware.ts", "html_url": "https://github.com/worldcoin/developer-portal/blob/0342ebf188e72aac3baeade8bcf2da6203d24e9d/web/middleware.ts"},
+        {"repo": "worldcoin/world-id-minecraft", "path": "src/main/java/org/worldcoin/bukkit/plugin/worldid/WorldId.java", "html_url": "https://github.com/worldcoin/world-id-minecraft/blob/7a9190c974399cd38c3d036b6718e6477020b322/src/main/java/org/worldcoin/bukkit/plugin/worldid/WorldId.java"},
+        {"repo": "worldcoin/world-id-contracts", "path": "src/interfaces/IBaseWorldID.sol", "html_url": "https://github.com/worldcoin/world-id-contracts/blob/f959f725c3ee2dec1ed24944d5b9593b68c7b8a4/src/interfaces/IBaseWorldID.sol"},
+        {"repo": "worldcoin/world-id-nextauth-template", "path": "pages/index.tsx", "html_url": "https://github.com/worldcoin/world-id-nextauth-template/blob/accc0a0445e28fa9bf14dd0e80828155494a43f8/pages/index.tsx"},
+        {"repo": "worldcoin/semaphore-mtb", "path": "server/server.go", "html_url": "https://github.com/worldcoin/semaphore-mtb/blob/3f56f6a425be50e3d4ab441f96a2e55acc52a068/server/server.go"}
+      ],
+      "evidence_path": "/tmp/ownership-f5b339d87d1d31be-gh.json"
+    },
+    "wayback": {
+      "status": "positive",
+      "hit_count": 19162,
+      "representative_hits": [
+        "https://worldcoin.org/worldcoin-token (references github.com/worldcoin/open-iris)",
+        "https://worldcoin.org/ (in-scope domain, world_boundary match)"
+      ],
+      "evidence_path": "/tmp/ownership-f5b339d87d1d31be-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": null,
+      "note": "Asset is a GitHub org (repo_owner class) — DNS check is not applicable.",
+      "evidence_path": null
+    }
+  },
+  "notes": "Strong prior signal: program JSON explicitly lists https://github.com/worldcoin as a source_code in-scope asset (org-level wildcard, severity_cap=critical, notes='Worldcoin Foundation-owned asset. Org-level scope entry.'). Check A: 1,434 GH code search hits, all 10 top results inside worldcoin/* repos — A=positive. Check B: 19,162 word_boundary hits across worldcoin.org/world.org/toolsforhumanity.com gau output; worldcoin.org pages explicitly link to github.com/worldcoin/open-iris — B=positive. Check C: N/A for repo_owner asset class — C=inconclusive. Applied rule rule-ownership_verifier-wayback_match_mode-879f3: word_boundary mode used for grep (not substring). Two independent positive signals (A+B) satisfy min_positive_signals=2 requirement. This is not a marginal call."
+}

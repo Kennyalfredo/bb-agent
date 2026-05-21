@@ -1,0 +1,102 @@
+{
+  "proposal_id": "20260517-154407-bc-monash-mbb",
+  "slug": "bc-monash-mbb",
+  "generated_at": "2026-05-17T15:44:07Z",
+  "evidence_inputs": [
+    "/home/kenny/bb-agent/memory/programs/bc-monash-mbb.json",
+    "/home/kenny/bb-agent/out/bc-monash-mbb/secrets/20260517-152030.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/3f32128f83e4a61f.json"
+  ],
+  "metrics": {
+    "buckets_scanned": 0,
+    "secrets_scanned": 6,
+    "ownership_checks": 1,
+    "owned": 0,
+    "unowned": 0,
+    "unknown": 1,
+    "reports_drafted": 0,
+    "reports_submitted": 0
+  },
+  "narrative": "Engagement against Monash University Bug Bounty (bc-monash-mbb, Bugcrowd, max $7,500): secret-hunter ran passes A/B/C across 3 cloned repos, produced 6 noseyparker-only candidates (0 trufflehog-verified) concentrated in a single personal-account repo (pdbsewell/fedid-migration); no buckets were scanned; no reports were drafted. First completed Bugcrowd engagement under the bc- prefix convention — pipeline end-to-end confirmed clean.\n\nWhat worked: Pass B repo selection logic correctly identified pdbsewell/fedid-migration as high-program-flavor by reading Salesforce Apex class names (MonashCollege, Monash HR metadata, Monash portal components). The 6 retained candidates include a high-severity pairing — a 2048-bit RSA private key + DocuSign JWT bound to integration ID 4320e42e-289a-4784-8700-6b268a61c93c — that is worth a manual follow-up if ownership can ever be established. Ownership-verifier correctly applied word_boundary mode (rule-ownership_verifier-wayback_match_mode-879f3) and returned verdict=unknown rather than a false positive; 473 Wayback URLs for monash.edu produced zero hits for the username 'pdbsewell', which is the right negative result.\n\nWhat didn't work: the engagement closed at verdict=unknown because pdbsewell is a personal GitHub account with no public linkage to any Monash-controlled org (MonashUniversity, monash-university, monashedu all exist but have 0 public repos). The GH code search check A returned 4 self-referential hits (all in pdbsewell's own non-Monash repos) with 0 hits in any Monash org. There is no passive signal chain from pdbsewell to Monash, so all 6 candidates are attribution-blocked. The RSA key + DocuSign pairing would be a P1/critical-class finding if attributable, but it cannot be reported without confirmation that pdbsewell is a Monash employee or contractor. Additionally, all 44 program assets carry severity_cap=unknown because the Bugcrowd dump source (arkadiyt/bounty-targets-data) does not carry per-target severity caps; this is a structural Bugcrowd parser limitation that silently drops report_drafter's severity ceiling to 'medium' on every Bugcrowd program until manually refined.\n\nWhat surprised us: the canonical Monash GitHub orgs (MonashUniversity, monash-university, monashedu) all resolve but are completely empty — 0 public repos across all three. This means Pass A, which relies on org repos, was structurally vacuous from the start. University IT projects at Monash appear to run through individual staff or contractor accounts (like pdbsewell) rather than centralised org repositories. The hypothesis that 'universities have worse OSINT hygiene → more findings' is partially validated (6 candidates found vs 0 for Valve), but the attribution path assumption fails: low hygiene does not imply report-shippable when ownership cannot be demonstrated passively.\n\nRecommended pre-flight for next revisit: (1) Before rerunning hunt-secrets, check whether pdbsewell has added any public org membership or if any Monash org has gained public repos since 2026-05-17 — either would unblock the 6 candidates. (2) If rerunning, skip Pass A entirely (all Monash orgs are empty) and run Pass B + C only, using the existing 3 base names. (3) Manually verify the DocuSign integration ID 4320e42e-289a-4784-8700-6b268a61c93c against the DocuSign developer portal — if it resolves to a live Monash account that alone may constitute out-of-band ownership evidence. (4) Confirm Bugcrowd live page severity caps before drafting any report.",
+  "proposed_rules": [
+    {
+      "rule_id": "rule-report_drafter-require_cap_refinement_when_all_caps_unknown-bc5e8",
+      "agent": "report_drafter",
+      "path": "require_cap_refinement_when_all_caps_unknown",
+      "action": "set",
+      "value": {
+        "enabled": true,
+        "applies_to_platforms": ["bugcrowd"],
+        "reason": "Bugcrowd dump via arkadiyt/bounty-targets-data does not carry per-target severity caps; all caps default to unknown which causes report_drafter severity min(proposed, cap) to silently downgrade every finding to medium"
+      },
+      "rationale": "All 44 bc-monash-mbb assets have severity_cap=unknown due to Bugcrowd parser limitation; without this gate, any drafted report would have its severity silently capped at medium regardless of actual impact.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/memory/programs/bc-monash-mbb.json"
+      ]
+    },
+    {
+      "rule_id": "rule-ownership_verifier-gh_username_no_org_hit_skip-0abb3",
+      "agent": "ownership_verifier",
+      "path": "gh_username_no_org_hit_skip",
+      "action": "append",
+      "value": {
+        "asset_class": "gh_username",
+        "when": {
+          "a_result": "ambiguous",
+          "a_gate": "all_hits_in_owner_repos_only",
+          "program_org_hit_count": 0,
+          "b": "negative",
+          "c": "inconclusive"
+        },
+        "verdict": "unattributable",
+        "note": "GH username with A=ambiguous-self-ref-only + B=negative + C=structural-NA is unattributable by passive checks alone; do not promote to report-candidate without manual confirmation"
+      },
+      "rationale": "pdbsewell had A=ambiguous(4 self-ref hits, 0 Monash org hits) + B=negative(473 URLs, 0 hits) + C=inconclusive(structural N/A for usernames) — correct verdict is 'unattributable' not just 'unknown', and the distinction matters for downstream report gating.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/memory/ownership-cache/3f32128f83e4a61f.json"
+      ]
+    },
+    {
+      "rule_id": "rule-secret_hunter-require_ownership_before_report_non_org-c1675",
+      "agent": "secret_hunter",
+      "path": "require_ownership_before_report_non_org",
+      "action": "set",
+      "value": {
+        "enabled": true,
+        "applies_when": "repo_owner_is_personal_account_not_in_program_orgs",
+        "action": "flag_all_candidates_as_ownership_unverified_gate",
+        "reason": "Personal-account repos selected by program-flavor code matching may belong to contractors/employees but cannot be verified passively; ownership must be confirmed before any candidate advances to report"
+      },
+      "rationale": "All 6 bc-monash-mbb candidates came from pdbsewell/fedid-migration (personal account, 0 program-org membership); without this gate, a future run could draft a report against unverified credentials that may not belong to Monash.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/bc-monash-mbb/secrets/20260517-152030.json",
+        "/home/kenny/bb-agent/memory/ownership-cache/3f32128f83e4a61f.json"
+      ]
+    }
+  ],
+  "discarded_heuristics": [
+    {
+      "heuristic": "H1",
+      "reason": "All 6 noseyparker-only candidates have non-trivial credential values (NewsAPI key, Salesforce client secrets, DocuSign JWT, RSA private key) — none match the H1 placeholder/boolean literal set (False, True, None, null, changeme, etc.); no FP pattern to encode."
+    },
+    {
+      "heuristic": "H2",
+      "reason": "hunt-buckets was not run on this engagement; no ownership-cache entries for buckets exist; Wayback check was performed on a GH username asset, not a bucket name — H2 brand-stem degeneracy check is inapplicable."
+    },
+    {
+      "heuristic": "H3",
+      "reason": "Canonical Monash GH orgs (MonashUniversity, monash-university, monashedu) have 0 public repos each — this is not a 'mature org with >50 repos'; the org named 'monash' (Pass A target) resolved to an unrelated personal account; H3 mature-org narrative note not applicable at this volume."
+    },
+    {
+      "heuristic": "H4",
+      "reason": "hunt-buckets was not run; no bucket ownership-cache entries exist for this engagement; H4 basket-basename degeneracy check is inapplicable."
+    },
+    {
+      "heuristic": "H5",
+      "reason": "memory/submissions/bc-monash-mbb.json does not exist; no reports were drafted or submitted; H5 auto-info filter promotion check requires submission outcomes which are absent."
+    }
+  ]
+}

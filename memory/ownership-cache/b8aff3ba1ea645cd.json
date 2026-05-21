@@ -1,0 +1,41 @@
+{
+  "slug": "adobe",
+  "asset": "lightroom-assets",
+  "bucket_name": "lightroom-assets",
+  "dns_name": "lightroom-assets.s3.amazonaws.com",
+  "asset_class": "aws_s3_bucket",
+  "fetched_at": "2026-05-15T20:20:00Z",
+  "verdict": "unowned",
+  "checks": {
+    "github_code": {
+      "status": "negative",
+      "total_count": 1,
+      "top_hits": [
+        {
+          "repo": "api-evangelist/lightroom",
+          "path": "README.md",
+          "html_url": "https://github.com/api-evangelist/lightroom/blob/31f7bd7422976262a66ea9cfcc3a660e429a3bea/README.md",
+          "content_verify_result": "path-coincidence: README references 'lightroom-assets-openapi.yml' and 'lightroom-assets-context.jsonld' as filename stems, not as an S3 bucket name. Repo owner 'api-evangelist' is a third-party API documentation org, not Adobe."
+        }
+      ],
+      "adobe_org_hits": 0,
+      "evidence_path": "/tmp/ownership-b8aff3ba1ea645cd-gh.json"
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "urls_scanned": 74540,
+      "domains_queried": ["lightroom.adobe.com", "adobe.com", "photos.adobe.io"],
+      "match_mode": "word_boundary",
+      "evidence_path": "/tmp/ownership-b8aff3ba1ea645cd-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-3-w.amazonaws.com",
+      "resolved_ips": ["3.5.66.35", "3.5.66.50", "3.5.75.4", "3.5.66.17", "3.5.74.106", "3.5.64.17", "3.5.67.250", "3.5.67.229"],
+      "note": "Generic AWS S3 CNAME — bucket resolves but DNS does not prove ownership. No CNAME from any adobe.com or adobe.io domain pointing to this bucket endpoint detected.",
+      "evidence_path": "/tmp/ownership-b8aff3ba1ea645cd-dns.txt"
+    }
+  },
+  "notes": "applied rule rule-ownership_verifier-bucket_aggregation_override-1c25c: A=neg, B=neg, C=inconclusive promotes to 'unowned' rather than 'unknown' per bucket_aggregation_override. applied rule rule-ownership_verifier-wayback_match_mode-879f3: word_boundary grep used instead of substring to avoid brand-stem degenerate matches. GH check: content-verified the sole hit (api-evangelist/lightroom README.md) — string 'lightroom-assets' appears as filename prefix only, not as an S3 bucket reference; downgraded to negative. Contextual note: 'lightroom-assets' is a highly plausible Adobe name (Lightroom is an Adobe product, in scope at *.lightroom.adobe.com and com.adobe.lrmobile), but plausibility alone cannot produce 'owned' under the 2-of-3 rule. The bucket may be Adobe-owned without any public footprint linking it to adobe.com — that absence of signal is the correct result of this verification."
+}

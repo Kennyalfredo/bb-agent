@@ -1,0 +1,35 @@
+{
+  "slug": "snapchat",
+  "asset": "bitmoji",
+  "bucket_name": "bitmoji",
+  "dns_name": "bitmoji.s3.amazonaws.com",
+  "fetched_at": "2026-05-16T16:20:00Z",
+  "verdict": "unowned",
+  "checks": {
+    "github_code": {
+      "status": "negative",
+      "total_count": 0,
+      "top_hits": [],
+      "evidence_path": "/tmp/ownership-19d4861c1165bbc7-gh.json"
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "gau_url_count": 2813,
+      "domains_queried": ["bitmoji.com", "snapchat.com", "bitstrips.com"],
+      "evidence_path": "/tmp/ownership-19d4861c1165bbc7-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-w.us-east-2.amazonaws.com.",
+      "resolved_ips": ["3.5.128.175", "3.5.91.8", "3.5.89.114", "16.12.64.52", "3.5.93.53", "3.5.133.124", "3.5.133.222", "16.12.64.140"],
+      "note": "Generic AWS regional CNAME — no CNAME from a program-owned domain to this bucket; bucket DNS alone cannot establish ownership",
+      "evidence_path": "/tmp/ownership-19d4861c1165bbc7-dns.txt"
+    }
+  },
+  "rules_applied": [
+    "applied rule rule-ownership_verifier-wayback_match_mode-879f3: wayback_match_mode=word_boundary; grep used \\bbitmoji\\.s3\\.amazonaws\\.com\\b to prevent brand-stem degenerate matches in archived URLs",
+    "applied rule rule-ownership_verifier-bucket_aggregation_override-1c25c: A=negative, B=negative, C=inconclusive for asset_class=bucket → override verdict to 'unowned' (C structural inconclusiveness on buckets does not block an unowned determination)"
+  ],
+  "notes": "Bucket 'bitmoji' resolves to us-east-2 (confirmed via CNAME s3-w.us-east-2.amazonaws.com), consistent with the bucket-hunter finding. Zero GH code search hits for 'bitmoji.s3.amazonaws.com' across all public repos — neither Snap's GitHub org (Snapchat-Inc) nor Bitmoji org shows any reference. 2,813 archived URLs scraped from bitmoji.com + snapchat.com + bitstrips.com via wayback+otx; 0 references to the bucket URL. Although Bitmoji is genuinely Snap-owned (acquired Bitstrips 2016, bitmoji.com is in-scope Tier B), the bare bucket name 'bitmoji' produces zero ownership evidence — this is the classic squatter-indistinguishable pattern. Any Snap engineer would use a namespaced bucket (e.g. snap-bitmoji-prod, bitmoji-assets-us-east-2). The bare 7-char brand name bucket was almost certainly registered by a third party or squatter. Bucket is public-list in us-east-2."
+}

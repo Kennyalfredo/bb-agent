@@ -1,0 +1,109 @@
+{
+  "proposal_id": "20260517-164542-bc-opera",
+  "slug": "bc-opera",
+  "generated_at": "2026-05-17T16:45:42Z",
+  "evidence_inputs": [
+    "/home/kenny/bb-agent/memory/programs/bc-opera.json",
+    "/home/kenny/bb-agent/out/bc-opera/secrets/20260517-163009.json",
+    "/home/kenny/bb-agent/out/bc-opera/buckets/20260517-163630.json"
+  ],
+  "metrics": {
+    "buckets_scanned": 80,
+    "secrets_scanned": 0,
+    "ownership_checks": 0,
+    "owned": 0,
+    "unowned": 0,
+    "unknown": 0,
+    "reports_drafted": 0,
+    "reports_submitted": 0
+  },
+  "narrative": "Engagement against Opera Public Bug Bounty (bc-opera, Bugcrowd, max $5,000 across all severities): secret-hunter ran Pass A only (strict caps: automated_tools_allowed=false AND mass_scanning_allowed=false), scanning the `github.com/opera` org (3 public repos — terago, resources, logpeck-kibana-plugin). Trufflehog returned 0 verified secrets in 3 seconds; Pass B code searches for `opera`, `rtbscale`, and `savi` produced 60 entirely unrelated results (the token `opera` is too generic, `rtbscale`/`savi` matched tracker-radar lists and GNOME project files). 0 repos cloned; Pass C not run. Bucket-hunter scanned 80 candidates (mass_scanning_allowed=false cap), found 8 existing buckets across opera and osp basenames, all showing s3scanner `perm_all_users_read=ALLOWED`. Manual recheck with `aws s3api list-objects-v2 --no-sign-request` on all 8 confirmed AccessDenied — a clean sweep false-positive. No ownership-verifier runs (all 8 buckets were disqualified before that stage). No reports drafted. Engagement closed clean-negative.\n\nWhat worked: the bucket-hunter cap behavior (mass_scanning_allowed=false capping at 80 candidates and skipping Pass B cloud_enum since Pass A found 8 hits) was correct and prevented over-enumeration. The `notes` field in the secrets output already flagged the `github.com/operasoftware` alternative org, so the gap was self-documented at scan time. The `memory` note about s3scanner ACL flags lying (from the Snapchat engagement) was referenced in the bucket JSON, which is exactly the right place for it — the operator caught it before drafting anything.\n\nWhat did not work: Pass A landed on `github.com/opera` — a 3-repo personal-style org — because the dominant wildcard stem is `opera` and the 1-org strict cap forced exactly one guess. The canonical Opera Software GitHub org is `github.com/operasoftware` (50+ repos including browser engine components, core mobile app code, and internal tooling). This is almost certainly where leaked credentials would live. The stem-plus-suffix naming pattern (`operasoftware` vs `opera`) is not unique to Opera: `auth0` (Okta), `tmobile`, `atlassian-labs`, `grafana-labs` all follow the same form. The current heuristic has no fallback for this case under strict caps, creating a structural false-negative risk.\n\nWhat surprised us: the s3scanner ACL false-positive rate was 8/8 — a complete sweep, not a partial miss. The Snapchat engagement had 1 such false positive (sc-core), which could have been dismissed as a one-off. Opera shows the same pattern at scale across 8 different bucket names in 4 different AWS regions (us-east-1, us-east-2, eu-central-1, ap-northeast-1, ap-south-1). This is strong corroboration that s3scanner `perm_all_users_read=ALLOWED` is a near-worthless signal when `objects_enumerated=false`. The recheck is not a belt-and-suspenders nicety — it is the gate.\n\nRecommended pre-flight if bc-opera is revisited: (1) Run Pass A against `github.com/operasoftware` as the primary org (not `opera`) — the current `gh_org_override` mechanism supports this exactly. (2) The 8 buckets confirmed existing but AccessDenied can be passed directly to ownership-verifier if there is ever a policy relaxation that allows listing. (3) Pass B code searches for `opera` as a keyword are structurally unproductive — too generic. Consider adding `operasoftware` and `opera-gx` as more specific search tokens for any future Pass B run. (4) s3scanner recheck must be applied before ownership-verifier is invoked on any bucket showing `all_users_read=ALLOWED` with `objects_enumerated=false`.",
+  "proposed_rules": [
+    {
+      "rule_id": "rule-secret_hunter-gh_org_supplement-f0e66",
+      "agent": "secret_hunter",
+      "path": "gh_org_supplement",
+      "action": "append",
+      "value": {
+        "when": "pass_a_org_has_few_repos",
+        "few_repos_threshold": 10,
+        "suggest_suffixes": ["software", "inc", "corp", "labs", "-inc", "-corp", "-labs", "-software"],
+        "reason": "When stem-derived GH org has fewer repos than threshold, the canonical org may use stem+suffix form (e.g. opera->operasoftware); surfacing alternatives prevents false negatives under strict 1-org cap"
+      },
+      "rationale": "Pass A resolved github.com/opera (3 repos) rather than github.com/operasoftware (50+ repos) because the 1-org strict cap forced the bare-stem guess; a supplement that flags low-repo-count orgs for stem+suffix retry would have caught this.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/bc-opera/secrets/20260517-163009.json"
+      ]
+    },
+    {
+      "rule_id": "rule-bucket_hunter-s3scanner_acl_recheck_required-37651",
+      "agent": "bucket_hunter",
+      "path": "s3scanner_acl_recheck_required",
+      "action": "append",
+      "value": {
+        "enabled": true,
+        "recheck_command": "aws s3api list-objects-v2 --no-sign-request --bucket {bucket_name}",
+        "disqualify_if_access_denied": true,
+        "reason": "S3scanner perm_all_users_read=ALLOWED does not equal actual ListBucket success; bucket policy can deny what ACL appears to grant. Confirmed false-positive at scale: 8/8 Opera buckets showed ALLOWED by s3scanner but all 8 returned AccessDenied on recheck."
+      },
+      "rationale": "8/8 Opera buckets flagged ALLOWED by s3scanner returned AccessDenied on aws s3api list-objects-v2 --no-sign-request recheck — third corroboration of this pattern (Snapchat sc-core was first; Valve likely second); promotes the human-mediated memory note to a machine-enforced gate.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/bc-opera/buckets/20260517-163630.json"
+      ]
+    },
+    {
+      "rule_id": "rule-bucket_hunter-basename_skip-42fea",
+      "agent": "bucket_hunter",
+      "path": "basename_skip",
+      "action": "append",
+      "value": {
+        "pattern": "opera",
+        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in bc-opera engagement"
+      },
+      "rationale": "Bucket 'opera' exists (AWS us-east-1) but ownership is unverifiable — the 4-letter bare brand name will always match thousands of unrelated GH hits and Wayback false positives; verdict would lock at unknown with no resolution path, same as 'indrive' and 'found' in prior engagements.",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/bc-opera/buckets/20260517-163630.json"
+      ]
+    },
+    {
+      "rule_id": "rule-bucket_hunter-basename_skip-e0ffa",
+      "agent": "bucket_hunter",
+      "path": "basename_skip",
+      "action": "append",
+      "value": {
+        "pattern": "osp",
+        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in bc-opera engagement"
+      },
+      "rationale": "Bucket 'osp' (3-letter abbreviation for Opera Software Platform, in-scope via *.osp.opera.software wildcard) is too short to distinguish from squatters or unrelated orgs using the same abbreviation; same structural problem as 'found' in elastic and bare-brand names in snapchat.",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/bc-opera/buckets/20260517-163630.json"
+      ]
+    }
+  ],
+  "discarded_heuristics": [
+    {
+      "heuristic": "H1",
+      "reason": "0 noseyparker-only candidates in secrets output — no false-positive detector patterns to analyze."
+    },
+    {
+      "heuristic": "H2",
+      "reason": "No ownership-verifier runs were performed for bc-opera (all buckets disqualified before that stage); no Wayback check data exists to evaluate brand-stem degeneracy."
+    },
+    {
+      "heuristic": "H3",
+      "reason": "Pass A org (github.com/opera) had only 3 repos — the mature-org heuristic fires on >50 public repos; this is the inverse situation (too few repos, wrong org) covered by the gh_org_supplement rule proposal instead."
+    },
+    {
+      "heuristic": "H4",
+      "reason": "Partially fired — proposed as rules rule-bucket_hunter-basename_skip-42fea (opera) and rule-bucket_hunter-basename_skip-e0ffa (osp). The remaining 6 buckets (opera-prod, opera-data, opera-backup, osp-data, osp-logs, osp-backups) are suffixed forms; no ownership-verifier was run so no 'unknown' verdicts exist to trigger the H4 condition formally — treated as narrative only."
+    },
+    {
+      "heuristic": "H5",
+      "reason": "No submissions file exists for bc-opera (memory/submissions/bc-opera.json absent); heuristic requires post-submission outcome data."
+    }
+  ]
+}

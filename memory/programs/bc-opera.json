@@ -1,0 +1,700 @@
+{
+  "program": {
+    "slug": "bc-opera",
+    "platform": "bugcrowd",
+    "url": "https://bugcrowd.com/engagements/opera",
+    "name": "Opera Public Bug Bounty",
+    "fetched_at": "2026-05-17"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "domain",
+        "asset": "https://auth.opera.com",
+        "severity_cap": "unknown",
+        "notes": "Authentication service"
+      },
+      {
+        "type": "domain",
+        "asset": "https://accounts.opera.com",
+        "severity_cap": "unknown",
+        "notes": "Accounts API"
+      },
+      {
+        "type": "domain",
+        "asset": "https://flow.opera.com",
+        "severity_cap": "unknown",
+        "notes": "Flow API"
+      },
+      {
+        "type": "domain",
+        "asset": "https://autoupdate.geo.opera.com",
+        "severity_cap": "unknown",
+        "notes": "Auto-update geo API"
+      },
+      {
+        "type": "domain",
+        "asset": "https://net.geo.opera.com",
+        "severity_cap": "unknown",
+        "notes": "Network geo API"
+      },
+      {
+        "type": "domain",
+        "asset": "https://download.opera.com",
+        "severity_cap": "unknown",
+        "notes": "Download website"
+      },
+      {
+        "type": "domain",
+        "asset": "https://speeddials.opera.com",
+        "severity_cap": "unknown",
+        "notes": "Speed dials API"
+      },
+      {
+        "type": "domain",
+        "asset": "https://browser-notifications.opera.com",
+        "severity_cap": "unknown",
+        "notes": "Browser notifications API"
+      },
+      {
+        "type": "domain",
+        "asset": "https://www.opera.com/",
+        "severity_cap": "unknown",
+        "notes": "Main website"
+      },
+      {
+        "type": "other",
+        "asset": "Opera PC",
+        "severity_cap": "unknown",
+        "notes": "Desktop browser executable (Windows stable); download link: https://www.opera.com/computer/thanks?ni=stable&os=windows"
+      },
+      {
+        "type": "other",
+        "asset": "Opera GX",
+        "severity_cap": "unknown",
+        "notes": "GX browser executable (Windows); download link: https://www.opera.com/computer/thanks?ni=eapgx&os=windows"
+      },
+      {
+        "type": "other",
+        "asset": "Opera Neon",
+        "severity_cap": "unknown",
+        "notes": "Neon browser; https://www.operaneon.com"
+      },
+      {
+        "type": "other",
+        "asset": "Opera Air",
+        "severity_cap": "unknown",
+        "notes": "Opera Air browser; download link: https://www.opera.com/computer/thanks?ni=opera_air&os=windows"
+      },
+      {
+        "type": "domain",
+        "asset": "https://get.geo.opera.com",
+        "severity_cap": "unknown",
+        "notes": "Geo distribution endpoint"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.opera.mini.native",
+        "severity_cap": "unknown",
+        "notes": "Opera Mini (Android); https://play.google.com/store/apps/details?id=com.opera.mini.native"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.opera.app.sports",
+        "severity_cap": "unknown",
+        "notes": "Apex Football (Android); https://play.google.com/store/apps/details?id=com.opera.app.sports"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.opera.browser",
+        "severity_cap": "unknown",
+        "notes": "Opera for Android; https://play.google.com/store/apps/details?id=com.opera.browser"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.opera.app.news",
+        "severity_cap": "unknown",
+        "notes": "Opera News (Android); https://play.google.com/store/apps/details?id=com.opera.app.news"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.opera.gx",
+        "severity_cap": "unknown",
+        "notes": "Opera GX for Android; https://play.google.com/store/apps/details?id=com.opera.gx"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "id1411869974",
+        "severity_cap": "unknown",
+        "notes": "Opera for iOS (AI Browser with VPN); https://apps.apple.com/us/app/opera-ai-browser-with-vpn/id1411869974"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "id1559740799",
+        "severity_cap": "unknown",
+        "notes": "Opera GX for iOS; https://apps.apple.com/pl/app/opera-gx/id1559740799"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.opera.minipay",
+        "severity_cap": "unknown",
+        "notes": "MiniPay (Android); https://play.google.com/store/apps/details?id=com.opera.minipay"
+      },
+      {
+        "type": "domain",
+        "asset": "https://cryptowallet.opera-api.com",
+        "severity_cap": "unknown",
+        "notes": "Crypto wallet API"
+      },
+      {
+        "type": "domain",
+        "asset": "https://suggestions.opera-api.com",
+        "severity_cap": "unknown",
+        "notes": "Suggestions API"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.opera.software",
+        "severity_cap": "unknown",
+        "notes": "All subdomains of opera.software"
+      },
+      {
+        "type": "domain",
+        "asset": "weather.opera-api.com",
+        "severity_cap": "unknown",
+        "notes": "Weather API"
+      },
+      {
+        "type": "domain",
+        "asset": "push.opera.com",
+        "severity_cap": "unknown",
+        "notes": "Push notifications API"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.osp.opera.software",
+        "severity_cap": "unknown",
+        "notes": "All subdomains of osp.opera.software"
+      },
+      {
+        "type": "domain",
+        "asset": "https://bugs.opera.com/",
+        "severity_cap": "unknown",
+        "notes": "Bug tracker"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.opera.technology",
+        "severity_cap": "unknown",
+        "notes": "All subdomains of opera.technology"
+      },
+      {
+        "type": "domain",
+        "asset": "https://gx.games",
+        "severity_cap": "unknown",
+        "notes": "GX.games platform"
+      },
+      {
+        "type": "domain",
+        "asset": "https://create.gx.games",
+        "severity_cap": "unknown",
+        "notes": "GX.games creator portal"
+      },
+      {
+        "type": "domain",
+        "asset": "https://gx.me",
+        "severity_cap": "unknown",
+        "notes": "GX.me platform"
+      },
+      {
+        "type": "domain",
+        "asset": "https://features.opera-api.com",
+        "severity_cap": "unknown",
+        "notes": "Features API"
+      },
+      {
+        "type": "domain",
+        "asset": "https://cdn-store.opera-api.com",
+        "severity_cap": "unknown",
+        "notes": "CDN store API"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.sec-tunnel.com",
+        "severity_cap": "unknown",
+        "notes": "All subdomains of sec-tunnel.com (VPN/tunnel infrastructure)"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.opera.com",
+        "severity_cap": "unknown",
+        "notes": "All subdomains of opera.com (primary wildcard)"
+      },
+      {
+        "type": "domain",
+        "asset": "exchange.opera.com",
+        "severity_cap": "unknown",
+        "notes": "Exchange API"
+      },
+      {
+        "type": "domain",
+        "asset": "merchandise.opera-api.com",
+        "severity_cap": "unknown",
+        "notes": "Merchandise API"
+      },
+      {
+        "type": "domain",
+        "asset": "blocklist.opera-api.com",
+        "severity_cap": "unknown",
+        "notes": "Blocklist API"
+      },
+      {
+        "type": "domain",
+        "asset": "https://gx.opera-api.com",
+        "severity_cap": "unknown",
+        "notes": "GX API"
+      },
+      {
+        "type": "ip",
+        "asset": "37.228.104.0/21",
+        "severity_cap": "unknown",
+        "notes": "Opera IP range"
+      },
+      {
+        "type": "ip",
+        "asset": "77.111.244.0/22",
+        "severity_cap": "unknown",
+        "notes": "Opera IP range"
+      },
+      {
+        "type": "ip",
+        "asset": "82.145.208.0/20",
+        "severity_cap": "unknown",
+        "notes": "Opera IP range"
+      },
+      {
+        "type": "ip",
+        "asset": "91.203.96.0/22",
+        "severity_cap": "unknown",
+        "notes": "Opera IP range"
+      },
+      {
+        "type": "ip",
+        "asset": "102.23.96.0/22",
+        "severity_cap": "unknown",
+        "notes": "Opera IP range"
+      },
+      {
+        "type": "ip",
+        "asset": "103.83.120.0/22",
+        "severity_cap": "unknown",
+        "notes": "Opera IP range"
+      },
+      {
+        "type": "ip",
+        "asset": "107.167.96.0/19",
+        "severity_cap": "unknown",
+        "notes": "Opera IP range"
+      },
+      {
+        "type": "ip",
+        "asset": "141.0.8.0/21",
+        "severity_cap": "unknown",
+        "notes": "Opera IP range"
+      },
+      {
+        "type": "ip",
+        "asset": "185.26.180.0/22",
+        "severity_cap": "unknown",
+        "notes": "Opera IP range"
+      },
+      {
+        "type": "ip",
+        "asset": "195.189.143.0/24",
+        "severity_cap": "unknown",
+        "notes": "Opera IP range"
+      },
+      {
+        "type": "ip",
+        "asset": "203.89.100.0/22",
+        "severity_cap": "unknown",
+        "notes": "Opera IP range"
+      },
+      {
+        "type": "domain",
+        "asset": "marketplace.gamemaker.io",
+        "severity_cap": "unknown",
+        "notes": "GameMaker marketplace"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.opera-mini.net",
+        "severity_cap": "unknown",
+        "notes": "All subdomains of opera-mini.net"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.opera.news",
+        "severity_cap": "unknown",
+        "notes": "All subdomains of opera.news"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.operanewsapp.com",
+        "severity_cap": "unknown",
+        "notes": "All subdomains of operanewsapp.com"
+      },
+      {
+        "type": "other",
+        "asset": "GameMaker Studio 2",
+        "severity_cap": "unknown",
+        "notes": "GameMaker Studio 2 desktop application"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.yoyogames.com",
+        "severity_cap": "unknown",
+        "notes": "All subdomains of yoyogames.com (GameMaker parent)"
+      },
+      {
+        "type": "domain",
+        "asset": "https://www.gamemaker.io",
+        "severity_cap": "unknown",
+        "notes": "GameMaker website"
+      },
+      {
+        "type": "domain",
+        "asset": "https://cashback.opera.com/",
+        "severity_cap": "unknown",
+        "notes": "Cashback service"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.apex-football.com",
+        "severity_cap": "unknown",
+        "notes": "All subdomains of apex-football.com"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.operafootball.com",
+        "severity_cap": "unknown",
+        "notes": "All subdomains of operafootball.com"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.feednews.com",
+        "severity_cap": "unknown",
+        "notes": "All subdomains of feednews.com"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.dailyadvent.com",
+        "severity_cap": "unknown",
+        "notes": "All subdomains of dailyadvent.com"
+      },
+      {
+        "type": "domain",
+        "asset": "api.gx.games/gxc",
+        "severity_cap": "unknown",
+        "notes": "GX Games API path: /gxc"
+      },
+      {
+        "type": "domain",
+        "asset": "api.gx.games/dc",
+        "severity_cap": "unknown",
+        "notes": "GX Games API path: /dc"
+      },
+      {
+        "type": "domain",
+        "asset": "api.gx.games/dev",
+        "severity_cap": "unknown",
+        "notes": "GX Games API path: /dev"
+      },
+      {
+        "type": "domain",
+        "asset": "api.gx.games/profile",
+        "severity_cap": "unknown",
+        "notes": "GX Games API path: /profile"
+      },
+      {
+        "type": "domain",
+        "asset": "api.gx.games/session",
+        "severity_cap": "unknown",
+        "notes": "GX Games API path: /session"
+      },
+      {
+        "type": "domain",
+        "asset": "api.gx.games/gms",
+        "severity_cap": "unknown",
+        "notes": "GX Games API path: /gms"
+      },
+      {
+        "type": "domain",
+        "asset": "api.gx.games/gx",
+        "severity_cap": "unknown",
+        "notes": "GX Games API path: /gx"
+      },
+      {
+        "type": "domain",
+        "asset": "api.gx.games/pub",
+        "severity_cap": "unknown",
+        "notes": "GX Games API path: /pub"
+      },
+      {
+        "type": "domain",
+        "asset": "api.gx.me/me",
+        "severity_cap": "unknown",
+        "notes": "GX.me API path: /me"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.apexnews.com",
+        "severity_cap": "unknown",
+        "notes": "All subdomains of apexnews.com"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.apexscores.io",
+        "severity_cap": "unknown",
+        "notes": "All subdomains of apexscores.io"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.opr.news",
+        "severity_cap": "unknown",
+        "notes": "All subdomains of opr.news"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.osite99.com",
+        "severity_cap": "unknown",
+        "notes": "All subdomains of osite99.com"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.savi.xyz",
+        "severity_cap": "unknown",
+        "notes": "All subdomains of savi.xyz"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.rtbscale.com",
+        "severity_cap": "unknown",
+        "notes": "All subdomains of rtbscale.com"
+      },
+      {
+        "type": "domain",
+        "asset": "https://ofp.adx.opera.com",
+        "severity_cap": "unknown",
+        "notes": "Opera ADX platform: OFP"
+      },
+      {
+        "type": "domain",
+        "asset": "https://ofa.adx.opera.com",
+        "severity_cap": "unknown",
+        "notes": "Opera ADX platform: OFA"
+      },
+      {
+        "type": "domain",
+        "asset": "https://cms.adx.opera.com",
+        "severity_cap": "unknown",
+        "notes": "Opera ADX CMS"
+      },
+      {
+        "type": "domain",
+        "asset": "https://auth-adx.op-mobile.opera.com",
+        "severity_cap": "unknown",
+        "notes": "Opera ADX auth (mobile)"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.adx.opera.com",
+        "severity_cap": "unknown",
+        "notes": "All subdomains of adx.opera.com (already covered by *.opera.com but explicitly listed)"
+      },
+      {
+        "type": "domain",
+        "asset": "https://operaneon.com",
+        "severity_cap": "unknown",
+        "notes": "Opera Neon website (non-www)"
+      },
+      {
+        "type": "domain",
+        "asset": "api.neon.opera.com/neon/pub",
+        "severity_cap": "unknown",
+        "notes": "Neon API path: /neon/pub"
+      },
+      {
+        "type": "domain",
+        "asset": "api.neon.opera.com/neon/store",
+        "severity_cap": "unknown",
+        "notes": "Neon API path: /neon/store"
+      },
+      {
+        "type": "domain",
+        "asset": "api.neon.opera.com/pub",
+        "severity_cap": "unknown",
+        "notes": "Neon API path: /pub"
+      },
+      {
+        "type": "domain",
+        "asset": "https://neon.opera.com/cards/",
+        "severity_cap": "unknown",
+        "notes": "Neon cards page"
+      }
+    ],
+    "out_of_scope": [
+      {
+        "type": "domain",
+        "asset": "concurso.opera.com",
+        "reason": "Explicitly excluded"
+      },
+      {
+        "type": "domain",
+        "asset": "investor.opera.com",
+        "reason": "Explicitly excluded"
+      },
+      {
+        "type": "domain",
+        "asset": "help.yoyogames.com",
+        "reason": "Explicitly excluded"
+      },
+      {
+        "type": "domain",
+        "asset": "bugs.yoyogames.com",
+        "reason": "Explicitly excluded"
+      },
+      {
+        "type": "domain",
+        "asset": "admanager.opera.com",
+        "reason": "Explicitly excluded"
+      },
+      {
+        "type": "domain",
+        "asset": "accountsstage.yoyogames.com",
+        "reason": "Explicitly excluded (staging environment)"
+      },
+      {
+        "type": "domain",
+        "asset": "control.gx-servers.opera.com",
+        "reason": "Explicitly excluded"
+      },
+      {
+        "type": "domain",
+        "asset": "help.gx-servers.opera.com",
+        "reason": "Explicitly excluded"
+      },
+      {
+        "type": "domain",
+        "asset": "verizon-us-seattle.opera-mini.net",
+        "reason": "Explicitly excluded (ISP infrastructure node)"
+      },
+      {
+        "type": "domain",
+        "asset": "s2{1,2}-05-08-v09.opera-mini.net",
+        "reason": "Explicitly excluded (server node pattern)"
+      },
+      {
+        "type": "domain",
+        "asset": "verizon-us-lvs-seattle.opera-mini.net",
+        "reason": "Explicitly excluded (ISP infrastructure node)"
+      },
+      {
+        "type": "ip",
+        "asset": "107.167.127.4{0,1}",
+        "reason": "Explicitly excluded (specific IPs within in-scope /19 range but carved out)"
+      },
+      {
+        "type": "domain",
+        "asset": "jobs.opera.com",
+        "reason": "Explicitly excluded"
+      },
+      {
+        "type": "domain",
+        "asset": "verizon-us-lvs-ashburn.opera-mini.net",
+        "reason": "Explicitly excluded (ISP infrastructure node)"
+      },
+      {
+        "type": "domain",
+        "asset": "interstitial.opera-mini.net",
+        "reason": "Explicitly excluded"
+      },
+      {
+        "type": "domain",
+        "asset": "certs.opera.com",
+        "reason": "Explicitly excluded"
+      },
+      {
+        "type": "domain",
+        "asset": "checkout.opera.com",
+        "reason": "Explicitly excluded"
+      },
+      {
+        "type": "domain",
+        "asset": "contest.opera.com",
+        "reason": "Explicitly excluded"
+      },
+      {
+        "type": "domain",
+        "asset": "catch.opera.com",
+        "reason": "Explicitly excluded"
+      },
+      {
+        "type": "domain",
+        "asset": "wallpaper.opera.com",
+        "reason": "Explicitly excluded"
+      },
+      {
+        "type": "domain",
+        "asset": "tabfulness.opera.com",
+        "reason": "Explicitly excluded"
+      },
+      {
+        "type": "domain",
+        "asset": "32s.opera.com",
+        "reason": "Explicitly excluded"
+      }
+    ]
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": false,
+    "cve_age_min_days": 30,
+    "requires_ownership_proof": true,
+    "safe_harbor": true,
+    "submission_form": "https://bugcrowd.com/engagements/opera",
+    "notes": "safe_harbor=true: dump field is 'full' which maps to true. | mass_scanning_allowed=false: safe default; policy page returned JS shell, no explicit text retrieved. | automated_tools_allowed=false: safe default; no policy text available to confirm otherwise. | bucket_listing_allowed=true: safe default per schema; no explicit policy text available. | bucket_download_allowed=false: safe default; no explicit policy text available. | cve_age_min_days=30: safe default; no policy text available. | requires_ownership_proof=true: safe default; no policy text available. | allows_disclosure=false per dump (no public disclosure permitted). | managed_by_bugcrowd=true. | Note: *.opera.com is a primary wildcard but specific subdomains are carved out (jobs, certs, concurso, investor, contest, catch, wallpaper, tabfulness, 32s, checkout, admanager). Always check out_of_scope list before targeting *.opera.com subdomains. | Note: 107.167.96.0/19 is in-scope but 107.167.127.40 and 107.167.127.41 are explicitly out-of-scope. | Note: severity_cap is unknown for all assets; Bugcrowd dump does not expose per-asset severity caps and the engagement page returned a JS shell."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      {
+        "severity": "critical",
+        "min": 0,
+        "max": 5000,
+        "currency": "USD"
+      },
+      {
+        "severity": "high",
+        "min": 0,
+        "max": 5000,
+        "currency": "USD"
+      },
+      {
+        "severity": "medium",
+        "min": 0,
+        "max": 5000,
+        "currency": "USD"
+      },
+      {
+        "severity": "low",
+        "min": 0,
+        "max": 5000,
+        "currency": "USD"
+      }
+    ]
+  },
+  "raw_policy_excerpt": "Source: arkadiyt/bounty-targets-data bugcrowd_data.json (2026-05-17). Entry url: https://bugcrowd.com/engagements/opera. name: Opera Public Bug Bounty. allows_disclosure: false. managed_by_bugcrowd: true. safe_harbor: full. max_payout: 5000. in_scope count: 89. out_of_scope count: 22. wildcard count: 20. Note: Bugcrowd engagement page at https://bugcrowd.com/engagements/opera returned a JavaScript shell with no parseable policy or rules text via WebFetch. All scope data sourced from the public bounty-targets dump. No per-asset severity caps, no automated-tools policy, no mass-scanning policy, no bucket-access policy, and no CVE-age requirements were present in the dump. All such rule flags set to conservative safe defaults. The 'safe_harbor: full' field from the dump has been mapped to safe_harbor=true. The 'allows_disclosure: false' field means this program does not permit public disclosure of findings."
+}

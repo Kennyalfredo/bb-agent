@@ -1,0 +1,247 @@
+{
+  "program": {
+    "slug": "valve",
+    "platform": "hackerone",
+    "url": "https://hackerone.com/valve",
+    "name": "Valve",
+    "fetched_at": "2026-05-16"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "domain",
+        "asset": "store.steampowered.com",
+        "severity_cap": "critical",
+        "notes": "availability_requirement=high, confidentiality_requirement=high, integrity_requirement=high"
+      },
+      {
+        "type": "domain",
+        "asset": "steamcommunity.com",
+        "severity_cap": "critical",
+        "notes": null
+      },
+      {
+        "type": "domain",
+        "asset": "api.steampowered.com",
+        "severity_cap": "critical",
+        "notes": null
+      },
+      {
+        "type": "domain",
+        "asset": "support.steampowered.com",
+        "severity_cap": "critical",
+        "notes": null
+      },
+      {
+        "type": "domain",
+        "asset": "partner.steampowered.com",
+        "severity_cap": "critical",
+        "notes": null
+      },
+      {
+        "type": "domain",
+        "asset": "partner.steamgames.com",
+        "severity_cap": "critical",
+        "notes": null
+      },
+      {
+        "type": "domain",
+        "asset": "help.steampowered.com",
+        "severity_cap": "critical",
+        "notes": "availability_requirement=high, confidentiality_requirement=high, integrity_requirement=high"
+      },
+      {
+        "type": "domain",
+        "asset": "www.steampowered.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=false — awaiting engineering cleanup but still eligible for submission"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dota2.com",
+        "severity_cap": "critical",
+        "notes": null
+      },
+      {
+        "type": "domain",
+        "asset": "www.teamfortress.com",
+        "severity_cap": "critical",
+        "notes": null
+      },
+      {
+        "type": "domain",
+        "asset": "www.counter-strike.net",
+        "severity_cap": "critical",
+        "notes": null
+      },
+      {
+        "type": "domain",
+        "asset": "www.valvesoftware.com",
+        "severity_cap": "critical",
+        "notes": null
+      },
+      {
+        "type": "domain",
+        "asset": "developer.valvesoftware.com",
+        "severity_cap": "low",
+        "notes": "availability_requirement=none, confidentiality_requirement=low, integrity_requirement=none. Max severity capped at low."
+      },
+      {
+        "type": "domain",
+        "asset": "playartifact.com",
+        "severity_cap": "critical",
+        "notes": "availability_requirement=high, confidentiality_requirement=high, integrity_requirement=high"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.steamstatic.com",
+        "severity_cap": "critical",
+        "notes": "availability_requirement=none, confidentiality_requirement=high, integrity_requirement=none. Added 2025-11-04."
+      },
+      {
+        "type": "other",
+        "asset": "Steam Servers",
+        "severity_cap": "critical",
+        "notes": "Covers Steam backend server infrastructure"
+      },
+      {
+        "type": "other",
+        "asset": "Steam Client",
+        "severity_cap": "critical",
+        "notes": "Includes Steam Client Service and SteamCmd for Windows, Mac, Linux. Added 2024-02-06."
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "com.valvesoftware.Steam",
+        "severity_cap": "critical",
+        "notes": "Steam mobile app on iOS (Apple App Store)"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.valvesoftware.Steam",
+        "severity_cap": "critical",
+        "notes": "Steam mobile app on Android (Google Play)"
+      },
+      {
+        "type": "source_code",
+        "asset": "https://github.com/valvesoftware",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=false unless accompanied by a working POC against a shipping product. Submission accepted but bounty requires demonstrated product impact."
+      },
+      {
+        "type": "domain",
+        "asset": "storefront.steampowered.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=false; eligible_for_submission=true only for CVSS score above 8. Pending engineering cleanup."
+      },
+      {
+        "type": "domain",
+        "asset": "wiki.teamfortress.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=false; community-run site not part of Valve infrastructure. Reports appreciated and passed to site volunteers."
+      }
+    ],
+    "out_of_scope": [
+      {
+        "type": "domain",
+        "asset": "valvestore.forfansbyfans.com",
+        "reason": "Run by a 3rd party, not Valve infrastructure"
+      },
+      {
+        "type": "domain",
+        "asset": "store.valvesoftware.com",
+        "reason": "Run by a 3rd party, not Valve infrastructure"
+      },
+      {
+        "type": "domain",
+        "asset": "www.steampowered.com",
+        "reason": "Out of scope pending code cleanup (eligible_for_bounty=false, eligible_for_submission=false)"
+      },
+      {
+        "type": "domain",
+        "asset": "translation.steampowered.com",
+        "reason": "Explicitly marked out of scope (eligible_for_bounty=false, eligible_for_submission=false)"
+      },
+      {
+        "type": "domain",
+        "asset": "www.steamgames.com",
+        "reason": "Pending cleanup from engineering (eligible_for_bounty=false, eligible_for_submission=false)"
+      },
+      {
+        "type": "domain",
+        "asset": "list.valvesoftware.com",
+        "reason": "Run by a 3rd party, not Valve infrastructure"
+      },
+      {
+        "type": "other",
+        "asset": "Source Engine tools (Hammer, Source Filmmaker)",
+        "reason": "Explicitly excluded in policy for game-related components"
+      },
+      {
+        "type": "other",
+        "asset": "Crafted game content (demo files, BSPs, maps, sounds, mods)",
+        "reason": "Not in scope; payloads must be delivered over the network, not via local resource files"
+      },
+      {
+        "type": "other",
+        "asset": "Steam Workshop content delivery",
+        "reason": "Reports requiring crafted content delivered via Steam Workshop are ineligible for bounty"
+      },
+      {
+        "type": "other",
+        "asset": "Single-player game bugs (not triggered by multiplayer session)",
+        "reason": "Attacks only affecting or triggered in single-player games are excluded"
+      },
+      {
+        "type": "other",
+        "asset": "Third-party library / OS CVEs",
+        "reason": "Valve directs reporters to upstream vendors for disclosed dependency vulnerabilities; no bounties for scheduled-but-not-yet-applied patches"
+      }
+    ]
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": false,
+    "cve_age_min_days": 30,
+    "requires_ownership_proof": true,
+    "safe_harbor": false,
+    "submission_form": "https://hackerone.com/valve/reports/new",
+    "notes": "automated_tools_allowed=false: Policy explicitly states 'Vulnerabilities reported by use of automated tools/scanners, without accompanying validation / POC' are out of scope. Tool use may be acceptable if a manual PoC accompanies the report, but automated-only submissions will be rejected. | mass_scanning_allowed=false: No authorization given to test outside listed scope; DoS and spamming explicitly prohibited. | bucket_listing_allowed=true: Safe default; policy does not mention S3/cloud storage at all. | bucket_download_allowed=false: Safe default; policy is silent on bucket access. | cve_age_min_days=30: Safe default; Valve says they 'will not accept reports that refer to vulnerabilities that have been fixed upstream, and scheduled, but not yet applied' — implies a patch-lag tolerance but no specific age floor stated. | requires_ownership_proof=true: Safe default; 'only interact with accounts you own or with explicit permission of the account holder.' | safe_harbor=false: Safe default; policy does not include a safe harbor clause. The Fine Print says compliance with applicable laws is the researcher's own responsibility. | RCE note: Must demonstrate actual RCE (e.g. launch Calculator). Payload must be delivered over the network. | Source code bounty condition: github.com/valvesoftware reports require working PoC against a shipping product to be bounty-eligible. | sessionid cookie: Valve explicitly states the 'sessionid' cookie is an anti-CSRF token only, not an auth token — leaking it is not considered account takeover. | IDOR/unreleased apps: Use appid 3717370 as the test target for unreleased-game IDOR. | Community server-to-client and user-interaction-required vectors may have severity reduced from initial CVSS. | Denial of Service, spamming, social engineering, and physical attacks are explicitly prohibited during research."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      {
+        "severity": "critical",
+        "min": 0,
+        "max": 0,
+        "currency": "USD",
+        "notes": "Bounty amounts not publicly available via unauthenticated endpoints. offers_bounties=true confirmed via GraphQL."
+      },
+      {
+        "severity": "high",
+        "min": 0,
+        "max": 0,
+        "currency": "USD",
+        "notes": "See above"
+      },
+      {
+        "severity": "medium",
+        "min": 0,
+        "max": 0,
+        "currency": "USD",
+        "notes": "See above"
+      },
+      {
+        "severity": "low",
+        "min": 0,
+        "max": 0,
+        "currency": "USD",
+        "notes": "See above"
+      }
+    ]
+  },
+  "raw_policy_excerpt": "If you are a Steam user and have a security issue to report regarding your personal Steam account, please visit our support site https://help.steampowered.com/.\n\nPlease read the scope, bounty, and severity information carefully before submission.\n\n# Scope\nThis program covers the Steam platform and current games developed and published by Valve.\n\nThe Steam components in scope are:\n* Steam Client, Steam Client Service, and the SteamCmd command-line utility for Windows, Mac and Linux\n* Steamworks SDK\n* Steam mobile apps on iOS and Android\n* Steam Servers\n* Websites as noted on the Scope section of the program. Subdomains of listed websites are not in scope unless mentioned.\n\nFor games developed and published by Valve, if the game is in scope, we accept reports against:\n* Game client and server binaries.\n* First-party, unmodified, game servers.\n* Game coordinators.\n\nGame bugs, glitches and gameplay exploits are not in scope.\n\n## Exclusions\nOut-of-scope for all Valve offerings:\n* Vulnerabilities reported by use of automated tools/scanners, without accompanying validation / POC.\n* User enumeration without any further impact.\n* Clickjacking without a well-defined security/privacy risk.\n* Attacks that require social engineering/phishing.\n* Attacks that require physical access to the user's device.\n* Open redirects or linkfilter bypasses that cannot be leveraged to programmatically exfiltrate sensitive information.\n* Self XSS, or XSS that only affects out-of-date browsers.\n* Denial of Service Attacks.\n\nAdditionally out-of-scope for game components:\n* Reports against Source Engine tools, e.g. Hammer, Source Filmmaker.\n* Reports that require the user to open crafted game content: demo files, BSPs, etc not delivered as part of the exploit.\n\nIneligible for Bounty (game reports):\n* Reports that require crafted content (maps, sounds, mods, etc.) delivered via the Steam Workshop.\n* Techniques not specifically mentioned above that cause a game-client crash without demonstrated RCE behavior.\n* Techniques that require information from the target machine in order to function.\n\n## Special Note for Valve Websites\nMany Valve websites use a cookie called 'sessionid.' This is used only as an anti CSRF token and is not used for user authentication. Please do not report attacks resulting in leaking the value of this cookie as account takeover vulnerabilities.\n\n## RCE Requirements\nActual RCE must be demonstrated (e.g. launch Calculator). The payload must be delivered over the network.\n\n## Responsible Disclosure\n* Only interact with accounts you own or with explicit permission of the account holder.\n* Make a good faith effort to avoid privacy violations, destruction of data, and interruption or degradation of our service.\n\n## The Fine Print\nYou must comply with all applicable laws in connection with your participation in this program. You are also responsible for any applicable taxes associated with any reward you receive."
+}

@@ -1,0 +1,199 @@
+{
+  "program": {
+    "slug": "deriv",
+    "platform": "hackerone",
+    "url": "https://hackerone.com/deriv",
+    "name": "Deriv.com",
+    "fetched_at": "2026-05-17"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "wildcard",
+        "asset": "*.deriv.com",
+        "severity_cap": "critical",
+        "notes": "Bounty eligible. Excludes subdomains explicitly listed as out-of-scope."
+      },
+      {
+        "type": "domain",
+        "asset": "app.deriv.com",
+        "severity_cap": "critical",
+        "notes": "Bounty eligible. Classified as 'Important business' — highest bounty tier."
+      },
+      {
+        "type": "domain",
+        "asset": "smarttrader.deriv.com",
+        "severity_cap": "critical",
+        "notes": "Bounty eligible. Classified as 'Important business'."
+      },
+      {
+        "type": "domain",
+        "asset": "cashier.deriv.com",
+        "severity_cap": "critical",
+        "notes": "Bounty eligible. Classified as 'Important business'."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.deriv.cloud",
+        "severity_cap": "critical",
+        "notes": "Bounty eligible. Classified as 'Important business'."
+      },
+      {
+        "type": "domain",
+        "asset": "oauth.deriv.com",
+        "severity_cap": "critical",
+        "notes": "Bounty eligible. Classified as 'Important business'."
+      },
+      {
+        "type": "domain",
+        "asset": "api.deriv.com",
+        "severity_cap": "critical",
+        "notes": "Bounty eligible. Websocket API — classified as 'Important business'."
+      },
+      {
+        "type": "domain",
+        "asset": "derivws.com",
+        "severity_cap": "critical",
+        "notes": "Bounty eligible."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.derivws.com",
+        "severity_cap": "critical",
+        "notes": "Bounty eligible."
+      },
+      {
+        "type": "domain",
+        "asset": "secure-dfadmin.deriv.com",
+        "severity_cap": "critical",
+        "notes": "Bounty eligible."
+      },
+      {
+        "type": "source_code",
+        "asset": "github.com/binary-com",
+        "severity_cap": "medium",
+        "notes": "Bounty eligible. Explicit max_severity=medium in CSV. Classified as 'General business'."
+      },
+      {
+        "type": "other",
+        "asset": "github.com/deriv-com",
+        "severity_cap": "critical",
+        "notes": "Bounty eligible. Classified as 'General business'. CSV type=OTHER but is a GitHub org."
+      },
+      {
+        "type": "domain",
+        "asset": "academy.deriv.com",
+        "severity_cap": "info",
+        "notes": "Submission eligible but NOT bounty eligible. max_severity=none in CSV. Classified as 'Edge business'."
+      },
+      {
+        "type": "domain",
+        "asset": "ct.deriv.com",
+        "severity_cap": "critical",
+        "notes": "Submission eligible but NOT bounty eligible. cTrader trading app. Classified as 'Edge business'."
+      },
+      {
+        "type": "domain",
+        "asset": "dx-demo.deriv.com",
+        "severity_cap": "critical",
+        "notes": "Submission eligible but NOT bounty eligible. Deriv X demo. Classified as 'Edge business'."
+      },
+      {
+        "type": "domain",
+        "asset": "dx.deriv.com",
+        "severity_cap": "critical",
+        "notes": "Submission eligible but NOT bounty eligible. Deriv X trading app. Classified as 'Edge business'."
+      },
+      {
+        "type": "domain",
+        "asset": "deriv.partners",
+        "severity_cap": "info",
+        "notes": "Submission eligible but NOT bounty eligible. max_severity=none in CSV."
+      },
+      {
+        "type": "domain",
+        "asset": "partners.deriv.com",
+        "severity_cap": "info",
+        "notes": "Submission eligible but NOT bounty eligible. max_severity=none in CSV."
+      }
+    ],
+    "out_of_scope": [
+      {
+        "type": "domain",
+        "asset": "deriv.slack.com",
+        "reason": "Not eligible for submission per CSV."
+      },
+      {
+        "type": "domain",
+        "asset": "tradingview.deriv.com",
+        "reason": "Not eligible for submission per CSV."
+      },
+      {
+        "type": "domain",
+        "asset": "besquare.deriv.com",
+        "reason": "Not eligible for submission per CSV."
+      },
+      {
+        "type": "domain",
+        "asset": "trade.mql5.com",
+        "reason": "Third-party platform, not eligible for submission per CSV."
+      },
+      {
+        "type": "domain",
+        "asset": "community.deriv.com",
+        "reason": "Not eligible for submission per CSV."
+      },
+      {
+        "type": "domain",
+        "asset": "https://deriv.atlassian.net/servicedesk/customer/user/signup",
+        "reason": "Not owned by Deriv Ltd — explicitly noted in CSV instruction field."
+      },
+      {
+        "type": "other",
+        "asset": "Any 3rd party managed domain",
+        "reason": "Explicitly out of scope per CSV. Policy also lists 3rd party apps (myaffiliates, Livechat/freshworks) as OOS."
+      },
+      {
+        "type": "domain",
+        "asset": "deriv.ae",
+        "reason": "Not eligible for submission per CSV (added 2025-05-14)."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.home.deriv.com",
+        "reason": "Not eligible for submission per CSV."
+      },
+      {
+        "type": "domain",
+        "asset": "help.deriv.com",
+        "reason": "Not eligible for submission per CSV."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.api-core.deriv.com",
+        "reason": "Not eligible for submission per CSV."
+      }
+    ]
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": false,
+    "cve_age_min_days": 30,
+    "requires_ownership_proof": true,
+    "safe_harbor": true,
+    "submission_form": "https://hackerone.com/deriv",
+    "notes": "safe_harbor: explicitly granted — policy states 'Any activities conducted in a manner consistent with this policy will be considered authorised conduct' and links to https://hackerone.com/deriv/safe_harbor. | mass_scanning_allowed=false: policy explicitly prohibits 'destructive automated testing' and states 'No destructive automated testing. Under no circumstance should automated testing cause intentional damage to our systems'; automated_tools_allowed set to false by safe default — policy doesn't explicitly permit automated tools, only prohibits destructive use. | cve_age_min_days=30: explicitly stated — 'Regarding any 0-day vulnerabilities, we will only accept the report if it has been > 30 days since the relevant patch release.' | bucket_listing_allowed and bucket_download_allowed: policy notes that S3/cloud bucket disclosures will be evaluated based on sensitivity — 'We will confirm internally whether the information or link should be publicly accessible/viewable.' Set bucket_listing_allowed=true (our own compliance default) and bucket_download_allowed=false (safe default). | requires_ownership_proof=true: defaulted (safe default) — policy requires accounts be owned by the tester or have explicit permission. | Test plan note: requests that all testing requests include HTTP header 'X-HackerOne-Research: [H1 username]' and use [username]@wearehackerone.com email alias for account creation. | Bounty tiers: Important business critical=$5000, high=$2500, medium=$500, low=$100; General business critical=$2000, high=$1500, medium=$250, low=$50; Edge business critical=$1500, high=$500, medium=$100, low=$50 (edge low not bounty eligible per policy text). | Social engineering (phishing/vishing/smishing) is prohibited. | Duplicate policy: only first report awarded. | Disclosure: no public or private disclosure without prior written consent."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      { "severity": "critical", "min": 0, "max": 5000, "currency": "USD" },
+      { "severity": "high", "min": 0, "max": 2500, "currency": "USD" },
+      { "severity": "medium", "min": 0, "max": 500, "currency": "USD" },
+      { "severity": "low", "min": 0, "max": 100, "currency": "USD" }
+    ]
+  },
+  "raw_policy_excerpt": "# Ground rules\n1. Respect our users' privacy. We oppose and condemn the actions of hackers who use vulnerability testing as an excuse, for example: exploiting vulnerabilities to steal user data, intrusion into Deriv's services, changing, copying, or stealing data from related system services.\n2. Do not cause more harm than good.\n3. Please provide detailed reports with reproducible steps.\n4. Do not mass create accounts.\n5. Only interact with accounts you own or with the explicit permission of the account holder.\n6. Do not incur loss of funds that are not your own.\n7. No destructive automated testing. Under no circumstance should automated testing cause intentional damage to our systems.\n8. Do not publicly disclose vulnerabilities without our explicit consent.\n9. Social engineering (e.g., phishing, vishing, smishing) is prohibited.\n12. The final assessment of each vulnerability is determined by the impact, risk, and current mitigation measures.\n15. Regarding any 0-day vulnerabilities, we will only accept the report if it has been > 30 days since the relevant patch release.\n16. Vulnerabilities regarding information disclosure of cloud storage buckets (e.g., S3, KSS, FDS): We will confirm internally whether the information or link should be publicly accessible/viewable.\n\n# Test plan\n1. Include HTTP header 'X-HackerOne-Research: [H1 username]' in every testing request.\n2. Use [username]@wearehackerone.com email alias for any accounts created.\n\n# Bounty table (Important / General / Edge business)\nCRITICAL: $5,000 / $2,000 / $1,500\nHIGH: $2,500 / $1,500 / $500\nMEDIUM: $500 / $250 / $100\nLOW: $100 / $50 / $50\n\n# Safe harbour\nAny activities conducted in a manner consistent with this policy will be considered authorised conduct, and we will not initiate legal action against you. https://hackerone.com/deriv/safe_harbor\n\n# Out of scope (web): Issues in 3rd party app myaffiliates; 3rd party support chatbox (Livechat/freshworks); Clickjacking without impact; XMLRPC brute-force/enumeration/DDoS; Firebase DB open without sensitive info; Design flaws; Self XSS; Theoretical subdomain takeovers; Session not invalidated after logout; DNS issues (MX, SPF); Missing security headers without direct vulnerability; and more."
+}

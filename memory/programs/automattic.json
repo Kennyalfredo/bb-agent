@@ -1,0 +1,312 @@
+{
+  "program": {
+    "slug": "automattic",
+    "platform": "hackerone",
+    "url": "https://hackerone.com/automattic",
+    "name": "Automattic",
+    "fetched_at": "2026-05-16"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "domain",
+        "asset": "api.tumblr.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty: true"
+      },
+      {
+        "type": "domain",
+        "asset": "safe.tumblr.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty: true"
+      },
+      {
+        "type": "domain",
+        "asset": "secure.tumblr.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty: true"
+      },
+      {
+        "type": "domain",
+        "asset": "assets.tumblr.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty: true"
+      },
+      {
+        "type": "domain",
+        "asset": "embed.tumblr.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty: true"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.tumblr.com",
+        "severity_cap": "critical",
+        "notes": "Blog Network. XSS and Clickjacking excluded from eligibility. Blogs are cached 60s. eligible_for_bounty: true"
+      },
+      {
+        "type": "domain",
+        "asset": "www.tumblr.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty: true"
+      },
+      {
+        "type": "domain",
+        "asset": "t.umblr.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty: true"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.srvcs.tumblr.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty: true"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.tumblr",
+        "severity_cap": "high",
+        "notes": "Minimum OS: API 21. API keys in code and certificate pinning excluded. eligible_for_bounty: true"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "com.tumblr.tumblr",
+        "severity_cap": "high",
+        "notes": "Minimum OS: iOS 11. API keys in code and certificate pinning excluded. eligible_for_bounty: true"
+      },
+      {
+        "type": "domain",
+        "asset": "wordpress.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty: true"
+      },
+      {
+        "type": "domain",
+        "asset": "intensedebate.com",
+        "severity_cap": "medium",
+        "notes": "eligible_for_bounty: true"
+      },
+      {
+        "type": "domain",
+        "asset": "simplenote.com",
+        "severity_cap": "high",
+        "notes": "eligible_for_bounty: true"
+      },
+      {
+        "type": "domain",
+        "asset": "simperium.com",
+        "severity_cap": "high",
+        "notes": "eligible_for_bounty: true"
+      },
+      {
+        "type": "source_code",
+        "asset": "Jetpack",
+        "severity_cap": "critical",
+        "notes": "Issues in https://github.com/Automattic/jetpack and/or https://jetpack.com/. eligible_for_bounty: true"
+      },
+      {
+        "type": "other",
+        "asset": "WooCommerce",
+        "severity_cap": "critical",
+        "notes": "WordPress WooCommerce plugin (https://wordpress.org/plugins/woocommerce/) and/or https://woocommerce.com/. eligible_for_bounty: true. 'Follow-Ups' WooCommerce extension is out of scope."
+      },
+      {
+        "type": "other",
+        "asset": "Crowdsignal",
+        "severity_cap": "critical",
+        "notes": "https://crowdsignal.com/ and Crowdsignal WordPress plugins. eligible_for_bounty: true"
+      },
+      {
+        "type": "other",
+        "asset": "WordPress Plugins & Themes",
+        "severity_cap": "critical",
+        "notes": "Any plugin/theme maintained/created by Automattic, including WP-Supercache, WP-Job-Manager, Sensei LMS. See https://profiles.wordpress.org/automattic/. eligible_for_bounty: true"
+      },
+      {
+        "type": "domain",
+        "asset": "akismet.com",
+        "severity_cap": "critical",
+        "notes": "Includes Akismet WordPress plugin. eligible_for_bounty: true"
+      },
+      {
+        "type": "domain",
+        "asset": "mailpoet.com",
+        "severity_cap": "critical",
+        "notes": "Includes MailPoet WordPress plugin. eligible_for_bounty: true"
+      },
+      {
+        "type": "domain",
+        "asset": "my.pressable.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty: true"
+      },
+      {
+        "type": "domain",
+        "asset": "gravatar.com",
+        "severity_cap": "high",
+        "notes": "eligible_for_bounty: true"
+      },
+      {
+        "type": "other",
+        "asset": "Texts",
+        "severity_cap": "high",
+        "notes": "Texts apps (texts.com) across all available platforms. eligible_for_bounty: true"
+      },
+      {
+        "type": "other",
+        "asset": "Beeper",
+        "severity_cap": "high",
+        "notes": "Beeper apps across all available platforms (beeper.com). eligible_for_bounty: true"
+      },
+      {
+        "type": "other",
+        "asset": "WordPress VIP",
+        "severity_cap": "critical",
+        "notes": "Any issue in WordPress VIP infrastructure, WordPress plugins, or client sites. eligible_for_bounty: true"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "com.clay.ios",
+        "severity_cap": "high",
+        "notes": "Clay: Contacts + CRM (iOS app). eligible_for_bounty: true"
+      },
+      {
+        "type": "domain",
+        "asset": "clay.earth",
+        "severity_cap": "high",
+        "notes": "eligible_for_bounty: true"
+      },
+      {
+        "type": "domain",
+        "asset": "wpscan.com",
+        "severity_cap": "high",
+        "notes": "Valid vulnerabilities in the site itself or the submission platform. eligible_for_bounty: true"
+      },
+      {
+        "type": "other",
+        "asset": "WP Cloud",
+        "severity_cap": "critical",
+        "notes": "Issues affecting WP Cloud hosting environment allowing cross-site access/impact, the WP Cloud API, or the wp.cloud website. eligible_for_bounty: true"
+      },
+      {
+        "type": "domain",
+        "asset": "parse.ly",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty: true"
+      }
+    ],
+    "out_of_scope": [
+      {
+        "type": "wildcard",
+        "asset": "scrollkit.com, *.scrollkit.com",
+        "reason": "eligible_for_submission: false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "learnboost.com, *.learnboost.com",
+        "reason": "eligible_for_submission: false"
+      },
+      {
+        "type": "other",
+        "asset": "*/xmlrpc.php",
+        "reason": "Sole presence of xmlrpc.php does not constitute a vulnerability; PoC with clear impact required. eligible_for_submission: false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.txmblr.com",
+        "reason": "eligible_for_submission: false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "afterthedeadline.com, *.afterthedeadline.com",
+        "reason": "eligible_for_submission: false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "polishmywriting.com, *.polishmywriting.com",
+        "reason": "eligible_for_submission: false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.survey.fm",
+        "reason": "Cookieless domain with user generated content; XSS not eligible for bounty. eligible_for_submission: false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.poll.fm",
+        "reason": "Cookieless domain with user generated content; XSS not eligible for bounty. eligible_for_submission: false"
+      },
+      {
+        "type": "domain",
+        "asset": "atavist.com",
+        "reason": "eligible_for_submission: false"
+      },
+      {
+        "type": "domain",
+        "asset": "happy.tools",
+        "reason": "eligible_for_submission: false"
+      },
+      {
+        "type": "domain",
+        "asset": "try.pressable.com",
+        "reason": "Demo site only; issues not affecting my.pressable.com or pressable.com will be closed as N/A. eligible_for_submission: false"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.crowdsignal.net",
+        "reason": "Cookieless domain with user generated content; XSS not eligible for bounty. eligible_for_submission: false"
+      },
+      {
+        "type": "other",
+        "asset": "WooCommerce 'Follow-Ups' extension",
+        "reason": "Explicitly stated out of scope in policy text"
+      },
+      {
+        "type": "other",
+        "asset": "DoS via rate-limiting or captcha absence",
+        "reason": "Policy states web-scale service threshold is higher than expected; generally not accepted"
+      },
+      {
+        "type": "other",
+        "asset": "Tabnabbing vulnerabilities",
+        "reason": "Explicitly out of scope per policy"
+      },
+      {
+        "type": "other",
+        "asset": "Missing best practices without direct security threat",
+        "reason": "Will most likely not be accepted per policy"
+      },
+      {
+        "type": "other",
+        "asset": "XSS on impactless domains where arbitrary JS/HTML is intentionally allowed (e.g. [blog].tumblr.com, cldup.com)",
+        "reason": "Explicitly out of scope per policy"
+      },
+      {
+        "type": "other",
+        "asset": "wordpress.org, buddypress.org, bbpress.org (open-source WP projects)",
+        "reason": "Policy redirects these to https://hackerone.com/wordpress instead"
+      }
+    ]
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": false,
+    "cve_age_min_days": 30,
+    "requires_ownership_proof": true,
+    "safe_harbor": false,
+    "submission_form": "https://hackerone.com/automattic",
+    "notes": "SAFE-DEFAULT: mass_scanning_allowed — policy does not address mass scanning; defaulted to false. SAFE-DEFAULT: bucket_listing_allowed — policy does not address bucket/S3 access; defaulted to true (our compliance allows listing). SAFE-DEFAULT: bucket_download_allowed — policy does not address bucket downloads; defaulted to false. SAFE-DEFAULT: automated_tools_allowed — policy does not explicitly permit automated tools; defaulted to false. SAFE-DEFAULT: cve_age_min_days — no CVE age requirement stated; defaulted to 30. SAFE-DEFAULT: requires_ownership_proof — policy states 'only ever use your own test accounts' implying ownership required; defaulted to true. SAFE-DEFAULT: safe_harbor — no explicit safe harbor language found; defaulted to false. POLICY NOTE: Testers must only use their own test accounts. Access to or modification of user data is explicitly prohibited without prior consent. Public disclosure prior to resolution may result in disqualification. Reports for same bug on multiple hosts should be consolidated into one report while active remediation is ongoing. Automattic makes final discretionary decision on bounty amount. Evidence and attachments must be stored only within the H1 report (no external hosting). WordPress/BuddyPress/bbPress open-source projects must be reported to https://hackerone.com/wordpress instead. WordPress VIP client sites are in scope — exercise extreme caution to avoid impacting third-party clients."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      { "severity": "critical", "min": 1000, "max": 1000, "currency": "USD", "notes": "WordPress.com; other products $500" },
+      { "severity": "high", "min": 300, "max": 600, "currency": "USD", "notes": "WordPress.com $600; everything else $300" },
+      { "severity": "medium", "min": 200, "max": 300, "currency": "USD", "notes": "WordPress.com $300; everything else $200" },
+      { "severity": "low", "min": 100, "max": 100, "currency": "USD", "notes": "Both tiers $100" }
+    ]
+  },
+  "raw_policy_excerpt": "Automattic runs WordPress.com, Jetpack, WordPress VIP, Beeper, Texts, Akismet, Gravatar, WooCommerce, Tumblr, Simplenote, and more.\n\n> Please, report vulnerabilities in the WordPress, BuddyPress, or bbPress open-source projects through the WordPress HackerOne page.\n\nEligibility and Responsible Disclosure\n---------------------------------------\nYou are responsible for complying with all applicable laws and must only ever use or otherwise access your own test accounts when researching vulnerabilities in any of our products or services. Access to, or modification of user data is explicitly prohibited without prior consent from the account owner.\n\nAny public disclosure of issues prior to resolution may result in disqualification from the program.\n\nRewards\n| Severity | WordPress.com | Everything Else |\n|-|-|-|\n| Critical | $1,000 | $500 |\n| High | $600 | $300 |\n| Medium | $300 | $200 |\n| Low | $100 | $100 |\n\nAmounts may vary depending upon the severity of the issue and quality of the report.\n\nNon-Qualifying Vulnerabilities (Out of Scope)\n----------------------------------------------\nWe are generally not interested in DoS vulnerabilities that are perceived by a lack of rate-limiting or captcha. 'Follow-Ups' WooCommerce extension is out of scope. Cross Site Scripting (XSS) is out of scope for all impactless domains where arbitrary HTML / JavaScript is intentionally allowed, e.g. [blog].tumblr.com, cldup.com etc. Tabnabbing vulnerabilities are out of scope. Missing Best Practices that don't pose a direct security threat will most likely not be accepted.\n\nSame Bug, Different Host: For each report, please allow Automattic sufficient time to patch other host instances. If you find the same bug on a different (unique) host, prior to the report reaching a triaged state, file it within the existing report.\n\nFine Print: You are expected to comply with all applicable laws. All supporting evidence and other attachments must be stored only within the report you submit. Do not host any files on external services."
+}

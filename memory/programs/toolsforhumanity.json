@@ -1,0 +1,204 @@
+{
+  "program": {
+    "slug": "toolsforhumanity",
+    "platform": "hackerone",
+    "url": "https://hackerone.com/toolsforhumanity",
+    "name": "Tools for Humanity",
+    "fetched_at": "2026-05-17"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "wildcard",
+        "asset": "*.worldcoin.org",
+        "severity_cap": "critical",
+        "notes": "Secondary Asset. Worldcoin Foundation-owned asset."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.consumer.worldcoin.org",
+        "severity_cap": "critical",
+        "notes": "Secondary Asset. World App backend. TFH-owned asset."
+      },
+      {
+        "type": "domain",
+        "asset": "toolsforhumanity.com",
+        "severity_cap": "critical",
+        "notes": "Secondary Asset. TFH-owned asset."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.worldcoin-distributors.com",
+        "severity_cap": "critical",
+        "notes": "Secondary Asset. Worldcoin Foundation-owned asset."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.worldcoin.dev",
+        "severity_cap": "critical",
+        "notes": "Secondary Asset. Worldcoin Foundation-owned asset."
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "https://apps.apple.com/no/app/world-app-worldcoin-wallet/id1560859847",
+        "severity_cap": "critical",
+        "notes": "Primary Asset. TFH-owned asset."
+      },
+      {
+        "type": "mobile_android",
+        "asset": "https://play.google.com/store/apps/details?id=com.worldcoin",
+        "severity_cap": "critical",
+        "notes": "Primary Asset. World App for Android. TFH-owned asset."
+      },
+      {
+        "type": "source_code",
+        "asset": "https://github.com/worldcoin",
+        "severity_cap": "critical",
+        "notes": "Secondary Asset. Worldcoin Foundation-owned asset. Org-level scope entry."
+      },
+      {
+        "type": "domain",
+        "asset": "worldcoin.org",
+        "severity_cap": "critical",
+        "notes": "Secondary Asset. Worldcoin Foundation-owned asset."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.toolsforhumanity.com",
+        "severity_cap": "critical",
+        "notes": "Secondary Asset. TFH-owned asset."
+      },
+      {
+        "type": "other",
+        "asset": "Secondary Assets",
+        "severity_cap": "critical",
+        "notes": "Catch-all other secondary assets entry from scope CSV."
+      },
+      {
+        "type": "other",
+        "asset": "Primary Assets",
+        "severity_cap": "critical",
+        "notes": "Catch-all primary assets entry from scope CSV."
+      },
+      {
+        "type": "domain",
+        "asset": "developer.worldcoin.org",
+        "severity_cap": "critical",
+        "notes": "Primary Asset. Worldcoin Foundation-owned asset."
+      },
+      {
+        "type": "other",
+        "asset": "https://docs.world.org/world-chain/reference/address-book",
+        "severity_cap": "critical",
+        "notes": "Primary Asset. Smart contracts listed at this address book URL. Worldcoin Foundation-owned."
+      },
+      {
+        "type": "domain",
+        "asset": "world.org",
+        "severity_cap": "critical",
+        "notes": "Secondary Asset. World Foundation-owned asset."
+      },
+      {
+        "type": "source_code",
+        "asset": "https://github.com/worldcoin/orb-software",
+        "severity_cap": "critical",
+        "notes": "Primary Asset."
+      },
+      {
+        "type": "source_code",
+        "asset": "https://github.com/worldcoin/orb-firmware",
+        "severity_cap": "critical",
+        "notes": "Primary Asset."
+      },
+      {
+        "type": "source_code",
+        "asset": "https://github.com/worldcoin/orb-core",
+        "severity_cap": "critical",
+        "notes": "Primary Asset."
+      },
+      {
+        "type": "source_code",
+        "asset": "https://github.com/worldcoin/orb-messages",
+        "severity_cap": "critical",
+        "notes": "Secondary Asset."
+      },
+      {
+        "type": "source_code",
+        "asset": "https://github.com/worldcoin/orb-secure-element",
+        "severity_cap": "critical",
+        "notes": "Primary Asset."
+      },
+      {
+        "type": "source_code",
+        "asset": "https://github.com/worldcoin/orb-relay-messages",
+        "severity_cap": "critical",
+        "notes": "Secondary Asset."
+      },
+      {
+        "type": "source_code",
+        "asset": "https://github.com/worldcoin/orb-rustzone",
+        "severity_cap": "critical",
+        "notes": "Primary Asset."
+      }
+    ],
+    "out_of_scope": [
+      {
+        "type": "domain",
+        "asset": "support.worldcoin.com",
+        "reason": "eligible_for_submission=false in scope CSV."
+      },
+      {
+        "type": "domain",
+        "asset": "support.world.org",
+        "reason": "eligible_for_submission=false in scope CSV."
+      },
+      {
+        "type": "source_code",
+        "asset": "https://github.com/worldcoin/orb-hardware",
+        "reason": "eligible_for_submission=false in scope CSV."
+      }
+    ]
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": false,
+    "cve_age_min_days": 90,
+    "requires_ownership_proof": true,
+    "safe_harbor": true,
+    "submission_form": "https://hackerone.com/toolsforhumanity",
+    "notes": "Safe harbor: TFH explicitly states adherence to HackerOne's Gold Standard Safe Harbor (see https://hackerone.com/toolsforhumanity/safe_harbor). | automated_tools_allowed=false: policy bans unconfirmed reports from automated vulnerability scanners and prohibits DoS/disruption; no explicit scanning allowance stated, defaulted to false. | mass_scanning_allowed=false: not addressed in policy, set to safe default (false). | bucket_listing_allowed=true: not addressed in policy, set to safe default (true per agent rules). | bucket_download_allowed=false: not addressed in policy, set to safe default (false). | cve_age_min_days=90: policy states CVEs less than 3 months old (approx 90 days) awarded case-by-case, treated as minimum threshold. | requires_ownership_proof=true: not explicitly stated but policy requires accounts you own or have permission to test; safe default applied. | ORB hardware restrictions: no testing production signing keys, secure elements, or tamper-detection without explicit TFH authorization and supervision. | Private/internal GitHub repos require written authorization from TFH before testing. | Third-party domains/subdomains pointing to third-party hosted services are out of scope. | Open-source repo findings require working PoC against running production instance — source-code-only reports not eligible. | Disclosure: no disclosure of vulnerabilities (even resolved) without express consent from TFH."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      {
+        "severity": "critical",
+        "min": 0,
+        "max": 0,
+        "currency": "USD",
+        "notes": "Bounty amounts not exposed in public H1 GraphQL API. offers_bounties=true, currency=usd confirmed. Amounts set to 0/0 as placeholder — check program page when authenticated."
+      },
+      {
+        "severity": "high",
+        "min": 0,
+        "max": 0,
+        "currency": "USD"
+      },
+      {
+        "severity": "medium",
+        "min": 0,
+        "max": 0,
+        "currency": "USD"
+      },
+      {
+        "severity": "low",
+        "min": 0,
+        "max": 0,
+        "currency": "USD"
+      }
+    ]
+  },
+  "raw_policy_excerpt": "Tools For Humanity (TFH) is proud to collaborate with the vibrant community of independent security research to  secure our platform and our users. To recognize your efforts and the role you play in enhancing the security of TFH and the World ecosystem, we have established this bug bounty program in partnership with HackerOne. Please make sure you review and understand this Policy before submitting a report.\n\n# Rules\nAs a participant in our bug bounty program you must:\n* Respect the privacy of our users, avoid data destruction and avoid engaging in interruption or degradation of our service.\n* Only engage with accounts you own or for which you have explicit permission from the account holder.\n\nThe following issues or actions are not allowed:\n* Social engineering, Denial-of-service attacks, Any activity that could lead to disruption of our service.\n* Testing against any TFH or Worldcoin Foundation domains and subdomains pointing to services hosted by third-parties.\n* Testing against private or internal GitHub repositories owned by TFH or Worldcoin Foundation without written authorization from Tools For Humanity.\n\n# Ineligible vulnerability types (selected)\n* Unconfirmed reports from automated vulnerability scanners\n* Vulnerabilities in third-party libraries, outdated software, or end-of-life software (including publicly disclosed CVEs and other publicly known issues) without a working proof of concept\n* Vulnerability reports that reference zero-day exploits or CVEs that are less than 3 months old will be awarded on a case-by-case basis\n* Vulnerabilities reported in open-source repositories owned by TFH or Worldcoin Foundation that are based solely on source code review without a working proof of concept or video demonstrating the issue is reproducible against the running production instance.\n\n# Orb device-specific\n* Attempts to extract production signing keys, extract private keys from secure elements, or defeat tamper-detection on production devices, unless Tools For Humanity explicitly authorizes and supervises the test.\n\n# Safe Harbor\nTFH considers good faith security research to be authorized activity that may be protected from adversarial legal action by us. As such, we adhere to HackerOne's Gold Standard Safe Harbor which can be found here: https://hackerone.com/toolsforhumanity/safe_harbor\n\n# Disclosure Policy\nOur Rules prohibit the disclosure of any vulnerabilities (even resolved ones) outside of the program without express consent from the organization.\n\n# Rewards\n* In most cases, only the first person to report an unknown issue, as determined solely by TFH, will be eligible for a reward.\n* Our rewards are primarily based on severity and impact, guided by the CVSS.\n* Vulnerabilities that are due to an issue in an upstream dependency are out of scope and should instead be reported to the upstream maintainers."
+}

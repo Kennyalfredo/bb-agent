@@ -1,0 +1,113 @@
+{
+  "proposal_id": "20260515-184612-cloudflare",
+  "slug": "cloudflare",
+  "generated_at": "2026-05-15T18:46:14Z",
+  "evidence_inputs": [
+    "/home/kenny/bb-agent/memory/programs/cloudflare.json",
+    "/home/kenny/bb-agent/out/cloudflare/buckets/20260515-170843.json",
+    "/home/kenny/bb-agent/out/cloudflare/secrets/20260515-170543.json",
+    "/home/kenny/bb-agent/out/cloudflare/reports/cloudflare-20260515-180450.md",
+    "/home/kenny/bb-agent/memory/ownership-cache/2d3815dd0d88c37c.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/ec73b937847bcff2.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/10c47953a77060f8.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/c9e3e8942755f8ec.json",
+    "/home/kenny/bb-agent/memory/submissions/cloudflare.json"
+  ],
+  "metrics": {
+    "buckets_scanned": 75,
+    "buckets_found": 14,
+    "secrets_scanned": 11,
+    "secrets_verified_trufflehog": 11,
+    "secrets_noseyparker_only": 0,
+    "np_findings_suppressed": 272,
+    "ownership_checks": 4,
+    "owned": 1,
+    "unowned": 0,
+    "unknown": 3,
+    "reports_drafted": 1,
+    "reports_submitted": 1,
+    "platform_dismissals": 0
+  },
+  "narrative": "Cloudflare Public Bug Bounty (HackerOne, bug_bounty tier). Ran bucket-hunter Pass A (75 candidates generated, 14 found with all_users_read=true in acl JSON), secret-hunter Passes A+B+C against the cloudflare GH org, ownership-verifier on 4 assets (1 GH org → owned, 3 S3 buckets → unknown), and report-drafter for 1 high-severity leaked-credentials finding. Submitted to H1 as report #3738898.\n\nPass A of secret-hunter against the cloudflare org was the productive path this engagement. Trufflehog found 11 verified candidates; 9 were immediately identifiable as the EBI public tutorial Postgres database (hh-pgsql-public.ebi.ac.uk, deliberately public, used in Cloudflare Workers docs), and 2 were genuinely reportable: a Monday.com JWT and a Storyblok Access Token both hard-coded in cloudflare/moltworker (last pushed 2026-05-09). The 272 noseyparker findings from Pass C were all confirmed test fixtures in cloudflare-go — PEM keys in _test.go files, the well-known dummy API key 144c9defac04969c7bfad8efaa8ea194, and sequential-byte test vectors. NP produced zero net candidates.\n\nThe three S3 bucket ownership checks all returned unknown and, importantly, could never have returned otherwise. 'cloudflare-prod', 'cloudflare-backups', and 'backup-cloudflare' are generic brand-prefixed names that attract thousands of third-party GitHub hits from community users backing up their own Cloudflare configs. GH Check A consistently came back ambiguous (0 hits in cloudflare/* org, hundreds of hits in unrelated repos). Wayback word-boundary mode (already a live rule from the mercadolibre engagement) correctly returned 0 or inconclusive on all three. These bucket names are structurally unresolvable for this program — the bucket-hunter should skip them on future runs.\n\nOne ACL narration inconsistency deserves a note: the bucket-hunter summary.notes prose said 'perm_all_users_read=0 on all 14 hits means s3scanner confirmed list_bucket is ALLOWED', whereas the structured acl JSON field shows all_users_read=true on every candidate. The JSON is correct; the prose conflated s3scanner's numeric permission-code (0 = public/allowed) with a false reading of 'zero hits'. Downstream agents (report-drafter, human reviewer) should trust the structured acl object, not the prose narration. No rule can encode this in v1 schema, but it is worth noting for future bucket-hunter prompt edits.\n\nFor the next visit to this slug: the GH org is confirmed owned; skip re-verification. The EBI Postgres findings will reappear in cloudflare-docs on every future scan — once a platform outcome is recorded for report #3738898 (informative or otherwise), add hh-pgsql-public.ebi.ac.uk as a report_drafter.auto_info_filter entry. If revisiting for secrets, Pass A against the cloudflare org remains worthwhile (moltworker was the find); consider also scanning cloudflare-adjacent orgs (e.g., cloudflare-labs) if allowed under the policy cap. Bucket work is low-ROI: all 14 found buckets are unverifiable generics — skip unless a bucket appears with a non-brand-stem name that GH code search can pin to a cloudflare org repo."
+  ,
+  "proposed_rules": [
+    {
+      "rule_id": "rule-secret_hunter-detector_ignore-00eaa",
+      "agent": "secret_hunter",
+      "path": "detector_ignore",
+      "action": "append",
+      "value": {
+        "detector": "CloudflareAPIKey",
+        "match_in": ["144c9defac04969c7bfad8efaa8ea194"],
+        "reason": "Well-known Cloudflare SDK dummy API key used in cloudflare-go test fixtures; appears in NP CloudflareAPIKey findings across multiple _test.go files in cloudflare/cloudflare-go engagement"
+      },
+      "rationale": "272 noseyparker findings in cloudflare/cloudflare-go included this exact dummy key (paired with user@example.com in SDK test fixtures); it fires on every scan of the cloudflare org and will never be a real credential.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/cloudflare/secrets/20260515-170543.json"
+      ]
+    },
+    {
+      "rule_id": "rule-bucket_hunter-basename_skip-471f2",
+      "agent": "bucket_hunter",
+      "path": "basename_skip",
+      "action": "append",
+      "value": {
+        "pattern": "cloudflare-prod",
+        "reason": "bare-brand+suffix bucket name is structurally indistinguishable from squatters; A=ambiguous 930 GH hits (0 real org hits), B=negative, C=inconclusive in cloudflare engagement; 3 distinct ownership checks all returned unknown"
+      },
+      "rationale": "GH code search returned 930 hits for 'cloudflare-prod' but all 7 within the cloudflare org were path-coincidence artifacts (substring of '/cache/interaction-cloudflare-products/'); 0 ownership signal possible for this name.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/memory/ownership-cache/ec73b937847bcff2.json",
+        "/home/kenny/bb-agent/out/cloudflare/buckets/20260515-170843.json"
+      ]
+    },
+    {
+      "rule_id": "rule-bucket_hunter-basename_skip-f43c0",
+      "agent": "bucket_hunter",
+      "path": "basename_skip",
+      "action": "append",
+      "value": {
+        "pattern": "cloudflare-backups",
+        "reason": "bare-brand+suffix bucket name structurally indistinguishable from squatters; A=ambiguous (13 GH community hits, 0 in org), B=negative, C=inconclusive in cloudflare engagement"
+      },
+      "rationale": "All 13 GH hits for 'cloudflare-backups' were third-party users writing about backing up their own Cloudflare configs; zero org hits; verdict locked at unknown with no path to resolution.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/memory/ownership-cache/10c47953a77060f8.json",
+        "/home/kenny/bb-agent/out/cloudflare/buckets/20260515-170843.json"
+      ]
+    },
+    {
+      "rule_id": "rule-bucket_hunter-basename_skip-ce3d0",
+      "agent": "bucket_hunter",
+      "path": "basename_skip",
+      "action": "append",
+      "value": {
+        "pattern": "backup-cloudflare",
+        "reason": "bare-brand+prefix bucket name structurally indistinguishable from squatters; A=ambiguous 61 GH hits (0 in org), B=inconclusive (gau 0 bytes), C=inconclusive in cloudflare engagement"
+      },
+      "rationale": "61 GH hits for 'backup-cloudflare' are all third-party backup scripts (ishapiro/markdown-website, tim-arnold/librarycard, etc.); 0 org hits; gau returned empty output; DNS is generic AWS CNAME — no ownership signal exists for this name.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/memory/ownership-cache/c9e3e8942755f8ec.json",
+        "/home/kenny/bb-agent/out/cloudflare/buckets/20260515-170843.json"
+      ]
+    }
+  ],
+  "discarded_heuristics": [
+    {
+      "heuristic": "H2",
+      "reason": "wayback_match_mode is already set to 'word_boundary' in rules.json (applied from mercadolibre engagement, rule-ownership_verifier-wayback_match_mode-879f3); rule exists and fired correctly on all 3 bucket checks."
+    },
+    {
+      "heuristic": "H3",
+      "reason": "Pass A against the cloudflare org returned 11 verified candidates including 2 genuinely reportable secrets (Monday JWT + Storyblok token) — the 'mature org, 0 verified hits' condition that triggers H3 did not occur; a narrative note is included instead."
+    },
+    {
+      "heuristic": "H5",
+      "reason": "Report #3738898 (submitted 2026-05-15T18:30:00Z) has no platform_closed_as field yet — H5 requires a platform dismissal verdict (informative or not-applicable) to fire; will be eligible on a future retro once Cloudflare triages the report."
+    }
+  ]
+}

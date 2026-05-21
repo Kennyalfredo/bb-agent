@@ -1,0 +1,475 @@
+{
+  "program": {
+    "slug": "adobe",
+    "platform": "hackerone",
+    "url": "https://hackerone.com/adobe",
+    "name": "Adobe",
+    "fetched_at": "2026-05-15"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "executable",
+        "asset": "Illustrator",
+        "severity_cap": "critical",
+        "notes": "Eligible for submission but NOT for bounty"
+      },
+      {
+        "type": "other",
+        "asset": "Acrobat AI Assistant",
+        "severity_cap": "critical",
+        "notes": "AI Asset. Please refer to updated policy for more details. Enabled on acrobat.adobe.com"
+      },
+      {
+        "type": "other",
+        "asset": "Acrobat Create Podcast",
+        "severity_cap": "critical",
+        "notes": "AI Asset. Enabled on acrobat.adobe.com"
+      },
+      {
+        "type": "other",
+        "asset": "Acrobat PDF Spaces",
+        "severity_cap": "critical",
+        "notes": "AI Asset. Please refer to updated policy for more details. Enabled on acrobat.adobe.com"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.lightroom.adobe.com",
+        "severity_cap": "critical",
+        "notes": "Please refer to Lightroom Web Test Plan on how to access/test the environment."
+      },
+      {
+        "type": "domain",
+        "asset": "account.magento.com",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "com.adobe.PSMobile",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "executable",
+        "asset": "InDesign",
+        "severity_cap": "critical",
+        "notes": "Eligible for submission but NOT for bounty"
+      },
+      {
+        "type": "executable",
+        "asset": "Character Animator",
+        "severity_cap": "critical",
+        "notes": "Eligible for submission but NOT for bounty"
+      },
+      {
+        "type": "executable",
+        "asset": "Dimension",
+        "severity_cap": "critical",
+        "notes": "Eligible for submission but NOT for bounty"
+      },
+      {
+        "type": "executable",
+        "asset": "Adobe Acrobat Reader DC",
+        "severity_cap": "critical",
+        "notes": "Eligible for submission but NOT for bounty"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "com.frame.FrameIO",
+        "severity_cap": "critical",
+        "notes": "Eligible for submission but NOT for bounty"
+      },
+      {
+        "type": "source_code",
+        "asset": "https://github.com/contentauth/c2pa-js",
+        "severity_cap": "critical",
+        "notes": "Please refer to Content Authenticity Initiative Test Plan on how to access/test the environment."
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.adobe.scan.android",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.adobe.reader",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "executable",
+        "asset": "Dreamweaver",
+        "severity_cap": "critical",
+        "notes": "Eligible for submission but NOT for bounty"
+      },
+      {
+        "type": "domain",
+        "asset": "https://contentcredentials.org/",
+        "severity_cap": "critical",
+        "notes": "Please refer to Content Authenticity Initiative Test Plan on how to access/test the environment."
+      },
+      {
+        "type": "executable",
+        "asset": "Premiere Rush",
+        "severity_cap": "critical",
+        "notes": "Eligible for submission but NOT for bounty"
+      },
+      {
+        "type": "other",
+        "asset": "Acrobat Create Presentations",
+        "severity_cap": "critical",
+        "notes": "AI Asset. Please refer to updated policy for more details. Enabled on acrobat.adobe.com"
+      },
+      {
+        "type": "other",
+        "asset": "Express AI Assistant",
+        "severity_cap": "critical",
+        "notes": "AI Asset. Enabled on new.express.adobe.com"
+      },
+      {
+        "type": "domain",
+        "asset": "contributor.stock.adobe.com",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "adobe.fresco.ios",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "source_code",
+        "asset": "https://github.com/contentauth/c2pa-rs",
+        "severity_cap": "critical",
+        "notes": "Please refer to Content Authenticity Initiative Test Plan on how to access/test the environment."
+      },
+      {
+        "type": "domain",
+        "asset": "net.s2stagehance.com",
+        "severity_cap": "critical",
+        "notes": "Behance stage environment. Please refer to Behance Test Plan."
+      },
+      {
+        "type": "domain",
+        "asset": "http://federatedid-na1.services.adobe.com",
+        "severity_cap": "critical",
+        "notes": "Please refer to IMS Test Plan on how to access/test the environment."
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.adobe.workfront",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "photoshop.adobe.com",
+        "severity_cap": "critical",
+        "notes": "Please refer to Photoshop Web Test Plan on how to access/test the environment."
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "com.iphone.workfront",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "stock.adobe.com",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "other",
+        "asset": "Firefly Image Models",
+        "severity_cap": "critical",
+        "notes": "AI Asset. Please refer to updated policy for more details. Enabled on firefly.adobe.com"
+      },
+      {
+        "type": "executable",
+        "asset": "Substance 3D",
+        "severity_cap": "critical",
+        "notes": "Eligible for submission but NOT for bounty"
+      },
+      {
+        "type": "executable",
+        "asset": "Acrobat Reader",
+        "severity_cap": "critical",
+        "notes": "Eligible for submission but NOT for bounty"
+      },
+      {
+        "type": "executable",
+        "asset": "Audition",
+        "severity_cap": "critical",
+        "notes": "Eligible for submission but NOT for bounty"
+      },
+      {
+        "type": "other",
+        "asset": "Stock AI Studio",
+        "severity_cap": "critical",
+        "notes": "AI Asset. Please refer to updated policy for more details. Enabled on stock.adobe.com"
+      },
+      {
+        "type": "domain",
+        "asset": "magento.com",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "executable",
+        "asset": "Bridge",
+        "severity_cap": "critical",
+        "notes": "Eligible for submission but NOT for bounty"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.adobe.lrmobile",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "learningmanagerstage4.adobe.com",
+        "severity_cap": "critical",
+        "notes": "Please refer to Adobe Learning Manager Test Plan on how to access/test the environment."
+      },
+      {
+        "type": "executable",
+        "asset": "Framemaker",
+        "severity_cap": "critical",
+        "notes": "Eligible for submission but NOT for bounty"
+      },
+      {
+        "type": "domain",
+        "asset": "portfolio.ccpsx.com",
+        "severity_cap": "critical",
+        "notes": "Please refer to Portfolio Test Plan on how to access the environment."
+      },
+      {
+        "type": "executable",
+        "asset": "Animate",
+        "severity_cap": "critical",
+        "notes": "Eligible for submission but NOT for bounty"
+      },
+      {
+        "type": "other",
+        "asset": "Other (catch-all)",
+        "severity_cap": "critical",
+        "notes": "Eligible for submission but NOT for bounty. Use only when no better option applies."
+      },
+      {
+        "type": "other",
+        "asset": "Photoshop AI Assistant",
+        "severity_cap": "critical",
+        "notes": "AI Asset. Please refer to updated policy for more details. Enabled on photoshop.adobe.com"
+      },
+      {
+        "type": "domain",
+        "asset": "adobeid-na1.services.adobe.com",
+        "severity_cap": "critical",
+        "notes": "Please refer to IMS Test Plan on how to access/test the environment."
+      },
+      {
+        "type": "executable",
+        "asset": "Media Encoder",
+        "severity_cap": "critical",
+        "notes": "Eligible for submission but NOT for bounty"
+      },
+      {
+        "type": "executable",
+        "asset": "XD",
+        "severity_cap": "critical",
+        "notes": "Eligible for submission but NOT for bounty"
+      },
+      {
+        "type": "domain",
+        "asset": "new.express.adobe.com",
+        "severity_cap": "critical",
+        "notes": "Please refer to Express Test Plan on how to access the environment."
+      },
+      {
+        "type": "domain",
+        "asset": "fonts.adobe.com",
+        "severity_cap": "critical",
+        "notes": "Please refer to Fonts Test Plan on how to access the environment."
+      },
+      {
+        "type": "executable",
+        "asset": "ColdFusion",
+        "severity_cap": "critical",
+        "notes": "Must use latest version with Lockdown installer. Please refer to ColdFusion Test Plan."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.acrobat.adobe.com",
+        "severity_cap": "critical",
+        "notes": "Please refer to Acrobat Web Test Plan on how to access/test the environment."
+      },
+      {
+        "type": "other",
+        "asset": "Lightroom AI Edits",
+        "severity_cap": "critical",
+        "notes": "AI Asset. Please refer to updated policy for more details. Enabled on lightroom.adobe.com"
+      },
+      {
+        "type": "other",
+        "asset": "Adobe Commerce, Commerce B2B and Commerce Open Source",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "repo.magento.com",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "http://ims-na1.adobelogin.com",
+        "severity_cap": "critical",
+        "notes": "Please refer to IMS Test Plan on how to access/test the environment."
+      },
+      {
+        "type": "domain",
+        "asset": "account.adobe.com",
+        "severity_cap": "critical",
+        "notes": "Please refer to IMS Test Plan on how to access/test the environment."
+      },
+      {
+        "type": "executable",
+        "asset": "Lightroom Classic",
+        "severity_cap": "critical",
+        "notes": "Eligible for submission but NOT for bounty"
+      },
+      {
+        "type": "executable",
+        "asset": "Premiere Pro",
+        "severity_cap": "critical",
+        "notes": "Eligible for submission but NOT for bounty"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "com.adobe.lrmobile",
+        "severity_cap": "critical",
+        "notes": "Lightroom iOS app"
+      },
+      {
+        "type": "domain",
+        "asset": "auth.services.adobe.com",
+        "severity_cap": "critical",
+        "notes": "Please refer to IMS Test Plan on how to access/test the environment."
+      },
+      {
+        "type": "other",
+        "asset": "Firefly Video Model",
+        "severity_cap": "critical",
+        "notes": "AI Asset. Please refer to updated policy for more details. Enabled on firefly.adobe.com"
+      },
+      {
+        "type": "domain",
+        "asset": "commercemarketplace.adobe.com",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "other",
+        "asset": "C2PA Tool",
+        "severity_cap": "critical",
+        "notes": "Please refer to Content Authenticity Initiative Test Plan on how to access/test the environment."
+      },
+      {
+        "type": "executable",
+        "asset": "After Effects",
+        "severity_cap": "critical",
+        "notes": "Eligible for submission but NOT for bounty"
+      },
+      {
+        "type": "executable",
+        "asset": "InCopy",
+        "severity_cap": "critical",
+        "notes": "Eligible for submission but NOT for bounty"
+      },
+      {
+        "type": "domain",
+        "asset": "firefly.adobe.com",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "photos.adobe.io",
+        "severity_cap": "critical",
+        "notes": "Please refer to Lightroom Web Test Plan on how to access/test the environment."
+      },
+      {
+        "type": "executable",
+        "asset": "Photoshop",
+        "severity_cap": "critical",
+        "notes": "Eligible for submission but NOT for bounty"
+      },
+      {
+        "type": "other",
+        "asset": "Lightroom \"Edit suggestions\" Tech Preview",
+        "severity_cap": "critical",
+        "notes": "AI Asset. Please refer to updated policy for more details. Enabled on lightroom.adobe.com"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "com.adobe.Adobe-Reader",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "other",
+        "asset": "Behance Freelance Job creation",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "com.adobe.scan.ios",
+        "severity_cap": "critical"
+      }
+    ],
+    "out_of_scope": [
+      {
+        "type": "other",
+        "asset": "Magento 1 Enterprise (Commerce) and Community (Open Source) Editions",
+        "reason": "Support for Magento 1 software ended on June 30, 2020, and it is no longer eligible for bounty. eligible_for_submission=false in CSV."
+      },
+      {
+        "type": "other",
+        "asset": "Tier 3 (AI Bonus Tier)",
+        "reason": "eligible_for_submission=false and max_severity=none in CSV."
+      }
+    ]
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": false,
+    "cve_age_min_days": 30,
+    "requires_ownership_proof": true,
+    "safe_harbor": true,
+    "submission_form": "https://hackerone.com/adobe",
+    "notes": "safe_harbor=true: Policy explicitly states 'In order to receive a monetary bug bounty payout (when applicable), you must provide your Testing IP address. This information is also required in order to fall within Adobe's Safe Harbor policy.' Safe harbor is explicitly offered, conditioned on providing your testing IP. | mass_scanning_allowed=false (safe default — policy says DO NOT cause DoS; no scanning permission granted). | automated_tools_allowed=false (safe default — not addressed in policy; DO NOT cause DoS language implies restriction). | bucket_listing_allowed=true (safe default — not addressed). | bucket_download_allowed=false (safe default — not addressed). | cve_age_min_days=30 (safe default — not specified). | requires_ownership_proof=true (safe default — policy requires testing IP for safe harbor; own-account-only testing stated explicitly). | IMPORTANT per-product notes: (1) Many desktop executables (Photoshop, Illustrator, InDesign, etc.) are eligible for SUBMISSION but NOT for BOUNTY per CSV. (2) ColdFusion reports require testing against latest version with Lockdown installer — non-lockdown installs are OOS. (3) XXE in ColdFusion is temporarily OOS. (4) IMS OAuth vulnerabilities are temporarily OOS. (5) Learning Manager: Custom roles/Social Learning improper access controls and OAuth misconfigurations are temporarily OOS. (6) Express: express.adobe.com and express-embed.adobe.com are OOS (only new.express.adobe.com is in scope). (7) DoS/resource consumption is OOS unless it leads to sensitive memory disclosure. (8) Third-party endpoints (*.contentsquare.net, *.doubleclick.net, etc.) used by Photoshop Web are OOS. (9) Firefly: IDORs in backend API related to jobs/data with random UUID4 short-lived IDs are OOS. (10) Behance: public production site www.behance.net is OOS; only net.s2stagehance.com is in scope. (11) Acrobat Web OOS: *.adobesign.com (Adobe Sign Web production). (12) Rate limiting bypasses and race conditions are OOS for Acrobat Web unless significant security impact. (13) User-Agent string 'h1_username' is required during testing to be eligible for bounty."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      {
+        "severity": "critical",
+        "min": 0,
+        "max": 0,
+        "currency": "USD",
+        "notes": "Bounty amounts not published in policy; offers_bounties=true confirmed via GraphQL. Bounty table references CVSS tiers but no explicit USD amounts were listed in the policy text."
+      },
+      {
+        "severity": "high",
+        "min": 0,
+        "max": 0,
+        "currency": "USD"
+      },
+      {
+        "severity": "medium",
+        "min": 0,
+        "max": 0,
+        "currency": "USD"
+      },
+      {
+        "severity": "low",
+        "min": 0,
+        "max": 0,
+        "currency": "USD"
+      }
+    ]
+  },
+  "raw_policy_excerpt": "Adobe recognizes that the security community is a force multiplier in our quest to provide a safe and secure experience for Adobe's customers. To that end, we welcome the contributions of security researchers and strive to provide the best vulnerability disclosure experience possible.\n\nAt the time of report submission, Adobe will request your \"testing IP address\". By providing your testing IP address, this will allow Adobe to conduct expedited incident response investigations by ruling your traffic out from valid adversary traffic. This will also help ensure your testing traffic is not blocked/interrupted while bug hunting.\n\nIn order to receive a monetary bug bounty payout (when applicable), you must provide your Testing IP address. This information is also required in order to fall within Adobe's Safe Harbor policy.\n\n# Rules of Engagement\n* DO include the User-Agent string `h1_username` while testing. This is a requirement in order to be eligible for a bounty.\n* DO NOT use social engineering (e.g. phishing, vishing, smishing) techniques.\n* DO NOT test existing customer environments without explicit permission from the owner.\n* DO NOT cause a potential or actual denial of service of Adobe applications and systems.\n* DO NOT use an exploit to view data without authorization or cause corruption of data.\n* DO make a good faith effort to avoid privacy violations, destruction of data, and interruption or degradation of our service. Only interact with accounts you own or with the explicit permission of the account holder.\n\n# Program Exclusions (partial)\n- DoS / resource consumption testing unless it leads to sensitive memory disclosure\n- Vulnerabilities in mobile applications relying on the installation of a malicious APK are out-of-scope\n- Mobile app submissions that require the use of rooted or jailbroken devices will not be accepted\n- Self-XSS\n- Logout and other instances of low-severity Cross-Site Request Forgery(CSRF)\n- Missing HTTP security headers\n- Password and account recovery policies\n- Missing best practices in SSL/TLS configuration\n- Username / email enumeration via Login Page or Forgot Password Page\n- Brute-forcing credentials\n- Attacks requiring MITM or physical access\n- Reports that only reference data listed on third-party breach or credential-dump services are out of scope unless the reporter can demonstrate the exposure originated from a vulnerability in Adobe systems.\n\n# Terms and Conditions\n- Please use your own account for testing or research purposes. Do not attempt to gain access to another user's account or confidential information.\n- Do not store, share, compromise, or destroy Adobe or customer data. If PII is encountered, immediately halt your activity, purge related data, and contact Adobe.\n- Do not engage in any activity that violates federal or state laws or regulations or the laws of any country where the researcher is conducting research activity.\n- This program is not open to individuals who reside in Venezuela, Mainland China, Hong Kong, Russia, Belarus, Ukraine, Cuba, Iran, North Korea, Crimea region of Ukraine, Sudan, or Syria."
+}

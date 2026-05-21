@@ -1,0 +1,46 @@
+{
+  "slug": "automattic",
+  "asset": "jetpack-prod",
+  "bucket_name": "jetpack-prod",
+  "dns_name": "jetpack-prod.s3.amazonaws.com",
+  "fetched_at": "2026-05-16T00:00:00Z",
+  "verdict": "unknown",
+  "checks": {
+    "github_code": {
+      "status": "ambiguous",
+      "total_count": 139,
+      "top_hits": [
+        {"repo": "Automattic/wp-calypso", "path": "packages/calypso-products/src/is-jetpack-product.ts"},
+        {"repo": "Automattic/jetpack", "path": "tools/performance/README.md"},
+        {"repo": "Automattic/jetpack", "path": "tools/cli/commands/docs.js"},
+        {"repo": "Automattic/jetpack-production", "path": "composer.json"},
+        {"repo": "Automattic/jetpack-e2e-reports", "path": "src/config.js"},
+        {"repo": "Automattic/jetpack-e2e-reports", "path": "bin/generate-report-s3.sh"},
+        {"repo": "Automattic/vip-go-mu-plugins-ext", "path": "ci/update-deps.js"}
+      ],
+      "notes": "All 139 hits are substring matches of 'jetpack-production' or 'jetpack-product'. Zero hits reference the bucket 'jetpack-prod' as a standalone token. The actual Automattic S3 bucket found in code is 'a8c-jetpack-e2e-reports' (Automattic/jetpack-e2e-reports:bin/generate-report-s3.sh). Pattern identical to cloudflare-prod degenerate-match case.",
+      "evidence_path": "/tmp/ownership-0dfe53c3d53b1448-gh.json"
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "gau_url_count": 1484,
+      "domains_searched": ["jetpack.com", "wordpress.com", "automattic.com"],
+      "match_mode": "word_boundary",
+      "evidence_path": "/tmp/ownership-0dfe53c3d53b1448-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-w.eu-west-3.amazonaws.com",
+      "resolved_ips": ["3.5.206.134", "3.5.204.39"],
+      "notes": "Bucket resolves (exists, eu-west-3) but DNS chain is generic AWS S3 CNAME. No CNAME from a program-owned domain points to this bucket. DNS proves existence not ownership.",
+      "evidence_path": "/tmp/ownership-0dfe53c3d53b1448-dns.txt"
+    }
+  },
+  "rules_applied": [
+    "applied rule wayback_match_mode=word_boundary: grep -E '\\bjetpack-prod\\b' used instead of -F; prevents brand-stem degenerate hits",
+    "applied rule min_positive_signals=2: two independent positive signals required for 'owned'; only 0 positives found",
+    "bucket_aggregation_override NOT fired: requires A=negative; A is ambiguous (substring collision), not negative"
+  ],
+  "notes": "GH search returned 139 hits but all are substring collisions on 'jetpack-production'/'jetpack-product' — identical structural problem to the cloudflare-prod basename_skip case. The actual Automattic e2e bucket is 'a8c-jetpack-e2e-reports' (prefixed with 'a8c-'), not 'jetpack-prod'. Wayback returned 0 word-boundary hits across 1484 URLs from 3 program domains. DNS confirms bucket exists in eu-west-3 but CNAME is generic AWS infrastructure. The bucket_aggregation_override (A=neg, B=neg, C=inconclusive → unowned) does not fire because A is ambiguous rather than negative. Verdict locked at unknown — no path to 'owned' without a direct org-repo reference to the literal bucket name."
+}

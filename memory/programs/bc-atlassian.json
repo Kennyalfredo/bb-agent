@@ -1,0 +1,403 @@
+{
+  "program": {
+    "slug": "bc-atlassian",
+    "platform": "bugcrowd",
+    "url": "https://bugcrowd.com/engagements/atlassian",
+    "name": "Atlassian",
+    "fetched_at": "2026-05-17"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "domain",
+        "asset": "https://admin.atlassian.com/atlassian-guard",
+        "severity_cap": "unknown",
+        "notes": "Atlassian Guard Standard and Premium"
+      },
+      {
+        "type": "domain",
+        "asset": "https://admin.atlassian.com/",
+        "severity_cap": "unknown",
+        "notes": "Atlassian Admin"
+      },
+      {
+        "type": "domain",
+        "asset": "https://id.atlassian.com/login",
+        "severity_cap": "unknown",
+        "notes": "Atlassian Identity"
+      },
+      {
+        "type": "domain",
+        "asset": "https://start.atlassian.com",
+        "severity_cap": "unknown",
+        "notes": "Atlassian Start"
+      },
+      {
+        "type": "domain",
+        "asset": "https://bitbucket.org",
+        "severity_cap": "unknown",
+        "notes": "Bitbucket Cloud including Bitbucket Pipelines"
+      },
+      {
+        "type": "domain",
+        "asset": "https://www.atlassian.com/software/confluence",
+        "severity_cap": "unknown",
+        "notes": "Confluence Cloud (test via bugbounty-test-<bugcrowd-name>.atlassian.net/wiki)"
+      },
+      {
+        "type": "domain",
+        "asset": "https://www.atlassian.com/software/confluence/premium",
+        "severity_cap": "unknown",
+        "notes": "Confluence Cloud Premium (test via bugbounty-test-<bugcrowd-name>.atlassian.net/wiki)"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "https://play.google.com/store/apps/details?id=com.atlassian.android.confluence.core&hl=en_US&gl=US",
+        "severity_cap": "unknown",
+        "notes": "Confluence Cloud Mobile App for Android"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "https://apps.apple.com/us/app/confluence-cloud/id1006971684",
+        "severity_cap": "unknown",
+        "notes": "Confluence Cloud Mobile App for iOS"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "https://play.google.com/store/apps/details?id=com.atlassian.android.jira.core&hl=en_US&gl=US",
+        "severity_cap": "unknown",
+        "notes": "Jira Cloud Mobile App for Android"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "https://apps.apple.com/us/app/jira-cloud-by-atlassian/id1006972087",
+        "severity_cap": "unknown",
+        "notes": "Jira Cloud Mobile App for iOS"
+      },
+      {
+        "type": "domain",
+        "asset": "https://www.atlassian.com/software/jira/service-management",
+        "severity_cap": "unknown",
+        "notes": "Jira Service Management Cloud (test via bugbounty-test-<bugcrowd-name>.atlassian.net)"
+      },
+      {
+        "type": "domain",
+        "asset": "https://www.atlassian.com/software/jira",
+        "severity_cap": "unknown",
+        "notes": "Jira Software Cloud (test via bugbounty-test-<bugcrowd-name>.atlassian.net)"
+      },
+      {
+        "type": "domain",
+        "asset": "https://www.atlassian.com/software/jira/work-management",
+        "severity_cap": "unknown",
+        "notes": "Jira Work Management Cloud formerly Jira Core (test via bugbounty-test-<bugcrowd-name>.atlassian.net)"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.atlassian.com or *.atl-paas.net (exploited directly from *.atlassian.net instance)",
+        "severity_cap": "unknown",
+        "notes": "Any associated *.atlassian.com or *.atl-paas.net domain that can be exploited DIRECTLY from the *.atlassian.net instance"
+      },
+      {
+        "type": "domain",
+        "asset": "https://www.atlassian.com/software/rovo",
+        "severity_cap": "unknown",
+        "notes": "Rovo"
+      },
+      {
+        "type": "other",
+        "asset": "https://support.atlassian.com/rovo/docs/use-rovo-dev-cli/",
+        "severity_cap": "unknown",
+        "notes": "Rovo Dev CLI"
+      },
+      {
+        "type": "domain",
+        "asset": "https://www.atlassian.com/software/rovo-dev",
+        "severity_cap": "unknown",
+        "notes": "Other Rovo Dev"
+      },
+      {
+        "type": "other",
+        "asset": "https://mcp.atlassian.com",
+        "severity_cap": "unknown",
+        "notes": "Atlassian MCP Server"
+      },
+      {
+        "type": "domain",
+        "asset": "https://www.atlassian.com/software/compass",
+        "severity_cap": "unknown",
+        "notes": "Atlassian Compass"
+      },
+      {
+        "type": "domain",
+        "asset": "https://marketplace.atlassian.com",
+        "severity_cap": "unknown",
+        "notes": "Atlassian Marketplace"
+      },
+      {
+        "type": "domain",
+        "asset": "https://www.atlassian.com/software/atlas",
+        "severity_cap": "unknown",
+        "notes": "Atlassian Atlas"
+      },
+      {
+        "type": "domain",
+        "asset": "https://www.atlassian.com/enterprise/data-center/bitbucket",
+        "severity_cap": "unknown",
+        "notes": "Bitbucket Data Center"
+      },
+      {
+        "type": "other",
+        "asset": "https://www.atlassian.com/enterprise/data-center/confluence",
+        "severity_cap": "unknown",
+        "notes": "Confluence Data Center"
+      },
+      {
+        "type": "domain",
+        "asset": "https://www.atlassian.com/enterprise/data-center/crowd",
+        "severity_cap": "unknown",
+        "notes": "Crowd"
+      },
+      {
+        "type": "domain",
+        "asset": "https://www.atlassian.com/enterprise/data-center/jira",
+        "severity_cap": "unknown",
+        "notes": "Jira Core Data Center"
+      },
+      {
+        "type": "domain",
+        "asset": "https://www.atlassian.com/enterprise/data-center/jira/service-management",
+        "severity_cap": "unknown",
+        "notes": "Jira Service Management Data Center"
+      },
+      {
+        "type": "domain",
+        "asset": "https://www.atlassian.com/enterprise/data-center/jira",
+        "severity_cap": "unknown",
+        "notes": "Jira Software Data Center"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.atlastunnel.com",
+        "severity_cap": "unknown",
+        "notes": "All subdomains of atlastunnel.com"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.atlassian.com or *.atl-paas.net (not directly exploitable from *.atlassian.net instance)",
+        "severity_cap": "unknown",
+        "notes": "Any other *.atlassian.com or *.atl-paas.net domain that cannot be exploited directly from a *.atlassian.net instance"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.loom.com",
+        "severity_cap": "unknown",
+        "notes": "All subdomains of loom.com"
+      },
+      {
+        "type": "other",
+        "asset": "https://www.loom.com/download (Windows)",
+        "severity_cap": "unknown",
+        "notes": "Loom Desktop App for Windows"
+      },
+      {
+        "type": "other",
+        "asset": "https://www.loom.com/download (macOS)",
+        "severity_cap": "unknown",
+        "notes": "Loom Desktop App for macOS"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "https://play.google.com/store/apps/details?id=com.loom.android&hl=en_US&pli=1",
+        "severity_cap": "unknown",
+        "notes": "Loom for Android"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "https://apps.apple.com/us/app/loom-screen-recorder/id1474480829",
+        "severity_cap": "unknown",
+        "notes": "Loom for iOS"
+      },
+      {
+        "type": "other",
+        "asset": "https://chromewebstore.google.com/detail/loom-%E2%80%93-screen-recorder-sc/liecbddmkiiihnedobmlmillhodjkdmb",
+        "severity_cap": "unknown",
+        "notes": "Loom Chrome Extension"
+      },
+      {
+        "type": "domain",
+        "asset": "https://www.atlassian.com/software/bamboo",
+        "severity_cap": "unknown",
+        "notes": "Bamboo"
+      },
+      {
+        "type": "other",
+        "asset": "https://confluence.atlassian.com/doc/install-atlassian-companion-992678880.html",
+        "severity_cap": "unknown",
+        "notes": "Confluence Companion App for macOS and Windows"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "https://play.google.com/store/apps/details?id=com.atlassian.confluence.server",
+        "severity_cap": "unknown",
+        "notes": "Confluence Data Center Mobile App for Android"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "https://apps.apple.com/us/app/confluence-server/id1288365159",
+        "severity_cap": "unknown",
+        "notes": "Confluence Data Center Mobile App for iOS"
+      },
+      {
+        "type": "domain",
+        "asset": "https://www.atlassian.com/software/crucible",
+        "severity_cap": "unknown",
+        "notes": "Crucible"
+      },
+      {
+        "type": "domain",
+        "asset": "https://www.atlassian.com/software/fisheye",
+        "severity_cap": "unknown",
+        "notes": "FishEye"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "https://play.google.com/store/apps/details?id=com.atlassian.jira.server&hl=en_US&gl=US",
+        "severity_cap": "unknown",
+        "notes": "Jira Data Center Mobile App for Android"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "https://apps.apple.com/us/app/jira-server/id1405353949",
+        "severity_cap": "unknown",
+        "notes": "Jira Data Center Mobile App for iOS"
+      },
+      {
+        "type": "other",
+        "asset": "https://www.sourcetreeapp.com/",
+        "severity_cap": "unknown",
+        "notes": "Sourcetree for macOS and Windows"
+      },
+      {
+        "type": "other",
+        "asset": "Other - (all other Atlassian targets)",
+        "severity_cap": "unknown",
+        "notes": "Catch-all for any other Atlassian targets not explicitly listed"
+      },
+      {
+        "type": "domain",
+        "asset": "https://www.atlassian.com/software/jira/product-discovery",
+        "severity_cap": "unknown",
+        "notes": "Jira Product Discovery"
+      },
+      {
+        "type": "other",
+        "asset": "Forge Platform",
+        "severity_cap": "unknown",
+        "notes": "Atlassian Forge Platform"
+      },
+      {
+        "type": "domain",
+        "asset": "GraphQL API (bugbounty-test-<bugcrowd-name>.atlassian.net/gateway/api/graphql)",
+        "severity_cap": "unknown",
+        "notes": "GraphQL API endpoint on test instances"
+      },
+      {
+        "type": "other",
+        "asset": "https://www.npmjs.com/package/@forge/cli",
+        "severity_cap": "unknown",
+        "notes": "Forge CLI npm package"
+      }
+    ],
+    "out_of_scope": [
+      {
+        "type": "other",
+        "asset": "Any internal or development services",
+        "reason": "Internal/dev services excluded"
+      },
+      {
+        "type": "domain",
+        "asset": "https://bugcrowd.com/atlassianapps",
+        "reason": "First and third party marketplace apps/plugins — separate program at https://bugcrowd.com/atlassianapps"
+      },
+      {
+        "type": "domain",
+        "asset": "https://shop.atlassian.com",
+        "reason": "Shop subdomain explicitly excluded"
+      },
+      {
+        "type": "domain",
+        "asset": "bytebucket.org",
+        "reason": "Explicitly out of scope"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.bitbucket.io",
+        "reason": "All bitbucket.io subdomains excluded"
+      },
+      {
+        "type": "domain",
+        "asset": "https://blog.bitbucket.org",
+        "reason": "Bitbucket blog excluded"
+      },
+      {
+        "type": "other",
+        "asset": "HipChat (inc. HipChat Data Center, HipChat Desktop, HipChat Mobile)",
+        "reason": "HipChat products discontinued/excluded"
+      },
+      {
+        "type": "other",
+        "asset": "Stride (inc. Stride Video, Stride Desktop, Stride Mobile)",
+        "reason": "Stride products discontinued/excluded"
+      },
+      {
+        "type": "domain",
+        "asset": "https://support.atlassian.com",
+        "reason": "Support portal excluded"
+      },
+      {
+        "type": "other",
+        "asset": "Any customer instance (<customer>.atlassian.net or <customer>.jira.com)",
+        "reason": "Do not test customer instances or affect customer data. Test only your own instances."
+      },
+      {
+        "type": "other",
+        "asset": "Any repository you are not an owner of",
+        "reason": "Do not impact Atlassian customers in any way"
+      },
+      {
+        "type": "domain",
+        "asset": "https://support.loom.com",
+        "reason": "Loom support portal excluded"
+      },
+      {
+        "type": "domain",
+        "asset": "https://info.loom.com/",
+        "reason": "Loom info/marketing site excluded"
+      }
+    ]
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": false,
+    "cve_age_min_days": 30,
+    "requires_ownership_proof": true,
+    "safe_harbor": true,
+    "submission_form": "https://bugcrowd.com/engagements/atlassian/submissions/new",
+    "notes": "safe_harbor=true sourced explicitly from dump field safe_harbor='full'. mass_scanning_allowed=false: safe default; no explicit policy text available (engagement page is JS-gated). bucket_listing_allowed=true: safe default; no policy text found. bucket_download_allowed=false: safe default; no policy text found. automated_tools_allowed=false: safe default; no policy text found. cve_age_min_days=30: safe default; not stated in dump. requires_ownership_proof=true: safe default; dump notes 'Test only your own instances' for Jira/Confluence cloud — confirms you must own test instances; mapped as requiring ownership proof. submission_form URL (https://bugcrowd.com/engagements/atlassian/submissions/new) is constructed from the engagement slug per Bugcrowd convention — human should verify this URL once before use. allows_disclosure=false per dump. managed_by_bugcrowd=true per dump. Third-party marketplace apps/plugins are out of scope for this program but may be in scope for https://bugcrowd.com/atlassianapps."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      {
+        "severity": "unknown",
+        "min": 0,
+        "max": 12000,
+        "currency": "USD"
+      }
+    ]
+  },
+  "raw_policy_excerpt": "Program: Atlassian | URL: https://bugcrowd.com/engagements/atlassian | safe_harbor: full | allows_disclosure: false | managed_by_bugcrowd: true | max_payout: 12000\n\nSource: arkadiyt/bounty-targets-data bugcrowd_data.json (2026-05-17)\n\nNOTABLE SCOPE RULES (from dump):\n- Test only your OWN instances: 'Any customer instance. Do not test customer instances or affect customer data. Customer cloud instances may be in the form of <customer>.atlassian.net or <customer>.jira.com. Test only your own instances.'\n- 'Any repository that you are not an owner of - do not impact Atlassian customers in any way.'\n- Marketplace apps (first and third party) are excluded from this program but may be in scope at https://bugcrowd.com/atlassianapps\n- Out of scope: Any internal or development services, shop.atlassian.com, bytebucket.org, *.bitbucket.io, blog.bitbucket.org, HipChat, Stride, support.atlassian.com, support.loom.com, info.loom.com\n\nIN-SCOPE HIGHLIGHTS:\n- Atlassian Guard, Admin (admin.atlassian.com), Identity (id.atlassian.com)\n- Bitbucket Cloud (bitbucket.org) including Pipelines\n- Confluence Cloud, Jira Software/Service Management/Work Management Cloud (via own test instances)\n- *.atlassian.com and *.atl-paas.net (both directly and indirectly exploitable from *.atlassian.net)\n- *.atlastunnel.com\n- *.loom.com, Loom Desktop (Win/macOS), Loom Android/iOS, Loom Chrome Extension\n- Rovo, Rovo Dev CLI, Atlassian MCP Server (mcp.atlassian.com)\n- Compass, Atlas, Marketplace, Bamboo, Crucible, FishEye, Sourcetree\n- Data Center products: Bitbucket DC, Confluence DC, Crowd, Jira Core DC, Jira Service Management DC, Jira Software DC\n- Mobile apps: Confluence Cloud/DC (Android+iOS), Jira Cloud/DC (Android+iOS), Loom (Android+iOS)\n- Forge Platform, GraphQL API, Forge CLI (@forge/cli npm), Confluence Companion App\n- Catch-all: 'Other - (all other Atlassian targets)'\n- Jira Product Discovery"
+}

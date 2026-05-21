@@ -1,0 +1,301 @@
+{
+  "program": {
+    "slug": "bc-monash-mbb",
+    "platform": "bugcrowd",
+    "url": "https://bugcrowd.com/engagements/monash-mbb",
+    "name": "Monash University Bug Bounty",
+    "fetched_at": "2026-05-17"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "domain",
+        "asset": "identity.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source; two entries present (with and without trailing slash), deduplicated"
+      },
+      {
+        "type": "domain",
+        "asset": "mix.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=api in source"
+      },
+      {
+        "type": "domain",
+        "asset": "connect.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "www.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "staff.monash",
+        "severity_cap": "unknown",
+        "notes": "type=website in source; unusual TLD (.monash is a registered brand TLD)"
+      },
+      {
+        "type": "domain",
+        "asset": "apps.connect.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "eassessment.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "fileshare.ze.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "cms.mobile.monash",
+        "severity_cap": "unknown",
+        "notes": "type=website in source; .monash brand TLD"
+      },
+      {
+        "type": "domain",
+        "asset": "mobile.monash",
+        "severity_cap": "unknown",
+        "notes": "type=website in source; .monash brand TLD"
+      },
+      {
+        "type": "domain",
+        "asset": "status.mobile.monash",
+        "severity_cap": "unknown",
+        "notes": "type=website in source; .monash brand TLD"
+      },
+      {
+        "type": "domain",
+        "asset": "monashcollege.edu.au",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "online.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "https://apps.apple.com/us/app/monash-study/id1462126829",
+        "severity_cap": "unknown",
+        "notes": "Monash Study iOS App; App Store ID 1462126829"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "https://play.google.com/store/apps/details?id=edu.monash.monashmobile",
+        "severity_cap": "unknown",
+        "notes": "Monash Study Android App; package edu.monash.monashmobile"
+      },
+      {
+        "type": "domain",
+        "asset": "myapp.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "alumni-friends.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "agent.apps.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "compulsoryunits.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "monash.app.nutrip.com",
+        "severity_cap": "unknown",
+        "notes": "type=website in source; third-party domain (nutrip.com) hosting Monash instance"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.gp.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source; wildcard subdomain"
+      },
+      {
+        "type": "domain",
+        "asset": "studentplacements.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "unihub.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "interviews.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "shop.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "mlivetickets.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "partner.apps.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "https://play.google.com/store/apps/details?id=com.scu.bsafe",
+        "severity_cap": "unknown",
+        "notes": "bSafe Android App; package com.scu.bsafe — note this is an SCU (Southern Cross University) package ID, possibly third-party safety app"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "https://apps.apple.com/au/app/monash-bsafe/id1462241951",
+        "severity_cap": "unknown",
+        "notes": "bSafe iPhone App; App Store AU ID 1462241951"
+      },
+      {
+        "type": "domain",
+        "asset": "forms.apps.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "formative.eassessment.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source; source name has typo 'formative.eassessment.monas.edu'"
+      },
+      {
+        "type": "domain",
+        "asset": "www.monashprofessional.edu.au",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "account-registration.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "pay.monashcollege.edu.au",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "evigilation.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source; Monash e-Vigilation platform"
+      },
+      {
+        "type": "domain",
+        "asset": "student.monash",
+        "severity_cap": "unknown",
+        "notes": "type=website in source; .monash brand TLD"
+      },
+      {
+        "type": "domain",
+        "asset": "mids.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "ims.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "research.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "researchmgt.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "move.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "collections.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=website in source"
+      },
+      {
+        "type": "domain",
+        "asset": "mix-qat.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=api in source; target includes /* path glob"
+      },
+      {
+        "type": "domain",
+        "asset": "mix-dev.monash.edu",
+        "severity_cap": "unknown",
+        "notes": "type=api in source; target includes /* path glob; likely a dev/QA environment"
+      }
+    ],
+    "out_of_scope": []
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": false,
+    "cve_age_min_days": 30,
+    "requires_ownership_proof": true,
+    "safe_harbor": true,
+    "submission_form": "https://bugcrowd.com/engagements/monash-mbb/submissions/new",
+    "notes": "safe_harbor=true: read explicitly from bounty-targets-data field 'safe_harbor: full'. allows_disclosure=false per source data. managed_by_bugcrowd=true (MBB engagement). DEFAULTED: mass_scanning_allowed=false — not stated in policy, using safe default. DEFAULTED: bucket_listing_allowed=true — not addressed in policy, using agent default (our own compliance). DEFAULTED: bucket_download_allowed=false — not stated, using safe default. DEFAULTED: automated_tools_allowed=false — not stated, using safe default. DEFAULTED: cve_age_min_days=30 — not stated, using safe default. DEFAULTED: requires_ownership_proof=true — not stated, using safe default. DEFAULTED: submission_form — constructed from Bugcrowd MBB convention; human should verify this URL resolves. severity_cap=unknown for all assets: the arkadiyt/bounty-targets-data source does not include per-target severity caps; Bugcrowd engagement pages require login to view these. Human should verify against the live engagement page. Note on monash.app.nutrip.com: this is a third-party domain; confirm Monash actually owns this asset before reporting. Note on bSafe Android (com.scu.bsafe): package ID belongs to SCU (Southern Cross University) namespace; confirm Monash's authorisation over this app before testing. mix-dev and mix-qat entries appear to be development/QA environments — confirm whether production-only restriction applies."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      {
+        "severity": "unknown",
+        "min": 0,
+        "max": 7500,
+        "currency": "USD"
+      }
+    ]
+  },
+  "raw_policy_excerpt": "Source: arkadiyt/bounty-targets-data bugcrowd_data.json (fetched 2026-05-17)\n\n{\n  \"name\": \"Monash University Bug Bounty\",\n  \"url\": \"https://bugcrowd.com/engagements/monash-mbb\",\n  \"allows_disclosure\": false,\n  \"managed_by_bugcrowd\": true,\n  \"safe_harbor\": \"full\",\n  \"max_payout\": 7500,\n  \"targets\": {\n    \"in_scope\": [\n      {\"type\": \"website\", \"target\": \"https://identity.monash.edu/\"},\n      {\"type\": \"api\", \"target\": \" mix.monash.edu \"},\n      {\"type\": \"website\", \"target\": \"https://connect.monash.edu\"},\n      {\"type\": \"website\", \"target\": \"https://identity.monash.edu\"},\n      {\"type\": \"website\", \"target\": \"https://www.monash.edu\"},\n      {\"type\": \"website\", \"target\": \"https://staff.monash\"},\n      {\"type\": \"website\", \"target\": \"http://apps.connect.monash.edu/\"},\n      {\"type\": \"website\", \"target\": \"eassessment.monash.edu\"},\n      {\"type\": \"website\", \"target\": \"https://fileshare.ze.monash.edu\"},\n      {\"type\": \"website\", \"target\": \"https://cms.mobile.monash/ \"},\n      {\"type\": \"website\", \"target\": \"https://mobile.monash/ \"},\n      {\"type\": \"website\", \"target\": \"https://status.mobile.monash/\"},\n      {\"type\": \"website\", \"target\": \"https://monashcollege.edu.au\"},\n      {\"type\": \"website\", \"target\": \"https://online.monash.edu/\"},\n      {\"type\": \"ios\", \"target\": \"https://apps.apple.com/us/app/monash-study/id1462126829\"},\n      {\"type\": \"android\", \"target\": \"https://play.google.com/store/apps/details?id=edu.monash.monashmobile\"},\n      {\"type\": \"website\", \"target\": \"https://myapp.monash.edu/\"},\n      {\"type\": \"website\", \"target\": \"https://alumni-friends.monash.edu\"},\n      {\"type\": \"website\", \"target\": \"https://agent.apps.monash.edu/\"},\n      {\"type\": \"website\", \"target\": \"https://compulsoryunits.monash.edu/\"},\n      {\"type\": \"website\", \"target\": \"https://monash.app.nutrip.com\"},\n      {\"type\": \"website\", \"target\": \"https://*.gp.monash.edu\"},\n      {\"type\": \"website\", \"target\": \"https://studentplacements.monash.edu\"},\n      {\"type\": \"website\", \"target\": \"https://unihub.monash.edu/\"},\n      {\"type\": \"website\", \"target\": \"https://interviews.monash.edu/\"},\n      {\"type\": \"website\", \"target\": \"https://shop.monash.edu/\"},\n      {\"type\": \"website\", \"target\": \"https://mlivetickets.monash.edu\"},\n      {\"type\": \"website\", \"target\": \"https://partner.apps.monash.edu\"},\n      {\"type\": \"android\", \"target\": \"https://play.google.com/store/apps/details?id=com.scu.bsafe\"},\n      {\"type\": \"ios\", \"target\": \"https://apps.apple.com/au/app/monash-bsafe/id1462241951\"},\n      {\"type\": \"website\", \"target\": \"https://forms.apps.monash.edu/\"},\n      {\"type\": \"website\", \"target\": \"https://formative.eassessment.monash.edu/\"},\n      {\"type\": \"website\", \"target\": \"https://www.monashprofessional.edu.au/\"},\n      {\"type\": \"website\", \"target\": \"https://account-registration.monash.edu/\"},\n      {\"type\": \"website\", \"target\": \"http://pay.monashcollege.edu.au/\"},\n      {\"type\": \"website\", \"target\": \"https://evigilation.monash.edu\"},\n      {\"type\": \"website\", \"target\": \"https://student.monash\"},\n      {\"type\": \"website\", \"target\": \"https://mids.monash.edu/\"},\n      {\"type\": \"website\", \"target\": \"https://ims.monash.edu\"},\n      {\"type\": \"website\", \"target\": \"https://research.monash.edu/\"},\n      {\"type\": \"website\", \"target\": \"https://researchmgt.monash.edu/\"},\n      {\"type\": \"website\", \"target\": \"https://move.monash.edu/\"},\n      {\"type\": \"website\", \"target\": \"https://collections.monash.edu/\"},\n      {\"type\": \"api\", \"target\": \"mix-qat.monash.edu/*\"},\n      {\"type\": \"api\", \"target\": \"mix-dev.monash.edu/*\"}\n    ],\n    \"out_of_scope\": []\n  }\n}"
+}

@@ -1,0 +1,51 @@
+{
+  "slug": "indrive",
+  "asset": "indrive",
+  "bucket_name": "indrive",
+  "dns_name": "indrive.s3.amazonaws.com",
+  "asset_class": "aws_s3_bucket",
+  "fetched_at": "2026-05-16T03:07:13Z",
+  "verdict": "unknown",
+  "verdict_history": [],
+  "checks": {
+    "github_code": {
+      "status": "ambiguous",
+      "queries_run": [
+        {"q": "\"indrive.s3.amazonaws.com\"", "total_count": 0},
+        {"q": "\"s3://indrive\"", "total_count": 0},
+        {"q": "\"indrive\" org:inDriver", "total_count": 51, "top_hits": ["inDriver/handbook docs/company/about-indrive.md", "inDriver/UDF UDF/UDF.h", "inDriver/handbook README.md"]}
+      ],
+      "interpretation": "Zero bucket-specific exact-string matches (no s3.amazonaws.com URL form, no s3:// URI form). The 51 hits inside inDriver's own GitHub org are matches on the bare company name 'indrive' in documentation/README/header files — they do NOT reference the S3 bucket. Bare-brand-name strings carry no bucket-ownership signal because the company is named the same thing. This is structurally ambiguous: no positive signal for bucket attribution, but the absence of bucket-specific exact-string matches is itself only weakly negative because such strings are not the only way the bucket could be referenced."
+    },
+    "wayback": {
+      "status": "ambiguous",
+      "hit_count": 10627,
+      "urls_scanned": 15426,
+      "domains_queried": ["indrive.com", "indriverapp.com", "indriver.com"],
+      "match_mode": "word_boundary",
+      "interpretation": "10,627 word-boundary matches for 'indrive' in URLs archived from indrive.com / indriverapp.com / indriver.com — but virtually all of these are matches on the company name appearing in their own URL paths, not references to an S3 bucket named 'indrive'. Same bare-brand-name problem as Check A. Cannot distinguish bucket-reference from self-reference."
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname_resolution": "indrive.s3.amazonaws.com → s3-1-w.amazonaws.com → s3-w.us-east-1.amazonaws.com (generic AWS S3 endpoints)",
+      "subdomains_checked_for_cname_to_bucket": {
+        "assets.indrive.com": "no CNAME",
+        "cdn.indrive.com": "no CNAME",
+        "static.indrive.com": "no CNAME",
+        "files.indrive.com": "no CNAME",
+        "media.indrive.com": "frontify.com (third-party CDN, not S3)",
+        "s3.indrive.com": "no CNAME",
+        "assets.indriverapp.com": "no CNAME",
+        "cdn.indriverapp.com": "no CNAME",
+        "static.indriverapp.com": "cloudfront.net (CDN, not direct-S3)",
+        "files.indriverapp.com": "no CNAME"
+      },
+      "interpretation": "No in-scope subdomain CNAMEs point at this bucket's S3 endpoint. Bucket resolves via generic AWS infrastructure (every S3 bucket does this — provides no signal). inDrive's actual asset infrastructure appears to be Frontify (media) and CloudFront (static), not direct S3 hosting via a bucket called 'indrive'."
+    }
+  },
+  "rules_applied": [
+    "rule-ownership_verifier-wayback_match_mode-879f3 (word-boundary matching)",
+    "bare-brand-name override: A=ambiguous (not negative) prevents bucket_aggregation_override from firing → verdict locks at unknown"
+  ],
+  "notes": "Bare 7-character brand-name bucket — high squatter-collision risk and high noise floor on indirect signals. Both A and B return raw matches on the company name 'indrive', but neither produces a bucket-specific reference (no s3.amazonaws.com URL, no s3:// URI, no CNAME from an in-scope subdomain). inDrive's observed asset hosting uses Frontify (media.indrive.com) and CloudFront (static.indriverapp.com), not bare-name S3 buckets — which is mild evidence that this bucket may NOT be theirs, but does not rise to 'unowned'. Verdict: unknown. DO NOT draft a report. DO NOT touch the bucket. A human decision is required before any further action."
+}

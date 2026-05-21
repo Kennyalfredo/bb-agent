@@ -1,0 +1,507 @@
+{
+  "program": {
+    "slug": "dyson",
+    "platform": "hackerone",
+    "url": "https://hackerone.com/dyson",
+    "name": "Dyson",
+    "fetched_at": "2026-05-15"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "mobile_ios",
+        "asset": "993135524",
+        "severity_cap": "critical",
+        "notes": "Dyson Link App - https://itunes.apple.com/gb/app/dyson-link/id993135524"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.dyson.mobile.android",
+        "severity_cap": "critical",
+        "notes": "Dyson Link App - https://play.google.com/store/apps/details?id=com.dyson.mobile.android"
+      },
+      {
+        "type": "other",
+        "asset": "Dyson Connected Products (IoT Hardware)",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "other",
+        "asset": "Other Dyson Assets",
+        "severity_cap": "high",
+        "notes": "We welcome reports for all other assets that are owned or managed by Dyson. If you are unsure if something you have found is a Dyson asset, then please contact us first for clarification."
+      },
+      {
+        "type": "other",
+        "asset": "Github findings",
+        "severity_cap": "high",
+        "notes": "Any issues found on Github that could pose a risk for Dyson such as leaked credentials. These reports will be evaluated on a case-by-case basis"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.co.uk",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.com",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dysoncanada.ca",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.it",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.ie",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.ch",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.se",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.nl",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.at",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.be",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.pt",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.de",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.fr",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.no",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.dk",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.es",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.fi.dyson.com",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "api.dyson.se",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "api.dysoncanada.ca",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "api.dyson.dk",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "api.dyson.it",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "api.dyson.es",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "api.dyson.co.uk",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "api.dyson.at",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "api.dyson.nl",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "api.dyson.be",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "api.dyson.pt",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "api.dyson.no",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "api.dyson.de",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "api.dyson.ch",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "api.dyson.fr",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "api.dyson.ie",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "api.dyson.com",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "api.fi.dyson.com",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.pl",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.in",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.com.mx",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.com.sg",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.co.kr",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.co.nz",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.com.tr",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.ae",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.co.il",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.com.au",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.hk",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.co.th",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.my",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "shop.dyson.co.za",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.sa.dyson.com",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.cz",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.hu",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.co.jp",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.com.ro",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.vn",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.cp.dyson.com",
+        "severity_cap": "critical",
+        "notes": "This namespace is used to publish APIs relating to the registration and control of Dyson connected products."
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.cn",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.com.ua",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "shop.dyson.tw",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.tw",
+        "severity_cap": "critical"
+      }
+    ],
+    "out_of_scope": [
+      {
+        "type": "domain",
+        "asset": "comm.dyson*",
+        "reason": "Asset out of scope as it is pending internal review. This also includes: comms.*"
+      },
+      {
+        "type": "domain",
+        "asset": "bounce.dyson*",
+        "reason": "Asset out of scope as it is pending internal review."
+      },
+      {
+        "type": "domain",
+        "asset": "sakti3.com"
+      },
+      {
+        "type": "domain",
+        "asset": "on.dyson.co.uk"
+      },
+      {
+        "type": "domain",
+        "asset": "sm2.dyson.com"
+      },
+      {
+        "type": "domain",
+        "asset": "m.shop.dyson.cn"
+      },
+      {
+        "type": "domain",
+        "asset": "register-dyson.co.kr"
+      },
+      {
+        "type": "domain",
+        "asset": "jobs.dyson.com"
+      },
+      {
+        "type": "domain",
+        "asset": "reviews.dyson*"
+      },
+      {
+        "type": "domain",
+        "asset": "sm3.dyson.com"
+      },
+      {
+        "type": "domain",
+        "asset": "view.dyson.com"
+      },
+      {
+        "type": "domain",
+        "asset": "mail.register-dyson.co.kr"
+      },
+      {
+        "type": "domain",
+        "asset": "test.oepay.dyson.cn"
+      },
+      {
+        "type": "domain",
+        "asset": "shop.dyson.co.kr"
+      },
+      {
+        "type": "domain",
+        "asset": "*central.dyson.com"
+      },
+      {
+        "type": "domain",
+        "asset": "shop.dyson.ru"
+      },
+      {
+        "type": "domain",
+        "asset": "jamesdysonfoundation.*"
+      },
+      {
+        "type": "domain",
+        "asset": "aio.shop.china-dyson.com"
+      },
+      {
+        "type": "domain",
+        "asset": "q.dyson.cn"
+      },
+      {
+        "type": "domain",
+        "asset": "api.q.dyson.cn"
+      },
+      {
+        "type": "domain",
+        "asset": "fsc.dyson.com"
+      },
+      {
+        "type": "domain",
+        "asset": "auth.dysonrecall.com"
+      },
+      {
+        "type": "domain",
+        "asset": "centraltest.dyson.com"
+      },
+      {
+        "type": "domain",
+        "asset": "30secondbleeps.com"
+      },
+      {
+        "type": "domain",
+        "asset": "www.dyson.ovh"
+      },
+      {
+        "type": "domain",
+        "asset": "dysontherapie.fr"
+      },
+      {
+        "type": "domain",
+        "asset": "svn.dyson.com"
+      },
+      {
+        "type": "domain",
+        "asset": "central-test.dyson.com"
+      },
+      {
+        "type": "domain",
+        "asset": "community.dyson.com"
+      },
+      {
+        "type": "domain",
+        "asset": "careers.dyson.com"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*dyson-demo.com"
+      }
+    ]
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": false,
+    "cve_age_min_days": 30,
+    "requires_ownership_proof": true,
+    "safe_harbor": false,
+    "submission_form": "https://hackerone.com/dyson?type=team",
+    "notes": "automated_tools_allowed=false: Policy explicitly states 'Reports generated using automated scanning tools' are non-qualifying. | cve_age_min_days=30: Policy explicitly states 'Newly disclosed 0-day or zero-day vulnerabilities, publicised less than a month prior' are out of scope — 30 days used. | mass_scanning_allowed=false: Implied by automated scanning prohibition and 'do not intentionally harm the experience or usefulness of the service' rule; safe default applied. | bucket_listing_allowed=true: Policy explicitly acknowledges S3 software update repository (software.dyson.com) can be enumerated — listing is acknowledged but download of unencrypted binaries is desired finding, not prohibited. bucket_download_allowed=false: safe default; policy notes encrypted binaries in software.dyson.com bucket — downloading production data is not permitted. | requires_ownership_proof=true: Safe default applied; policy does say contact security.vulnerabilities@dyson.com if unsure whether domain belongs to Dyson. | safe_harbor=false: No explicit safe harbor clause found in policy text; safe default applied. | Additional rules: (1) All traffic must include custom HTTP header 'X-Hackerone: <Username>'. (2) Public disclosure is not permitted — 'At this time Dyson is not permitting public disclosure of submitted reports.' (3) Subdomain takeovers triaged as low severity; reward reduced 50% if actual takeover not demonstrated. (4) Open redirects are Informative and ineligible for bounty. (5) Promo/coupon/free-shipping vulns are N/A. (6) SPF issues known and ongoing — do not submit. (7) S3 bucket software.dyson.com enumeration is acknowledged as known; report only if binaries are unencrypted. (8) AI-generated reports without human analysis will be rejected."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      {
+        "severity": "critical",
+        "min": 0,
+        "max": 0,
+        "currency": "USD"
+      },
+      {
+        "severity": "high",
+        "min": 0,
+        "max": 0,
+        "currency": "USD"
+      },
+      {
+        "severity": "medium",
+        "min": 0,
+        "max": 0,
+        "currency": "USD"
+      },
+      {
+        "severity": "low",
+        "min": 0,
+        "max": 0,
+        "currency": "USD"
+      }
+    ]
+  },
+  "raw_policy_excerpt": "## Program Rules\n\nThe scope for Dyson's Bug Bounty program includes most of our assets and products. If it is not out of scope, and it is impactful to us or our customers, we want to hear about it.\n\nBy submitting a report or otherwise disclosing a vulnerability to us, you are indicating that you have read and agreed to follow the rules outlined in this policy.\n\n• Social engineering techniques (e.g. phishing, vishing, smishing) of Dyson employees or users are strictly prohibited.\n• Make a good faith effort to avoid privacy violations, destruction of data, and interruption or degradation of our service.\n• Do not intentionally harm the experience or usefulness of the service to others, including degradation of services and denial of service attacks.\n• Performing tests against accounts belonging to Dyson employees or customers is prohibited. Only interact with accounts you have created or with explicit permission of the account holder.\n• Include a custom HTTP header in all your traffic of the format X-Hackerone: <Username>\n\n## Non-Qualifying Vulnerabilities\n\n* Reports generated using automated scanning tools\n* Newly disclosed \"0-day\" or \"zero-day\" vulnerabilities, publicised less than a month prior\n* Issues without clearly identified security impact, such as clickjacking on a static website, missing security headers, or descriptive error messages\n* Any activity that could lead to the disruption of our service (DoS). All reports related to \"Lack of rate-limiting\" or \"Rate Limiting\" related vulnerabilities will be considered as Out Of Scope.\n* We are aware the S3 software update repository (software.dyson.com) can be enumerated, but the binary images within should be encrypted. We would love to hear if they aren't, or they can be unencrypted!\n* We know of the SPF issues; there is an ongoing project to rectify this, so do not submit email spoofing reports.\n* Credentials submitted from the sources of Dark Web.\n* Rate Limiting Bugs on Password Reset Endpoints.\n\n## Report & Bounty Eligibility\n\n• Be the first reporter of the vulnerability.\n• Submit a vulnerability within our Scope.\n• Demonstrate a security impact to an asset or application in scope.\n• Follow Hacker One's disclosure guidelines.\n• Have a working POC outlining the security implications for your report.\n• Not have publicly disclosed the vulnerability without our consent.\n• Subdomain takeover vulnerabilities will be triaged as low severity across all asset categories.\n• Open redirects will be considered as Informative across all asset categories.\n\nAt this time Dyson is not permitting public disclosure of submitted reports."
+}

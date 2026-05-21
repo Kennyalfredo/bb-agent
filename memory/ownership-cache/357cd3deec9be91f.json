@@ -1,0 +1,38 @@
+{
+  "slug": "indrive",
+  "asset": "indrive-files",
+  "bucket_name": "indrive-files",
+  "dns_name": "indrive-files.s3.amazonaws.com",
+  "fetched_at": "2026-05-15T00:00:00Z",
+  "verdict": "unowned",
+  "checks": {
+    "github_code": {
+      "status": "negative",
+      "total_count": 0,
+      "top_hits": [],
+      "evidence_path": "/tmp/ownership-357cd3deec9be91f-gh.json"
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "total_urls_scanned": 15426,
+      "evidence_path": "/tmp/ownership-357cd3deec9be91f-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-us-west-2-w.amazonaws.com",
+      "resolved_ips": [
+        "52.92.233.177",
+        "52.92.232.1",
+        "3.5.81.18",
+        "3.5.87.113",
+        "52.92.200.113",
+        "52.92.248.81",
+        "52.92.236.41",
+        "52.92.236.33"
+      ],
+      "evidence_path": "/tmp/ownership-357cd3deec9be91f-dns.txt"
+    }
+  },
+  "notes": "applied rule rule-ownership_verifier-wayback_match_mode-879f3: word_boundary grep used for wayback grep (\\ bindrive-files\\b) to avoid brand-stem degenerate matches. applied rule rule-ownership_verifier-bucket_aggregation_override-1c25c: A=negative, B=negative, C=inconclusive on a bucket asset class promotes verdict from 'unknown' to 'unowned' — the only inconclusive signal (C) is structural (generic AWS CNAME), not informational. Gau fetched 15,426 URLs across indriverapp.com, indrive.com, indriver.com with zero hits. GitHub returned 0 total_count for 'indrive-files'. No CNAME from any program-owned domain to the bucket was found."
+}

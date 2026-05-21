@@ -1,0 +1,145 @@
+{
+  "program": {
+    "slug": "bc-canva",
+    "platform": "bugcrowd",
+    "url": "https://bugcrowd.com/engagements/canva",
+    "name": "Canva",
+    "fetched_at": "2026-05-19"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "domain",
+        "asset": "www.canva.com",
+        "severity_cap": "unknown",
+        "notes": "canonical main site; original target: https://www.canva.com"
+      },
+      {
+        "type": "domain",
+        "asset": "www.canva.com/developers/",
+        "severity_cap": "unknown",
+        "notes": "Canva Developer Portal; original target: https://www.canva.com/developers/"
+      },
+      {
+        "type": "other",
+        "asset": "Apps SDK Sandboxing",
+        "severity_cap": "unknown",
+        "notes": "sandbox escape / containment testing for Canva Apps SDK"
+      },
+      {
+        "type": "domain",
+        "asset": "api.canva.com",
+        "severity_cap": "unknown",
+        "notes": "public API endpoint; original target: https://api.canva.com"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.canva.com",
+        "severity_cap": "unknown",
+        "notes": "all canva.com subdomains"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.canva-apps.com",
+        "severity_cap": "unknown",
+        "notes": "all canva-apps.com subdomains"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.canva.tech",
+        "severity_cap": "unknown",
+        "notes": "all canva.tech subdomains; original target: https://*.canva.tech"
+      },
+      {
+        "type": "domain",
+        "asset": "www.canva.com/en_au/help/chatgpt-templates/",
+        "severity_cap": "unknown",
+        "notes": "Canva for ChatGPT integration; original target: https://www.canva.com/en_au/help/chatgpt-templates/"
+      },
+      {
+        "type": "domain",
+        "asset": "www.canva.com/integrations/slack/",
+        "severity_cap": "unknown",
+        "notes": "Canva for Slack integration; original target: https://www.canva.com/integrations/slack/"
+      },
+      {
+        "type": "other",
+        "asset": "Canva Desktop (macOS / Windows)",
+        "severity_cap": "unknown",
+        "notes": "Canva native desktop application for macOS and Windows"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "Canva (iOS)",
+        "severity_cap": "unknown",
+        "notes": "iOS mobile app"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "Canva (Android)",
+        "severity_cap": "unknown",
+        "notes": "Android mobile app"
+      },
+      {
+        "type": "other",
+        "asset": "Canva (Chrome Extension)",
+        "severity_cap": "unknown",
+        "notes": "Chrome browser extension"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.canva.cn",
+        "severity_cap": "unknown",
+        "notes": "China-region canva.cn subdomains"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.canva-apps.cn",
+        "severity_cap": "unknown",
+        "notes": "China-region canva-apps.cn subdomains"
+      },
+      {
+        "type": "other",
+        "asset": "Leaked Credentials and Secrets (Canva Employee/Contractor)",
+        "severity_cap": "unknown",
+        "notes": "exposed credentials/secrets belonging to Canva employees or contractors"
+      },
+      {
+        "type": "other",
+        "asset": "Leaked Credentials and Secrets (Canva User)",
+        "severity_cap": "unknown",
+        "notes": "exposed credentials/secrets belonging to Canva end-users"
+      },
+      {
+        "type": "other",
+        "asset": "3rd-Party Provider Vulnerability",
+        "severity_cap": "unknown",
+        "notes": "vulnerabilities in third-party providers used by Canva that directly impact Canva"
+      }
+    ],
+    "out_of_scope": []
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": false,
+    "cve_age_min_days": 30,
+    "requires_ownership_proof": true,
+    "safe_harbor": true,
+    "submission_form": "https://bugcrowd.com/engagements/canva/submissions/new",
+    "notes": "SAFE HARBOR IS PARTIAL — dump value is 'partial', not 'full'. Treat as conditional protection; read the engagement policy carefully before submitting. Safe harbor defaulted to true per partial>=true convention, but annotated as partial here.\n\nManaged by Bugcrowd staff (managed_by_bugcrowd: true).\n\nAllows disclosure: false.\n\nPer-asset severity_cap not in Bugcrowd dump; defaulted to unknown for all entries — read the engagement's Rewards tab before drafting medium/low severity reports.\n\nBounty table coarse-grained — only max_payout known from dump ($15,000 USD); manually refine from engagement page if drafting against medium/low severity.\n\nmass_scanning_allowed: safe-defaulted to false (not stated in dump; policy text not captured).\nautomated_tools_allowed: safe-defaulted to false (not stated in dump; policy text not captured).\nbucket_download_allowed: safe-defaulted to false (not stated in dump; policy text not captured).\ncve_age_min_days: safe-defaulted to 30 (not stated in dump; policy text not captured).\nrequires_ownership_proof: safe-defaulted to true (not stated in dump; policy text not captured).\n\nsubmission_form URL is best-guess from engagement slug pattern — confirm on bugcrowd.com before pasting.\n\nScope ingested from arkadiyt/bounty-targets-data dump (bugcrowd_data.json fetched 2026-05-19). No out-of-scope entries present in dump."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      {
+        "severity": "critical",
+        "min": 0,
+        "max": 15000,
+        "currency": "USD"
+      }
+    ]
+  },
+  "raw_policy_excerpt": "Scope ingested from arkadiyt/bounty-targets-data dump (bugcrowd_data.json fetched 2026-05-19). Full policy text not captured — read https://bugcrowd.com/engagements/canva before drafting. Key dump fields: safe_harbor='partial', managed_by_bugcrowd=true, allows_disclosure=false, max_payout=15000 USD. In-scope targets include *.canva.com, *.canva-apps.com, *.canva.tech, *.canva.cn, *.canva-apps.cn wildcards, api.canva.com, Canva Desktop, iOS/Android apps, Chrome Extension, Apps SDK Sandboxing, leaked credentials (employee/contractor and user), and 3rd-party provider vulnerabilities. Out-of-scope list is empty in the dump."
+}

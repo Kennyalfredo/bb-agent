@@ -1,0 +1,80 @@
+{
+  "proposal_id": "20260516-042355-elastic",
+  "slug": "elastic",
+  "generated_at": "2026-05-16T04:23:55Z",
+  "evidence_inputs": [
+    "/home/kenny/bb-agent/memory/programs/elastic.json",
+    "/home/kenny/bb-agent/out/elastic/secrets/20260516T032024Z.json",
+    "/home/kenny/bb-agent/out/elastic/reports/elastic-saucelabs-elasticsearch-js-20260516-033200.md",
+    "/home/kenny/bb-agent/memory/ownership-cache/37ac20695cc6b546.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/48286b9ee4779ae3.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/8c0209154d4169c9.json",
+    "/home/kenny/bb-agent/memory/submissions/elastic.json"
+  ],
+  "metrics": {
+    "buckets_scanned": 200,
+    "secrets_scanned": 1,
+    "ownership_checks": 3,
+    "owned": 1,
+    "unowned": 1,
+    "unknown": 1,
+    "reports_drafted": 1,
+    "reports_submitted": 1
+  },
+  "narrative": "Elastic (HackerOne bug_bounty, $50–$15k, 57 in-scope assets). Ran secret-hunter trufflehog Pass A against the elastic GitHub org (~600 public repos), gh code search Pass B across four high-value token patterns, and bucket-hunter against 200 candidates across 8 brand stems. Pass A covered 250 of ~600 repos before the 10-minute timeout; that partial scan produced 1 verified-live SauceLabs credential in elastic/elasticsearch-js at commit bacd515545, file test/utils/keys.js, committed 2014-01-17 (~12-year exposure). The credential was confirmed valid at scan time by trufflehog's issuer-side check (Verified=true, VerificationFromCache=false). Report drafted and submitted to H1 as report #3739639, severity Low (capped by the 'elastic.co credentials' in-scope asset). Bucket-hunter found 64 existing buckets out of 200 candidates; ownership-verifier ran on 3 representative cases (elastic-github-org → owned, elastic-static → unowned, found → unknown).\n\nPass A on the elastic org is the engagement's strongest lesson. The mercadolibre and 8x8-bounty retros noted that mature orgs with >50 repos and good CI/CD hygiene tend toward low Pass-A yield. The elastic engagement is a direct counterexample: Elastic has ~600 repos, modern push-protection-style hygiene (Pass B showed all CI token references are env-var placeholders, not inline values), and yet a 12-year-old deleted test fixture slipped through. The age distribution matters: a credential committed in 2014 predates GitHub secret scanning, trufflehog push-protection, and most modern hygiene tooling. Older orgs with long git histories are a productive surface for Pass A precisely because the historical tail is long. For future engagements, the H3 narrative note should be read as 'mature-org hygiene applies to recent commits; the historical tail remains a viable surface.'\n\nThe 10-minute trufflehog timeout was the binding constraint. Pass A covered ~250/600 repos (~42% coverage) before timing out. At ~24 seconds per repo (observed rate from the engagement), full-org coverage requires ~4 hours. The second-pass background run (45-min cap) was cancelled by the user while still in the git-clone phase for elasticsearch and kibana — the two heaviest repos in the org. If those repos contain additional historical credentials, they remain unscanned. For future runs against large orgs (>200 enumerated repos), a minimum timeout floor should be enforced rather than relying on the agent's default cap.\n\nThe bucket-hunter produced two ownership outcomes worth noting. The 'elastic-static' bucket (687 objects, 4MB, FCKeditor content pre-2010) got a clean A=negative + B=negative + C=inconclusive verdict → unowned via the existing aggregation-override rule (rule-ownership_verifier-bucket_aggregation_override-1c25c from 8x8-bounty). The rule fired exactly as intended — no manual triage needed. The 'found' bucket produced the now-familiar common-word ambiguity: 'found' generates 10,832 prose hits inside org:elastic (it is one of the most common English words), wayback returned 34 phrase-collision hits ('not found', 'results found'), and found.elastic.co exists but CNAMEs to Fastly, not to this S3 bucket. The bucket was empty (0 objects), so even a hypothetical 'owned' verdict would yield nothing. This is the third engagement (after mercadolibre brand-stem and indrive bare-brand) where a structurally unresolvable asset name produces an unknown verdict — the pattern across engagements is consistent enough to justify a basename_skip entry for 'found'.\n\nFor the next visit to this slug: Pass A is still worth running, but requires a substantially larger timeout budget. The 250 repos scanned in pass 1 include many of the lighter client libraries and beats agents; the remaining ~350 include elasticsearch, kibana, logstash, and cloud services — the heaviest and most historically interesting repos. Recommend launching Pass A with a 3–4 hour cap and allowing it to run overnight. Pass B (gh code search) did not surface any actionable inline credentials and is consistent with the org's hygiene posture; it can be run first as a quick triage gate but should not substitute for Pass A. Bucket work is likely low-ROI on future elastic runs: the brand has a large third-party squatter footprint across all stems, and the aggregation-override rule will correctly suppress most 'found' and 'elastic-static' style false-positives.",
+  "proposed_rules": [
+    {
+      "rule_id": "rule-bucket_hunter-basename_skip-ab4c5",
+      "agent": "bucket_hunter",
+      "path": "basename_skip",
+      "action": "append",
+      "value": {
+        "pattern": "found",
+        "reason": "bare-common-word bucket name is structurally unresolvable; all three ownership checks returned ambiguous/inconclusive in elastic engagement; confirmed same pattern as indrive bare-brand problem across 2 engagements"
+      },
+      "rationale": "Bucket 'found' returned all checks ambiguous/inconclusive in elastic engagement (A=ambiguous — 10,832 org:elastic prose hits, 0 bucket-specific; B=ambiguous — 34 phrase-collision hits from 'not found'/'results found'; C=inconclusive — found.elastic.co exists but CNAMEs to Fastly, not to this bucket). Bucket is empty (0 objects). Cross-engagement corroboration with indrive 'indrive' bare-brand unknown verdict — pattern observed in 2 distinct engagements.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/memory/ownership-cache/37ac20695cc6b546.json",
+        "/home/kenny/bb-agent/memory/ownership-cache/021ff8d6dd6b25ab.json"
+      ]
+    },
+    {
+      "rule_id": "rule-secret_hunter-passA_timeout_floor_secs-d3ea2",
+      "agent": "secret_hunter",
+      "path": "passA_timeout_floor_secs",
+      "action": "set",
+      "value": {
+        "floor_secs": 2700,
+        "rationale": "elastic org has ~600 repos at ~24s/repo; 10-min (600s) cap covers only ~25 repos; floor at 2700s (45 min) for orgs with >200 enumerated repos"
+      },
+      "rationale": "Elastic org scan timed out at 10 min covering only 250/600 repos (~42%). At ~24s/repo the full org requires ~4h. The verified find (SauceLabs credential, 12-year exposure) was in the first 250 repos; the remaining ~350 repos (elasticsearch, kibana, logstash, cloud services) were never scanned. A floor of 2700s (45 min) for large orgs prevents truncated scans on future runs.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/elastic/secrets/20260516T032024Z.json"
+      ]
+    }
+  ],
+  "discarded_heuristics": [
+    {
+      "heuristic": "H1",
+      "reason": "Noseyparker was not run on the elastic engagement (org too large to clone exhaustively in available budget); no noseyparker candidates exist to evaluate for false-positive patterns."
+    },
+    {
+      "heuristic": "H2",
+      "reason": "wayback_match_mode is already set to 'word_boundary' (non-default scalar, live rule from mercadolibre). The ownership-cache for 'found' shows match_mode=word_boundary was applied and still produced 34 phrase-collision hits — this confirms the existing rule is working as intended. The residual ambiguity is not a match-mode problem but a common-word structural problem, addressed by H4 basename_skip instead."
+    },
+    {
+      "heuristic": "H3",
+      "reason": "H3 fires as narrative-only (no rule entry per spec). Narrative is included in the 'narrative' field above: the elastic engagement is a counterexample to the mercadolibre mature-org H3 premise — a 12-year-old credential in git history is still live on a mature org. Observation recorded in narrative; no rule entry warranted."
+    },
+    {
+      "heuristic": "H4",
+      "reason": "H4 fired for 'found' and is encoded as rule-bucket_hunter-basename_skip-ab4c5 above. 'elastic-static' did NOT trigger H4 because it received a clean 'unowned' verdict (not 'unknown') via the aggregation-override rule — the existing rule handled it correctly, no additional rule needed."
+    },
+    {
+      "heuristic": "H5",
+      "reason": "Report #3739639 is submitted (submitted=true, platform_report_id=3739639) but no platform triage outcome has been recorded yet (no closed_as field in submissions/elastic.json). H5 requires a platform-recorded outcome (informative/not-applicable) to fire; too early to evaluate."
+    }
+  ]
+}

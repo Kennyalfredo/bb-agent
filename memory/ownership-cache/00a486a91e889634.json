@@ -1,0 +1,41 @@
+{
+  "slug": "automattic",
+  "asset": "wpvip",
+  "bucket_name": "wpvip",
+  "dns_name": "wpvip.s3.amazonaws.com",
+  "fetched_at": "2026-05-16T19:25:00Z",
+  "verdict": "owned",
+  "checks": {
+    "github_code": {
+      "status": "positive",
+      "total_count": 612,
+      "top_hits": [
+        {"repo": "Automattic/wpvip-base", "path": "src/WPVIP.php", "html_url": "https://github.com/Automattic/wpvip-base/blob/12afd5b78984f48f97791e821a749e075fa92186/src/WPVIP.php"},
+        {"repo": "Automattic/wp-calypso", "path": "client/site-profiler/utils/get-domain-category.ts", "html_url": "https://github.com/Automattic/wp-calypso/blob/602e4f7a6fe6225d55f4202fddb6665a9730d848/client/site-profiler/utils/get-domain-category.ts"},
+        {"repo": "Automattic/vip-go-mu-plugins", "path": "docs/setup.md", "html_url": "https://github.com/Automattic/vip-go-mu-plugins/blob/65ecc1c9d7dce5a69d3c3fed569f2e7dbee680e3/docs/setup.md"},
+        {"repo": "Automattic/edit-flow", "path": "eslint.config.js", "html_url": "https://github.com/Automattic/edit-flow/blob/8eabe4e137655d5138d8f550107a6f292f44b202/eslint.config.js"},
+        {"repo": "Automattic/vip-go-skeleton", "path": "README.md", "html_url": "https://github.com/Automattic/vip-go-skeleton/blob/25d4e7c0edf2aef16369454bfc89bfb75e240b75/README.md"},
+        {"repo": "Automattic/liveblog", "path": "vipgo-helper.php", "html_url": "https://github.com/Automattic/liveblog/blob/40db11c1900a51d67b13e6e45d2c06b2ad9c1070/vipgo-helper.php"},
+        {"repo": "Automattic/jetpack", "path": "docs/coding-guidelines.md", "html_url": "https://github.com/Automattic/jetpack/blob/7f2679ddd52ee9c24bc7131444b1f2d2423b35d3/docs/coding-guidelines.md"},
+        {"repo": "Automattic/zoninator", "path": "zoninator.php", "html_url": "https://github.com/Automattic/zoninator/blob/183f3891bec5d1498a7f6078ea137684fbb3165b/zoninator.php"},
+        {"repo": "Automattic/co-authors-plus", "path": "CHANGELOG.md", "html_url": "https://github.com/Automattic/co-authors-plus/blob/cc6f7ffb02a04e6566eec25a216c8167d9e6675f/CHANGELOG.md"},
+        {"repo": "Automattic/remote-data-blocks", "path": ".prettierrc", "html_url": "https://github.com/Automattic/remote-data-blocks/blob/9952a7a54bce11567de682c25168579dcd82cbee/.prettierrc"}
+      ],
+      "evidence_path": "/tmp/ownership-00a486a91e889634-gh.json"
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "total_urls_scanned": 500,
+      "match_mode": "word_boundary",
+      "evidence_path": "/tmp/ownership-00a486a91e889634-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-1-w.amazonaws.com.",
+      "note": "Generic AWS S3 CNAME — bucket DNS does not prove ownership; no CNAME from a program-owned domain to this bucket detected",
+      "evidence_path": "/tmp/ownership-00a486a91e889634-dns.txt"
+    }
+  },
+  "notes": "applied rule rule-ownership_verifier-wayback_match_mode-879f3: word_boundary grep used instead of substring to avoid degenerate brand-stem matches. applied rule rule-ownership_verifier-internal_infra_override-74f17: A=positive with exact-literal bucket-name match in program-org repo (Automattic/wpvip-base — repo is named after the bucket; 612/612 visible GH hits are within Automattic/* org), B=negative (structural impossibility for internal-infra bucket not referenced in public web crawl), C=inconclusive (generic AWS CNAME — structural for all S3 buckets). internal_infra_override a_gate satisfied: match_type=exact_literal (not a brand-stem substring), match_scope=program_org repos confirmed. B and C structural non-positives do not constitute counter-evidence for internal infrastructure assets. Prior verdict 'unknown' (fetched_at 2026-05-16T19:00:45Z) is superseded; new verdict 'owned' issued at 2026-05-16T19:25:00Z per rule-ownership_verifier-internal_infra_override-74f17."
+}

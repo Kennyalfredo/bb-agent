@@ -1,0 +1,51 @@
+{
+  "slug": "elastic",
+  "asset": "found",
+  "bucket_name": "found",
+  "dns_name": "found.s3.amazonaws.com",
+  "asset_class": "aws_s3_bucket",
+  "fetched_at": "2026-05-16T03:31:03Z",
+  "verdict": "unknown",
+  "verdict_history": [],
+  "checks": {
+    "github_code": {
+      "status": "ambiguous",
+      "queries_run": [
+        {"q": "\"found.s3.amazonaws.com\"", "total_count": 5, "top_repos": ["louuuuuu/Hackopedia", "Harry9021/LF-project"], "note": "All 5 hits are third-party (pentest wordlists + unrelated student projects), no Elastic-controlled repo"},
+        {"q": "\"s3://found\"", "total_count": 38, "top_repos": ["dendronhq/dendron", "quiltdata/quilt-rs", "alfajango/foundation-mobile"], "note": "All third-party; common English word collision"},
+        {"q": "\"found\" org:elastic", "total_count": 10832, "note": "Massive hit count is meaningless — 'found' is one of the most common English words. Top hits are documentation prose ('the variable was found', 'not found', etc.). Cannot disambiguate from random English usage."}
+      ],
+      "interpretation": "Bucket name 'found' is a generic English word, structurally unusable as an ownership signal. Zero bucket-specific exact-string matches that map to Elastic-controlled repos. 10,832 word-as-prose matches inside org:elastic do not signal bucket ownership."
+    },
+    "wayback": {
+      "status": "ambiguous",
+      "hit_count": 34,
+      "urls_scanned": 13175,
+      "domains_queried": ["elastic.co", "found.io", "swiftype.com", "elstc.co", "elasticsearch.com"],
+      "match_mode": "word_boundary",
+      "interpretation": "34 hits for 'found' on elastic-controlled archive pages — almost certainly noise from natural English phrases ('not found', 'results found', etc.) appearing in archived page paths. Cannot disambiguate from bucket reference. Same bare-common-word problem as the indrive bucket from prior engagement."
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname_resolution": "found.s3.amazonaws.com → s3-us-west-2-w.amazonaws.com (generic AWS)",
+      "subdomains_checked": {
+        "assets.found.io": "no CNAME",
+        "cdn.found.io": "no CNAME",
+        "static.found.io": "no CNAME",
+        "found.elastic.co": "s.ssl.global.fastly.net (Fastly CDN, not direct-S3)",
+        "content.elastic.co": "Fastly (not S3)"
+      },
+      "interpretation": "found.elastic.co exists and CNAMEs to Fastly — confirms 'found' is a meaningful subdomain in Elastic's infrastructure (legacy from Found.io acquisition). But the Fastly CNAME does NOT terminate at this S3 bucket; it goes to Fastly's CDN edge, which could be backed by any origin. No structural DNS link from in-scope domains to this specific bucket."
+    },
+    "content_evidence": {
+      "status": "ambiguous",
+      "object_count": 0,
+      "interpretation": "Bucket exists with objects_enumerated=true but num_objects=0. Empty bucket → zero content signal. Could be an abandoned/never-populated bucket, or a placeholder, or a third-party squatter."
+    }
+  },
+  "rules_applied": [
+    "rule-ownership_verifier-wayback_match_mode-879f3 (word-boundary matching)",
+    "Common-word/bare-brand-name problem prevents A and B from producing clean signals — verdict locks at unknown"
+  ],
+  "notes": "Bucket 'found' is empty (0 objects), so even if ownership were confirmed, there is no exfiltratable content. Combined with the common-word ambiguity, this is a no-yield candidate. found.elastic.co's Fastly routing is consistent with the acquired Found.io infrastructure being merged into Elastic Cloud / Fastly edge — but the S3 bucket itself shows no direct linkage. Verdict: unknown. DO NOT DRAFT A REPORT."
+}

@@ -1,0 +1,408 @@
+{
+  "program": {
+    "slug": "cloudflare",
+    "platform": "hackerone",
+    "url": "https://hackerone.com/cloudflare",
+    "name": "Cloudflare Public Bug Bounty",
+    "fetched_at": "2026-05-15"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "domain",
+        "asset": "dash.cloudflare.com",
+        "severity_cap": "critical",
+        "notes": "Cloudflare dashboard and any direct calls from it to other Cloudflare owned resources. eligible_for_bounty=true"
+      },
+      {
+        "type": "domain",
+        "asset": "cloudflareworkers.com",
+        "severity_cap": "critical",
+        "notes": "Cloudflare Workers test site. eligible_for_bounty=true"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.teams.cloudflare.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Cloudflare Pages",
+        "severity_cap": "critical",
+        "notes": "https://developers.cloudflare.com/pages. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "CDNJS",
+        "severity_cap": "critical",
+        "notes": "https://github.com/cdnjs/cdnjs. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "WARP Mobile Apps",
+        "severity_cap": "critical",
+        "notes": "Android and iOS WARP/1.1.1.1 apps. Out of scope within: using WARP+ features without paying. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Cloudflare Access",
+        "severity_cap": "critical",
+        "notes": "Application controlling access to sites with IdP integration. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Stream",
+        "severity_cap": "critical",
+        "notes": "Cloudflare Stream video streaming platform. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "1.1.1.1 Resolver",
+        "severity_cap": "critical",
+        "notes": "https://1.1.1.1 DNS resolver. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Magic Transit",
+        "severity_cap": "critical",
+        "notes": "https://www.cloudflare.com/magic-transit/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Spectrum",
+        "severity_cap": "critical",
+        "notes": "DDoS, TLS, IP Firewall for TCP/UDP services. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Load Balancing",
+        "severity_cap": "critical",
+        "notes": "https://www.cloudflare.com/load-balancing/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Bot Management",
+        "severity_cap": "critical",
+        "notes": "https://www.cloudflare.com/products/bot-management/. eligible_for_bounty=true"
+      },
+      {
+        "type": "domain",
+        "asset": "api.cloudflare.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Cloudflare Zero Trust/Cloudflare One",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.cloudflare.com",
+        "severity_cap": "critical",
+        "notes": "Excluding support.cloudflare.com, community.cloudflare.com and other SaaS applications. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Open source tools from Cloudflare",
+        "severity_cap": "critical",
+        "notes": "https://github.com/cloudflare. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Area 1",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Cloudflare D1",
+        "severity_cap": "critical",
+        "notes": "https://blog.cloudflare.com/introducing-d1/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Cloudflare R2",
+        "severity_cap": "critical",
+        "notes": "https://blog.cloudflare.com/r2-open-beta/. eligible_for_bounty=true"
+      },
+      {
+        "type": "domain",
+        "asset": "http://github.com/cloudflare",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "source_code",
+        "asset": "https://github.com/cloudflare/workerd",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "WARP desktop client",
+        "severity_cap": "critical",
+        "notes": "Zero Trust client for Windows, Linux, macOS. eligible_for_bounty=true"
+      },
+      {
+        "type": "domain",
+        "asset": "one.dash.cloudflare.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.cloudflarepartners.com",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Cloudflare DNS",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "domain",
+        "asset": "waf.cumulusfire.net",
+        "severity_cap": "medium",
+        "notes": "Must be used for testing WAF bypasses only. max_severity=medium. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Cloudflare CASB",
+        "severity_cap": "critical",
+        "notes": "https://www.cloudflare.com/products/zero-trust/casb/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Workers",
+        "severity_cap": "critical",
+        "notes": "https://developers.cloudflare.com/workers/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Cloudflare Tunnel",
+        "severity_cap": "critical",
+        "notes": "https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "AMP Real URL",
+        "severity_cap": "critical",
+        "notes": "https://developers.cloudflare.com/speed/optimization/other/amp-real-url/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Cloudflare Cache",
+        "severity_cap": "critical",
+        "notes": "https://developers.cloudflare.com/cache/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Magic Firewall",
+        "severity_cap": "critical",
+        "notes": "https://developers.cloudflare.com/magic-firewall/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Cloudflare Zaraz",
+        "severity_cap": "critical",
+        "notes": "https://developers.cloudflare.com/zaraz/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "China Network",
+        "severity_cap": "critical",
+        "notes": "https://developers.cloudflare.com/china-network/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "API Shield",
+        "severity_cap": "critical",
+        "notes": "https://developers.cloudflare.com/api-shield/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Gateway",
+        "severity_cap": "critical",
+        "notes": "https://developers.cloudflare.com/cloudflare-one/policies/gateway/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Browser Isolation",
+        "severity_cap": "critical",
+        "notes": "https://developers.cloudflare.com/cloudflare-one/policies/browser-isolation/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Images",
+        "severity_cap": "info",
+        "notes": "https://developers.cloudflare.com/speed/optimization/images/. max_severity=none in CSV. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Workers AI",
+        "severity_cap": "critical",
+        "notes": "AI_MODEL type. Prompt injection reports without Cloudflare impact not accepted. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "AI Gateway",
+        "severity_cap": "critical",
+        "notes": "https://developers.cloudflare.com/ai-gateway/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Vectorize",
+        "severity_cap": "critical",
+        "notes": "https://developers.cloudflare.com/vectorize/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Hyperdrive",
+        "severity_cap": "critical",
+        "notes": "https://developers.cloudflare.com/hyperdrive/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Workers KV",
+        "severity_cap": "critical",
+        "notes": "https://developers.cloudflare.com/kv/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Cloudflare Analytics",
+        "severity_cap": "critical",
+        "notes": "https://developers.cloudflare.com/analytics/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Cloudflare Durable Objects",
+        "severity_cap": "critical",
+        "notes": "https://developers.cloudflare.com/durable-objects/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Turnstile",
+        "severity_cap": "critical",
+        "notes": "https://developers.cloudflare.com/turnstile/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Waiting Room",
+        "severity_cap": "critical",
+        "notes": "https://developers.cloudflare.com/waiting-room/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Magic WAN",
+        "severity_cap": "critical",
+        "notes": "https://developers.cloudflare.com/magic-wan/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Data Loss Prevention (DLP)",
+        "severity_cap": "critical",
+        "notes": "https://developers.cloudflare.com/cloudflare-one/policies/data-loss-prevention/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "SSL/TLS",
+        "severity_cap": "critical",
+        "notes": "https://developers.cloudflare.com/ssl/. eligible_for_bounty=true"
+      },
+      {
+        "type": "other",
+        "asset": "Cloudflare Workers CI",
+        "severity_cap": "critical",
+        "notes": "eligible_for_bounty=true"
+      },
+      {
+        "type": "source_code",
+        "asset": "https://github.com/cloudflare/vinext",
+        "severity_cap": "critical",
+        "notes": "Next.js API surface on Vite — experimental. Triage may be delayed for duplicates. eligible_for_bounty=true"
+      }
+    ],
+    "out_of_scope": [
+      {
+        "type": "domain",
+        "asset": "support.cloudflare.com",
+        "reason": "Hosted by Zendesk; submit to @Zendesk program instead. eligible_for_submission=false"
+      },
+      {
+        "type": "domain",
+        "asset": "community.cloudflare.com",
+        "reason": "eligible_for_submission=false"
+      },
+      {
+        "type": "domain",
+        "asset": "support.cloudflarewarp.com",
+        "reason": "Hosted by Zendesk; submit to @zendesk program instead. eligible_for_submission=false"
+      },
+      {
+        "type": "domain",
+        "asset": "events.www.cloudflare.com",
+        "reason": "eligible_for_submission=false, max_severity=none"
+      },
+      {
+        "type": "ip",
+        "asset": "172.65.0.0/16",
+        "reason": "Customer applications protected by Cloudflare Spectrum — out of scope. eligible_for_submission=false"
+      },
+      {
+        "type": "source_code",
+        "asset": "https://github.com/cloudflare/vinext-private",
+        "reason": "Private repository. eligible_for_submission=false"
+      }
+    ]
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": false,
+    "cve_age_min_days": 30,
+    "requires_ownership_proof": true,
+    "safe_harbor": false,
+    "submission_form": "https://hackerone.com/cloudflare",
+    "notes": "SCANNING: Policy states 'Make sure that scanners have a narrow scope set that is limited to authorized Cloudflare IPs only.' Aggressive or overly broad scans are explicitly prohibited — automated_tools_allowed set to false (policy allows narrow-scope scanners against your own account's IPs only; any automation must be tightly constrained). MASS SCANNING: Explicitly prohibited ('Aggressive, overly broad scans' = disqualification). TESTING SCOPE: All attacks must be executed against your own Cloudflare account (free account sufficient; use @wearehackerone.com email). Do not test against Cloudflare customers. CUSTOMER SCOPE: Testing against Cloudflare customers is a permanent disqualification offense. LEAKED CREDS: Report immediately; do NOT attempt to verify by authenticating with the credentials. SAFE HARBOR: No explicit safe harbor language found in policy text — defaulted to false (safer). BUCKET LISTING (bucket_listing_allowed=true): No R2/bucket-specific restrictions found beyond general rules; defaulted to true per agent safe-default rules, but note that R2 is an in-scope product so bucket-behavior findings may be reportable. BUCKET DOWNLOAD (bucket_download_allowed=false): No explicit policy; defaulted to false (safer). CVE AGE (cve_age_min_days=30): Not stated in policy; using default of 30. REQUIRES OWNERSHIP PROOF (requires_ownership_proof=true): Policy says 'All attacks must be executed against your own Cloudflare account' which is effectively an ownership requirement; flag confirmed true. DISCLOSURE: 90-day coordinated disclosure window. BOUNTY AMOUNTS: GraphQL API does not expose structured dollar amounts; HackerOne program page is a JS shell. Bounty tier confirmed as bug_bounty (offers_bounties=true). Exact per-severity amounts unknown — check https://hackerone.com/cloudflare for current table. VIP PROGRAM: Researchers with 2 valid criticals or 4 valid highs can request VIP status with higher payouts. WAF TESTING: Use waf.cumulusfire.net (max_severity=medium) for WAF bypass testing only."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      {
+        "severity": "critical",
+        "min": 0,
+        "max": 0,
+        "currency": "USD",
+        "notes": "Exact amounts not exposed by public GraphQL API. Check https://hackerone.com/cloudflare for current table."
+      },
+      {
+        "severity": "high",
+        "min": 0,
+        "max": 0,
+        "currency": "USD",
+        "notes": "Exact amounts not exposed by public GraphQL API."
+      },
+      {
+        "severity": "medium",
+        "min": 0,
+        "max": 0,
+        "currency": "USD",
+        "notes": "Exact amounts not exposed by public GraphQL API."
+      },
+      {
+        "severity": "low",
+        "min": 0,
+        "max": 0,
+        "currency": "USD",
+        "notes": "Exact amounts not exposed by public GraphQL API."
+      }
+    ]
+  },
+  "raw_policy_excerpt": "# Our Values\nCloudflare appreciates the work of security researchers and takes security, trust, and transparency seriously. This program was developed to make vulnerability reporting easier and to recognize the efforts of all people striving to help make the Internet a better place.\n\nIf you believe you have found a security vulnerability that could impact Cloudflare or our users, we encourage you to inform us right away. We will investigate all legitimate reports and do our best to quickly fix the problem.\n\n# What we expect from you\nBy participating in this program, you agree to the following program rules and guidelines in addition to HackerOne's Disclosure Guidelines. Failure to follow these rules will lead to disqualification from the Cloudflare Bug Bounty program.\n\n## Program Rules\n* You must make a good faith effort to avoid privacy violations, destruction of data and interruption or degradation of Cloudflare's services and products during your research.\n* All attacks must be executed against your own Cloudflare Account. You can sign up for a free Cloudflare account and use it for testing.\n    * Accounts should be created with a @wearehackerone.com email address.\n* Do not perform tests against customers of Cloudflare.\n* Once you find a vulnerability, report it and reach out to us before you use the vulnerability to pivot across multiple in-scope assets.\n* Make sure that scanners have a narrow scope set that is limited to authorized Cloudflare IPs only (https://cloudflare.com/ips). Aggressive, overly broad scans or those which include Cloudflare customer IPs without permission will be considered tests against Cloudflare customers.\n* Do not send unsolicited bulk messages (spam) or unauthorized messages.\n* Do not knowingly post, transmit, upload, link to, or send any program or script that might be considered malicious.\n* If your report is the product of collaboration, please add your collaborators before the bounty is awarded.\n\nAny of the activities below will result in disqualification from the program permanently:\n* Testing against Cloudflare customers, partners, service providers, suppliers, or vendors\n* Social engineering of Cloudflare employees/contractors\n* Physical attacks against Cloudflare employees/contractors, offices, or data centers\n* Executing Denial of Service attacks against Cloudflare\n\n### Leaked credentials\nIf you discover what looks like valid Cloudflare employee, customer or partner credentials, immediately submit a report to Cloudflare who will determine the validity. Please do not attempt to verify the validity of the credentials yourself by attempting to authenticate with the credentials. Under no circumstances should you use leaked Cloudflare employee, customer or partner credentials to access non-public information.\n\n## Disclosure\nCloudflare aims to resolve all the vulnerabilities within the 90 days and we ask you not to disclose the information before that time."
+}

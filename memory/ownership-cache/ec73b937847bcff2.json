@@ -1,0 +1,54 @@
+{
+  "slug": "cloudflare",
+  "asset": "cloudflare-prod",
+  "asset_class": "aws_s3_bucket",
+  "bucket_name": "cloudflare-prod",
+  "dns_name": "cloudflare-prod.s3.amazonaws.com",
+  "fetched_at": "2026-05-15T18:09:48Z",
+  "verdict": "unknown",
+  "checks": {
+    "github_code": {
+      "status": "ambiguous",
+      "total_count": 930,
+      "org_hits": 7,
+      "top_hits": [
+        {"repo": "cloudflare/cloudflare-docs", "path": "src/content/docs/cache/interaction-cloudflare-products/r2.mdx", "html_url": "https://github.com/cloudflare/cloudflare-docs/blob/020a0f8d915d83ca04aa1d07c55725913ad9c8b4/src/content/docs/cache/interaction-cloudflare-products/r2.mdx"},
+        {"repo": "cloudflare/cloudflare-docs", "path": "public/__redirects", "html_url": "https://github.com/cloudflare/cloudflare-docs/blob/020a0f8d915d83ca04aa1d07c55725913ad9c8b4/public/__redirects"},
+        {"repo": "asuc-octo/berkeleytime", "path": "infra/base/templates/cloudflare-prod-mongo-sealed-secret.yaml", "html_url": "https://github.com/asuc-octo/berkeleytime/blob/58fb146ce2041e51cb8e889912c78509678079be/infra/base/templates/cloudflare-prod-mongo-sealed-secret.yaml"},
+        {"repo": "cobuildwithus/murph", "path": "agent-docs/exec-plans/completed/2026-03-30-cloudflare-prod-sweep.md", "html_url": "https://github.com/cobuildwithus/murph/blob/a5f1dcf826e253eb40b47e9fc2a4ac51c90faa36/agent-docs/exec-plans/completed/2026-03-30-cloudflare-prod-sweep.md"},
+        {"repo": "adobe/aem-cloudflare-prod-worker", "path": "README.md", "html_url": "https://github.com/adobe/aem-cloudflare-prod-worker/blob/468d8f16e96b1f01b8e696106466484c564443a2/README.md"}
+      ],
+      "evidence_path": "/tmp/ownership-ec73b937847bcff2-gh.json",
+      "analyst_note": "All 7 hits within cloudflare/* org are path-artifact substring matches: the string 'cloudflare-prod' appears inside directory path '/cache/interaction-cloudflare-products/' — not as any S3 bucket reference. Verified content of r2.mdx and __redirects. No file in cloudflare/* org actually names the bucket 'cloudflare-prod' in content. Status downgraded from positive to ambiguous."
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "urls_scanned": 177,
+      "domains_queried": ["cloudflare.com", "cloudflareworkers.com", "cloudflarepartners.com"],
+      "match_mode": "word_boundary",
+      "evidence_path": "/tmp/ownership-ec73b937847bcff2-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "resolves": true,
+      "cname": "s3-1-w.amazonaws.com -> s3-w.us-east-1.amazonaws.com",
+      "note": "Generic AWS S3 CNAME chain — no cloudflare.com-origin CNAME found pointing to bucket endpoint. For buckets, DNS alone is inconclusive per protocol.",
+      "evidence_path": "/tmp/ownership-ec73b937847bcff2-dns.txt"
+    }
+  },
+  "aggregation": {
+    "A": "ambiguous",
+    "B": "negative",
+    "C": "inconclusive",
+    "positive_signal_count": 0,
+    "bucket_aggregation_override_fired": false,
+    "bucket_aggregation_override_reason": "Override requires A=negative; A is ambiguous — override does not apply.",
+    "verdict_rule": "catch-all: fewer than 2 positive signals, A not negative -> unknown"
+  },
+  "rules_applied": [
+    "applied rule rule-ownership_verifier-wayback_match_mode-879f3: word_boundary grep used for Check B (grep -E '\\bcloudflare-prod\\b') to avoid brand-stem degenerate substring matches",
+    "applied rule rule-ownership_verifier-bucket_aggregation_override-1c25c: evaluated but NOT fired — condition requires A=negative, actual A=ambiguous"
+  ],
+  "notes": "GH search returned 930 total hits but all 7 within the cloudflare/* org are path-coincidence artifacts: the string 'cloudflare-prod' appears as a substring of the URL path '/cache/interaction-cloudflare-products/' in cloudflare-docs. Content-level verification of r2.mdx and __redirects confirmed no bucket reference. Bucket 'cloudflare-prod' is a very generic name — the term is widely used (530 non-org hits include berkeleytime k8s config, adobe worker repos, cobuildwithus infra docs). Zero wayback hits. DNS resolves to generic AWS. Cannot confirm Cloudflare, Inc. ownership. Verdict: unknown."
+}

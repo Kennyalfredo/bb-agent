@@ -1,0 +1,50 @@
+{
+  "slug": "snapchat",
+  "asset": "sc-core-data",
+  "bucket_name": "sc-core-data",
+  "dns_name": "sc-core-data.s3.amazonaws.com",
+  "fetched_at": "2026-05-16T00:00:00Z",
+  "verdict": "unowned",
+  "checks": {
+    "github_code": {
+      "status": "negative",
+      "total_count": 68,
+      "top_hits": [
+        {"repo": "common-repository/surecart", "path": "app/src/Support/Scripts/AdminModelEditController.php"},
+        {"repo": "surecart/surecart-wp-plugin", "path": "app/src/WordPress/Assets/ScriptsService.php"},
+        {"repo": "DanMikeCode/my_work_oeuvres", "path": "wp-content/plugins/surecart/app/src/WordPress/Assets/ScriptsService.php"}
+      ],
+      "org_hits": {
+        "Snap": 0,
+        "Snapchat": 0
+      },
+      "evidence_path": "/tmp/ownership-3c01650146cf9ad4-gh.json",
+      "notes": "All 68 GH hits are WordPress/SureCart plugin repos using 'sc-core-data' as a wp_enqueue_script() handle — a WordPress internal script identifier, not an S3 bucket reference. Zero hits in Snap or Snapchat GitHub orgs. Classified as negative (not ambiguous) because the hits have no semantic relation to Snap or S3 buckets."
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "url_count_searched": 3189,
+      "match_mode": "word_boundary",
+      "domains_searched": ["snapchat.com", "snap.com", "sc-core.net"],
+      "evidence_path": "/tmp/ownership-3c01650146cf9ad4-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-3-w.amazonaws.com",
+      "resolution": ["3.5.64.217", "3.5.74.106", "3.5.73.18", "3.5.72.86", "3.5.64.17", "3.5.70.220", "3.5.69.54", "3.5.66.43"],
+      "sc_core_net_lookup": "sc-core-data.sc-core.net -> NXDOMAIN (no record in *.sc-core.net zone)",
+      "evidence_path": "/tmp/ownership-3c01650146cf9ad4-dns.txt",
+      "notes": "Bucket DNS resolves to generic AWS S3 endpoint s3-3-w.amazonaws.com — any registered S3 bucket resolves this way regardless of owner. No CNAME from any sc-core.net host points to this bucket. Inconclusive by rule: bucket CNAME alone provides no ownership signal."
+    }
+  },
+  "aggregation": {
+    "method": "bucket_aggregation_override",
+    "rule_id": "rule-ownership_verifier-bucket_aggregation_override-1c25c",
+    "a": "negative",
+    "b": "negative",
+    "c": "inconclusive",
+    "result": "unowned"
+  },
+  "notes": "applied rule rule-ownership_verifier-wayback_match_mode-879f3: switched Wayback grep to word_boundary mode per rules.json. applied rule rule-ownership_verifier-bucket_aggregation_override-1c25c: A=negative, B=negative, C=inconclusive promotes verdict from unknown to unowned. The 'sc-core' stem in the bucket name is a superficially strong naming signal, but the *.sc-core.net wildcard scope entry does NOT imply Snap owns all S3 buckets whose names begin with 'sc-core' — it only establishes that Snap controls the sc-core.net DNS zone. No independent evidence (GH org code, Wayback URL, or program-domain CNAME) links the bucket sc-core-data to Snap Inc."
+}

@@ -1,0 +1,49 @@
+{
+  "slug": "cloudflare",
+  "asset": "cloudflare-backups",
+  "asset_class": "aws_s3_bucket",
+  "bucket_name": "cloudflare-backups",
+  "dns_name": "cloudflare-backups.s3.amazonaws.com",
+  "fetched_at": "2026-05-15T00:00:00Z",
+  "verdict": "unknown",
+  "checks": {
+    "github_code": {
+      "status": "ambiguous",
+      "total_count": 13,
+      "top_hits": [
+        {"repo": "scionsamurai/jimscode.github.io", "path": "src/posts/sveltekit/sveltekit-cloudflare-backups/sveltekit-cloudflare-backups.md", "html_url": "https://github.com/scionsamurai/jimscode.github.io/blob/c4beadf24b8b489ba425a12e79893ec9ce1e956c/src/posts/sveltekit/sveltekit-cloudflare-backups/sveltekit-cloudflare-backups.md"},
+        {"repo": "ddttom/allaboutv2", "path": "cloudflare/backups/.mx.yaml.md", "html_url": "https://github.com/ddttom/allaboutv2/blob/25c9c4796376f021d159bcff14164fb4a0d0ef58/cloudflare/backups/.mx.yaml.md"},
+        {"repo": "ishapiro/markdown-website", "path": "backup-cloudflare.mjs", "html_url": "https://github.com/ishapiro/markdown-website/blob/7f85ac340938b34ad8af00d80c561495b92076a5/backup-cloudflare.mjs"},
+        {"repo": "cvsz/cloudflare-platform", "path": "scripts/install.sh", "html_url": "https://github.com/cvsz/cloudflare-platform/blob/561859a625deaf478f15acf44b0ae9e077fbdd81/scripts/install.sh"},
+        {"repo": "smitmartijn/docker-cloudflare-config-backups", "path": "README.md", "html_url": "https://github.com/smitmartijn/docker-cloudflare-config-backups/blob/92267ffd1349776150b07a22833344f2c367b76c/README.md"}
+      ],
+      "notes": "13 total hits; zero are in the cloudflare org. All hits are third-party users writing about backing up their own Cloudflare account configs — none reference an AWS S3 bucket named cloudflare-backups owned by Cloudflare, Inc. Classified ambiguous (mentioned in public code but not in the program org).",
+      "evidence_path": "/tmp/ownership-10c47953a77060f8-gh.json"
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "total_urls_crawled": 7184,
+      "domains_queried": ["cloudflare.com", "dash.cloudflare.com", "api.cloudflare.com"],
+      "match_mode": "word_boundary",
+      "evidence_path": "/tmp/ownership-10c47953a77060f8-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-1-w.amazonaws.com / s3-w.us-east-1.amazonaws.com",
+      "notes": "Bucket resolves via generic AWS S3 CNAMEs. No CNAME from any Cloudflare-owned domain detected. Bucket existence confirmed (resolves) but DNS chain provides no ownership signal — anyone can register a bucket named cloudflare-backups.",
+      "resolved_ips": ["16.15.212.225", "3.5.30.145", "52.216.60.113", "16.15.207.41", "54.231.236.65"],
+      "evidence_path": "/tmp/ownership-10c47953a77060f8-dns.txt"
+    }
+  },
+  "aggregation": {
+    "A": "ambiguous",
+    "B": "negative",
+    "C": "inconclusive",
+    "positive_signals": 0,
+    "min_positive_signals_required": 2,
+    "bucket_aggregation_override_fired": false,
+    "bucket_aggregation_override_reason": "Override requires A=negative; A=ambiguous here so rule does not apply"
+  },
+  "notes": "applied rule wayback_match_mode=word_boundary: switched grep from substring to \\b word-boundary to avoid brand-stem degenerate match. 13 GH hits are all third-party users (community pattern), not Cloudflare-Inc infrastructure references. bucket_aggregation_override (rule-ownership_verifier-bucket_aggregation_override-1c25c) not fired: requires A=negative, but A=ambiguous. Verdict: unknown — zero positive signals, cannot rule out or confirm ownership."
+}

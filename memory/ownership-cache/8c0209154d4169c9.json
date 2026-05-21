@@ -1,0 +1,26 @@
+{
+  "slug": "elastic",
+  "asset": "elastic",
+  "asset_class": "github_org",
+  "fetched_at": "2026-05-16T03:31:03Z",
+  "verdict": "owned",
+  "verdict_history": [],
+  "checks": {
+    "program_scope_declaration": {
+      "status": "positive",
+      "interpretation": "Program scope (memory/programs/elastic.json) explicitly names the elastic GitHub org under three in-scope assets: (1) 'Software Supply Chain (GitHub Actions, Buildkite)' at severity_cap=critical, (2) 'Elastic Package Registry (github.com/elastic/package-registry, epr.elastic.co)' at critical, and (3) 'Elastic Clients (Java, JS, Ruby, Go, .NET, PHP, Python, Eland, Rust)' at critical. The policy text 'github.com/elastic/*/wiki' appearing under out-of-scope confirms the inverse: github.com/elastic/* is in scope by default; only the /wiki sub-paths are excluded."
+    },
+    "github_org_existence": {
+      "status": "positive",
+      "interpretation": "github.com/elastic exists as a public organization with hundreds of public repos including elasticsearch, kibana, logstash, beats, elasticsearch-js, and many others — all branded matches to Elastic's commercial products. Org is verified via GitHub API enumeration during trufflehog org-scan (250+ repos enumerated successfully)."
+    },
+    "wayback": {
+      "status": "negative-but-irrelevant",
+      "interpretation": "gau does not capture outbound GitHub links from elastic.co domains, so absence of github.com/elastic references in wayback is structural noise. Same caveat as cloudflare engagement (rule-ownership_verifier-wayback_match_mode-879f3 applies — but result irrelevant here)."
+    }
+  },
+  "rules_applied": [
+    "Program-scope declaration in elastic.json is authoritative for github_org assets named in policy"
+  ],
+  "notes": "github.com/elastic is THE program's primary source-code surface. Repos under this org are unambiguously Elastic-owned by policy text. Any leaked credential found inside a repo of github.com/elastic/* belongs to Elastic. Verdict: owned (declarative)."
+}

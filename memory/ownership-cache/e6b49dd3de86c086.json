@@ -1,0 +1,31 @@
+{
+  "slug": "snapchat",
+  "asset": "playcanvas",
+  "bucket_name": "playcanvas",
+  "dns_name": "playcanvas.s3.amazonaws.com",
+  "fetched_at": "2026-05-16T00:00:00Z",
+  "verdict": "unowned",
+  "checks": {
+    "github_code": {
+      "status": "negative",
+      "total_count": 0,
+      "top_hits": [],
+      "evidence_path": "/tmp/ownership-e6b49dd3de86c086-gh.json",
+      "notes": "Searched globally for '\"playcanvas.s3.amazonaws.com\" in:file' — 0 results. Additional targeted search '\"playcanvas.s3\" in:file org:playcanvas' — 0 results. Additional search '\"playcanvas.s3\" in:file org:Snapchat' — 0 results. PlayCanvas org uses domain-named buckets (static.playcanvas.com, apps.playcanvas.com in eu-west-1), not the bare name 'playcanvas'."
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "evidence_path": "/tmp/ownership-e6b49dd3de86c086-gau-hits.txt",
+      "notes": "gau returned 28,138 URLs across playcanvas.com (11,511), playcanv.as (16,660), snapchat.com (0 — OTX/Wayback has no indexed URLs for snapchat.com). Word-boundary grep for 'playcanvas\\.s3\\.amazonaws\\.com' returned 0 hits. Wayback data confirms PlayCanvas uses 's3-eu-west-1.amazonaws.com/apps.playcanvas.com' and 's3.eu-west-1.amazonaws.com/static.playcanvas.com' — distinct buckets from the bare 'playcanvas' bucket under investigation. Applied rule rule-ownership_verifier-wayback_match_mode-879f3: word_boundary mode used."
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-ap-southeast-1-w.amazonaws.com.",
+      "evidence_path": "/tmp/ownership-e6b49dd3de86c086-dns.txt",
+      "notes": "playcanvas.s3.amazonaws.com resolves via generic AWS CNAME 's3-ap-southeast-1-w.amazonaws.com' to ap-southeast-1 IPs (3.5.149.x, 52.219.x). Bucket exists and is in ap-southeast-1. PlayCanvas.com uses eu-west-1 for their own assets — region mismatch further undermines any ownership claim. No CNAME from any program-controlled domain points to this bucket. C=inconclusive for buckets per Step 5 rules."
+    }
+  },
+  "verdict_rationale": "A=negative, B=negative, C=inconclusive. Applied bucket_aggregation_override rule-ownership_verifier-bucket_aggregation_override-1c25c: (neg, neg, inconclusive) → unowned. Standard table would yield 'unknown' but override promotes to 'unowned' because the only inconclusive signal (C) is structural (generic AWS CNAME) rather than informational. Corroborating evidence: PlayCanvas org consistently uses domain-named S3 buckets (static.playcanvas.com, apps.playcanvas.com) in eu-west-1; the bare 'playcanvas' bucket in ap-southeast-1 is inconsistent with their naming convention and region.",
+  "notes": "applied rule rule-ownership_verifier-wayback_match_mode-879f3: word_boundary grep mode active — prevents false positives from brand-stem substring matches. applied rule rule-ownership_verifier-bucket_aggregation_override-1c25c: (A=neg, B=neg, C=inconclusive) for bucket class → promoted from unknown to unowned. Key exculpatory finding: Wayback confirms PlayCanvas uses 'apps.playcanvas.com' and 'static.playcanvas.com' as their S3 bucket names (eu-west-1), not 'playcanvas' (ap-southeast-1). Region and naming convention both diverge."
+}

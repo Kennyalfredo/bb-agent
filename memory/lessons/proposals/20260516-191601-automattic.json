@@ -1,0 +1,117 @@
+{
+  "proposal_id": "20260516-191601-automattic",
+  "slug": "automattic",
+  "cross_engagement_slugs": ["snapchat"],
+  "generated_at": "2026-05-16T19:16:01Z",
+  "evidence_inputs": [
+    "/home/kenny/bb-agent/memory/programs/automattic.json",
+    "/home/kenny/bb-agent/memory/programs/snapchat.json",
+    "/home/kenny/bb-agent/out/automattic/buckets/20260516-170305.json",
+    "/home/kenny/bb-agent/out/automattic/buckets/20260516-190609.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/00a486a91e889634.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/0af5fad045bf7ce0.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/0dfe53c3d53b1448.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/2aa0594f718a1d86.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/5ffbac01591c6f39.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/9fdb4e4c5b36a2db.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/af16bd950e58e621.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/c033af50b328b96e.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/cc115b9af77d138b.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/b839b8de1a2f78e0.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/1689e7721c9e93e6.json"
+  ],
+  "metrics": {
+    "buckets_scanned": 27,
+    "secrets_scanned": 0,
+    "ownership_checks": 9,
+    "owned": 0,
+    "unowned": 4,
+    "unknown": 5,
+    "reports_drafted": 0,
+    "reports_submitted": 0,
+    "cross_engagement_ownership_checks_cited": 2,
+    "notes": "buckets_scanned = 26 (pass 1) + 1 (a8c- pass 2). secrets_scanned = 0 because secret-hunter crashed mid-run with API 500 after ~1 hour; out/automattic/secrets/ is empty. unowned = wordpress-backup + wordpress-prod + tumblr-backup + gravatar-uploads (all via bucket_aggregation_override). unknown = wpvip (A=pos/B=neg/C=inconclusive), wpcloud (A=pos/B=neg/C=inconclusive), a8c-jetpack-e2e-reports (A=pos/B=neg/C=inconclusive), jetpack-prod (A=ambiguous/B=neg/C=inconclusive), woocommerce-backup (A=ambiguous/B=neg/C=inconclusive). Cross-engagement evidence cited: snapchat sc-core (A=neg/B=neg/C=positive) and sc-corp (A=ambig/B=neg/C=inconclusive)."
+  },
+  "narrative": "The Automattic engagement (2026-05-16) ran bucket-hunter Pass A against 20 brand stems (80 candidates, 26 hits) and a targeted a8c-prefix follow-up pass (51 candidates, 1 hit: a8c-jetpack-e2e-reports). Secret-hunter was invoked but crashed with an API 500 error after approximately one hour of runtime; the out/automattic/secrets/ directory is empty. This is the second time a long-running secret-hunter task has crashed mid-scan (previously on elastic). The ownership-verifier processed 9 buckets: 4 resolved to unowned via the existing bucket_aggregation_override rule (wordpress-backup, wordpress-prod, tumblr-backup, gravatar-uploads — all A=neg/B=neg/C=inconclusive), and 5 landed at unknown despite substantial evidence.\n\nThe 5 unknown verdicts fall into two structurally distinct failure modes. The first mode — and the more consequential one — is 'A=positive blocked by B/C structural impossibility.' Three buckets hit this wall: wpvip (612 GitHub hits in Automattic/wpvip-base and related repos, including a repo literally named after the product), wpcloud (379 hits across Automattic/wpcloud-station, Automattic/jetpack-wpcloud-sso, and Automattic/wpcloud-externals-example), and a8c-jetpack-e2e-reports (6 hits, all in Automattic/jetpack-e2e-reports — a dedicated repo whose sole purpose is Jetpack E2E reporting, with the bucket name hardcoded verbatim in bin/generate-report-s3.sh, bin/s3-client.js, and src/config.js). In all three cases B=negative is structural — these are internal CI/infrastructure buckets that are never referenced in archived web pages — and C=inconclusive is structural — all S3 buckets CNAME to generic AWS pools, and no program-controlled domain is expected to CNAME to an internal test-report bucket. The 2-of-3 positive-signal rule cannot be satisfied by any amount of additional investigation when the asset class is an internal bucket. The snapchat engagement produced the same structural failure on sc-core (A=neg/B=neg/C=positive) and sc-corp (A=ambig/B=neg/C=inconclusive), confirming the gap is program-agnostic.\n\nThe a8c-prefix discovery is a notable side-effect of the verifier work. 'a8c' is Automattic's internal engineering shorthand (A=first letter, 8=letter count between A and c, c=last letter of 'Automattic') and appears throughout their internal tooling as a bucket and repo prefix. The jetpack-prod verifier's investigation of Automattic/jetpack-e2e-reports surfaced this convention, which led to the targeted follow-up bucket-hunter pass. That pass found a8c-jetpack-e2e-reports (101,994 objects, auth-read-only) on the first try. This pattern — verifier work revealing a naming convention that drives a second hunter pass — is worth building into the workflow: when the verifier finds a literal bucket name reference in an org repo that uses an unexpected prefix, bucket-hunter should re-run with permutations of that prefix.\n\nThe second unknown failure mode is 'A=ambiguous because bucket name is a suffix-match on a longer org term.' jetpack-prod hit 139 GitHub results, but all were substring matches on 'jetpack-production' and 'jetpack-product' — zero references to the literal bucket name 'jetpack-prod.' woocommerce-backup hit 69 hits, all third-party WordPress plugin and backup-tool repos with zero Automattic org hits. Both are structurally indistinguishable from squatters. These are narrative observations only — no rules are proposed for them, because the cases are adequately handled by the existing unknown verdict floor combined with human review.\n\nFor future revisits of the automattic slug: (1) skip secret-hunter Pass A against the Automattic org until the API 500 crash is diagnosed — the org has 1,500+ public repos and the task runtime likely exceeds the API's connection window; run Pass B (noseyparker on a targeted clone list) instead. (2) If the internal_infra_override rule is applied, re-run the verifier on wpvip, wpcloud, and a8c-jetpack-e2e-reports — all three should promote to owned and become eligible for report drafting. (3) woocommerce-backup remains at unknown and is low-priority without additional A signal.",
+  "proposed_rules": [
+    {
+      "rule_id": "rule-ownership_verifier-internal_infra_override-74f17",
+      "agent": "ownership_verifier",
+      "path": "internal_infra_override",
+      "action": "append",
+      "value": {
+        "asset_class": "bucket",
+        "when": {
+          "a": "positive",
+          "b_in": ["negative", "inconclusive"],
+          "c": "inconclusive"
+        },
+        "a_gate": {
+          "match_type": "exact_literal",
+          "match_scope": "program_org_or_candidate_org_repos",
+          "substring_brand_stem_does_not_qualify": true
+        },
+        "verdict": "owned",
+        "note": "internal infrastructure buckets are not web-crawled (B will never be positive) and S3 DNS is structurally generic (C will never be positive); exact literal name in program org source code is sufficient provenance"
+      },
+      "rationale": "3 Automattic buckets (wpvip, wpcloud, a8c-jetpack-e2e-reports) all blocked at unknown on A=positive alone due to structural B/C impossibility for internal-infra assets; snapchat engagement provided cross-engagement corroboration of the same structural gap on sc-core/sc-corp.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/memory/ownership-cache/00a486a91e889634.json",
+        "/home/kenny/bb-agent/memory/ownership-cache/2aa0594f718a1d86.json",
+        "/home/kenny/bb-agent/memory/ownership-cache/0af5fad045bf7ce0.json",
+        "/home/kenny/bb-agent/memory/ownership-cache/b839b8de1a2f78e0.json",
+        "/home/kenny/bb-agent/memory/ownership-cache/1689e7721c9e93e6.json"
+      ]
+    },
+    {
+      "rule_id": "rule-ownership_verifier-wildcard_stem_dns_override-a18c1",
+      "agent": "ownership_verifier",
+      "path": "wildcard_stem_dns_override",
+      "action": "append",
+      "value": {
+        "asset_class": "bucket",
+        "when": {
+          "a_in": ["negative", "ambiguous"],
+          "b_in": ["negative", "inconclusive"],
+          "c": "positive"
+        },
+        "c_gate": {
+          "bucket_name_exact_matches_wildcard_stem": true,
+          "apex_zone_nameservers": "program_controlled",
+          "registrar_class": ["MarkMonitor", "CSC", "Safenames", "GANDI Corporate"]
+        },
+        "verdict": "owned",
+        "note": "enterprise-registrar + program-controlled DNS + wildcard-stem exact-match is sufficient evidence; internal-services wildcards in scope cannot be impersonated by third parties at scale"
+      },
+      "rationale": "snapchat sc-core had A=neg/B=neg/C=positive with MarkMonitor registration + Route53 NS + explicit *.sc-core.net Tier A critical-severity wildcard in scope — DNS check C is positive precisely because of the enterprise-zone + program-scope combination; this rule fires only when all three C-gates are met.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/memory/ownership-cache/b839b8de1a2f78e0.json",
+        "/home/kenny/bb-agent/memory/programs/snapchat.json"
+      ]
+    }
+  ],
+  "discarded_heuristics": [
+    {
+      "heuristic": "H1",
+      "reason": "Secret-hunter crashed before writing output; out/automattic/secrets/ is empty — no noseyparker candidates to evaluate for detector false-positives."
+    },
+    {
+      "heuristic": "H2",
+      "reason": "wayback_match_mode is already set to word_boundary (applied from mercadolibre engagement); no brand-stem degenerate wayback hits were found in this engagement — B=negative was clean across all 9 verifier runs."
+    },
+    {
+      "heuristic": "H3",
+      "reason": "Secret-hunter Pass A (trufflehog org scan) did not complete — crashed with API 500 at ~1 hour; no summary.notes or org-scan evidence to evaluate."
+    },
+    {
+      "heuristic": "H4",
+      "reason": "No ownership-cache entry has a bucket name exactly equal to the slug ('automattic') or a bare base_name with no suffix. The closest bare-stem candidates (wordpress, gravatar, jetpack, woocommerce) all had A=negative or A=ambiguous and were processed as unknown or unowned — no unknown verdict arose from a bare-brand exact-slug match in this engagement."
+    },
+    {
+      "heuristic": "H5",
+      "reason": "memory/submissions/automattic.json does not exist — no reports were submitted in this engagement, so no platform dismissal outcomes are available to evaluate."
+    }
+  ]
+}

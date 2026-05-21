@@ -1,0 +1,47 @@
+{
+  "slug": "snapchat",
+  "asset": "snapchat-data",
+  "bucket_name": "snapchat-data",
+  "dns_name": "snapchat-data.s3.amazonaws.com",
+  "fetched_at": "2026-05-16T16:21:00Z",
+  "verdict": "unknown",
+  "checks": {
+    "github_code": {
+      "status": "ambiguous",
+      "total_count": 212,
+      "top_hits": [
+        {"repo": "doormanBreach/FreeDatabreaches", "path": "breaches/Snapchat.md"},
+        {"repo": "DuckshotPro/DuckshotAnalytics", "path": "server/agents/snapchat-data-fetcher-agent.ts"},
+        {"repo": "eugenesiow/machinelearning-sg", "path": "content/repo/taixhi_snapchat-data-viz.md"},
+        {"repo": "andrefecto/Snapchat-Memories-Downloader", "path": "GITHUB_TOPICS.txt"},
+        {"repo": "brampat/security", "path": "news/breaches.md"},
+        {"repo": "T145/black-mirror", "path": "README.md"},
+        {"repo": "abcnews/odyssey-scrollyteller", "path": "public/index.html"},
+        {"repo": "taixhi/snapchat-data-viz", "path": "Readme.md"},
+        {"repo": "sedenardi/snapchat-map", "path": "web/map.html"},
+        {"repo": "taegon/TIL", "path": "docs/data-science/interview.md"}
+      ],
+      "org_hits": 0,
+      "evidence_path": "/tmp/ownership-1c9727dc5f16b92b-gh.json"
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "gau_url_count": 11478,
+      "domains_crawled": ["snapchat.com", "sc-core.net", "playcanvas.com"],
+      "match_mode": "word_boundary",
+      "evidence_path": "/tmp/ownership-1c9727dc5f16b92b-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-1-w.amazonaws.com -> s3-w.us-east-1.amazonaws.com (generic AWS chain, no program-domain CNAME)",
+      "resolves": true,
+      "evidence_path": "/tmp/ownership-1c9727dc5f16b92b-dns.txt"
+    }
+  },
+  "rules_applied": [
+    "applied rule rule-ownership_verifier-wayback_match_mode-879f3: wayback_match_mode=word_boundary, used grep -E \"\\bsnapchat-data\\b\" instead of -F",
+    "applied rule rule-ownership_verifier-bucket_aggregation_override-1c25c: checked override condition (A=neg,B=neg,C=inconclusive→unowned); did NOT fire because A=ambiguous, not negative"
+  ],
+  "notes": "212 GH hits for 'snapchat-data' but all 10 top hits are third-party repos (breach archives, fan/data-viz tools, analytics scrapers — e.g. taixhi/snapchat-data-viz, andrefecto/Snapchat-Memories-Downloader). Zero hits in any Snapchat/Snap-Research GitHub org. Bucket name 'snapchat-data' matches the bare-brand-stem+suffix pattern flagged in prior engagements (cloudflare-prod, cloudflare-backups, indrive). bucket_aggregation_override did not fire (A=ambiguous, not negative). Verdict locked at unknown — two independent positive signals required, none achieved. DO NOT draft report against this asset without human review."
+}

@@ -1,0 +1,21 @@
+{
+  "slug": "elastic",
+  "drafts": [
+    {
+      "asset": "elastic",
+      "asset_class": "github_org",
+      "finding_type": "leaked-secret",
+      "severity_proposed": "high",
+      "severity_capped": "low",
+      "report_path": "out/elastic/reports/elastic-saucelabs-elasticsearch-js-20260516-033200.md",
+      "drafted_at": "2026-05-16T03:32:00Z",
+      "ownership_cache_ref": "memory/ownership-cache/8c0209154d4169c9.json",
+      "candidate_source": "out/elastic/secrets/20260516T032024Z.json",
+      "submitted": true,
+      "submitted_at": "2026-05-16T03:42:00Z",
+      "submission_url": "https://hackerone.com/reports/3739639",
+      "platform_report_id": "3739639",
+      "notes": "Candidate: elastic-saucelabs-2014. SauceLabs detector (DetectorType=398), trufflehog Verified=true, VerificationFromCache=false, scan 2026-05-15T23:21:09-04:00. Repo: elastic/elasticsearch-js, commit bacd515545fc86bbd16b8e639301475f9acc438f, file test/utils/keys.js:4, committed 2014-01-17 by Spencer Alger. File deleted from HEAD; credential remains in git history and is still live (~12-year exposure). Username: elasticsearch-js (Elastic-owned Sauce Labs subaccount). Redacted access key: 24f4...e46. Scope: 'elastic.co credentials' explicit in-scope asset, severity_cap=low. Severity: min(high, low)=low. No auto_info_filter or severity_overrides rules fired (both arrays empty in rules.json). Policy framing: leak of Elastic's own credential, not a third-party system vulnerability — explicitly in-scope."
+    }
+  ]
+}

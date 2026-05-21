@@ -1,0 +1,51 @@
+{
+  "slug": "snapchat",
+  "asset": "snapchat-backup",
+  "bucket_name": "snapchat-backup",
+  "dns_name": "snapchat-backup.s3.amazonaws.com",
+  "fetched_at": "2026-05-16T16:21:00Z",
+  "verdict": "unknown",
+  "checks": {
+    "github_code": {
+      "status": "ambiguous",
+      "total_count": 197,
+      "top_hits": [
+        {"repo": "andrefecto/Snapchat-Memories-Downloader", "path": "GITHUB_TOPICS.txt"},
+        {"repo": "jaku/SnapCameraPreservation", "path": "server/package.json"},
+        {"repo": "techidaily/site-tech-revival", "path": "source/_posts/2dvd.md"},
+        {"repo": "jankonbom/goodkob", "path": "style.css"},
+        {"repo": "techidaily/site-smart-video-editing", "path": "source/_posts/1726027880151-gif.md"},
+        {"repo": "virarozen/virarozen.github.io", "path": "posts/how-to-get-your-drafts-back-on-tiktok-after-deleting-the-app/index.html"},
+        {"repo": "techidaily/site-twitter-videos", "path": "source/_posts/updated-twitters-top-jokesters.md"},
+        {"repo": "JoelSalzesson/deleted_domains", "path": "2017/11/29-11-2017.txt"},
+        {"repo": "techidaily/site-article-knowledge", "path": "source/_posts/new-2024-approved-jest-engineer-online.md"},
+        {"repo": "techidaily/site-youtube-lab", "path": "source/_posts/nveiling-youtubes-complex-view-count-system.md"}
+      ],
+      "snap_org_hits": 0,
+      "evidence_path": "/tmp/ownership-28f726edaa21a9bc-gh.json",
+      "notes": "197 total hits; 0 in Snapchat/snap-research/snap-inc org. Top hits are third-party Snapchat memory-downloaders, camera preservation tools, SEO content farms (techidaily/*), and domain dump lists. No Snap-internal infrastructure reference found. Checked orgs: snapchat, snap-research, snap-inc, snapchat-open."
+    },
+    "wayback": {
+      "status": "inconclusive",
+      "hit_count": 0,
+      "evidence_path": "/tmp/ownership-28f726edaa21a9bc-gau-hits.txt",
+      "notes": "gau returned 0 bytes for snapchat.com, snap.com, bitmoji.com (providers: wayback,otx). Tool exited 0 (success) with only a benign config warning (missing .gau.toml). Empty output is indistinguishable from archive gap vs. no indexing of these domains' outbound links — marked inconclusive rather than negative. word_boundary mode applied per rule rule-ownership_verifier-wayback_match_mode-879f3."
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-1-w.amazonaws.com. -> s3-w.us-east-1.amazonaws.com.",
+      "resolved_ips": ["52.217.203.41","54.231.169.9","16.15.254.240","16.15.183.29","3.5.21.20","52.217.167.201","16.15.244.196","54.231.225.9"],
+      "evidence_path": "/tmp/ownership-28f726edaa21a9bc-dns.txt",
+      "notes": "Bucket resolves via generic AWS S3 CNAME chain (s3-1-w.amazonaws.com -> s3-w.us-east-1.amazonaws.com). DNS resolution proves the bucket name is registered in S3 but gives zero ownership signal — any AWS account can register a bucket named 'snapchat-backup'. No CNAME from any program-owned domain (snapchat.com, sc-core.net, sc-corp.net, bitmoji.com, spectacles.com, playcanvas.com) points to this bucket. Caller noted region me-south-1; DNS resolves to us-east-1 endpoints (normal for S3 global DNS). Inconclusive for buckets per protocol."
+    }
+  },
+  "aggregation": {
+    "a": "ambiguous",
+    "b": "inconclusive",
+    "c": "inconclusive",
+    "table_row_matched": "none — falls to default unknown",
+    "override_checked": "bucket_aggregation_override rule-ownership_verifier-bucket_aggregation_override-1c25c: NOT fired (requires a=negative + b=negative; actual a=ambiguous + b=inconclusive)",
+    "asset_pattern_overrides_checked": "jitsi-files pattern: NOT matched (asset=snapchat-backup)"
+  },
+  "notes": "Bare-brand+suffix bucket name 'snapchat-backup'. Structurally similar to cloudflare-backups/indrive-test known-squatter patterns (see rules.json bucket_hunter.basename_skip). GH ambiguous signal: 197 hits all from third-party repos (Snapchat memory downloaders, preservation tools, SEO spam) — consistent with public awareness of the Snapchat brand, not infrastructure ownership. gau returned empty output (inconclusive, not negative). DNS is generic AWS CNAME with no program-domain crossover. bucket_aggregation_override rule did not fire. Two-of-three independent positive signals required for 'owned'; zero achieved. Conservative default applied: verdict=unknown."
+}
