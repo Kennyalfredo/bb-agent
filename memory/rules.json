@@ -159,6 +159,29 @@
         "reason": "sk_test_JieJALRz7rPz7boV17oMma7a appeared in 2 distinct test fixture files (SourceTest.php, ProductTest.php) inside a vendored stripe-php library; context is PHPUnit setUp() — structurally identical to the canonical SDK README example key already suppressed."
       }
     ],
+    "noseyparker_path_skip": [
+      {
+        "path_pattern": "*.rest",
+        "match_type": "glob",
+        "reason": "Developer REST test fixture files (.rest) produce Generic Password NP hits on fixture data (e.g. Nigerian phone number fixtures); confirmed FP in int-nmt engagement (denniskern/swerve and codetipster/oudioo)",
+        "id": "rule-secret_hunter-noseyparker_path_skip-fc13d",
+        "added": "2026-05-21T16:33:46Z",
+        "from_engagement": "int-nmt",
+        "confidence": "low",
+        "reason": "Both noseyparker Generic Password FPs in this engagement came from a .rest HTTP test fixture file (codetipster/oudioo) containing dev placeholder passwords and a phone number — structurally fixture data, never real credentials."
+      },
+      {
+        "path_pattern": "README.md",
+        "detector": "Generic Password",
+        "match_condition": "value_matches_bcrypt_hash",
+        "reason": "README documentation examples frequently contain bcrypt hashes as illustrative examples; these produce Generic Password NP hits that are structurally never real credentials",
+        "id": "rule-secret_hunter-noseyparker_path_skip-13f5a",
+        "added": "2026-05-21T16:33:46Z",
+        "from_engagement": "int-nmt",
+        "confidence": "low",
+        "reason": "The denniskern/swerve README produced 2 Generic Password NP hits on a bcrypt hash in a documentation example; bcrypt hashes in README files are tutorial artifacts, never operational credentials."
+      }
+    ],
     "repo_name_skip": [
       {
         "patterns": ["integrate_{brand}_with_"],
@@ -329,7 +352,29 @@
   "takeover_hunter": {
     "fingerprint_engine_ignore": [],
     "subdomain_skip": [],
-    "subzy_concurrency_override": null
+    "subzy_concurrency_override": null,
+    "cname_hub_skip": [
+      {
+        "cname_target": "swerve.bild.de",
+        "match_type": "exact",
+        "reason": "Internal Bild redirect mesh: 34 bild.de promo/campaign subdomains CNAME to swerve.bild.de; this is a hub-and-spoke redirect service owned by Bild, not a dangling endpoint; observed in int-nmt engagement",
+        "id": "rule-takeover_hunter-cname_hub_skip-14622",
+        "added": "2026-05-21T16:33:46Z",
+        "from_engagement": "int-nmt",
+        "confidence": "low",
+        "reason": "34 bild.de campaign subdomains (100euro.bild.de, 150.bild.de, 12monate.bild.de, etc.) all CNAME to swerve.bild.de which is a live Bild-owned internal redirect mesh — none are individually dangling."
+      },
+      {
+        "cname_target": "schneevonmorgen.com",
+        "match_type": "suffix",
+        "reason": "Damoh ad-platform: 57 welt.de subdomains CNAME to schneevonmorgen.com (claimed, live ad-injection service); not a dangling endpoint; observed in int-nmt engagement",
+        "id": "rule-takeover_hunter-cname_hub_skip-2fcb9",
+        "added": "2026-05-21T16:33:46Z",
+        "from_engagement": "int-nmt",
+        "confidence": "low",
+        "reason": "57 welt.de subdomains CNAME-delegate to schneevonmorgen.com (Damoh ad platform) which is fully live and claimed — this is a normal CDN/ad-tech delegation pattern, not an exploitable dangling endpoint."
+      }
+    ]
   },
   "report_drafter": {
     "auto_info_filter": [

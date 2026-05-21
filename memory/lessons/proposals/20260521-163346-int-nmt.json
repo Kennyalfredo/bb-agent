@@ -1,0 +1,111 @@
+{
+  "proposal_id": "20260521-163346-int-nmt",
+  "slug": "int-nmt",
+  "generated_at": "2026-05-21T16:34:09Z",
+  "evidence_inputs": [
+    "/home/kenny/bb-agent/memory/programs/int-nmt.json",
+    "/home/kenny/bb-agent/out/int-nmt/buckets/20260521-162626.json",
+    "/home/kenny/bb-agent/out/int-nmt/secrets/20260521-162408.json",
+    "/home/kenny/bb-agent/out/int-nmt/takeovers/20260521-162422.json"
+  ],
+  "metrics": {
+    "buckets_scanned": 80,
+    "secrets_scanned": 0,
+    "ownership_checks": 0,
+    "owned": 0,
+    "unowned": 0,
+    "unknown": 0,
+    "reports_drafted": 0,
+    "reports_submitted": 0
+  },
+  "narrative": "Axel Springer National Media & Tech (int-nmt, Intigriti) was a three-pass clean-negative engagement run on 2026-05-21. Secrets (Pass A/B/C) found 0 verified credentials across the axelspringer GitHub org (68 repos, full trufflehog scan, 22s) and 3 cloned repos from codesearch; all 7 noseyparker matches were false positives — env-var placeholder text, a developer test fixture with phone-number data in a `.rest` file, and a bcrypt hash in a README documentation example. Buckets found 12 s3scanner-flagged candidates out of 80 scanned (20 brand bases); all 12 returned AccessDenied on the mandatory list-objects-v2 recheck, marking the 7th consecutive engagement confirming s3scanner's ACL flags are a structural false positive. The takeovers pass enumerated 331 subdomains (seed cap 3; sub cap 100) and found 95/100 bearing CNAME chains — the highest CNAME rate recorded — with 0 dangling endpoints.\n\nTwo structural FP patterns in the secrets pass are worth codifying. The noseyparker Generic Password detector fired twice on `denniskern/swerve` README documentation: a bcrypt hash example used to illustrate password hashing in a tutorial is not a credential. It also fired twice on `codetipster/oudioo` because a `.rest` HTTP test fixture contained a Nigerian phone number and placeholder passwords in a test user definition. Both are recurring FP shapes — README bcrypt examples and `.rest` test fixture data — that will appear again in future engagements. A `noseyparker_path_skip` rule on `.rest` files (Generic Password hits only from fixture data) and a README.md bcrypt-hash pattern would eliminate these without touching real signal. Confidence is low for a single engagement; both patterns are sufficiently distinct and low-risk to codify at low confidence now.\n\nThe takeovers pass surfaced a novel structural pattern: hub-and-spoke CNAME delegation. Axel Springer runs two large CNAME hubs: `swerve.bild.de` (34 bild.de promo/campaign subdomains all CNAME to it, Bild's internal redirect mesh) and `schneevonmorgen.com` (57 welt.de subdomains all CNAME to it, the Damoh third-party ad-injection platform). Neither hub is dangling — both resolve to live, claimed services. The current takeover-hunter pipeline correctly returned 0 candidates after subzy found 0 VULNERABLE entries, so no false-positive report was generated. However, if either hub ever went temporarily unresolvable (domain expiry, DNS propagation gap), all 91 spoke subdomains would simultaneously appear dangling to any scanner. The `cname_hub_skip` rule for these two specific targets would prevent noise if the pattern recurs; both entries are low-confidence observations from a single engagement and should be treated as informational until corroborated.\n\nThe codesearch noise issue — `bild` and `politico` base names generating 30+ dork hits each because `bild` is German for 'picture' and `The-Politico` is the US news org's GitHub handle — is best handled as a narrative note rather than a hard rule. The current pipeline correctly handled it (repos cloned by codesearch signal returned 0 trufflehog hits, and the selection heuristic chose infrastructure-adjacent repos not brand-name-noise repos), so the FP didn't produce a false positive. A general `codesearch_noise_skip` rule for common-word base names would need more careful design (it could suppress real signal on future engagements where the target happens to own a common-word org). This remains narrative-only for now.\n\nFor the next run against int-nmt: the strict cap of 100 subdomains left 231 subdomains from the welt.de/bild.de/politico.eu corpus unscanned. The 25-wildcard scope makes this a high-surface takeover target — consider running a second pass with a higher sub cap or splitting into per-seed runs. The `axelspringer` GH org is clean and well-managed; Pass A's 22s full-org scan confirms it's not a ticking-secrets target. Bucket hunting is structurally unproductive for this org (bare brand names like `bild`, `petbook`, `techbook`, `travelbook`, `stylebook`, `fitbook` are extremely generic — most are occupied by unrelated parties at AccessDenied). If revisiting, prioritise takeover surface expansion over bucket re-scans.",
+  "proposed_rules": [
+    {
+      "rule_id": "rule-secret_hunter-noseyparker_path_skip-fc13d",
+      "agent": "secret_hunter",
+      "path": "noseyparker_path_skip",
+      "action": "append",
+      "value": {
+        "path_pattern": "*.rest",
+        "match_type": "glob",
+        "reason": "Developer REST test fixture files (.rest) produce Generic Password NP hits on fixture data (e.g. Nigerian phone number fixtures); confirmed FP in int-nmt engagement (denniskern/swerve and codetipster/oudioo)"
+      },
+      "rationale": "Both noseyparker Generic Password FPs in this engagement came from a .rest HTTP test fixture file (codetipster/oudioo) containing dev placeholder passwords and a phone number — structurally fixture data, never real credentials.",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/int-nmt/secrets/20260521-162408.json"
+      ]
+    },
+    {
+      "rule_id": "rule-secret_hunter-noseyparker_path_skip-13f5a",
+      "agent": "secret_hunter",
+      "path": "noseyparker_path_skip",
+      "action": "append",
+      "value": {
+        "path_pattern": "README.md",
+        "detector": "Generic Password",
+        "match_condition": "value_matches_bcrypt_hash",
+        "reason": "README documentation examples frequently contain bcrypt hashes as illustrative examples; these produce Generic Password NP hits that are structurally never real credentials"
+      },
+      "rationale": "The denniskern/swerve README produced 2 Generic Password NP hits on a bcrypt hash in a documentation example; bcrypt hashes in README files are tutorial artifacts, never operational credentials.",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/int-nmt/secrets/20260521-162408.json"
+      ]
+    },
+    {
+      "rule_id": "rule-takeover_hunter-cname_hub_skip-14622",
+      "agent": "takeover_hunter",
+      "path": "cname_hub_skip",
+      "action": "append",
+      "value": {
+        "cname_target": "swerve.bild.de",
+        "match_type": "exact",
+        "reason": "Internal Bild redirect mesh: 34 bild.de promo/campaign subdomains CNAME to swerve.bild.de; this is a hub-and-spoke redirect service owned by Bild, not a dangling endpoint; observed in int-nmt engagement"
+      },
+      "rationale": "34 bild.de campaign subdomains (100euro.bild.de, 150.bild.de, 12monate.bild.de, etc.) all CNAME to swerve.bild.de which is a live Bild-owned internal redirect mesh — none are individually dangling.",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/int-nmt/takeovers/20260521-162422.json"
+      ]
+    },
+    {
+      "rule_id": "rule-takeover_hunter-cname_hub_skip-2fcb9",
+      "agent": "takeover_hunter",
+      "path": "cname_hub_skip",
+      "action": "append",
+      "value": {
+        "cname_target": "schneevonmorgen.com",
+        "match_type": "suffix",
+        "reason": "Damoh ad-platform: 57 welt.de subdomains CNAME to schneevonmorgen.com (claimed, live ad-injection service); not a dangling endpoint; observed in int-nmt engagement"
+      },
+      "rationale": "57 welt.de subdomains CNAME-delegate to schneevonmorgen.com (Damoh ad platform) which is fully live and claimed — this is a normal CDN/ad-tech delegation pattern, not an exploitable dangling endpoint.",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/int-nmt/takeovers/20260521-162422.json"
+      ]
+    }
+  ],
+  "discarded_heuristics": [
+    {
+      "heuristic": "H1",
+      "reason": "All NP FPs in this engagement have no fixed literal `redacted_secret` value suitable for detector_ignore (env placeholder, phone fixture, bcrypt hash) — encoded instead as path-based skip rules."
+    },
+    {
+      "heuristic": "H2",
+      "reason": "No ownership-cache entries exist for int-nmt (no ownership-verifier run was performed); wayback degeneracy check cannot fire without cache data."
+    },
+    {
+      "heuristic": "H3",
+      "reason": "axelspringer org had 68 repos and Pass A returned 0 verified — qualifies as mature-org signal, but the engagement context notes explicitly that 68 repos is well within scan range (22s) so the note is weaker than for elastic (600 repos). Recorded in narrative only."
+    },
+    {
+      "heuristic": "H4",
+      "reason": "No ownership-cache entries exist for int-nmt; H4 requires verdict==unknown cache entries to fire."
+    },
+    {
+      "heuristic": "H5",
+      "reason": "No submissions file exists for int-nmt; H5 requires a platform_report_id + closed_as field to fire."
+    }
+  ]
+}

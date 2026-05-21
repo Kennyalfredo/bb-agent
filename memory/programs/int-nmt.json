@@ -1,0 +1,275 @@
+{
+  "program": {
+    "slug": "int-nmt",
+    "platform": "intigriti",
+    "url": "https://www.intigriti.com/programs/axelspringerse/nmt/detail",
+    "name": "Axel Springer National Media & Tech",
+    "fetched_at": "2026-05-21"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "domain",
+        "asset": "politico.eu",
+        "severity_cap": "critical",
+        "notes": "politico.eu covers politics with a European lens, featuring Berlin Playbook briefings and POLITICO Pro analysis."
+      },
+      {
+        "type": "domain",
+        "asset": "adtechnology.axelspringer.com",
+        "severity_cap": "critical",
+        "notes": "technical domain used for advertising management on our brand websites."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.asadcdn.com",
+        "severity_cap": "critical",
+        "notes": "technical domain used for advertising management on our brand websites."
+      },
+      {
+        "type": "domain",
+        "asset": "bild.de",
+        "severity_cap": "critical",
+        "notes": "BILD is Germany's largest tabloid newspaper. You can find Tier 1 subdomains, as well as a Tier 2 wildcard subdomain. You are welcome to create your own account and test our system."
+      },
+      {
+        "type": "domain",
+        "asset": "welt.de",
+        "severity_cap": "critical",
+        "notes": "Large german broadsheet newspaper. You can find Tier 1 subdomains, as well as a Tier 2 wildcard subdomain. You are welcome to create your own account and test our system."
+      },
+      {
+        "type": "domain",
+        "asset": "epaper.welt.de",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "cancellation.prod.ps.welt.de",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "digital.welt.de",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "signin.auth.welt.de",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "m.bild.de",
+        "severity_cap": "critical",
+        "notes": "The mobile version of BILD."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.hey.bild.de",
+        "severity_cap": "critical",
+        "notes": "Hey_ is a Chat Assistent offered by BILD."
+      },
+      {
+        "type": "domain",
+        "asset": "go.welt.de",
+        "severity_cap": "critical",
+        "notes": "Welt Go a Chat Assistent offered by WELT."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.auth.bild.de",
+        "severity_cap": "critical",
+        "notes": "Login/registration for BILD."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.sportbild.de",
+        "severity_cap": "critical",
+        "notes": "German sports magazine from BILD."
+      },
+      {
+        "type": "domain",
+        "asset": "meinkonto.bild.de",
+        "severity_cap": "critical",
+        "notes": "The account setting of a BILD user."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.bild.tv",
+        "severity_cap": "critical",
+        "notes": "This is the livestream of the Bild television channel."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.computerbild.de",
+        "severity_cap": "critical",
+        "notes": "Is a magazine with the topic computer from Bild. Some examples of subdomains are vip-club.computerbild.de (VIP club), signin.auth.computerbild.de (login). Other interesting paths: computerbild.de/download (download center). You are also welcome to create your own account to test our system."
+      },
+      {
+        "type": "ip",
+        "asset": "18.184.198.198, 18.185.214.59, 18.194.109.179, 3.121.117.72, 3.121.138.10, 3.121.138.128, 3.121.138.134, 3.121.138.170, 3.121.138.33, 3.121.138.43, 3.124.248.208, 35.156.137.39",
+        "severity_cap": "critical",
+        "notes": "IP addresses of our backend systems, comma separated."
+      },
+      {
+        "type": "wildcard",
+        "asset": "dealer.prod.ps.axelspringer.de/purchases/*",
+        "severity_cap": "critical",
+        "notes": "Documentation: https://dealer-docs.prod.ps.axelspringer.de/"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.germany.politico.eu",
+        "severity_cap": "high"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.welt.de",
+        "severity_cap": "high",
+        "notes": "Large german broadsheet newspaper. You are also welcome to create your own account to test our system."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.bild.de",
+        "severity_cap": "high",
+        "notes": "Bild is the largest German tabloid newspaper. Some examples of subdomains are angebot.bild.de (offers). You are also welcome to create your own account to test our system."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.bild.design",
+        "severity_cap": "high"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.autobild.de",
+        "severity_cap": "high",
+        "notes": "Is a magazine with the topic cars from Bild. Some examples of subdomains: club.autobild.de. You are also welcome to create your own account to test our system."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.bz-berlin.de",
+        "severity_cap": "high",
+        "notes": "Berlin based tabloid newspaper. Some examples of subdomains: backend.bz-berlin.de"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.spring-media.de",
+        "severity_cap": "high",
+        "notes": "Used for internal tools, mostly behind a VPN."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.springtools.de",
+        "severity_cap": "high",
+        "notes": "Used for internal tools, mostly behind a VPN."
+      },
+      {
+        "type": "domain",
+        "asset": "editorial.one",
+        "severity_cap": "high",
+        "notes": "Used for internal tools, mostly behind a VPN."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.as-nmt.de",
+        "severity_cap": "high",
+        "notes": "Used for internal api's and websites, mostly behind a VPN."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.ein-herz-fuer-kinder.de",
+        "severity_cap": "medium",
+        "notes": "Charity organisation for children in Germany."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.fitbook.de",
+        "severity_cap": "medium",
+        "notes": "Magazine focusing on fitness topics."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.myhomebook.de",
+        "severity_cap": "medium",
+        "notes": "Magazine focusing on home and garden topics."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.petbook-magazine.com/",
+        "severity_cap": "medium",
+        "notes": "English version of the petbook."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.petbook.de",
+        "severity_cap": "medium",
+        "notes": "Magazine focusing on pet topics."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.stylebook.de",
+        "severity_cap": "medium",
+        "notes": "Magazine focusing on style topics."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.techbook.de",
+        "severity_cap": "medium",
+        "notes": "Magazine focusing on tech topics."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.travelbook.de",
+        "severity_cap": "medium",
+        "notes": "Magazine focusing on travel topics."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.wissen-sie-mehr.de",
+        "severity_cap": "medium",
+        "notes": "Whistleblower form from BILD."
+      },
+      {
+        "type": "domain",
+        "asset": "technik.autobild.de",
+        "severity_cap": "medium"
+      },
+      {
+        "type": "domain",
+        "asset": "technik.beta.autobild.de",
+        "severity_cap": "medium"
+      }
+    ],
+    "out_of_scope": [
+      {
+        "type": "wildcard",
+        "asset": "*.axelspringer.com",
+        "reason": "This domain is covered by our partner program. https://app.intigriti.com/programs/axelspringerse/axelspringersevulnerabilitydisclosureprogram/detail"
+      }
+    ]
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": false,
+    "cve_age_min_days": 30,
+    "requires_ownership_proof": true,
+    "safe_harbor": false,
+    "submission_form": "https://app.intigriti.com/researcher/programs/axelspringerse/nmt/submit",
+    "notes": "safe_harbor: defaulted to false — Intigriti safe-harbor language lives in the program policy text, not the dump; read the program page before drafting. | mass_scanning_allowed: defaulted to false (safe default; policy text not captured from dump). | automated_tools_allowed: defaulted to false (safe default; policy text not captured from dump). | cve_age_min_days: defaulted to 30 (safe default; no explicit policy captured). | requires_ownership_proof: defaulted to true (safe default). | bucket_listing_allowed: defaulted to true (agent compliance allows passive listing). | bucket_download_allowed: defaulted to false (safe default). | tacRequired: false (confirmed from dump — Intigriti TaC not required for this program). | twoFactorRequired: false (confirmed from dump — 2FA not required on platform side). | submission_form: best-guess URL — confirm by reading the program page once before submitting. | *.axelspringer.com is explicitly out of scope; covered by a separate Axel Springer VDP program at https://app.intigriti.com/programs/axelspringerse/axelspringersevulnerabilitydisclosureprogram/detail. | Several Tier 2 assets (*.spring-media.de, *.springtools.de, editorial.one, *.as-nmt.de) are noted as mostly behind a VPN — findings may be inaccessible without insider access. | adtechnology.axelspringer.com is Tier 1 despite being on axelspringer.com subdomain — *.axelspringer.com wildcard exclusion applies to the out-of-scope entry only; this specific subdomain is explicitly listed as in-scope. | Intigriti bounty table coarse-grained — only min/max range known from dump (EUR 15 – EUR 2500); refine from program Rewards tab if drafting against medium/low severity."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      {
+        "severity": "critical",
+        "min": 15,
+        "max": 2500,
+        "currency": "EUR"
+      }
+    ]
+  },
+  "raw_policy_excerpt": "Scope ingested from arkadiyt/bounty-targets-data dump (intigriti_data.json fetched 2026-05-21). Full policy text not captured — read the program page at https://www.intigriti.com/programs/axelspringerse/nmt/detail before drafting."
+}
