@@ -1,0 +1,199 @@
+{
+  "program": {
+    "slug": "wordpress",
+    "platform": "hackerone",
+    "url": "https://hackerone.com/wordpress",
+    "name": "WordPress",
+    "fetched_at": "2026-05-21"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "source_code",
+        "asset": "WordPress Core",
+        "severity_cap": "critical",
+        "notes": "Download from https://wordpress.org/download/source/"
+      },
+      {
+        "type": "source_code",
+        "asset": "BuddyPress Core",
+        "severity_cap": "critical",
+        "notes": "Download from https://buddypress.org/download/"
+      },
+      {
+        "type": "source_code",
+        "asset": "BBPress Core",
+        "severity_cap": "critical",
+        "notes": "Download from https://bbpress.org/download/"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.wordpress.org",
+        "severity_cap": "critical",
+        "notes": "All wordpress.org domains not listed as separate assets, including login.wordpress.org, developer.wordpress.org, make.wordpress.org, translate.wordpress.org, global.wordpress.org, {locale}.wordpress.org, learn.wordpress.org. Max severity per CSV is critical; availability/confidentiality/integrity set to medium."
+      },
+      {
+        "type": "domain",
+        "asset": "api.wordpress.org",
+        "severity_cap": "critical",
+        "notes": "WordPress.org API endpoint."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.buddypress.org,bbpress.org,profiles.wordpress.org",
+        "severity_cap": "critical",
+        "notes": "Multiple assets bundled: *.buddypress.org wildcards, bbpress.org, and profiles.wordpress.org."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.wordcamp.org",
+        "severity_cap": "critical",
+        "notes": "All WordCamp.org subdomains."
+      },
+      {
+        "type": "domain",
+        "asset": "codex.wordpress.org,codex.bbpress.org,codex.buddypress.org",
+        "severity_cap": "medium",
+        "notes": "Wikis intended to be freely edited by anonymous users. Only interested in vulnerabilities with severe impact. Max_severity per CSV is medium."
+      },
+      {
+        "type": "domain",
+        "asset": "mercantile.wordpress.org",
+        "severity_cap": "medium",
+        "notes": "Runs WooCommerce but only custom code accepted. Do not submit test orders (especially automated). Price manipulation reports are common invalids (see H1 #682344). Max_severity per CSV is medium."
+      },
+      {
+        "type": "source_code",
+        "asset": "*.trac.wordpress.org, *.svn.wordpress.org, *.git.wordpress.org, github.com/WordPress",
+        "severity_cap": "critical",
+        "notes": "Do NOT pentest Trac instances directly — set up local environment. Mostly archival; non-critical info disclosure generally not bounty eligible. Only report vulnerabilities in custom code, not upstream Trac. Meta repo: git clone git://meta.git.wordpress.org/"
+      },
+      {
+        "type": "domain",
+        "asset": "irclogs.wordpress.org",
+        "severity_cap": "low",
+        "notes": "Public logs of old conversations. Only interested in severe impact (e.g. RCE, XSS, modifying logs). DoS not considered severe here. Max_severity per CSV is low."
+      },
+      {
+        "type": "domain",
+        "asset": "lists.wordpress.org",
+        "severity_cap": "medium",
+        "notes": "Only interested in vulnerabilities with severe impact. Max_severity per CSV is medium."
+      },
+      {
+        "type": "domain",
+        "asset": "planet.wordpress.org",
+        "severity_cap": "critical",
+        "notes": "No additional notes from CSV."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.wordpress.net",
+        "severity_cap": "low",
+        "notes": "Shared-hosting environment, generally low-value targets. Usually only interested in high- and medium-severity issues affecting the entire server. Max_severity per CSV is low."
+      },
+      {
+        "type": "source_code",
+        "asset": "Gutenberg",
+        "severity_cap": "critical",
+        "notes": "Download from https://github.com/WordPress/gutenberg"
+      },
+      {
+        "type": "source_code",
+        "asset": "GlotPress",
+        "severity_cap": "critical",
+        "notes": "All code under the GlotPress organization on GitHub (https://github.com/GlotPress/). Most important target is glotpress-wp repository."
+      },
+      {
+        "type": "source_code",
+        "asset": "WP-CLI",
+        "severity_cap": "critical",
+        "notes": "All code under the WP-CLI organization on GitHub (https://github.com/wp-cli). Most important: main wp-cli repo and bundled command repos (cache-command, scaffold-command, etc.)."
+      },
+      {
+        "type": "source_code",
+        "asset": "Official WordPress plugins",
+        "severity_cap": "critical",
+        "notes": "Any plugin listed on the WordPress.org profile for the 'wordpressdotorg' account at https://profiles.wordpress.org/wordpressdotorg#content-plugins"
+      },
+      {
+        "type": "domain",
+        "asset": "wordpressfoundation.org",
+        "severity_cap": "medium",
+        "notes": "Max_severity per CSV is medium."
+      },
+      {
+        "type": "wildcard",
+        "asset": "munin-*.wordpress.org",
+        "severity_cap": "low",
+        "notes": "Only interested in vulnerabilities with severe impact (e.g. RCE, SSRF). Metrics data is intentionally public. Max_severity per CSV is low."
+      },
+      {
+        "type": "domain",
+        "asset": "doaction.org",
+        "severity_cap": "critical",
+        "notes": "Max_severity per CSV is critical."
+      }
+    ],
+    "out_of_scope": [
+      {
+        "type": "wildcard",
+        "asset": "*.wordpress.com",
+        "reason": "All WordPress.com vulnerabilities should be reported to Automattic's HackerOne program (https://hackerone.com/automattic). Reports here will be marked Not Applicable."
+      },
+      {
+        "type": "domain",
+        "asset": "status.wordpress.org,glotpress.blog,wordpress.tv",
+        "reason": "Hosted on WordPress.com; WordPress.org team has no access to modify code/servers. Report to Automattic's HackerOne program."
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "335703880 (Apple App Store ID)",
+        "reason": "WordPress mobile apps — report through Automattic HackerOne page (https://hackerone.com/automattic)."
+      },
+      {
+        "type": "mobile_android",
+        "asset": "org.wordpress.android (Google Play ID)",
+        "reason": "WordPress mobile apps — report through Automattic HackerOne page (https://hackerone.com/automattic)."
+      },
+      {
+        "type": "source_code",
+        "asset": "https://github.com/wordpress-mobile/",
+        "reason": "WordPress mobile app repos — report through Automattic HackerOne page (https://hackerone.com/automattic)."
+      },
+      {
+        "type": "other",
+        "asset": "Digital Ocean, AWS, etc. (third-party infrastructure with 'WordPress' in name)",
+        "reason": "WordPress owns and operates dedicated servers, not AWS/DO/etc. Third-party S3 buckets or droplets with 'WordPress' in the name are NOT owned by WordPress. Reports will be closed as Not Applicable."
+      },
+      {
+        "type": "other",
+        "asset": "Archived GitHub repositories",
+        "reason": "Archived code repositories are out of scope unless you have verified that code from them is imported and actively being used."
+      }
+    ]
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": false,
+    "cve_age_min_days": 30,
+    "requires_ownership_proof": true,
+    "safe_harbor": false,
+    "submission_form": "https://hackerone.com/wordpress/reports/new",
+    "notes": "Policy explicitly states: 'Don't automate form submissions!' — reinforces automated_tools_allowed=false. Policy says to setup a local environment instead of pen-testing production wherever possible; if production must be tested, limit data access/modification to bare minimum. Bounties are DOUBLED if reported before the bug is released to users (pre-release disclosure bonus). CVSS < 4.0 vulnerabilities generally not in scope unless combinable for higher impact. Output from automated scans without manual verification and PoC is explicitly rejected. WordPress.com is a separate entity from the WordPress open-source project — do NOT report WordPress.com issues here; use Automattic's program. Third-party S3 buckets/cloud infra with 'WordPress' in the name are explicitly called out as NOT owned by WordPress. Plugin vulnerabilities for plugins not specifically listed as in-scope assets should be reported to the Plugin Review team, not here. safe_harbor defaulted to false — policy text references HackerOne's disclosure guidelines but does not include an explicit safe-harbor clause; human should verify. bucket_download_allowed defaulted to false (safe default; not addressed in policy). requires_ownership_proof defaulted to true (safe default; not addressed in policy). cve_age_min_days defaulted to 30 (safe default; not addressed in policy)."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      {
+        "severity": "critical",
+        "min": 0,
+        "max": 0,
+        "currency": "USD"
+      }
+    ]
+  },
+  "raw_policy_excerpt": "WordPress is an open-source publishing platform. Our HackerOne program covers the Core software, as well as a variety of related projects and infrastructure.\n\nOur most critical targets are:\n* WordPress Core software, API, and website.\n* Gutenberg software and Classic Editor software.\n* WP-CLI software and website.\n* BuddyPress software and website.\n* bbPress software and website.\n* GlotPress software (but not the website).\n* WordCamp.org website.\n\nAll bounties are doubled if they're reported before the bug is released to users.\n\nPlease note that WordPress.com is a separate entity from the main WordPress open source project. Please report vulnerabilities for WordPress.com or the WordPress mobile apps through Automattic's HackerOne page.\n\n## Qualifying Vulnerabilities\nAny reproducible vulnerability that has a severe effect on the security or privacy of our users is likely to be in scope. Common examples include XSS, CSRF, SSRF, RCE, SQLi, and privilege escalation.\n\nWe generally aren't interested in: Any vulnerability with a CVSS 3 score lower than 4.0 (unless combinable); Brute force, DoS, phishing, text injection, or social engineering; Output from automated scans without manual PoC; Theoretical vulnerabilities without significant PoC.\n\n## Guidelines\n* Please setup a local environment instead whenever possible.\n* If that's not possible, limit any data access/modification to the bare minimum necessary to reproduce a PoC.\n* Don't automate form submissions!\n* If you don't follow these guidelines we will not award a bounty for the report.\n* Be Patient - Give us a reasonable time to correct the issue before disclosure.\n* We also expect you to comply with all applicable laws."
+}
