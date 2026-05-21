@@ -1,0 +1,94 @@
+{
+  "proposal_id": "20260521-202529-bc-chime",
+  "slug": "bc-chime",
+  "generated_at": "2026-05-21T20:25:29Z",
+  "evidence_inputs": [
+    "/home/kenny/bb-agent/memory/programs/bc-chime.json",
+    "/home/kenny/bb-agent/out/bc-chime/buckets/20260521-202051.json",
+    "/home/kenny/bb-agent/out/bc-chime/secrets/20260521-201855.json",
+    "/home/kenny/bb-agent/out/bc-chime/takeovers/20260521-201911.json"
+  ],
+  "metrics": {
+    "buckets_scanned": 80,
+    "secrets_scanned": 0,
+    "ownership_checks": 0,
+    "owned": 0,
+    "unowned": 0,
+    "unknown": 0,
+    "reports_drafted": 0,
+    "reports_submitted": 0
+  },
+  "narrative": "Chime (bc-chime, Bugcrowd managed, US neobank, $20K critical) was a clean triple-negative engagement: 0 verified secrets, 0 listable buckets, 0 confirmed takeover candidates across all three passes. The gh_org_supplement rule fired correctly — the bare `chime` GitHub org had only 3 repos, and suffix probing recovered `1debit` (47 public repos, Chime's corporate entity) as the proper Pass A target. Despite this, 0 secrets were found in either org (7+2 repos scanned), 0 code-search dork hits across 9 calls, and Pass C was not run. Chime's operational infrastructure is heavily private with no relevant public footprint beyond archived mobile dependencies and small Ruby gems.\n\nThe bucket pass ran 80 candidates through s3scanner, producing 10 flagged buckets — all 10 were `chime`-prefixed bare-stem variants (chime, chime-prod, chime-backup, chime-assets, chime-test, chime-production, chime-files, chime-logs, chime-dev, dev-chime). Every single one returned AccessDenied on the s3scanner_acl_recheck gate. This is the 12th consecutive engagement with a 100% s3scanner ACL false-positive rate, reinforcing that the recheck gate is permanent infrastructure, not a conservative hedge. Notably, none of the more distinctive brand variants (chimepayments, chimebank, saltlabs, 1debit) surfaced as s3scanner-flagged — squatter activity concentrates on the bare brand stem, not on program-distinctive names.\n\nThe most significant finding was a new false-positive class in the takeover pass: all 3 subzy VULNERABLE hits came from `email.*.chime.com` subdomains CNAME-ing to `mailgun.org`, and all 3 were disqualified by body recheck. The Uptimerobot fingerprint string (`page not found`) coincidentally matches Mailgun's edge which returns Go's `http.NotFound()` body verbatim — 19 bytes, `text/plain`, no Uptimerobot branding, and critically, CNAME target is `mailgun.org` not `stats.uptimerobot.com`. This is structurally identical to the Cargo Collective + SendGrid FP class documented in bc-seek: a short fingerprint string fires on a generic platform 404 served from a sender-authentication CNAME endpoint. The 3 same-engagement corroborations are enough for medium confidence. Mailgun sender-auth CNAMEs are account-bound (Mailgun requires domain ownership verification + API key binding), making them structurally not user-claimable just as SendGrid CNAMEs are.\n\nA useful structural observation from the takeover pass: Chime uses Cloudflare as authoritative nameserver (leah.ns.cloudflare.com) but does NOT proxy service traffic through Cloudflare orange-cloud. Actual CNAME targets are CloudFront ARNs, awsglobalaccelerator.com, mailgun.org, and manage.microsoft.com — all direct. The existing `cdn.cloudflare.net` cname_hub_skip rule correctly fired 0 times on this engagement because the proxied Cloudflare pattern simply does not apply here. This confirms the rule is correctly scoped: Cloudflare-NS does not imply Cloudflare-proxied; only the orange-cloud/proxied case produces `*.cdn.cloudflare.net` CNAME chains. Generalizing the rule to catch all Cloudflare-NS customers would be wrong — those varied CNAME targets are exactly where takeover risk hides.\n\nFor revisits: run secrets Pass A on `1debit` only (skip bare `chime` org — 3 repos all accounted for); skip all `chime`-prefixed bucket variants in the scanner pass (all 10 returned AccessDenied, consistent with the bare-stem squatter pattern); the `mailgun.org` cname_hub_skip rule proposed here will eliminate the Uptimerobot FP class cleanly on future runs. SaltLabs (*.saltlabs.com) and ChimeSoftware remain unprobed GitHub orgs with 0 public repos each — no Pass A value there. If credentialed scanning ever becomes available, the `1debit` org's private repos are the highest-probability target for Chime's banking infrastructure secrets.",
+  "proposed_rules": [
+    {
+      "rule_id": "rule-takeover_hunter-subzy_known_fp_patterns-00caf",
+      "agent": "takeover_hunter",
+      "path": "subzy_known_fp_patterns",
+      "action": "append",
+      "value": {
+        "fingerprint_engine": "Uptimerobot",
+        "cname_endpoint_pattern": "*.mailgun.org",
+        "live_body_signature": "19-byte Go http.NotFound() body (text/plain 'page not found'; no Uptimerobot branding)",
+        "reason": "Uptimerobot fingerprint fires on Go http.NotFound() (19 bytes, text/plain) served from Mailgun sender-authentication CNAMEs. 3 corroborations in one engagement: email.news.chime.com, email.rally.chime.com, email.talent.chime.com. Mailgun sender-auth CNAMEs are structurally not user-claimable (account-bound)."
+      },
+      "rationale": "Uptimerobot fingerprint string 'page not found' matches Go's http.NotFound() body served by Mailgun's edge on 3 independent email.*.chime.com CNAMEs; parallel to the Cargo+SendGrid FP class in bc-seek.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/bc-chime/takeovers/20260521-201911.json"
+      ]
+    },
+    {
+      "rule_id": "rule-takeover_hunter-cname_hub_skip-5c6bc",
+      "agent": "takeover_hunter",
+      "path": "cname_hub_skip",
+      "action": "append",
+      "value": {
+        "cname_target": "mailgun.org",
+        "match_type": "suffix",
+        "reason": "3 Chime sender-authentication subdomains (email.news, email.rally, email.talent) all CNAME to mailgun.org; Mailgun sender-auth CNAMEs are account-bound and structurally not user-claimable — parallel to SendGrid cname_hub_skip; adding as suffix drops all mailgun.org CNAMEs before subzy."
+      },
+      "rationale": "Mailgun sender-auth CNAMEs (account-bound, verified-domain-required) cannot be claimed by third parties; 3 firings confirm mailgun.org suffix is a reliable hub-skip candidate.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/bc-chime/takeovers/20260521-201911.json"
+      ]
+    },
+    {
+      "rule_id": "rule-bucket_hunter-basename_skip-86633",
+      "agent": "bucket_hunter",
+      "path": "basename_skip",
+      "action": "append",
+      "value": {
+        "pattern": "chime",
+        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in bc-chime engagement"
+      },
+      "rationale": "All 10 s3scanner-flagged buckets were chime-prefixed bare-stem variants; all 10 returned AccessDenied on recheck; no ownership-verifier run is possible for a bare 4-letter brand stem of a major US neobank with high squatter interest.",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/bc-chime/buckets/20260521-202051.json"
+      ]
+    }
+  ],
+  "discarded_heuristics": [
+    {
+      "heuristic": "H1",
+      "reason": "0 secret candidates surfaced in either Pass A or Pass B; no noseyparker output to analyze for detector false-positives."
+    },
+    {
+      "heuristic": "H2",
+      "reason": "Ownership-verifier was not run on any candidate (0 verified-listable buckets, 0 takeover candidates survived to ownership check); no wayback check data to inspect for brand-stem degeneracy."
+    },
+    {
+      "heuristic": "H3",
+      "reason": "1debit org had only 47 public repos (below the 50-repo threshold for Pass A mature-org signal); chime org had only 3 repos. Neither qualifies as a mature-large-org negative."
+    },
+    {
+      "heuristic": "H4",
+      "reason": "No ownership-verifier cache entries exist for bc-chime; the bucket candidates were all pre-disqualified by the s3scanner recheck gate before reaching ownership-verifier. H4 fires on ownership-cache verdicts, which are absent here. The chime basename_skip rule is proposed via structural argument (H4-adjacent) but captured as a standalone proposed_rule rather than a strict H4 firing."
+    },
+    {
+      "heuristic": "H5",
+      "reason": "No memory/submissions/bc-chime.json file exists; no reports were drafted or submitted, so no platform outcomes to analyze."
+    }
+  ]
+}

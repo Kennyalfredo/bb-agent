@@ -1,0 +1,163 @@
+{
+  "program": {
+    "slug": "bc-chime",
+    "platform": "bugcrowd",
+    "url": "https://bugcrowd.com/engagements/chime",
+    "name": "Chime Managed Bug Bounty Engagement",
+    "fetched_at": "2026-05-21"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "other",
+        "asset": "All Chime Assets",
+        "severity_cap": "unknown"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.chimepayments.com",
+        "severity_cap": "unknown"
+      },
+      {
+        "type": "wildcard",
+        "asset": "https://*.chime.com",
+        "severity_cap": "unknown"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.1debit.com",
+        "severity_cap": "unknown"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.chimecard.com",
+        "severity_cap": "unknown"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.chmfin.com",
+        "severity_cap": "unknown"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.chimebank.com",
+        "severity_cap": "unknown"
+      },
+      {
+        "type": "domain",
+        "asset": "https://www.chime.com",
+        "severity_cap": "unknown"
+      },
+      {
+        "type": "domain",
+        "asset": "https://app.chime.com",
+        "severity_cap": "unknown"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "https://play.google.com/store/apps/details?id=com.onedebit.chime",
+        "severity_cap": "unknown",
+        "notes": "Chime - Android App (Prod)"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "https://apps.apple.com/us/app/chime-mobile-banking/id836215269",
+        "severity_cap": "unknown",
+        "notes": "Chime - iOS App (Prod)"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "https://app.bitrise.io/app/5bec038cb1e318cd/installable-artifacts/9ad837caadc77d33/public-install-page/ef39a3be131d116b6da3f9d05c70d757",
+        "severity_cap": "unknown",
+        "notes": "Chime - iOS App (Beta)"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "https://app.bitrise.io/app/5bec038cb1e318cd/installable-artifacts/d2424d9760af75d5/public-install-page/4883ab94cee43b34c597ad1df833911f",
+        "severity_cap": "unknown",
+        "notes": "Chime - Android App (Beta)"
+      },
+      {
+        "type": "domain",
+        "asset": "http://member-qa.chime.com/enroll",
+        "severity_cap": "unknown",
+        "notes": "Enrollment - (QA)"
+      },
+      {
+        "type": "domain",
+        "asset": "http://app-qa.chime.com/users/sign_in",
+        "severity_cap": "unknown",
+        "notes": "Sign In - (QA)"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.saltlabs.com",
+        "severity_cap": "unknown"
+      },
+      {
+        "type": "domain",
+        "asset": "https://app.saltlabs.com/",
+        "severity_cap": "unknown",
+        "notes": "app.saltlabs.com"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "https://play.google.com/store/apps/details?id=com.saltlabs.app",
+        "severity_cap": "unknown",
+        "notes": "Salt Labs - Android App"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "https://apps.apple.com/us/app/salt-work-and-get-rewarded/id1668462142",
+        "severity_cap": "unknown",
+        "notes": "Salt Labs - iOS App"
+      },
+      {
+        "type": "domain",
+        "asset": "https://app.staging.saltlabs.com/",
+        "severity_cap": "unknown",
+        "notes": "Salt Labs - Staging Environment"
+      }
+    ],
+    "out_of_scope": [
+      {
+        "type": "other",
+        "asset": "Non Chime Owned Assets (see list at the bottom)",
+        "reason": "Third-party / non-Chime-owned assets; full exclusion list on engagement page"
+      },
+      {
+        "type": "domain",
+        "asset": "https://chime.financial",
+        "reason": "Explicitly excluded domain"
+      },
+      {
+        "type": "domain",
+        "asset": "https://chimescholars.org",
+        "reason": "Explicitly excluded domain"
+      }
+    ]
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": false,
+    "cve_age_min_days": 30,
+    "requires_ownership_proof": true,
+    "safe_harbor": true,
+    "submission_form": "https://bugcrowd.com/engagements/chime/submissions/new",
+    "notes": "safe_harbor=full per Bugcrowd dump (full safe harbor confirmed). managed_by_bugcrowd=true (Bugcrowd-managed engagement, not self-managed). per-asset severity_cap not in Bugcrowd dump; defaulted to unknown for all entries. bounty table coarse-grained \u2014 only max_payout known from dump (0,000 USD); manually refine from engagement Rewards tab if drafting against medium/low severity. mass_scanning_allowed defaulted to false (safe default; confirm on engagement page). automated_tools_allowed defaulted to false (safe default; confirm on engagement page). cve_age_min_days defaulted to 30 (safe default; not stated in dump). requires_ownership_proof defaulted to true (safe default; fintech sensitivity). bucket_download_allowed defaulted to false (safe default). FINTECH: Chime is a US neobank \u2014 live customer account testing almost certainly prohibited; use QA/sandbox environments explicitly in scope: member-qa.chime.com/enroll and app-qa.chime.com/users/sign_in. Do NOT test against production accounts holding real customer funds (FDIC-adjacent risk, financial transaction integrity). PII and financial account data must not be exfiltrated even as PoC. Salt Labs (*.saltlabs.com, app.saltlabs.com, staging.saltlabs.com, mobile apps) is a Chime subsidiary; treat with same fintech care. allows_disclosure=false per dump; coordinate any disclosure through Bugcrowd. submission_form is best-guess URL; confirm once on bugcrowd.com/engagements/chime before pasting. *.chimebank.com dump entry had trailing tab character \u2014 normalized to *.chimebank.com."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      {
+        "severity": "critical",
+        "min": 0,
+        "max": 20000,
+        "currency": "USD"
+      }
+    ]
+  },
+  "raw_policy_excerpt": "Scope ingested from arkadiyt/bounty-targets-data dump (bugcrowd_data.json fetched 2026-05-21). Engagement page returned JS shell; full policy text not captured. Read https://bugcrowd.com/engagements/chime before drafting. Key fintech context: Chime is a US neobank (FDIC-partnered). QA environments explicitly in scope: member-qa.chime.com/enroll, app-qa.chime.com/users/sign_in. Out-of-scope: chime.financial, chimescholars.org, non-Chime-owned assets (full list on engagement page). safe_harbor=full, managed_by_bugcrowd=true, max_payout=$20,000 USD, allows_disclosure=false."
+}

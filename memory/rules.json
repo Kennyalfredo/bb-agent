@@ -153,6 +153,15 @@
         "from_engagement": "int-capitalcom",
         "confidence": "medium",
         "reason": "capital-backups is the first recheck-positive bucket in 11 consecutive engagements, yet still scored unowned via object-key evidence; the name is structurally identical to the other bare-stem+suffix entries already in basename_skip."
+      },
+      {
+        "pattern": "chime",
+        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in bc-chime engagement",
+        "id": "rule-bucket_hunter-basename_skip-86633",
+        "added": "2026-05-21T20:38:17Z",
+        "from_engagement": "bc-chime",
+        "confidence": "low",
+        "rationale": "All 10 s3scanner-flagged buckets were chime-prefixed bare-stem variants; all 10 returned AccessDenied on recheck; no ownership-verifier run is possible for a bare 4-letter brand stem of a major US neobank with high squatter interest."
       }
     ],
     "candidate_suffix_skip": [],
@@ -515,6 +524,16 @@
         "from_engagement": "int-capitalcom",
         "confidence": "medium",
         "reason": "4 of 33 CNAME chains in this engagement resolved to *.impervadns.net (Imperva internal nameserver tree); hub-skip would have cut subzy input by 4 and prevented the Cargo FP on img.capital.com from needing body-recheck discharge."
+      },
+      {
+        "cname_target": "mailgun.org",
+        "match_type": "suffix",
+        "reason": "3 Chime sender-authentication subdomains (email.news, email.rally, email.talent) all CNAME to mailgun.org; Mailgun sender-auth CNAMEs are account-bound and structurally not user-claimable — parallel to SendGrid cname_hub_skip; adding as suffix drops all mailgun.org CNAMEs before subzy.",
+        "id": "rule-takeover_hunter-cname_hub_skip-5c6bc",
+        "added": "2026-05-21T20:38:17Z",
+        "from_engagement": "bc-chime",
+        "confidence": "medium",
+        "rationale": "Mailgun sender-auth CNAMEs (account-bound, verified-domain-required) cannot be claimed by third parties; 3 firings confirm mailgun.org suffix is a reliable hub-skip candidate."
       }
     ],
     "subzy_known_fp_patterns": [
@@ -550,6 +569,17 @@
         "from_engagement": "shopify",
         "confidence": "medium",
         "reason": "Third consecutive engagement (bc-seek SendGrid, int-watsons ELB, shopify PaaS) confirms Cargo fingerprint fires on any bare 404; a wildcard endpoint pattern subsumes all three per-platform entries and prevents future one-off additions."
+      },
+      {
+        "fingerprint_engine": "Uptimerobot",
+        "cname_endpoint_pattern": "*.mailgun.org",
+        "live_body_signature": "19-byte Go http.NotFound() body (text/plain 'page not found'; no Uptimerobot branding)",
+        "reason": "Uptimerobot fingerprint fires on Go http.NotFound() (19 bytes, text/plain) served from Mailgun sender-authentication CNAMEs. 3 corroborations in one engagement: email.news.chime.com, email.rally.chime.com, email.talent.chime.com. Mailgun sender-auth CNAMEs are structurally not user-claimable (account-bound).",
+        "id": "rule-takeover_hunter-subzy_known_fp_patterns-00caf",
+        "added": "2026-05-21T20:38:17Z",
+        "from_engagement": "bc-chime",
+        "confidence": "medium",
+        "rationale": "Uptimerobot fingerprint string 'page not found' matches Go's http.NotFound() body served by Mailgun's edge on 3 independent email.*.chime.com CNAMEs; parallel to the Cargo+SendGrid FP class in bc-seek."
       }
     ]
   },
