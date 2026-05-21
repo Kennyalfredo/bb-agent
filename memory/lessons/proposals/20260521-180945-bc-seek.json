@@ -1,0 +1,121 @@
+{
+  "proposal_id": "20260521-180945-bc-seek",
+  "slug": "bc-seek",
+  "generated_at": "2026-05-21T18:09:45Z",
+  "evidence_inputs": [
+    "/home/kenny/bb-agent/memory/programs/bc-seek.json",
+    "/home/kenny/bb-agent/out/bc-seek/buckets/20260521-165553.json",
+    "/home/kenny/bb-agent/out/bc-seek/secrets/20260521-165358.json",
+    "/home/kenny/bb-agent/out/bc-seek/takeovers/20260521-165358.json",
+    "/home/kenny/bb-agent/out/bc-seek/reports/15705866-careerfair-jobstreet-com-20260521-180616.md",
+    "/home/kenny/bb-agent/memory/ownership-cache/205dada29c48eebc.json",
+    "/home/kenny/bb-agent/memory/submissions/bc-seek.json"
+  ],
+  "metrics": {
+    "buckets_scanned": 80,
+    "buckets_s3scanner_flagged": 16,
+    "post_recheck_verified_listable": 0,
+    "secrets_scanned": 24,
+    "secrets_verified": 0,
+    "secrets_noseyparker_only": 24,
+    "trufflehog_pass_a_repos": 46,
+    "codesearch_calls": 9,
+    "repos_cloned": 3,
+    "ownership_checks": 1,
+    "owned": 1,
+    "unowned": 0,
+    "unknown": 0,
+    "subdomains_enumerated": 100,
+    "subdomains_with_cname": 87,
+    "takeover_candidates": 1,
+    "reports_drafted": 1,
+    "reports_submitted": 0
+  },
+  "narrative": "SEEK (bc-seek) engagement on 2026-05-21: full three-pass secrets scan (0 verified, 24 NP-only candidates in 3 third-party repos), bucket scan (80 candidates, 16 s3scanner-flagged, 0 survived ACL recheck — 8th consecutive engagement corroborating the s3scanner FP pattern), and the agent's first-ever complete takeover pipeline run (subfinder → dnsx → subzy → ownership-verifier → report-drafter). One high-severity finding was produced: a dangling Cargo Collective binding on 15705866.careerfair.jobstreet.com reached via a CNAME chain to sendgrid.net, ownership proven via in_scope_subdomain_override rule under *.jobstreet.com. Report drafted but not yet submitted.\n\nThe takeover pipeline worked end-to-end without incident. The ownership-verifier's in_scope_subdomain_override rule correctly short-circuited the 2-of-3 OSINT chain (Wayback and GH code-search are reliably negative for dangling subdomains a program has abandoned) and produced a clean 'owned' verdict. The require_cap_refinement_when_all_caps_unknown gate fired correctly, surfacing the Bugcrowd severity-cap uncertainty to the human rather than silently downgrading a P2 finding to P3. The gh_org_supplement rule from bc-opera correctly identified seek-oss (104 repos) as the canonical SEEK OSS org after SEEK-Jobs returned 0 repos.\n\nThe dominant structural noise in this engagement was Cloudflare proxying. 80 of 87 CNAMEs (92% of all CNAME-carrying subdomains) resolved to *.cdn.cloudflare.net — Cloudflare's Anycast proxy infrastructure. These are never takeover candidates: Cloudflare's edge is always live, and even if a customer disables their zone, the response would be Cloudflare's own 'site not configured' page, which subzy would correctly fail to fingerprint as a takeover. The single non-Cloudflare candidate was the only one worth examining and it produced the finding. Encoding cdn.cloudflare.net as a cname_hub_skip suffix rule would drop the Cloudflare noise preemptively on any future engagement with heavy Cloudflare adoption, reducing subzy scan surface without risk of missing real candidates.\n\nThe secrets pass produced 24 noseyparker-only candidates across three third-party repos: jaceknoga/rwixxvii-containers (a personal DevOps toolkit with jobsdb appearing as a RudderStack pipeline destination), Yash-912/Morpheus-Hack (a hackathon project referencing outfra.xyz in a PRD), and urbanladder/eventservice-gateway (an Indian e-commerce company's event service whose code routes to RudderStack with jobsdb as a destination). This is a distinct third-party contamination pattern from the freelancer-integration repos caught by existing repo_name_skip rules: here the repos are general-purpose codebases that happen to mention SEEK brand names in config destinations or planning documents, not tutorials about integrating with SEEK. All 24 candidates are structurally unowned and should not be pursued. A formal repo_name_skip rule would not help here (the names are not recognizable patterns); the /verify-ownership gate is the correct backstop.\n\nFor next engagement: the H3 narrative note applies — seek-oss has 104 public repos and Pass A returned 0 verified findings. On a revisit, Pass A is unlikely to yield value unless the repo count grows substantially or a new code-search dork targets seek-oss infrastructure strings directly. Pass B and C remain the primary secret-hunting surfaces for SEEK. The 87% Cloudflare CNAME rate means takeover hunting on SEEK's *.jobstreet.com / *.jobsdb.com zones is structurally low-yield beyond the initial scan (most records are proxied and never dangling). The one finding was a legacy campaign subdomain (career fair) — future runs should prioritize other SEEK subdomains that may have legacy campaign remnants under similar naming patterns (numeric-prefixed, event-named).",
+  "proposed_rules": [
+    {
+      "rule_id": "rule-takeover_hunter-cname_hub_skip-78489",
+      "agent": "takeover_hunter",
+      "path": "cname_hub_skip",
+      "action": "append",
+      "value": {
+        "cname_target": "cdn.cloudflare.net",
+        "match_type": "suffix",
+        "reason": "Cloudflare Anycast proxy: 80+ SEEK/JobStreet/JobsDB subdomains CNAME to *.cdn.cloudflare.net; Cloudflare proxy infrastructure is always live and never dangling; observed in bc-seek engagement (87% CNAME rate, 80+ of 87 CNAMEs to Cloudflare)"
+      },
+      "rationale": "80 of 87 bc-seek CNAMEs resolved to *.cdn.cloudflare.net; Cloudflare Anycast is always live so these can never be dangling takeover candidates; suffix match on cdn.cloudflare.net drops all of them before subzy.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/bc-seek/takeovers/20260521-165358.json"
+      ]
+    },
+    {
+      "rule_id": "rule-bucket_hunter-basename_skip-c9755",
+      "agent": "bucket_hunter",
+      "path": "basename_skip",
+      "action": "append",
+      "value": {
+        "pattern": "seek",
+        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in bc-seek engagement"
+      },
+      "rationale": "The bare 4-char 'seek' bucket (us-east-1, AccessDenied on recheck) is the brand stem; ownership-verifier would lock at unknown for the same structural reasons as indrive, snapchat, and other bare-stem entries in basename_skip — the name is too common and too short to distinguish squatters from the program.",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/bc-seek/buckets/20260521-165553.json"
+      ]
+    },
+    {
+      "rule_id": "rule-bucket_hunter-basename_skip-9b9ff",
+      "agent": "bucket_hunter",
+      "path": "basename_skip",
+      "action": "append",
+      "value": {
+        "pattern": "jobsdb",
+        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in bc-seek engagement"
+      },
+      "rationale": "The bare 'jobsdb' bucket (us-east-1, AccessDenied on recheck) is SEEK's Asian operations brand stem; GH code-search dork hits in bc-seek secrets pass showed 'jobsdb' overwhelmingly references rudderlabs/rudder-server forks (it's a popular RudderStack pipeline destination), making ownership-verifier Check A structurally ambiguous with no path to resolution.",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/bc-seek/buckets/20260521-165553.json",
+        "/home/kenny/bb-agent/out/bc-seek/secrets/20260521-165358.json"
+      ]
+    },
+    {
+      "rule_id": "rule-bucket_hunter-basename_skip-58f2b",
+      "agent": "bucket_hunter",
+      "path": "basename_skip",
+      "action": "append",
+      "value": {
+        "pattern": "jobstreet",
+        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in bc-seek engagement"
+      },
+      "rationale": "The bare 'jobstreet' bucket (ap-southeast-1, AccessDenied on recheck) is SEEK's Southeast Asia brand stem; at 9 chars it's recognisable but GH code-search for 'jobstreet' would return hundreds of third-party job-aggregator, scraper, and RudderStack pipeline configs with no reliable way to isolate SEEK-owned infrastructure references.",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/bc-seek/buckets/20260521-165553.json"
+      ]
+    }
+  ],
+  "discarded_heuristics": [
+    {
+      "heuristic": "H1",
+      "reason": "All 24 NP candidates have redacted secrets; the raw literal values cannot be confirmed as placeholder strings (e.g. 'apiK..._KEY' could be a real key or a template variable) — H1 requires confirmed placeholder literals and that confidence threshold is not met from redacted output alone."
+    },
+    {
+      "heuristic": "H2",
+      "reason": "No bucket candidates reached ownership-verifier: all 16 s3scanner-flagged buckets were disqualified at the ACL-recheck gate (rule-bucket_hunter-s3scanner_acl_recheck_required-37651) before any ownership check ran, so no wayback-positive-on-brand-stem cache entries exist to trigger H2."
+    },
+    {
+      "heuristic": "H3",
+      "reason": "Fires as narrative note only per spec — seek-oss has 104 repos and Pass A returned 0 verified findings; this is logged in the narrative paragraph rather than as a machine rule because a single-engagement negative on a mature org is not actionable as a rule in v1."
+    },
+    {
+      "heuristic": "H4",
+      "reason": "H4 requires ownership-cache entries with verdict=unknown; bc-seek buckets never reached ownership-verifier (recheck gate fired first), so no cache entries exist — the bare-brand basename_skip rules above were proposed under the same structural reasoning but via direct evidence from the bucket scan, not H4's cache-based trigger."
+    },
+    {
+      "heuristic": "H5",
+      "reason": "H5 requires a submitted report with platform_report_id and a human-recorded closed_as field; memory/submissions/bc-seek.json shows submitted=false — the finding has not been submitted yet."
+    }
+  ]
+}

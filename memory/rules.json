@@ -119,6 +119,33 @@
         "from_engagement": "moonpay",
         "confidence": "low",
         "reason": "The bare 'moonpay' bucket (us-west-1, AccessDenied) is the brand stem with no suffix; ownership-verifier would lock at unknown for the same structural reasons as indrive, snapchat, and other bare-stem entries in basename_skip."
+      },
+      {
+        "pattern": "seek",
+        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in bc-seek engagement",
+        "id": "rule-bucket_hunter-basename_skip-c9755",
+        "added": "2026-05-21T18:15:17Z",
+        "from_engagement": "bc-seek",
+        "confidence": "low",
+        "reason": "The bare 4-char 'seek' bucket (us-east-1, AccessDenied on recheck) is the brand stem; ownership-verifier would lock at unknown for the same structural reasons as indrive, snapchat, and other bare-stem entries in basename_skip — the name is too common and too short to distinguish squatters from the program."
+      },
+      {
+        "pattern": "jobsdb",
+        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in bc-seek engagement",
+        "id": "rule-bucket_hunter-basename_skip-9b9ff",
+        "added": "2026-05-21T18:15:17Z",
+        "from_engagement": "bc-seek",
+        "confidence": "low",
+        "reason": "The bare 'jobsdb' bucket (us-east-1, AccessDenied on recheck) is SEEK's Asian operations brand stem; GH code-search dork hits in bc-seek secrets pass showed 'jobsdb' overwhelmingly references rudderlabs/rudder-server forks (it's a popular RudderStack pipeline destination), making ownership-verifier Check A structurally ambiguous with no path to resolution."
+      },
+      {
+        "pattern": "jobstreet",
+        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in bc-seek engagement",
+        "id": "rule-bucket_hunter-basename_skip-58f2b",
+        "added": "2026-05-21T18:15:17Z",
+        "from_engagement": "bc-seek",
+        "confidence": "low",
+        "reason": "The bare 'jobstreet' bucket (ap-southeast-1, AccessDenied on recheck) is SEEK's Southeast Asia brand stem; at 9 chars it's recognisable but GH code-search for 'jobstreet' would return hundreds of third-party job-aggregator, scraper, and RudderStack pipeline configs with no reliable way to isolate SEEK-owned infrastructure references."
       }
     ],
     "candidate_suffix_skip": [],
@@ -373,6 +400,16 @@
         "from_engagement": "int-nmt",
         "confidence": "low",
         "reason": "57 welt.de subdomains CNAME-delegate to schneevonmorgen.com (Damoh ad platform) which is fully live and claimed — this is a normal CDN/ad-tech delegation pattern, not an exploitable dangling endpoint."
+      },
+      {
+        "cname_target": "cdn.cloudflare.net",
+        "match_type": "suffix",
+        "reason": "Cloudflare Anycast proxy: 80+ SEEK/JobStreet/JobsDB subdomains CNAME to *.cdn.cloudflare.net; Cloudflare proxy infrastructure is always live and never dangling; observed in bc-seek engagement (87% CNAME rate, 80+ of 87 CNAMEs to Cloudflare)",
+        "id": "rule-takeover_hunter-cname_hub_skip-78489",
+        "added": "2026-05-21T18:15:17Z",
+        "from_engagement": "bc-seek",
+        "confidence": "medium",
+        "reason": "80 of 87 bc-seek CNAMEs resolved to *.cdn.cloudflare.net; Cloudflare Anycast is always live so these can never be dangling takeover candidates; suffix match on cdn.cloudflare.net drops all of them before subzy."
       }
     ]
   },

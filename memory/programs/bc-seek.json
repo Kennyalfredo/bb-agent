@@ -1,0 +1,140 @@
+{
+  "program": {
+    "slug": "bc-seek",
+    "platform": "bugcrowd",
+    "url": "https://bugcrowd.com/engagements/seek",
+    "name": "SEEK",
+    "fetched_at": "2026-05-21"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "wildcard",
+        "asset": "*.seek.com",
+        "severity_cap": "unknown",
+        "notes": "severity_cap defaulted to unknown — Bugcrowd dump does not expose per-target severity caps; refine from engagement Rewards tab before drafting medium/low severity reports"
+      },
+      {
+        "type": "wildcard",
+        "asset": "https://*.employer.seek.com",
+        "severity_cap": "unknown",
+        "notes": "severity_cap defaulted to unknown — Bugcrowd dump does not expose per-target severity caps; refine from engagement Rewards tab before drafting medium/low severity reports"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.seekpass.co",
+        "severity_cap": "unknown",
+        "notes": "severity_cap defaulted to unknown — Bugcrowd dump does not expose per-target severity caps; refine from engagement Rewards tab before drafting medium/low severity reports"
+      },
+      {
+        "type": "wildcard",
+        "asset": "https://*.jobsdb.com",
+        "severity_cap": "unknown",
+        "notes": "severity_cap defaulted to unknown — Bugcrowd dump does not expose per-target severity caps; refine from engagement Rewards tab before drafting medium/low severity reports"
+      },
+      {
+        "type": "wildcard",
+        "asset": "https://*.jobstreet.com",
+        "severity_cap": "unknown",
+        "notes": "severity_cap defaulted to unknown — Bugcrowd dump does not expose per-target severity caps; refine from engagement Rewards tab before drafting medium/low severity reports"
+      },
+      {
+        "type": "other",
+        "asset": "https://seekcdn.com",
+        "severity_cap": "unknown",
+        "notes": "severity_cap defaulted to unknown — Bugcrowd dump does not expose per-target severity caps; refine from engagement Rewards tab before drafting medium/low severity reports"
+      },
+      {
+        "type": "wildcard",
+        "asset": "https://*.myseek.xyz",
+        "severity_cap": "unknown",
+        "notes": "severity_cap defaulted to unknown — Bugcrowd dump does not expose per-target severity caps; refine from engagement Rewards tab before drafting medium/low severity reports"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.outfra.xyz",
+        "severity_cap": "unknown",
+        "notes": "severity_cap defaulted to unknown — Bugcrowd dump does not expose per-target severity caps; refine from engagement Rewards tab before drafting medium/low severity reports"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.skinfra.xyz",
+        "severity_cap": "unknown",
+        "notes": "severity_cap defaulted to unknown — Bugcrowd dump does not expose per-target severity caps; refine from engagement Rewards tab before drafting medium/low severity reports"
+      },
+      {
+        "type": "domain",
+        "asset": "https://graphql.seek.com",
+        "severity_cap": "unknown",
+        "notes": "severity_cap defaulted to unknown — Bugcrowd dump does not expose per-target severity caps; refine from engagement Rewards tab before drafting medium/low severity reports"
+      },
+      {
+        "type": "domain",
+        "asset": "https://auth.seek.com",
+        "severity_cap": "unknown",
+        "notes": "severity_cap defaulted to unknown — Bugcrowd dump does not expose per-target severity caps; refine from engagement Rewards tab before drafting medium/low severity reports"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.jobapi.net",
+        "severity_cap": "unknown",
+        "notes": "severity_cap defaulted to unknown — Bugcrowd dump does not expose per-target severity caps; refine from engagement Rewards tab before drafting medium/low severity reports"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.sol-data.com",
+        "severity_cap": "unknown",
+        "notes": "severity_cap defaulted to unknown — Bugcrowd dump does not expose per-target severity caps; refine from engagement Rewards tab before drafting medium/low severity reports"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.aips-internal.com",
+        "severity_cap": "unknown",
+        "notes": "severity_cap defaulted to unknown — Bugcrowd dump does not expose per-target severity caps; refine from engagement Rewards tab before drafting medium/low severity reports"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "https://apps.apple.com/au/app/seek-jobs-job-search/id520400855",
+        "severity_cap": "unknown",
+        "notes": "SEEK mobile app for iOS. severity_cap defaulted to unknown — Bugcrowd dump does not expose per-target severity caps; refine from engagement Rewards tab before drafting medium/low severity reports"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "https://play.google.com/store/apps/details?id=au.com.seek&hl=en_AU&gl=US",
+        "severity_cap": "unknown",
+        "notes": "SEEK mobile app for Android. severity_cap defaulted to unknown — Bugcrowd dump does not expose per-target severity caps; refine from engagement Rewards tab before drafting medium/low severity reports"
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "https://apps.apple.com/au/app/certsy/id1617796159",
+        "severity_cap": "unknown",
+        "notes": "SEEK Pass Mobile App for iOS (Certsy). severity_cap defaulted to unknown — Bugcrowd dump does not expose per-target severity caps; refine from engagement Rewards tab before drafting medium/low severity reports"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "https://play.google.com/store/apps/details?id=com.certsy.app",
+        "severity_cap": "unknown",
+        "notes": "SEEK Pass Mobile App for Android (Certsy). severity_cap defaulted to unknown — Bugcrowd dump does not expose per-target severity caps; refine from engagement Rewards tab before drafting medium/low severity reports"
+      }
+    ],
+    "out_of_scope": []
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": false,
+    "cve_age_min_days": 30,
+    "requires_ownership_proof": true,
+    "safe_harbor": true,
+    "submission_form": "https://bugcrowd.com/engagements/seek/submissions/new",
+    "notes": "safe_harbor=full per Bugcrowd dump (safe_harbor field='full'). Program is managed by Bugcrowd staff (managed_by_bugcrowd=true). Per-asset severity_cap not in Bugcrowd dump; defaulted to unknown for all entries — read the engagement's Rewards tab before drafting medium/low severity reports. Bounty table coarse-grained — only max_payout known from dump ($10,000 USD); manually refine from engagement page if drafting against medium/low severity. mass_scanning_allowed=false: safe default — not stated explicitly in dump; verify from full policy text on engagement page. automated_tools_allowed=false: safe default — not stated explicitly in dump; verify from full policy text on engagement page. cve_age_min_days=30: safe default — not stated in dump. requires_ownership_proof=true: safe default — not stated in dump. submission_form URL is best-guess; confirm by reading https://bugcrowd.com/engagements/seek once before pasting (Bugcrowd has reorganized engagement URLs in the past). Note: *.outfra.xyz, *.skinfra.xyz, *.myseek.xyz, *.aips-internal.com, and *.sol-data.com appear to be SEEK internal/infrastructure domains — confirm in-scope intent from engagement page before testing."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      { "severity": "critical", "min": 0, "max": 10000, "currency": "USD" }
+    ]
+  },
+  "raw_policy_excerpt": "Scope ingested from arkadiyt/bounty-targets-data dump (bugcrowd_data.json fetched 2026-05-21). Full policy text not captured — read https://bugcrowd.com/engagements/seek before drafting."
+}

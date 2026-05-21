@@ -1,0 +1,21 @@
+{
+  "slug": "bc-seek",
+  "drafts": [
+    {
+      "asset": "15705866.careerfair.jobstreet.com",
+      "asset_class": "subdomain",
+      "finding_type": "subdomain-takeover",
+      "severity_proposed": "high",
+      "severity_capped": "high",
+      "severity_cap_note": "Bugcrowd dump severity_cap=unknown for *.jobstreet.com; proposed=high (P2) used as final; human must verify from Rewards tab before submitting. require_cap_refinement_when_all_caps_unknown-bc5e8 applied.",
+      "report_path": "out/bc-seek/reports/15705866-careerfair-jobstreet-com-20260521-180616.md",
+      "drafted_at": "2026-05-21T18:06:16Z",
+      "ownership_cache_ref": "memory/ownership-cache/205dada29c48eebc.json",
+      "candidate_source": "out/bc-seek/takeovers/20260521-165358.json",
+      "submitted": false,
+      "submission_url": null,
+      "platform_report_id": null,
+      "notes": "applied rule rule-ownership_verifier-in_scope_subdomain_override-7d1a2 (subdomain under in-scope wildcard *.jobstreet.com); applied rule rule-report_drafter-auto_info_filter-8a2f1 (local paths stripped); applied rule rule-report_drafter-require_cap_refinement_when_all_caps_unknown-bc5e8 (Bugcrowd cap unknown, proposed high surfaced to human)"
+    }
+  ]
+}

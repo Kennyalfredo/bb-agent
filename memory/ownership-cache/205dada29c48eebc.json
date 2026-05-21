@@ -1,0 +1,38 @@
+{
+  "slug": "bc-seek",
+  "asset": "15705866.careerfair.jobstreet.com",
+  "bucket_name": null,
+  "dns_name": "15705866.careerfair.jobstreet.com",
+  "fetched_at": "2026-05-21T00:00:00Z",
+  "verdict": "owned",
+  "checks": {
+    "github_code": {
+      "status": "inconclusive",
+      "total_count": null,
+      "top_hits": [],
+      "evidence_path": null,
+      "note": "Not run — in_scope_subdomain_override fired before 3-check chain"
+    },
+    "wayback": {
+      "status": "inconclusive",
+      "hit_count": null,
+      "evidence_path": null,
+      "note": "Not run — in_scope_subdomain_override fired before 3-check chain"
+    },
+    "dns_chain": {
+      "status": "positive",
+      "cname": "sendgrid.net.",
+      "resolved_ips": [
+        "3.20.194.73",
+        "3.220.122.174",
+        "54.158.174.185",
+        "18.224.219.179",
+        "3.231.179.208",
+        "3.20.87.51"
+      ],
+      "evidence_path": "/tmp/ownership-205dada29c48eebc-dns.txt",
+      "note": "Subdomain resolves and CNAMEs to sendgrid.net — dangling CNAME confirmed. DNS check run for situational awareness; the override verdict does not depend on it."
+    }
+  },
+  "notes": "applied rule rule-ownership_verifier-in_scope_subdomain_override-7d1a2: subdomain under in-scope wildcard https://*.jobstreet.com (longest-suffix match on jobstreet.com). Program declared the wildcard as in-scope attack surface; DNS zone control by SEEK is the ownership proof — no 2-of-3 OSINT corroboration required. Dangling CNAME target is sendgrid.net (6 IPs resolved). Takeover-hunter fingerprint: Cargo Collective."
+}
