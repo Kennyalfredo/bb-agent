@@ -1,0 +1,43 @@
+{
+  "slug": "int-capitalcom",
+  "asset": "capital-backups",
+  "bucket_name": "capital-backups",
+  "dns_name": "capital-backups.s3.amazonaws.com",
+  "fetched_at": "2026-05-21T19:58:00Z",
+  "verdict": "unowned",
+  "checks": {
+    "github_code": {
+      "status": "negative",
+      "total_count": 3,
+      "top_hits": [
+        {"repo": "3bsolutionsltd/opf-cd", "path": "docs/BACKUP_RECOVERY.md", "html_url": "https://github.com/3bsolutionsltd/opf-cd/blob/e06a5ba1067f646e284a43fabe366421cee87309/docs/BACKUP_RECOVERY.md"},
+        {"repo": "silkkidpasta/lv-capital-partners", "path": "lv-capital-partners/scripts/env-production-complete.txt", "html_url": "https://github.com/silkkidpasta/lv-capital-partners/blob/016decbddee64cdd7f2c554d0665ccd72e6e0ec3/lv-capital-partners/scripts/env-production-complete.txt"},
+        {"repo": "Raed854/Tencapital", "path": "Front-tencapital/docs/backend/runbook.md", "html_url": "https://github.com/Raed854/Tencapital/blob/b8d457f7e9be9e083289c420efb8c45cd0a46dd5/Front-tencapital/docs/backend/runbook.md"}
+      ],
+      "evidence_path": "/tmp/ownership-3396923f1a04b2b5-gh.json",
+      "notes": "3 total_count hits but 0 in any Capital.com org. No GitHub org exists for capitalcom, capital-com, itcapital, or backend-capital. All 3 repos are unrelated third-party projects (opf-cd, lv-capital-partners, Tencapital). Status is negative not ambiguous: 0 hits are in any program-affiliated org."
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "total_urls_checked": 200,
+      "domains_queried": ["capital.com", "backend-capital.com", "itcapital.io"],
+      "match_mode": "word_boundary",
+      "evidence_path": "/tmp/ownership-3396923f1a04b2b5-gau-hits.txt",
+      "notes": "applied rule rule-ownership_verifier-wayback_match_mode-879f3: word_boundary mode used per rules.json to defang brand-stem degenerate matches. 200 URLs retrieved; 0 matched \\bcapital-backups\\b."
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": "s3-1-w.amazonaws.com.",
+      "resolved_ips": ["54.231.130.113", "16.15.236.131", "16.15.236.78", "52.216.211.177", "52.217.117.169", "16.15.237.118", "52.216.60.217", "52.216.213.201"],
+      "evidence_path": "/tmp/ownership-3396923f1a04b2b5-dns.txt",
+      "notes": "Bucket DNS resolves to generic AWS S3 CNAME (s3-1-w.amazonaws.com / s3-w.us-east-1.amazonaws.com) with rotating S3 IPs. This is the standard bucket-exists DNS pattern — it proves the bucket exists but not who owns it. No CNAME from any Capital.com domain (*.capital.com, *.backend-capital.com, *.itcapital.io) points to this bucket. C=inconclusive for buckets by structural rule."
+    }
+  },
+  "third_party_signal": {
+    "object_key_prefix": "www-unocero/",
+    "inference": "The only visible object key prefix is 'www-unocero/' which corresponds to unocero.com, a Mexican technology news site unrelated to Capital.com (a CFD/trading fintech). This is a strong contextual indicator that the bucket belongs to a third party. GH co-occurrence search for 'www-unocero' + 'capital-backups' returned 0 results. This signal is corroborative, not standalone evidence.",
+    "unocero_relation_to_capitalcom": "none detected"
+  },
+  "notes": "applied rule rule-ownership_verifier-bucket_aggregation_override-1c25c: A=negative, B=negative, C=inconclusive for asset_class=bucket → verdict promoted to unowned. Additional contextual signal: the bucket's only visible object key prefix 'www-unocero/' strongly points to unocero.com (MX tech news), not Capital.com (CFD fintech). The bucket name 'capital-backups' is a common English compound (the word 'capital' appears in thousands of unrelated contexts). No Capital.com GitHub org exists on any of the four candidate org slugs probed. This bucket is structurally indistinguishable from a third-party squatter bucket and the object-key evidence actively identifies a different owner."
+}

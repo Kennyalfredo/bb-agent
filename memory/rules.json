@@ -144,6 +144,15 @@
         "from_engagement": "int-watsons",
         "confidence": "low",
         "reason_provenance": "The 'watsons' bucket (ap-south-1) returned AccessDenied on recheck; GH Check A would be structurally ambiguous due to IBM Watson SDK collision — same structural argument as the existing bare-stem skip entries for indrive, snapchat, seek, and others."
+      },
+      {
+        "pattern": "capital-backups",
+        "reason": "Bucket capital-backups (us-east-1) was publicly listable but ownership-unowned: object-key prefix www-unocero/ identifies unocero.com (Mexican tech news) as the actual owner. Even when recheck-positive, generic-noun+generic-suffix bucket names are ownership-indeterminate.",
+        "id": "rule-bucket_hunter-basename_skip-feebd",
+        "added": "2026-05-21T20:00:01Z",
+        "from_engagement": "int-capitalcom",
+        "confidence": "medium",
+        "reason": "capital-backups is the first recheck-positive bucket in 11 consecutive engagements, yet still scored unowned via object-key evidence; the name is structurally identical to the other bare-stem+suffix entries already in basename_skip."
       }
     ],
     "candidate_suffix_skip": [],
@@ -496,6 +505,16 @@
         "from_engagement": "shopify",
         "confidence": "medium",
         "reason": "54/60 CNAMEs resolve to wc.shopify.com (Shopify's own live redirect mesh); hub-skip would have cut subzy input from 60 to 6 and prevented the one FP that still required two rules to discharge."
+      },
+      {
+        "cname_target": "impervadns.net",
+        "match_type": "suffix",
+        "reason": "Imperva/Incapsula CDN internal delegation: 4 CNAMEs in int-capitalcom engagement resolved to *.impervadns.net. Imperva is a live enterprise WAF/CDN; these are never dangling user-claimable endpoints.",
+        "id": "rule-takeover_hunter-cname_hub_skip-2dea0",
+        "added": "2026-05-21T20:00:01Z",
+        "from_engagement": "int-capitalcom",
+        "confidence": "medium",
+        "reason": "4 of 33 CNAME chains in this engagement resolved to *.impervadns.net (Imperva internal nameserver tree); hub-skip would have cut subzy input by 4 and prevented the Cargo FP on img.capital.com from needing body-recheck discharge."
       }
     ],
     "subzy_known_fp_patterns": [

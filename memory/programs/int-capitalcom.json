@@ -1,0 +1,174 @@
+{
+  "program": {
+    "slug": "int-capitalcom",
+    "platform": "intigriti",
+    "url": "https://www.intigriti.com/programs/capitalcom/capitalcom/detail",
+    "name": "Capital.com",
+    "fetched_at": "2026-05-21"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "domain",
+        "asset": "payment.backend-capital.com",
+        "severity_cap": "critical",
+        "notes": "Tier 1 — payment backend; highest-value target. Original endpoint: payment.backend-capital.com"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.backend-capital.com",
+        "severity_cap": "high",
+        "notes": "Tier 2 — backend infra wildcard. Excludes *affiliates.backend-capital.com, *eduapp.backend-capital.com, *education.backend-capital.com (all OOS)."
+      },
+      {
+        "type": "wildcard",
+        "asset": "capital.com/*",
+        "severity_cap": "high",
+        "notes": "Tier 2 — main domain wildcard. Individual subdomains aff.capital.com, go.capital.com, register.capital.com, careers.capital.com are No Bounty (info cap). help.capital.com and relocate-with-us.capital.com are OOS."
+      },
+      {
+        "type": "mobile_ios",
+        "asset": "com.capital.trading",
+        "severity_cap": "high",
+        "notes": "Tier 2 — iOS trading app. App Store: https://apps.apple.com/BY/app/id1230088754?mt=8"
+      },
+      {
+        "type": "mobile_android",
+        "asset": "com.capital.trading",
+        "severity_cap": "high",
+        "notes": "Tier 2 — Android trading app. Play Store: https://play.google.com/store/apps/details?id=com.capital.trading&hl=en"
+      },
+      {
+        "type": "domain",
+        "asset": "open-api.capital.com",
+        "severity_cap": "high",
+        "notes": "Tier 2 — Capital.com trading API; allows direct access to latest version of trading engine. Original endpoint: open-api.capital.com"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.capital.com",
+        "severity_cap": "medium",
+        "notes": "Tier 3 — broader capital.com wildcard. Lower tier than capital.com/* above; catches additional subdomains. OOS carve-outs: help.capital.com (Zendesk CNAME), relocate-with-us.capital.com (Webflow CNAME)."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.itcapital.io",
+        "severity_cap": "medium",
+        "notes": "Tier 3 — itcapital.io wildcard. OOS carve-outs: 3cxby.itcapital.io, texis.itcapital.io."
+      },
+      {
+        "type": "domain",
+        "asset": "aff.capital.com",
+        "severity_cap": "info",
+        "notes": "No Bounty — affiliate subdomain. VDP-only within bounty program; findings won't pay. Original endpoint: aff.capital.com"
+      },
+      {
+        "type": "domain",
+        "asset": "go.capital.com",
+        "severity_cap": "info",
+        "notes": "No Bounty — redirect/link subdomain. VDP-only within bounty program. Original endpoint: go.capital.com"
+      },
+      {
+        "type": "domain",
+        "asset": "register.capital.com",
+        "severity_cap": "info",
+        "notes": "No Bounty — registration subdomain. VDP-only within bounty program. Original endpoint: register.capital.com"
+      },
+      {
+        "type": "domain",
+        "asset": "careers.capital.com",
+        "severity_cap": "info",
+        "notes": "No Bounty — careers page. VDP-only within bounty program. Original endpoint: careers.capital.com"
+      }
+    ],
+    "out_of_scope": [
+      {
+        "type": "wildcard",
+        "asset": "*affiliates.backend-capital.com",
+        "reason": "Explicitly OOS in dump"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*eduapp.backend-capital.com",
+        "reason": "Explicitly OOS in dump"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*education.backend-capital.com",
+        "reason": "Explicitly OOS in dump"
+      },
+      {
+        "type": "domain",
+        "asset": "help.capital.com",
+        "reason": "CNAME to Zendesk — third-party hosted, OOS"
+      },
+      {
+        "type": "domain",
+        "asset": "relocate-with-us.capital.com",
+        "reason": "CNAME to Webflow — third-party hosted, OOS"
+      },
+      {
+        "type": "domain",
+        "asset": "3cxby.itcapital.io",
+        "reason": "Explicitly OOS in dump"
+      },
+      {
+        "type": "domain",
+        "asset": "texis.itcapital.io",
+        "reason": "Explicitly OOS in dump"
+      }
+    ]
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": true,
+    "cve_age_min_days": 30,
+    "requires_ownership_proof": true,
+    "safe_harbor": true,
+    "submission_form": "https://app.intigriti.com/researcher/programs/capitalcom/capitalcom/submit",
+    "notes": "AUTOMATED TOOLS: Permitted with strict rate-limit of max 10 requests/sec. Reports generated solely by automated scanners without manual validation, clear reproduction steps, and demonstrated security impact are rejected. automated_tools_allowed set to true (explicitly stated in policy). | SAFE HARBOR: Policy page indicates safe harbor is offered; full text collapsed/not fully captured. safe_harbor set to true based on partial WebFetch confirmation — confirm exact wording before relying on it. | FINTECH TESTING RESTRICTIONS: Researchers must self-register for testing accounts. Capital.com cannot provide extra demo credits. Live trading on production accounts is implicitly prohibited (policy emphasizes demo/self-registered accounts). No explicit statement found about a mandatory sandbox environment, but the strong implication is production trading systems must not be exploited for financial gain or data access. | KYC/PII: Capital.com is a regulated fintech (CFD/trading platform). Expect KYC data (passport, address proof) to be in scope of high-impact findings but explicitly off-limits to access beyond demonstrating the vulnerability path. Do NOT exfiltrate or retain any PII/KYC data encountered during testing. | BOUNTY STRUCTURE (from policy page): Low €50-€100, Medium €100-€1,000, High €1,000-€5,000, Critical €5,000-€9,000, Exceptional €9,000-€15,000. Maximum bounty determined by vulnerability type cap regardless of CVSS score; final amount based on demonstrated business impact and asset criticality. | Intigriti bounty table coarse-grained — only min/max range known from dump; refine from program Rewards tab if drafting against medium/low severity. | Per-asset severity_cap mapped from dump Tier 1/2/3 and No Bounty. No Bounty assets capped at info (VDP-only within bounty program — won't pay). | TaC required: false. 2FA required (platform side): false. | submission_form is best-guess Intigriti researcher URL — confirm by reading the program page once before pasting. | bucket_listing_allowed defaulted to true (not addressed in policy). bucket_download_allowed defaulted to false (safe default; fintech context makes data download especially sensitive). cve_age_min_days defaulted to 30 (not explicitly stated). requires_ownership_proof defaulted to true (not explicitly stated but implied by standard Intigriti terms)."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      {
+        "severity": "low",
+        "min": 54,
+        "max": 107,
+        "currency": "USD",
+        "notes": "EUR 50-100 converted at EUR×1.07; from policy page"
+      },
+      {
+        "severity": "medium",
+        "min": 107,
+        "max": 1070,
+        "currency": "USD",
+        "notes": "EUR 100-1000 converted at EUR×1.07; from policy page"
+      },
+      {
+        "severity": "high",
+        "min": 1070,
+        "max": 5350,
+        "currency": "USD",
+        "notes": "EUR 1000-5000 converted at EUR×1.07; from policy page"
+      },
+      {
+        "severity": "critical",
+        "min": 5350,
+        "max": 9630,
+        "currency": "USD",
+        "notes": "EUR 5000-9000 converted at EUR×1.07; from policy page"
+      },
+      {
+        "severity": "exceptional",
+        "min": 9630,
+        "max": 16050,
+        "currency": "USD",
+        "notes": "EUR 9000-15000 converted at EUR×1.07; Intigriti 'Exceptional' band (CVSS 9.5-10.0); from policy page"
+      }
+    ]
+  },
+  "raw_policy_excerpt": "Scope ingested from arkadiyt/bounty-targets-data dump (intigriti_data.json fetched 2026-05-21). Partial policy text captured via WebFetch on 2026-05-21 from https://app.intigriti.com/programs/capitalcom/capitalcom/detail. Key policy extracts: 'Capital.com cannot provide extra demo credits on these accounts.' | Automated scanning: 'max. 10 requests /sec' permitted; reports 'generated solely by automated vulnerability scanners or tools without manual validation, clear reproduction steps, and demonstrated security impact' rejected. | Bounty: Low €50-€100, Medium €100-€1,000, High €1,000-€5,000, Critical €5,000-€9,000, Exceptional €9,000-€15,000. 'Maximum bounty is determined by vulnerability type cap regardless of CVSS score.' 'Final bounty amount is determined based on demonstrated business impact and asset criticality.' | Safe harbor: offered (full text not captured — read program page before drafting). Full policy text not captured — read https://www.intigriti.com/programs/capitalcom/capitalcom/detail before drafting."
+}

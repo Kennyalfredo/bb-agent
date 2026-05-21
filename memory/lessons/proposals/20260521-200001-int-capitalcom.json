@@ -1,0 +1,138 @@
+{
+  "proposal_id": "20260521-200001-int-capitalcom",
+  "slug": "int-capitalcom",
+  "generated_at": "2026-05-21T20:00:01Z",
+  "evidence_inputs": [
+    "/home/kenny/bb-agent/memory/programs/int-capitalcom.json",
+    "/home/kenny/bb-agent/out/int-capitalcom/buckets/20260521-195001.json",
+    "/home/kenny/bb-agent/out/int-capitalcom/secrets/20260521-194757.json",
+    "/home/kenny/bb-agent/out/int-capitalcom/takeovers/20260521-195243.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/3396923f1a04b2b5.json",
+    "/home/kenny/bb-agent/memory/ownership-cache/c8a61a8c2c0e3fde.json"
+  ],
+  "metrics": {
+    "buckets_scanned": 75,
+    "secrets_scanned": 1,
+    "ownership_checks": 2,
+    "owned": 0,
+    "unowned": 2,
+    "unknown": 0,
+    "reports_drafted": 0,
+    "reports_submitted": 0,
+    "subdomains_enumerated": 3914,
+    "subdomains_with_cname": 33,
+    "subzy_vulnerable_raw": 3,
+    "subzy_auto_disqualified": 3,
+    "takeover_candidates_confirmed": 0
+  },
+  "narrative": "Capital.com (Intigriti, int-capitalcom) was a clean-negative engagement across all three passes: 0 reports drafted, 0 reports submitted. The secrets pass surfaced one genuine-but-unowned candidate — mbelschner/trading_bot_test's `.env` file containing a real Capital.com demo API triple (CC_API_KEY + CC_PASSWORD + CC_IDENTIFIER) pointing at demo-api-capital.backend-capital.com. Ownership-verification confirmed the repo owner is an individual Viennese retail trader with no Capital.com affiliation; the credentials belong to the trader's own demo account, not Capital.com's infrastructure. This is the fourth confirmed vendor_repo_credentials instance (after Shahid-Nawaz-Pahore/moonpay, the Vietnamese Avada bootcamp trio, and the earlier integrate_{brand}_with_ pattern) and the first one naming convention observed for personal algorithmic trading bots.\n\nThe bucket pass produced 75 candidates → 11 s3scanner-flagged → 1 actually-listable after the recheck gate → 0 reportable after ownership-verification. `capital-backups` (us-east-1) is genuinely publicly listable but object-key prefix `www-unocero/` identifies unocero.com (Mexican tech news) as the actual owner. This is the first engagement in 11 consecutive runs where a bucket survived the s3scanner recheck gate (10/11 FPs caught, 1 true-positive listing) — but the ownership gate still killed it. The s3scanner ACL flag is a meaningful detection signal; the ownership filter remains the dominant reportability gate.\n\nThe takeover pass saw 3914 subdomains enumerated → 500 capped → 33 CNAME chains → 3 subzy VULNERABLE → 3 auto-disqualified by the Cargo Collective wildcard rule (rule-takeover_hunter-subzy_known_fp_patterns-466fa, applied just 30 minutes before this run). The disqualifications split across two CNAME targets: two internal Rancher cluster CNAMEs (prod-rancher-aws2-edgerouter-public.backend-capital.com) and one Imperva CDN CNAME (9oj3fzc.impervadns.net). The Imperva case is notable: img.capital.com CNAMEs to an impervadns.net host serving an S3 NoSuchKey 404, which subzy matched as Cargo VULNERABLE, but the wildcard body-check rule correctly discharged it. Four of the 33 CNAME chains in this engagement used impervadns.net, confirming Imperva/Incapsula as Capital.com's primary CDN and making impervadns.net a strong candidate for cname_hub_skip.\n\nCapital.com has zero GitHub org footprint under any of the four candidate org slugs (capitalcom, capital-com, backend-capital, itcapital). Pass A org scan produced 0 candidates; the gh_org_supplement rule fired and confirmed all suffix variants also 404. This is a different failure mode from opera (org existed but was the wrong/smaller one) — Capital.com genuinely operates no public GitHub presence under a brand-derived slug. The only GH surface that exists is individual retail-trader repos that happen to use Capital.com's public trading API, which is exactly the vendor_repo_credentials threat class. Future engagements should weight Pass B + C heavily and skip Pass A org scan on the first confirmation that no org exists.\n\nFor revisits: run Pass B + C only (skip Pass A — confirmed 0-repo org footprint); add impervadns.net to cname_hub_skip before subzy; note that the `capital` stem and its generic suffixes (capital-backups, capital-test, capital-qa, etc.) are ownership-indeterminate by construction and should be pre-skipped. The Cargo wildcard rule (466fa) now covers all three Capital.com VULNERABLE hits cleanly — no new takeover-specific rule needed beyond the cname_hub_skip candidates proposed here.",
+  "proposed_rules": [
+    {
+      "rule_id": "rule-takeover_hunter-cname_hub_skip-2dea0",
+      "agent": "takeover_hunter",
+      "path": "cname_hub_skip",
+      "action": "append",
+      "value": {
+        "cname_target": "impervadns.net",
+        "match_type": "suffix",
+        "reason": "Imperva/Incapsula CDN internal delegation: 4 CNAMEs in int-capitalcom engagement resolved to *.impervadns.net. Imperva is a live enterprise WAF/CDN; these are never dangling user-claimable endpoints."
+      },
+      "rationale": "4 of 33 CNAME chains in this engagement resolved to *.impervadns.net (Imperva internal nameserver tree); hub-skip would have cut subzy input by 4 and prevented the Cargo FP on img.capital.com from needing body-recheck discharge.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/int-capitalcom/takeovers/20260521-195243.json"
+      ]
+    },
+    {
+      "rule_id": "rule-takeover_hunter-cname_hub_skip-0b8a6",
+      "agent": "takeover_hunter",
+      "path": "cname_hub_skip",
+      "action": "append",
+      "value": {
+        "cname_target": "online-metrix.net",
+        "match_type": "suffix",
+        "reason": "ThreatMetrix/LexisNexis fraud-detection service: 1 CNAME in int-capitalcom engagement resolved to h-csaq721w.online-metrix.net. Enterprise fraud-detection, never user-claimable."
+      },
+      "rationale": "1 CNAME chain in the engagement pointed to h-csaq721w.online-metrix.net (ThreatMetrix fraud platform, a LexisNexis Risk Solutions enterprise service — never dangling); single-engagement observation keeps this at low confidence.",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/int-capitalcom/takeovers/20260521-195243.json"
+      ]
+    },
+    {
+      "rule_id": "rule-secret_hunter-repo_name_skip-44753",
+      "agent": "secret_hunter",
+      "path": "repo_name_skip",
+      "action": "append",
+      "value": {
+        "patterns": [
+          "*trading_bot*",
+          "*tradingbot*",
+          "*trading-bot*"
+        ],
+        "match_type": "repo_name_glob",
+        "reason": "Personal algorithmic trading repos using vendor demo APIs are a recurring vendor_repo_credentials class: mbelschner/trading_bot_test (Capital.com demo key) follows the same pattern as Shahid-Nawaz-Pahore/moonpay repos."
+      },
+      "rationale": "mbelschner/trading_bot_test contained a real Capital.com demo API triple but the account is a retail trader using Capital.com's public API; trading-bot-named repos structurally contain vendor-issued demo credentials belonging to the repo owner, not the vendor.",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/int-capitalcom/secrets/20260521-194757.json",
+        "/home/kenny/bb-agent/memory/ownership-cache/c8a61a8c2c0e3fde.json"
+      ]
+    },
+    {
+      "rule_id": "rule-bucket_hunter-basename_skip-47fca",
+      "agent": "bucket_hunter",
+      "path": "basename_skip",
+      "action": "append",
+      "value": {
+        "pattern": "capital",
+        "reason": "The bare 4-char stem 'capital' is a common English word appearing in thousands of unrelated S3 buckets; ownership-verifier locked at unowned (object-key prefix www-unocero/ confirmed third-party owner); structurally degenerate for the same reasons as indrive/seek/watsons bare-stem entries."
+      },
+      "rationale": "The bare 'capital' bucket (us-east-2, AccessDenied on recheck) is a common English noun with no path to ownership resolution; the corroborating evidence from capital-backups object keys confirms the stem is populated by unrelated third parties.",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/int-capitalcom/buckets/20260521-195001.json",
+        "/home/kenny/bb-agent/memory/ownership-cache/3396923f1a04b2b5.json"
+      ]
+    },
+    {
+      "rule_id": "rule-bucket_hunter-basename_skip-feebd",
+      "agent": "bucket_hunter",
+      "path": "basename_skip",
+      "action": "append",
+      "value": {
+        "pattern": "capital-backups",
+        "reason": "Bucket capital-backups (us-east-1) was publicly listable but ownership-unowned: object-key prefix www-unocero/ identifies unocero.com (Mexican tech news) as the actual owner. Even when recheck-positive, generic-noun+generic-suffix bucket names are ownership-indeterminate."
+      },
+      "rationale": "capital-backups is the first recheck-positive bucket in 11 consecutive engagements, yet still scored unowned via object-key evidence; the name is structurally identical to the other bare-stem+suffix entries already in basename_skip.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/int-capitalcom/buckets/20260521-195001.json",
+        "/home/kenny/bb-agent/memory/ownership-cache/3396923f1a04b2b5.json"
+      ]
+    }
+  ],
+  "discarded_heuristics": [
+    {
+      "heuristic": "H1",
+      "reason": "No noseyparker-sourced candidates survived to the final candidates list; the 13 noseyparker hits were all consumed by path_skip (5) or identified as Laravel validation rule strings / localhost postgres (8) — no detector+value FP pattern worth recording as a machine rule."
+    },
+    {
+      "heuristic": "H2",
+      "reason": "No wayback check came back positive; word_boundary mode (already the live setting) was applied correctly and returned 0 hits for capital-backups — no brand-stem wayback degeneracy to address."
+    },
+    {
+      "heuristic": "H3",
+      "reason": "Pass A org scan found no GH org at all for Capital.com (all 404); H3 fires on mature-org 0-verified scenarios, not on zero-org scenarios. Narrative note recorded instead: if revisiting, skip Pass A org scan."
+    },
+    {
+      "heuristic": "H4",
+      "reason": "Both ownership-cache verdicts are 'unowned' (not 'unknown'); H4 targets unknown+all-ambiguous combos. The verdicts here were clean unowned via bucket_aggregation_override — no additional rule needed beyond the two basename_skip entries proposed under custom rules."
+    },
+    {
+      "heuristic": "H5",
+      "reason": "memory/submissions/int-capitalcom.json does not exist — no reports were submitted, so no platform-dismissed outcome to learn from."
+    }
+  ]
+}

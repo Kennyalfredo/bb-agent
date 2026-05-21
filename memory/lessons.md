@@ -19,6 +19,20 @@ Entries are appended by `retro-analyzer` via `/retro apply`. The corresponding r
 
 <!-- Entries below this line, newest first -->
 
+## 2026-05-21 — int-capitalcom
+**Proposal**: `memory/lessons/proposals/20260521-200001-int-capitalcom.json`
+**Applied rules**: rule-takeover_hunter-cname_hub_skip-2dea0, rule-bucket_hunter-basename_skip-feebd
+
+Capital.com (Intigriti, int-capitalcom) was a clean-negative engagement across all three passes: 0 reports drafted, 0 reports submitted. The secrets pass surfaced one genuine-but-unowned candidate — mbelschner/trading_bot_test's `.env` file containing a real Capital.com demo API triple (CC_API_KEY + CC_PASSWORD + CC_IDENTIFIER) pointing at demo-api-capital.backend-capital.com. Ownership-verification confirmed the repo owner is an individual Viennese retail trader with no Capital.com affiliation; the credentials belong to the trader's own demo account, not Capital.com's infrastructure. This is the fourth confirmed vendor_repo_credentials instance (after Shahid-Nawaz-Pahore/moonpay, the Vietnamese Avada bootcamp trio, and the earlier integrate_{brand}_with_ pattern) and the first one naming convention observed for personal algorithmic trading bots.
+
+The bucket pass produced 75 candidates → 11 s3scanner-flagged → 1 actually-listable after the recheck gate → 0 reportable after ownership-verification. `capital-backups` (us-east-1) is genuinely publicly listable but object-key prefix `www-unocero/` identifies unocero.com (Mexican tech news) as the actual owner. This is the first engagement in 11 consecutive runs where a bucket survived the s3scanner recheck gate (10/11 FPs caught, 1 true-positive listing) — but the ownership gate still killed it. The s3scanner ACL flag is a meaningful detection signal; the ownership filter remains the dominant reportability gate.
+
+The takeover pass saw 3914 subdomains enumerated → 500 capped → 33 CNAME chains → 3 subzy VULNERABLE → 3 auto-disqualified by the Cargo Collective wildcard rule (rule-takeover_hunter-subzy_known_fp_patterns-466fa, applied just 30 minutes before this run). The disqualifications split across two CNAME targets: two internal Rancher cluster CNAMEs (prod-rancher-aws2-edgerouter-public.backend-capital.com) and one Imperva CDN CNAME (9oj3fzc.impervadns.net). The Imperva case is notable: img.capital.com CNAMEs to an impervadns.net host serving an S3 NoSuchKey 404, which subzy matched as Cargo VULNERABLE, but the wildcard body-check rule correctly discharged it. Four of the 33 CNAME chains in this engagement used impervadns.net, confirming Imperva/Incapsula as Capital.com's primary CDN and making impervadns.net a strong candidate for cname_hub_skip.
+
+Capital.com has zero GitHub org footprint under any of the four candidate org slugs (capitalcom, capital-com, backend-capital, itcapital). Pass A org scan produced 0 candidates; the gh_org_supplement rule fired and confirmed all suffix variants also 404. This is a different failure mode from opera (org existed but was the wrong/smaller one) — Capital.com genuinely operates no public GitHub presence under a brand-derived slug. The only GH surface that exists is individual retail-trader repos that happen to use Capital.com's public trading API, which is exactly the vendor_repo_credentials threat class. Future engagements should weight Pass B + C heavily and skip Pass A org scan on the first confirmation that no org exists.
+
+For revisits: run Pass B + C only (skip Pass A — confirmed 0-repo org footprint); add impervadns.net to cname_hub_skip before subzy; note that the `capital` stem and its generic suffixes (capital-backups, capital-test, capital-qa, etc.) are ownership-indeterminate by construction and should be pre-skipped. The Cargo wildcard rule (466fa) now covers all three Capital.com VULNERABLE hits cleanly — no new takeover-specific rule needed beyond the cname_hub_skip candidates proposed here.
+
 ## 2026-05-21 — shopify
 **Proposal**: `memory/lessons/proposals/20260521-192300-shopify.json`
 **Applied rules**: rule-takeover_hunter-cname_hub_skip-a2fdc, rule-takeover_hunter-subzy_known_fp_patterns-466fa, rule-secret_hunter-repo_name_skip-a244d

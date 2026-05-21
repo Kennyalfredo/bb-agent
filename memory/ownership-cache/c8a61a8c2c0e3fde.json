@@ -1,0 +1,45 @@
+{
+  "slug": "int-capitalcom",
+  "asset": "mbelschner",
+  "bucket_name": null,
+  "dns_name": null,
+  "asset_class": "github_account",
+  "fetched_at": "2026-05-21T00:00:00Z",
+  "verdict": "unowned",
+  "checks": {
+    "github_code": {
+      "status": "negative",
+      "total_count": 0,
+      "search_queries": [
+        "\"mbelschner\" in:file org:capitalcom → 0 hits",
+        "\"mbelschner\" \"capital.com\" in:file → 0 hits"
+      ],
+      "profile": {
+        "login": "mbelschner",
+        "name": "Maximilian Belschner",
+        "company": null,
+        "bio": null,
+        "location": "Vienna, Austria",
+        "public_repos": 7,
+        "created_at": "2020-09-23T09:49:39Z"
+      },
+      "profile_assessment": "No company affiliation declared. All 7 repos are personal algorithmic trading projects (backtesting_r_trading, R-ML-Trading-Complete, stock_market_dashboard, stock_signal, trading_algorithm, trading_bot_test, webhook_tv_tradingbot). Consistent with an individual retail trader using Capital.com's public API, not an employee.",
+      "top_hits": [],
+      "evidence_path": "/tmp/ownership-c8a61a8c2c0e3fde-gh-org.json"
+    },
+    "wayback": {
+      "status": "negative",
+      "hit_count": 0,
+      "gau_url_count": 197,
+      "domains_queried": ["capital.com", "backend-capital.com", "open-api.capital.com"],
+      "evidence_path": "/tmp/ownership-c8a61a8c2c0e3fde-gau-hits.txt"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "reason": "Asset is a GitHub username, not a domain or bucket. DNS chain check is not applicable.",
+      "cname": null,
+      "evidence_path": null
+    }
+  },
+  "notes": "Asset mbelschner is a GitHub username, not a standard bucket/subdomain/IP. Adapted checks: A=GH code-search (org:capitalcom + co-occurrence with capital.com in code) and profile API lookup; B=Wayback gau against program's in-scope domains; C=inconclusive (not a DNS-resolvable asset). A=negative (0 hits in both searches; profile shows company=null, bio=null, location=Vienna Austria, 7 personal trading repos). B=negative (0 hits in 197 archived URLs across capital.com/backend-capital.com/open-api.capital.com). All 7 mbelschner repos are personal retail-trading projects; vendor_repo_credentials pattern applies — this is a Capital.com API customer/user, not an employee or contractor. Aggregation: A=neg, B=neg, C=inconclusive → bucket_aggregation_override rule-ownership_verifier-bucket_aggregation_override-1c25c not applicable (not a bucket), but the same logic holds: two negative signals with one structurally-inconclusive non-signal → unowned. In_scope_subdomain_override does not fire (not a subdomain)."
+}
