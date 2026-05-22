@@ -1,0 +1,30 @@
+{
+  "slug": "bc-chime",
+  "asset": "flashpaper.chime.com",
+  "bucket_name": null,
+  "dns_name": "flashpaper.chime.com",
+  "fetched_at": "2026-05-22T00:00:00Z",
+  "verdict": "owned",
+  "checks": {
+    "github_code": {
+      "status": "inconclusive",
+      "total_count": null,
+      "top_hits": [],
+      "evidence_path": null,
+      "note": "Skipped — in_scope_subdomain_override fired before A/B/C aggregation"
+    },
+    "wayback": {
+      "status": "inconclusive",
+      "hit_count": null,
+      "evidence_path": null,
+      "note": "Skipped — in_scope_subdomain_override fired before A/B/C aggregation"
+    },
+    "dns_chain": {
+      "status": "inconclusive",
+      "cname": null,
+      "evidence_path": null,
+      "note": "Skipped — in_scope_subdomain_override fired before A/B/C aggregation"
+    }
+  },
+  "notes": "applied rule rule-ownership_verifier-in_scope_subdomain_override-7d1a2: subdomain under in-scope wildcard https://*.chime.com (longest-suffix match: flashpaper.chime.com ends with .chime.com). Zone-control proof: program declares the *.chime.com wildcard as their attack surface; any DNS record under it is theirs by zone-control. A/B/C aggregation skipped per override semantics."
+}

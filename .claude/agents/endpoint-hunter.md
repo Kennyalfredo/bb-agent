@@ -70,26 +70,62 @@ chmod 700 "/mnt/files/bb-agent/<slug>/endpoints/<UTC-YYYYMMDD-HHMMSS>"
 EVID="/mnt/files/bb-agent/<slug>/endpoints/<UTC-YYYYMMDD-HHMMSS>"
 ```
 
-### 4. Passive URL enumeration via gau
+### 4. Passive URL enumeration via gau (gau provider set: Wayback + CommonCrawl + AlienVault OTX + URLScan)
 
-For each seed domain (one call per seed, gau internally queries Wayback + CommonCrawl + AlienVault OTX + URLScan):
+**CRITICAL — run gau calls SERIALLY, not in parallel.** Empirical observation from the shopify V3 run (2026-05-22): when multiple seeds were queried in close succession, archive providers throttled the burst and the primary `shopify.com` seed silently returned 0 URLs despite being the highest-value target. Parallel execution loses high-value seeds without warning.
+
+For each seed domain (one call per seed, serialized):
 
 ```bash
 /home/kenny/go/bin/gau \
   --providers wayback,commoncrawl,otx,urlscan \
   --threads 4 \
   --timeout 60 \
-  --o "$EVID/gau-<seed>.txt" \
+  --blacklist gif,jpg,jpeg,png,svg,ico,woff,woff2,ttf,css \
   "<seed>" \
+  > "$EVID/gau-<seed>.txt" \
   2> "$EVID/gau-<seed>.err"
+
+# Mandatory inter-seed sleep to avoid archive-API rate limiting:
+sleep 8
 ```
 
-Notes:
-- gau is fully passive — no requests against the program's infrastructure, only against the public archive aggregators.
-- Wayback corpora can be huge. On a mature program (chime, shopify), expect 50k-200k URLs per seed. The output file is line-delimited; we never load the entire corpus into memory.
-- Apply `--blacklist gif,jpg,jpeg,png,svg,ico,woff,woff2,ttf,css` if gau supports it on this build (the gau v2 binary does; check `--help`) to drop static-asset URLs that aren't candidates.
+**Empty-result retry logic (NEW in hotfix):** After each gau call completes, check the output:
 
-Merge all per-seed outputs into `$EVID/all-urls.txt`, dedupe (sort -u). Record `gau_url_corpus_size` per seed in `summary.urls_enumerated_per_seed`.
+```bash
+url_count=$(wc -l < "$EVID/gau-<seed>.txt")
+# Retry once if the count looks suspiciously low for the seed's profile.
+# Heuristic: any seed with at least 1 in-scope wildcard/explicit-domain reference in the program JSON
+# should produce >= 50 URLs from a mature program's archive corpus. If lower, retry once after 30s.
+if [ "$url_count" -lt 50 ]; then
+  echo "WARNING: <seed> returned only $url_count URLs — retrying after 30s in case of provider throttle" >> "$EVID/gau-retry.log"
+  sleep 30
+  /home/kenny/go/bin/gau \
+    --providers wayback,commoncrawl,otx,urlscan \
+    --threads 4 \
+    --timeout 120 \
+    --blacklist gif,jpg,jpeg,png,svg,ico,woff,woff2,ttf,css \
+    "<seed>" \
+    > "$EVID/gau-<seed>.retry.txt" \
+    2> "$EVID/gau-<seed>.retry.err"
+  # Use whichever output has more URLs; record which one was used in summary.notes
+  retry_count=$(wc -l < "$EVID/gau-<seed>.retry.txt")
+  if [ "$retry_count" -gt "$url_count" ]; then
+    mv "$EVID/gau-<seed>.retry.txt" "$EVID/gau-<seed>.txt"
+    echo "applied retry: <seed> went from $url_count to $retry_count URLs" >> "$EVID/gau-retry.log"
+  fi
+fi
+```
+
+If the retry still returns 0 URLs for a high-value seed (one that contains the program's flagship domain — e.g. `shopify.com`, `chime.com`), DO NOT silently proceed. Log a hard warning in `summary.notes` as `"gau seed <name> returned 0 URLs after retry — corpus is incomplete; primary attack surface may be missing"`. The operator should see this and decide whether to abort/re-run later when archive APIs have cooled down.
+
+Notes:
+- gau is fully passive — no requests against the program's infrastructure, only against the public archive aggregators (Wayback Machine, CommonCrawl, AlienVault OTX, URLScan).
+- The `--blacklist` flag drops static-asset URLs that aren't candidates.
+- Archive corpora can be huge. On a mature program (chime, shopify), expect 50k-200k URLs per seed under nominal conditions; under archive-API throttling, individual seeds can return 0 without obvious error. The retry logic above catches the common throttling case.
+- DO NOT cite "Wayback" specifically as the data source when reporting findings derived from gau output — gau aggregates from 4 providers and the result attribution should reflect the full provider set. Use language like "gau provider set" or "Wayback / CommonCrawl / OTX / URLScan aggregator".
+
+Merge all per-seed outputs into `$EVID/all-urls.txt`, dedupe (sort -u). Record `gau_url_corpus_size` per seed in `summary.urls_enumerated_per_seed`. Record any retry firings + their before/after counts in `summary.notes`.
 
 ### 5. Grep sensitive paths from URL corpus
 
@@ -168,9 +204,11 @@ Otherwise:
   -rate-limit "${rate_limit_cap_rps:-5}" \
   -timeout 10 \
   -retries 1 \
-  -o "$EVID/httpx-probe.jsonl" \
+  > "$EVID/httpx-probe.jsonl" \
   2> "$EVID/httpx-probe.err"
 ```
+
+**CRITICAL — use stdout redirect (`>`), NOT the `-o` flag.** Empirical observation from the shopify V3 run (2026-05-22): the `-o "$EVID/httpx-probe.jsonl"` flag blocks indefinitely on larger input lists (~130+ URLs) on this httpx v1.9.0 build — the process holds the file open without writing and never exits. The stdout-redirect form is reliable across list sizes. Do not revert to `-o`.
 
 Flag rationale:
 - `-rate-limit` honors program rate cap; default 5 req/sec for "automated_tools_allowed but no published cap"
@@ -225,19 +263,47 @@ Apply `rules.endpoint_hunter.body_signature_skip[]` here — drop candidates who
 
 If `passive_only_mode == true`, skip this step. Otherwise:
 
+**CRITICAL — scope nuclei to confirmed-live URLs only, not the full candidate set.** Empirical observation from the bc-chime V2 run (2026-05-22): running nuclei against the full 303-candidate set at 5 rps with ~4800 default templates exceeded reasonable runtime (~290K seconds — multi-day) and was killed after 20 minutes. The fix is two-part:
+
+1. **Target only the URLs that returned HTTP 200 in Step 6** (typically <10 URLs, vs the 2000-cap full candidate list). These are the only candidates where exposure templates can produce a meaningful finding — a template firing on a 404 is automatic-FP.
+2. **Filter templates to `critical,high` severity only**, which reduces template count from ~4800 to ~500-1000 (the medium/low/info templates are mostly noise for our class).
+
 ```bash
-/home/kenny/go/bin/nuclei \
-  -list "$EVID/sensitive-candidates.txt" \
-  -t /home/kenny/nuclei-templates/http/exposures/ \
-  -t /home/kenny/nuclei-templates/http/misconfiguration/ \
-  -silent \
-  -json-export "$EVID/nuclei-exposures.json" \
-  -rate-limit "${rate_limit_cap_rps:-5}" \
-  -timeout 10 \
-  -retries 1 \
-  -no-color \
-  > "$EVID/nuclei-exposures.log" 2>&1
+# Build the live-URL list from Step 6 httpx output:
+jq -r 'select(.status_code == 200) | .url' "$EVID/httpx-probe.jsonl" > "$EVID/live-urls.txt"
+
+live_count=$(wc -l < "$EVID/live-urls.txt")
+if [ "$live_count" -eq 0 ]; then
+  echo "nuclei step skipped: no 200 OK URLs to test" >> "$EVID/nuclei-exposures.log"
+else
+  /home/kenny/go/bin/nuclei \
+    -list "$EVID/live-urls.txt" \
+    -t /home/kenny/nuclei-templates/http/exposures/ \
+    -t /home/kenny/nuclei-templates/http/misconfiguration/ \
+    -severity critical,high \
+    -silent \
+    -json-export "$EVID/nuclei-exposures.json" \
+    -rate-limit "${nuclei_rate_limit_cap_rps:-50}" \
+    -timeout 10 \
+    -retries 1 \
+    -no-color \
+    -stats \
+    > "$EVID/nuclei-exposures.log" 2>&1 &
+  nuclei_pid=$!
+
+  # Hard 5-minute timeout — if nuclei doesn't finish, kill it and continue with grep+signature results only.
+  ( sleep 300; if kill -0 "$nuclei_pid" 2>/dev/null; then kill -TERM "$nuclei_pid" 2>/dev/null; echo "nuclei timed out at 300s — killed" >> "$EVID/nuclei-exposures.log"; fi ) &
+  timeout_pid=$!
+  wait "$nuclei_pid" 2>/dev/null
+  kill "$timeout_pid" 2>/dev/null
+fi
 ```
+
+Flag rationale:
+- `-list "$EVID/live-urls.txt"` (only 200-OK from Step 6) instead of the full candidate set — typically <10 URLs, never the 2000-cap full list
+- `-severity critical,high` filters template count from ~4800 to ~500-1000 (medium/low/info are mostly noise on the exposure class)
+- `-rate-limit ${nuclei_rate_limit_cap_rps:-50}` is a **separate cap from httpx**: nuclei templates are mostly quick HEAD/GET requests, not full body fetches, so a higher rate is appropriate. Default 50 rps. Programs with explicit lower rate caps in `rules.rate_limit_cap_rps` override this default downward (use `min(nuclei_rate_limit_cap_rps, rate_limit_cap_rps)` if both are set).
+- Hard 5-minute timeout via background killer — if nuclei somehow still takes too long (e.g. unusually large live-URL set), kill it and proceed with grep+signature results only
 
 Why both `http/exposures/` AND `http/misconfiguration/`:
 - `exposures/` covers `/.env`, `/.git/`, `/swagger`, `/backup-files`, etc. — high overlap with our Step 5 grep set, used as a SECOND ENGINE (different template logic than our manual grep+signature pipeline)
