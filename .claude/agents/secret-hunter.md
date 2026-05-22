@@ -47,7 +47,22 @@ From `scope.in_scope[*]` where `type` ∈ {`wildcard`, `domain`}:
 - Take the leftmost label as a `base_name` (e.g. `mercadolibre.com.ar` → `mercadolibre`, `adminml.com` → `adminml`).
 - Lowercase, dedupe.
 
-Cap `base_names` at 6 by default (3 under strict mode). Pick the most distinctive (those with the longest unique stem; avoid sub-brand duplicates if the org name already covers them).
+**Bare-stem auto-skip (NEW in Phase 1):** drop any base_name that is structurally noise-prone for code-search before consuming dork budget on it:
+
+- **Hard skip — ≤4 chars:** drop any base_name of 4 chars or fewer. Code-search on 4-char stems is dominated by substring collisions in unrelated projects (e.g. `seek`, `chat`, `mail`, `find`, `shop`, `card`, `team`). Record dropped names in `summary.notes` as `"base-stem-too-short skip: <name>"`.
+- **Soft skip — common-English-noun inline list:** drop base_names appearing in this conservative list (high observed collision rate):
+  ```
+  capital, found, chime, watsons, politico, bild, audi, opera,
+  shop, store, point, internal, staging, public, web, app, auth,
+  login, signal, target, source, simple, basic, modern, mobile,
+  digital, smart, cloud, data, tech, info, news, link, home
+  ```
+  Record as `"base-stem-english-noun skip: <name>"`.
+- **Persisted skip — `rules.secret_hunter.codesearch_base_skip[]`:** apply this list verbatim (this is the existing runtime-rule slot; see rule `rule-secret_hunter-codesearch_base_skip-6f4c8` added from int-watsons).
+
+When all three checks fire and zero base_names survive, log a clear warning in `summary.notes` ("all base names auto-skipped — codesearch pass effectively disabled this run") and proceed to Pass A only. Pass A is unaffected by this filter (it operates on GH org names, not codesearch base names).
+
+Cap surviving `base_names` at 6 by default (3 under strict mode). Pick the most distinctive (those with the longest unique stem; avoid sub-brand duplicates if the org name already covers them).
 
 Also derive `gh_org_candidates`:
 - The slug itself.
@@ -86,7 +101,9 @@ Skip an org if a 404 comes back on the first probe (org doesn't exist on GH); re
 
 A single broad query `"<base_name>" in:file` produces a flood of irrelevant blog posts and SDK docs. To raise the signal-to-noise ratio, run **multiple targeted dorks** per base_name, each pre-filtering for high-value file types or secret prefixes. This closes the gap that caused FN on Opera (canonical org `operasoftware`, not `opera`, was found via dorked searches surfacing `opera.com` email addresses in `.env` files).
 
-Default dork set (run all 6 per base_name; ≤3 of these under strict mode — pick `.env`, `.npmrc`, and `aws_access_key_id`):
+Default dork set — **12 dorks per base_name (full mode), 3 per base_name (strict mode)**. Phase 1 expansion (2026-05-21) added 6 new dorks beyond the original 6 to catch deployment/IaC/iOS/GCP credential classes the original set missed.
+
+**Tier 1 dorks (strict mode picks these 3, default mode runs all 6):**
 
 ```
 "<base_name>" extension:env
@@ -96,6 +113,25 @@ Default dork set (run all 6 per base_name; ≤3 of these under strict mode — p
 "<base_name>" filename:config.yml
 "<base_name>" "api_key" extension:json
 ```
+
+**Tier 2 dorks (default mode adds these 6 on top of Tier 1, never run under strict mode):**
+
+```
+"<base_name>" filename:Dockerfile
+"<base_name>" extension:tfvars
+"<base_name>" extension:plist
+"<base_name>" "service_account" extension:json
+"<base_name>" filename:.dockerignore
+"<base_name>" "api_key" extension:yaml
+```
+
+Rationale for each Tier 2 dork:
+- **Dockerfile** — hardcoded ENV / ARG values in Docker builds, often committed by mistake
+- **.tfvars** — Terraform variable files routinely contain plaintext credentials (CI-injected vars get committed when developers `terraform init` locally)
+- **.plist** — iOS app configs with embedded API keys / certificates
+- **service_account + json** — GCP service-account key JSON files (very high impact when found)
+- **.dockerignore** — reveals secret-bearing files BY EXCLUSION (`!secrets.env` means it exists)
+- **yaml api_key** — companion to the existing JSON api_key dork; YAML configs dominate Kubernetes/Helm/Ansible scopes
 
 For each dork, run **exactly one** code-search call:
 ```bash
@@ -108,7 +144,9 @@ For each dork, run **exactly one** code-search call:
 
 `<dork-slug>` = the dork's distinguishing token (e.g. `env`, `npmrc`, `aws-key`, `rsa-pk`, `config-yml`, `api-key-json`).
 
-Quota note: `gh api search/code` is on the code-search rate limit (30/min authenticated). Default budget: 6 base_names × 6 dorks = 36 calls. That fits within ~2 min of the rate budget; serialize the calls or insert a 2s sleep between each if you exceed 30 in a 60s window. Strict mode budget: 3 base_names × 3 dorks = 9 calls. Track each call in `summary.codesearch_calls` and emit per-dork hit counts in `summary.dork_hits[<base>][<dork>]`.
+Quota note: `gh api search/code` is on the code-search rate limit (30/min authenticated). **Default budget: 6 base_names × 12 dorks = 72 calls** — that exceeds the 30/min window, so serialize and insert a `sleep 2` between calls after the 30th call within a 60s window. **Strict mode budget: 3 base_names × 3 dorks = 9 calls** (fits inside the 30/min window with room to spare). Track each call in `summary.codesearch_calls` and emit per-dork hit counts in `summary.dork_hits[<base>][<dork>]`.
+
+**Mid-pass abort heuristic (NEW in Phase 1):** after running the first dork for a base_name, inspect the hit list. If >25 hits AND >50% of hit repos concentrate under a single owner that isn't a `gh_org_candidate`, auto-skip remaining dorks for that base_name and propose adding the base to `secret_hunter.codesearch_base_skip` in the next retro. Log: `"base-stem-poisoned skip: <name> (dominated by <other_owner>)"`. This is the dynamic counterpart to Step 2's static bare-stem skip — catches new collision cases as they appear.
 
 Aggregate the JSON outputs across all dorks for a base_name. Dedupe by `repo` (same repo may hit on multiple dorks — that's a stronger signal). Then choose up to **5 unique repos** (3 under strict mode) across all dorks/base_names, preferring:
 1. Repos whose owner login matches a `gh_org_candidate` (highest signal — but Pass A already covered the org itself; here we pick *forks/derivatives* not under the org).
@@ -130,6 +168,30 @@ git clone --depth=1 "https://github.com/<owner>/<name>.git" \
 ```
 
 Refuse to clone any repo > 500 MB. Pre-check with `gh api repos/<owner>/<name> --jq .size` (size is in KB). If oversized, log and skip.
+
+### 5.5. Pass B.5 — gitleaks filesystem scan (NEW in Phase 1)
+
+For each successfully-cloned Pass B repo, run gitleaks as a second-ruleset filesystem pass on the same clone. gitleaks catches credential classes trufflehog skips (RSA PEM in non-standard headers, base64-encoded JWT-shaped tokens, custom regex patterns for cloud SDKs, JDBC connection strings with embedded passwords).
+
+```bash
+/home/kenny/go/bin/gitleaks detect \
+  --source="/mnt/files/bb-agent/<slug>/secrets/clones/<owner>__<name>" \
+  --report-format=json \
+  --report-path="$EVID/gitleaks-passB-<owner>__<name>.json" \
+  --no-banner \
+  --no-git \
+  --redact \
+  > "$EVID/gitleaks-passB-<owner>__<name>.log" 2>&1
+```
+
+Flag rationale:
+- `--no-git`: scan filesystem only, not git history. Pass C (noseyparker) handles history.
+- `--redact`: gitleaks pre-redacts the secret value in its own output (we still re-redact at Step 7 to match our redaction format).
+- No `--config` override: rely on gitleaks default ruleset (the whole point is "different ruleset than trufflehog").
+
+gitleaks does NOT verify secrets against issuers. Mark all gitleaks findings `verified: false` in the candidate list — they're the unverified-but-pattern-matched tier, same as noseyparker. The two rulesets serve complementary purposes: gitleaks catches structural patterns (PEM blocks, JDBC URLs), noseyparker catches entropy + named-detector patterns in commit history.
+
+Dedupe gitleaks findings against trufflehog filesystem hits on `(file, line, raw_hash)` — same file:line will often produce both a trufflehog detector hit and a gitleaks rule hit; collapse into one candidate with `source: ["trufflehog", "gitleaks"]`.
 
 ### 6. Pass C — noseyparker historical scan
 For each successfully-cloned repo in Pass B, re-fetch full history once and run noseyparker:
@@ -153,7 +215,7 @@ Note: noseyparker uses a shared datastore across repos within a single run — o
 
 ### 7. Parse → build candidate list
 
-Parse the three pass outputs into a single `candidates` array. For each entry:
+Parse the FOUR pass outputs (A trufflehog org, B trufflehog filesystem, B.5 gitleaks, C noseyparker) into a single `candidates` array. For each entry:
 
 **Trufflehog JSONL (Pass A and B):**
 - Detector name: `SourceMetadata.Data.<source>.detector_name` or top-level `DetectorName`.
@@ -161,6 +223,15 @@ Parse the three pass outputs into a single `candidates` array. For each entry:
 - Raw secret: `Raw` (REDACT before writing to candidate JSON).
 - Repo: trufflehog reports `link` / `repository` / `file` / `commit` under SourceMetadata.
 - (Trufflehog's JSON schema varies by version. Inspect the first non-empty line and adapt.)
+
+**Gitleaks JSON (Pass B.5) — exact selectors:**
+- Rule name: top-level `RuleID` (or `Description` if RuleID is empty).
+- Raw match (REDACT): `Secret` field (already pre-redacted by `--redact` flag, but re-redact to match our format).
+- File path: `File` (relative to clone root — prepend `/mnt/files/bb-agent/<slug>/secrets/clones/<owner>__<name>/`).
+- Start line: `StartLine`.
+- Commit: `Commit` (empty if `--no-git` was used; that's expected).
+- Entropy: `Entropy` (informational only — gitleaks uses entropy as one input to its rules).
+- `verified: false` for all (gitleaks does not verify against issuers).
 
 **Noseyparker JSON (Pass C) — exact selectors for v0.24.0:**
 - Detector / rule name: top-level `rule_name`.
@@ -170,7 +241,7 @@ Parse the three pass outputs into a single `candidates` array. For each entry:
 - Line number: `matches[].location.source_span.start.line`.
 - `verified: false` for all (noseyparker does not verify).
 
-Dedupe across passes by `(detector, raw_hash, repo, commit)` — same secret seen twice in different passes collapses to one candidate, with `source: ["trufflehog", "noseyparker"]`.
+Dedupe across passes by `(file, line, raw_hash)` first (catches trufflehog+gitleaks double-hits on the same file:line), then by `(detector, raw_hash, repo, commit)` for cross-repo dedup. Same secret seen in multiple passes collapses to one candidate, with `source: ["trufflehog", "gitleaks", "noseyparker"]` listing all engines that hit. A candidate hit by 2+ engines is a STRONGER signal — surface those at the top of the candidate list ahead of single-engine hits at the same `verified` tier.
 
 ### 8. Write output
 
@@ -181,23 +252,31 @@ Schema:
 {
   "program": "<slug>",
   "generated_at": "<UTC ISO8601>",
-  "passes_run": ["A", "B", "C"],
+  "passes_run": ["A", "B", "B.5", "C"],
   "evidence_dir": "/mnt/files/bb-agent/<slug>/secrets/<ts>",
   "summary": {
     "github_orgs_scanned": ["mercadolibre"],
-    "base_names": ["mercadolibre", "mercadopago", "adminml"],
-    "dorks_run": ["env", "npmrc", "aws-key", "rsa-pk", "config-yml", "api-key-json"],
-    "codesearch_calls": 18,
+    "base_names_input": ["mercadolibre", "mercadopago", "adminml", "shop", "ml"],
+    "base_names_after_autoskip": ["mercadolibre", "mercadopago", "adminml"],
+    "base_names_dropped": [
+      {"name": "shop", "reason": "base-stem-english-noun skip"},
+      {"name": "ml", "reason": "base-stem-too-short skip"}
+    ],
+    "dorks_run": ["env", "npmrc", "aws-key", "rsa-pk", "config-yml", "api-key-json", "dockerfile", "tfvars", "plist", "service-account", "dockerignore", "yaml-api-key"],
+    "codesearch_calls": 36,
     "dork_hits": {
-      "mercadolibre": {"env": 12, "npmrc": 0, "aws-key": 3, "rsa-pk": 0, "config-yml": 1, "api-key-json": 7},
-      "mercadopago":  {"env": 4,  "npmrc": 1, "aws-key": 0, "rsa-pk": 0, "config-yml": 0, "api-key-json": 2},
-      "adminml":      {"env": 0,  "npmrc": 0, "aws-key": 0, "rsa-pk": 0, "config-yml": 0, "api-key-json": 0}
+      "mercadolibre": {"env": 12, "npmrc": 0, "aws-key": 3, "rsa-pk": 0, "config-yml": 1, "api-key-json": 7, "dockerfile": 2, "tfvars": 0, "plist": 0, "service-account": 0, "dockerignore": 0, "yaml-api-key": 4},
+      "mercadopago":  {"env": 4,  "npmrc": 1, "aws-key": 0, "rsa-pk": 0, "config-yml": 0, "api-key-json": 2, "dockerfile": 0, "tfvars": 1, "plist": 0, "service-account": 0, "dockerignore": 0, "yaml-api-key": 0},
+      "adminml":      {"env": 0,  "npmrc": 0, "aws-key": 0, "rsa-pk": 0, "config-yml": 0, "api-key-json": 0, "dockerfile": 0, "tfvars": 0, "plist": 0, "service-account": 0, "dockerignore": 0, "yaml-api-key": 0}
     },
     "repos_cloned": 4,
+    "gitleaks_findings_raw": 27,
+    "gitleaks_findings_after_dedupe_against_trufflehog": 9,
     "candidates_total": 19,
     "candidates_verified": 2,
+    "candidates_multi_engine": 3,
     "ownership_status": "UNVERIFIED — run /verify-ownership <slug> <repo-owner> on each candidate before drafting",
-    "notes": "<freeform — quota throttles, oversized repos skipped, anything odd>"
+    "notes": "<freeform — quota throttles, oversized repos skipped, autoskip firings, anything odd>"
   },
   "candidates": [
     {
@@ -228,15 +307,18 @@ Set mode `0600` on the output JSON since redacted prefixes can still be sensitiv
 
 Reply with:
 - output file path
-- pass-A orgs scanned, pass-B repos cloned, pass-C run y/n
-- `candidates_verified` + `candidates_total`
+- pass-A orgs scanned, pass-B repos cloned, pass-B.5 gitleaks raw + post-dedupe counts, pass-C run y/n
+- `candidates_verified` + `candidates_total` + `candidates_multi_engine` (count hit by ≥2 engines — these are the highest-confidence non-verified candidates)
+- base_names_dropped (with reasons) — operator should see which auto-skips fired
 - top 3 verified candidates by detector (no secret values, just `detector @ repo/path`)
+- top 3 multi-engine unverified candidates (still no secret values) — these are the strongest leads after the verified set
 - the **literal next step**: for each unique `repo_owner` in the candidates list, run `/verify-ownership <slug> <repo_owner>` to confirm whether that GH identity belongs to the program. If verifier says `unowned`, the candidate cannot be drafted as a finding against this program.
 
 ## Don'ts
 - Don't authenticate to the secret's issuer with the candidate token. `--only-verified` already did one passive issuer probe. We do not stack a second.
 - Don't open a PR / issue / fork on the leaking repo to nudge a fix. Reporting is the program's job, post-triage.
-- Don't run trufflehog without `--results=verified` in Pass A or B — unverified noise will swamp the candidate list. Pass C (noseyparker) is our *unverified* sweep, on purpose, against a different ruleset.
+- Don't run trufflehog without `--results=verified` in Pass A or B — unverified noise will swamp the candidate list. Pass B.5 (gitleaks) and Pass C (noseyparker) are our *unverified* sweeps, on purpose, against different rulesets — those produce the multi-engine corroboration signal that boosts unverified candidates worth following up on.
+- Don't run gitleaks with the default `--no-git=false` (git-history mode) on Pass B clones — they're shallow (--depth=1) and a history scan would either fail or duplicate Pass C's noseyparker historical work. Use `--no-git` to scan filesystem only.
 - Don't collapse the dork set back to one broad query. The dorks exist because Opera-style FN (canonical org name mismatch with brand stem) is real and dorks surface canonical owners that a single `"<base>" in:file` query misses.
 - Don't widen scope by scanning random GH orgs that share part of the slug. Only the orgs you derived in step 2.
 - Don't write any secret value to a file under `/home/kenny/bb-agent/out/`. Redact first. Raw evidence stays on `/mnt/files/...` with `0600`.

@@ -57,8 +57,11 @@ EVID="/tmp/takeover-hunter-<slug>-<UTC-YYYYMMDD-HHMMSS>"
 mkdir -p "$EVID"
 ```
 
-### 4. Subfinder — passive subdomain enumeration
-For each seed (one call per seed; subfinder concurrently queries many passive sources internally — that's fine, it's not active scanning):
+### 4. Passive subdomain enumeration — subfinder + amass + crt.sh (NEW in Phase 1)
+
+Run **all three** sources in parallel for each seed and merge. Each catches subdomains the others miss — subfinder uses ~50 indexed passive sources, amass has different source weighting (more focus on ASN + DNS history), crt.sh hits the Cert Transparency log directly (catches newly-issued certs that haven't been indexed by passive aggregators yet).
+
+**4.1 Subfinder** (existing — primary source, broadest coverage):
 ```bash
 /home/kenny/go/bin/subfinder \
   -d "<seed>" \
@@ -69,7 +72,36 @@ For each seed (one call per seed; subfinder concurrently queries many passive so
   2> "$EVID/subfinder-<seed>.err"
 ```
 
-Parse the JSONL across all seeds, extract the `host` field, dedupe. Cap the resulting list at 500 (default) or 100 (strict). If exceeded, take the alphabetically first N and record the truncation in `summary.notes`.
+**4.2 Amass passive** (NEW):
+```bash
+/home/kenny/.local/bin/amass enum \
+  -passive \
+  -d "<seed>" \
+  -silent \
+  -o "$EVID/amass-<seed>.txt" \
+  2> "$EVID/amass-<seed>.err"
+```
+
+`-passive` is mandatory — amass active mode does ASN sweeps and DNS bruteforce which violate the passive-only rule. Empirically extends subfinder coverage by ~5-10% on most engagements.
+
+**4.3 crt.sh direct query** (NEW):
+```bash
+curl -s --max-time 30 "https://crt.sh/?q=%25.<seed>&output=json" \
+  -o "$EVID/crtsh-<seed>.json" 2> "$EVID/crtsh-<seed>.err"
+
+# Extract unique subdomains (handle wildcard certs and multi-SAN entries):
+/home/kenny/.local/bin/jq -r '.[]?.name_value' "$EVID/crtsh-<seed>.json" \
+  | tr ',' '\n' | tr -d ' ' | sed 's/^\*\.//' \
+  | grep -E "\.<seed>$" | sort -u > "$EVID/crtsh-<seed>.txt"
+```
+
+crt.sh has rate limits (no auth — be patient, max ~10 req/min). On a 503 or empty JSON, log and continue with subfinder + amass only.
+
+**4.4 Merge + dedupe + cap.**
+
+Combine `subfinder-<seed>.jsonl` host extracts + `amass-<seed>.txt` lines + `crtsh-<seed>.txt` lines across all seeds. Record per-source contribution in `summary.notes` as `"<source>_unique_contributions: subfinder=X, amass=Y, crtsh=Z"` (subdomains only that source surfaced — measures whether each source is paying its keep).
+
+Dedupe. Cap the merged list at 500 (default) or 100 (strict). If exceeded, prefer **round-robin sampling across seeds** over global alphabetical sort (this is the Phase 1 fix for the shopify/int-capitalcom alphabetical-truncation bias — when one seed produced 1369 subs and another produced 100, the global sort favored the prolific seed and starved the others). Implementation: bucket subs by their parent seed, then take ceil(cap/N_seeds) from each bucket in alphabetical order until cap reached. Record the per-seed truncation count in `summary.notes`.
 
 Apply any `rules.takeover_hunter.subdomain_skip[]` filters now — drop matching subdomains before writing the final list to `$EVID/subdomains.txt` (one per line).
 
@@ -167,8 +199,79 @@ If `rules.takeover_hunter.subzy_body_recheck_required[0].enabled == true` (defau
 
 Record the recheck firing in `summary.notes`: `"applied rule rule-takeover_hunter-subzy_body_recheck_required-e91f7: rechecked N subzy hits, M confirmed, K disqualified"`.
 
+### 6.7. Nuclei takeover templates — second-engine pass (NEW in Phase 1, GATED)
+
+**Gating:** This step is GATED. Only run if BOTH:
+- `rules.automated_tools_allowed == true` in the program JSON, AND
+- `rules.takeover_hunter.refuse_if_explicit_scanner_ban` is not set OR `program.rules.explicit_scanner_ban != true`
+
+If either gate fails, log `"nuclei takeover pass skipped: <reason>"` in `summary.notes` and proceed to Step 7 with subzy-only candidates.
+
+**Why a second engine:** Nuclei's `http/takeovers/*.yaml` templates use a different fingerprint database than subzy's `can-i-take-over-xyz` corpus. Some takeover classes exist in one but not the other (Microsoft Azure variants, Vercel, Smugmug, certain HubSpot configurations). Running both engines + the body-recheck gate raises the catch rate without raising the FP rate (since each candidate still has to pass body recheck).
+
+```bash
+/home/kenny/go/bin/nuclei \
+  -list "$EVID/subdomains-with-cname.txt" \
+  -t /home/kenny/nuclei-templates/http/takeovers/ \
+  -silent \
+  -json-export "$EVID/nuclei-takeovers.json" \
+  -rate-limit "${rate_limit_cap_rps:-5}" \
+  -timeout 10 \
+  -retries 1 \
+  -no-color \
+  > "$EVID/nuclei-takeovers.log" 2>&1
+```
+
+Flag rationale:
+- `-rate-limit` honors any program-declared rate cap (default 5 req/sec if unspecified — conservative for "automated_tools_allowed but no explicit rate published")
+- `-timeout 10 -retries 1` keeps total runtime bounded
+- Only the takeovers template directory — DO NOT widen to broader nuclei templates (info-disclosure, exposures, etc. are Phase 2's endpoint-hunter scope)
+
+**For each nuclei VULNERABLE finding:**
+- If the subdomain already appeared in the subzy-confirmed set, mark `engines: ["subzy+body_recheck", "nuclei"]` (multi-engine corroboration — STRONGEST signal).
+- If new (subzy missed it), the candidate must STILL pass the body-recheck gate from Step 6.5 — re-run the curl recheck against this specific subdomain with the nuclei-reported fingerprint string from the template's `matcher` field. Same disqualification logic.
+
+Record in `summary.notes`: `"nuclei takeover pass: N matches, M confirmed via body recheck, K newly discovered (not in subzy set)"`.
+
+### 6.9. CNAME-target liveness check — fingerprint-less candidates (NEW in Phase 1)
+
+**Why this exists:** Subzy + nuclei together cover known fingerprints in the can-i-take-over-xyz + nuclei-templates databases. But a CNAME can be dangling without matching any documented fingerprint — e.g. when the CNAME target is an **expired domain** (registrable by anyone) or a **subdomain on a now-decommissioned zone** (NXDOMAIN on the apex). These produce no fingerprint match because there's no third-party service signature to match against — there's just nothing there at all.
+
+For every subdomain in `$EVID/subdomains-with-cname.txt` that did NOT trigger a subzy or nuclei match, perform a passive liveness check on the CNAME target:
+
+```bash
+for sub in $(cat "$EVID/subdomains-with-cname.txt"); do
+  # Already covered by subzy/nuclei? Skip.
+  if grep -q "\"$sub\"" "$EVID/subzy.json" "$EVID/nuclei-takeovers.json" 2>/dev/null; then continue; fi
+
+  # Pull the CNAME chain from the map we built in Step 5
+  cname=$(jq -r --arg s "$sub" '.[$s][-1]' "$EVID/cname-map.json")
+
+  # Liveness check: does the CNAME target's apex resolve?
+  apex=$(echo "$cname" | rev | cut -d. -f1-2 | rev)
+  status=$(dig +short SOA "$apex" 2>/dev/null | head -1)
+
+  if [ -z "$status" ]; then
+    echo "{\"subdomain\": \"$sub\", \"cname\": \"$cname\", \"apex\": \"$apex\", \"apex_soa\": null, \"signal\": \"apex_unregistered\"}" \
+      >> "$EVID/cname-liveness-orphans.jsonl"
+  fi
+done
+```
+
+If the CNAME target's apex zone has no SOA record (NXDOMAIN on the apex itself), the domain is unregistered — anyone can register it and claim the dangling subdomain. This is a real takeover class that subzy/nuclei miss.
+
+Each orphan in `cname-liveness-orphans.jsonl` becomes a candidate with:
+- `fingerprint_engine: "cname-orphan"`
+- `body_fingerprint_confirmed: null` (not applicable — there's no body to fetch yet since the apex doesn't exist)
+- `apex_registration_status: "unregistered"`
+- Subject to ownership-verifier as usual (the subdomain is still under the program's in-scope wildcard, so `in_scope_subdomain_override` applies).
+
+These should be SURFACED but flagged in the `notes` field: `"cname-orphan candidate: registration would be the exploit; report-drafter must frame as evidence-via-DNS-only, no PoC registration"`.
+
+Record in `summary.notes`: `"cname liveness check: N CNAMEs without fingerprint match, M had unregistered apex zones"`.
+
 ### 7. Build candidate list
-For each surviving subzy hit **that also passed the Step 6.5 body recheck (`body_fingerprint_confirmed: true`)**, build a candidate object:
+For each surviving subzy hit **that also passed the Step 6.5 body recheck (`body_fingerprint_confirmed: true`)**, OR each nuclei VULNERABLE hit that passed body recheck from Step 6.7, OR each cname-orphan from Step 6.9, build a candidate object:
 ```json
 {
   "subdomain": "<host>",
@@ -197,19 +300,36 @@ Schema:
 {
   "program": "<slug>",
   "generated_at": "<UTC ISO8601>",
-  "passes_run": ["subfinder", "dnsx", "subzy"],
+  "passes_run": ["subfinder", "amass", "crtsh", "dnsx", "subzy", "body_recheck", "nuclei?", "cname_liveness"],
   "evidence_dir": "<EVID>",
   "summary": {
     "seed_domains": ["example.com", "example.org"],
-    "subdomains_enumerated": 247,
+    "subdomains_enumerated_per_source": {
+      "subfinder": 211,
+      "amass": 35,
+      "crtsh": 42
+    },
+    "subdomains_enumerated_unique": 247,
+    "source_unique_contributions": {
+      "subfinder_only": 184,
+      "amass_only": 18,
+      "crtsh_only": 21,
+      "multi_source": 24
+    },
+    "subdomains_after_cap": 100,
     "subdomains_with_cname": 89,
     "subzy_vulnerable_pre_recheck": 3,
     "subzy_vulnerable_post_body_recheck": 2,
     "subzy_disqualified_by_body_recheck": 1,
-    "takeover_candidates": 2,
-    "fingerprint_engines_seen": ["Heroku", "GitHub Pages"],
+    "nuclei_takeover_pass_run": true,
+    "nuclei_vulnerable_pre_recheck": 1,
+    "nuclei_new_matches_not_in_subzy_set": 1,
+    "nuclei_confirmed_via_body_recheck": 1,
+    "cname_liveness_orphans_found": 0,
+    "takeover_candidates": 3,
+    "fingerprint_engines_seen": ["Heroku", "GitHub Pages", "Vercel"],
     "ownership_status": "UNVERIFIED — run /verify-ownership <slug> <subdomain> before drafting. Subdomains under in-scope wildcards auto-satisfy Check C via DNS-zone control; verifier's in_scope_subdomain_override rule then promotes to owned without needing A or B positive.",
-    "notes": "<freeform — truncation, missing tools, oddities, recheck rule firings>"
+    "notes": "<freeform — truncation, missing tools, oddities, recheck rule firings, nuclei gating decisions, cname-orphan reporting framing>"
   },
   "candidates": [
     {
@@ -221,9 +341,24 @@ Schema:
       "live_body_excerpt": "No such app\nThere's nothing here, sorry — the Heroku app may have been deleted or renamed...",
       "in_scope_wildcard_match": "*.example.com",
       "source": "subzy+body_recheck",
+      "engines": ["subzy", "nuclei"],
       "raw_evidence_path": "<EVID>/subzy.json",
       "recheck_evidence_path": "<EVID>/recheck-abandoned-thing.example.com.{http,https}.{body,headers}",
       "ownership_status": "UNVERIFIED"
+    },
+    {
+      "subdomain": "old-promo.example.com",
+      "cname": ["someacquiredcompany-promo.com"],
+      "fingerprint_engine": "cname-orphan",
+      "subzy_status": null,
+      "body_fingerprint_confirmed": null,
+      "apex_registration_status": "unregistered",
+      "in_scope_wildcard_match": "*.example.com",
+      "source": "cname_liveness",
+      "engines": ["cname_liveness"],
+      "raw_evidence_path": "<EVID>/cname-liveness-orphans.jsonl",
+      "ownership_status": "UNVERIFIED",
+      "reporting_note": "registration of someacquiredcompany-promo.com would be the exploit; report-drafter must use DNS-only evidence and not register the apex as PoC"
     }
   ],
   "disqualified_candidates": [
@@ -247,16 +382,21 @@ Set mode `0644` on the output JSON (no secrets inside; takeover candidate metada
 ### 9. Report back to the parent
 Reply with:
 - output file path
-- subdomains_enumerated → subdomains_with_cname → takeover_candidates counts (the funnel)
-- top 3 candidates as `subdomain @ engine (cname → <cname>)`
+- The enumeration funnel: `per-source contributions (subfinder/amass/crtsh) → unique → after-cap → with-cname → subzy hits → body-recheck-confirmed → nuclei hits → cname-orphans → takeover_candidates`
+- Nuclei gating decision (`ran` / `skipped: <reason>`)
+- top 3 candidates as `subdomain @ engine (cname → <cname>)` with `[engines=...]` tag showing multi-engine corroboration where present (multi-engine candidates first in the list — they're the strongest)
+- any cname-orphan candidates listed separately with their `reporting_note` value verbatim — operator needs to see the "do not register apex as PoC" framing before drafting
 - the **literal next step** per candidate: `/verify-ownership <slug> <subdomain>` for each takeover candidate
-- a one-line reminder: **"Subzy's fingerprint match is the detection. Do NOT register the dangling endpoint to 'prove' exploitation — that is the takeover itself and out of scope for bb-agent."**
+- a one-line reminder: **"Subzy/nuclei fingerprint matches are the detection. Do NOT register the dangling endpoint to 'prove' exploitation — that is the takeover itself and out of scope for bb-agent. The same applies double for cname-orphan candidates — registering the unregistered apex IS the exploit."**
 
 ## Don'ts
 - Don't claim/register/buy the dangling third-party endpoint. Detection ≠ exploitation.
 - Don't widen scope by enumerating domains the program doesn't list as in-scope. Only seeds derived from `scope.in_scope[]`.
 - Don't call ownership-verifier yourself — same decoupling as bucket-hunter/secret-hunter.
 - Don't draft a report. That's `report-drafter`.
-- Don't run nuclei / httpx / browsers against the subdomain to "confirm" — the `curl -s` body recheck in Step 6.5 is the single allowed verification request. No additional probes beyond that.
+- Don't run httpx / browsers against the subdomain to "confirm" — only the curl body-recheck (Step 6.5) and the gated nuclei takeover-templates pass (Step 6.7) are allowed probes. No additional engines beyond those two.
+- Don't run nuclei against the subdomain unless the Step 6.7 gate clears (`automated_tools_allowed=true` AND `explicit_scanner_ban != true`). If the gate fails, log the skip and proceed with subzy-only.
+- Don't widen nuclei's template scope beyond `http/takeovers/`. Phase 1 only enables the takeover template directory. Broader nuclei (info-disclosure, exposures, weak-credentials) is Phase 2's `endpoint-hunter` agent.
 - DO fetch the subdomain's response body once via `curl -s` in Step 6.5 — that is the mandatory FP gate enforced by `rule-takeover_hunter-subzy_body_recheck_required-e91f7`. (This supersedes the v1 policy of "subzy log is the only evidence"; that policy permitted shipping confirmed FPs to report-drafter.)
+- Don't register or even probe an unregistered apex from the Step 6.9 cname-liveness check. The whole point of surfacing those candidates is that registration WOULD be the exploit; we report them with DNS-only evidence and let the program reclaim.
 - Don't add fields outside the output schema. Use `summary.notes` for oddities.
