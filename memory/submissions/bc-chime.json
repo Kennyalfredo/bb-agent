@@ -15,9 +15,10 @@
       "drafted_at": "2026-05-22T11:41:44Z",
       "ownership_cache_ref": "memory/ownership-cache/0e576af1f54e52bf.json",
       "candidate_source": "out/bc-chime/endpoints/20260522-110955.json",
-      "submitted": false,
-      "submission_url": null,
-      "platform_report_id": null,
+      "submitted": true,
+      "submitted_at": "2026-05-22T20:35:00Z",
+      "submission_url": "https://bugcrowd.com/submissions/e3172554-7afd-417f-bbb4-5425b8c345ea",
+      "platform_report_id": "e3172554-7afd-417f-bbb4-5425b8c345ea",
       "pre_submission_verification": {
         "performed_at": "2026-05-22T11:53:50Z",
         "corrected_at": "2026-05-22T20:03:07Z",
