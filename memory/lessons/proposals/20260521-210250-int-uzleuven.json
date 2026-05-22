@@ -1,0 +1,117 @@
+{
+  "proposal_id": "20260521-210250-int-uzleuven",
+  "slug": "int-uzleuven",
+  "generated_at": "2026-05-21T21:02:52Z",
+  "evidence_inputs": [
+    "/home/kenny/bb-agent/memory/programs/int-uzleuven.json",
+    "/home/kenny/bb-agent/out/int-uzleuven/buckets/20260521-210039.json",
+    "/home/kenny/bb-agent/out/int-uzleuven/secrets/20260521-205912.json"
+  ],
+  "metrics": {
+    "buckets_scanned": 80,
+    "secrets_scanned": 0,
+    "ownership_checks": 0,
+    "owned": 0,
+    "unowned": 0,
+    "unknown": 0,
+    "reports_drafted": 0,
+    "reports_submitted": 0
+  },
+  "narrative": "UZ Leuven (int-uzleuven, Intigriti, Belgian university hospital) was a dual-pass clean-negative engagement: hunt-secrets and hunt-buckets ran, hunt-takeovers was deliberately skipped. Secrets pass (Passes A + B): GitHub org UZLeuven has 19 repos but 16 are forks that trufflehog auto-skips; 3 originals scanned (sparc-shared-memory, grafana-dashboards, hello-world) returned 0 candidates. Pass B dorks across 3 base names (uzleuven, kwsdose, azdiest) × 3 dork types returned 9 calls all at 0 hits. The GH footprint is essentially a fork mirror of upstream open-source infra tooling (helm, terraform, OHIF) with zero application or configuration code public — consistent with a conservative Belgian hospital on-prem IT posture. Bucket pass: 80 candidates → 5 s3scanner-flagged → 0 verified listable; all 5 returned AccessDenied on aws s3api recheck. Notable: s3scanner reported all 5 with ACL flags at 0 (DENIED), so this was not the classic ACL-FP pattern but rather pure DNS-resolution existence being confused with bucket access — the recheck gate still correctly killed all 5.\n\nThe most consequential finding this engagement was not a security vulnerability but a structural policy gap in bb-agent's orchestration logic. UZ Leuven's policy contains an explicit, categorical ban on automated scanning: \"We cannot accept any submissions found by using automatic scanners.\" This is materially stricter than the `automated_tools_allowed=false` flag that the program-scope-parser already sets correctly. The existing flag governed credential and bucket hunting (which scan GitHub and AWS DNS, not program infrastructure), but hunt-takeovers issues direct HTTP requests against program subdomains — subzy probes each candidate and the body-recheck gate fires 2–3 curl calls per CNAME hit. Running hunt-takeovers against UZ Leuven would have violated the program's terms regardless of how careful the tooling was. The decision to skip takeovers was made by operator review of the ingestion summary. The rule proposals below are designed to automate that decision for future engagements with the same policy class.\n\nThe pure on-prem infrastructure profile of UZ Leuven (193.58.149.0/24 Belgian IP space, naming like prddsplunkhf/prddnighting01/sts, ADFS, zero cloud provider signals in scope) has a structural implication for bucket hunting: without any cloud-tier presence the yield probability from s3scanner is near zero. The 5 s3scanner-flagged buckets (uzleuven-prod, uzleuven-test in eu-west-1; mir, mir-prod, mir-backup in us-east-1) are likely squatters or unrelated infrastructure — uzleuven-prod/test at least have EU-West geography consistent with Belgium, but mirror is a 3-char generic acronym used globally. No ownership-verifier runs were triggered because all 5 were killed at the recheck gate. Healthcare and government programs on fully on-prem infrastructure are a predictable class for this profile: future pre-flight screening should check for zero cloud provider DNS signals as a low-yield predictor.\n\nFor revisits: skip hunt-takeovers (explicit_scanner_ban is set; confirm rule fires before running). Skip Pass A on UZLeuven org unless the repo count grows significantly — 3 originals with zero credentials is a stable outcome. Skip Pass B dorks on kwsdose and azdiest (0 GH footprint confirmed). The mir-prefixed bucket candidates (mir, mir-prod, mir-backup) should be basename_skip'd — 'mir' is a 3-char acronym with thousands of non-hospital uses in AWS, all three exist in us-east-1 (not eu-west-1 like a Belgian hospital would provision), and none returned any positive ownership signal. If UZ Leuven ever migrates to a cloud-hybrid architecture, re-evaluate bucket scope from scratch; the current pass is appropriately low-investment for a zero-cloud target.",
+  "proposed_rules": [
+    {
+      "rule_id": "rule-program_scope_parser-explicit_scanner_ban-d0151",
+      "agent": "program_scope_parser",
+      "path": "explicit_scanner_ban",
+      "action": "set",
+      "value": {
+        "flag_name": "explicit_scanner_ban",
+        "detect_phrases": [
+          "automatic scanners",
+          "automated scanners",
+          "scanning tools",
+          "do not use any scanner",
+          "cannot accept any submissions found by using automatic scanners"
+        ],
+        "set_true_when": "any of detect_phrases found in policy with explicit prohibition language",
+        "effect": "orchestrator must skip hunt-takeovers; treated as a stronger gate than automated_tools_allowed=false for any agent issuing direct HTTP requests to program subdomains"
+      },
+      "rationale": "UZ Leuven policy verbatim: 'We cannot accept any submissions found by using automatic scanners' — operator had to manually catch this before running hunt-takeovers; parser should detect and set the flag automatically at ingestion time.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/memory/programs/int-uzleuven.json"
+      ]
+    },
+    {
+      "rule_id": "rule-takeover_hunter-refuse_if_explicit_scanner_ban-739e9",
+      "agent": "takeover_hunter",
+      "path": "refuse_if_explicit_scanner_ban",
+      "action": "set",
+      "value": {
+        "enabled": true,
+        "refuse_when": "program.rules.explicit_scanner_ban == true",
+        "reason": "subzy + subzy_body_recheck curl gates issue direct HTTP requests to program subdomains; any automated HTTP scanning against program infrastructure is prohibited when explicit_scanner_ban is set"
+      },
+      "rationale": "Agent-side enforcement mirror of the parser-side explicit_scanner_ban flag; without this gate an operator who forgets to check the flag would run subzy HTTP probes against a program with a categorical automated-scanning ban.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/memory/programs/int-uzleuven.json"
+      ]
+    },
+    {
+      "rule_id": "rule-bucket_hunter-basename_skip-33571",
+      "agent": "bucket_hunter",
+      "path": "basename_skip",
+      "action": "append",
+      "value": {
+        "pattern": "mir",
+        "reason": "bare 3-char acronym 'mir' resolves in AWS us-east-1 with zero ownership signal: too short and too generic to distinguish hospital MIR subdomains from squatters in int-uzleuven engagement"
+      },
+      "rationale": "mir, mir-prod, and mir-backup all exist in AWS us-east-1 (not eu-west-1 where a Belgian hospital would provision) and returned only AccessDenied with no GitHub or Wayback ownership signal; 3-char generic acronym used in thousands of non-hospital repos worldwide.",
+      "confidence": "low",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/out/int-uzleuven/buckets/20260521-210039.json"
+      ]
+    },
+    {
+      "rule_id": "rule-program_scope_parser-rate_limit_cap_rps-f1902",
+      "agent": "program_scope_parser",
+      "path": "rate_limit_cap_rps",
+      "action": "set",
+      "value": {
+        "flag_name": "rate_limit_cap_rps",
+        "detect_pattern": "max\\.?\\s*(\\d+)\\s*requests?\\s*/\\s*sec",
+        "set_value": "parsed integer from policy text",
+        "default": 10,
+        "note": "when policy explicitly states a rate cap lower than the default 10 req/sec, store it in rules.rate_limit_cap_rps so all agents that issue HTTP requests respect the tighter bound"
+      },
+      "rationale": "UZ Leuven policy states 'max. 5 requests /sec'; this was captured in the rules.notes free-text field but not as a machine-readable cap that agents can enforce automatically — parser should extract it at ingestion time.",
+      "confidence": "medium",
+      "evidence_refs": [
+        "/home/kenny/bb-agent/memory/programs/int-uzleuven.json"
+      ]
+    }
+  ],
+  "discarded_heuristics": [
+    {
+      "heuristic": "H1",
+      "reason": "Pass A secrets returned 0 candidates total; no noseyparker output exists for this engagement, so the detector_ignore FP heuristic has no candidates to evaluate."
+    },
+    {
+      "heuristic": "H2",
+      "reason": "No ownership-verifier runs were triggered (all 5 bucket candidates were killed at the s3scanner_acl_recheck gate before reaching ownership-verifier); no Wayback check data exists to evaluate brand-stem degeneracy."
+    },
+    {
+      "heuristic": "H3",
+      "reason": "UZLeuven org has only 19 repos (16 forks, 3 originals) — well below the >50 public repo threshold that would trigger the mature-org Pass A signal narrative; the heuristic does not apply."
+    },
+    {
+      "heuristic": "H4",
+      "reason": "No ownership-verifier checks reached an unknown verdict for 'uzleuven' as a bare basename; the slug-matching degenerate-bucket heuristic requires an ownership-verifier triple-ambiguous result, which never occurred because all candidates were gated out earlier."
+    },
+    {
+      "heuristic": "H5",
+      "reason": "No memory/submissions/int-uzleuven.json file exists; no reports were submitted so no platform outcomes were recorded. Heuristic requires submission outcome data to fire."
+    }
+  ]
+}

@@ -162,6 +162,15 @@
         "from_engagement": "bc-chime",
         "confidence": "low",
         "rationale": "All 10 s3scanner-flagged buckets were chime-prefixed bare-stem variants; all 10 returned AccessDenied on recheck; no ownership-verifier run is possible for a bare 4-letter brand stem of a major US neobank with high squatter interest."
+      },
+      {
+        "pattern": "mir",
+        "reason": "bare 3-char acronym 'mir' resolves in AWS us-east-1 with zero ownership signal: too short and too generic to distinguish hospital MIR subdomains from squatters in int-uzleuven engagement",
+        "id": "rule-bucket_hunter-basename_skip-33571",
+        "added": "2026-05-21T21:02:52Z",
+        "from_engagement": "int-uzleuven",
+        "confidence": "low",
+        "reason": "mir, mir-prod, and mir-backup all exist in AWS us-east-1 (not eu-west-1 where a Belgian hospital would provision) and returned only AccessDenied with no GitHub or Wayback ownership signal; 3-char generic acronym used in thousands of non-hospital repos worldwide."
       }
     ],
     "candidate_suffix_skip": [],
@@ -444,6 +453,18 @@
     "fingerprint_engine_ignore": [],
     "subdomain_skip": [],
     "subzy_concurrency_override": null,
+    "refuse_if_explicit_scanner_ban": {
+      "enabled": true,
+      "refuse_when": "program.rules.explicit_scanner_ban == true",
+      "reason": "subzy + subzy_body_recheck curl gates issue direct HTTP requests to program subdomains; any automated HTTP scanning against program infrastructure is prohibited when explicit_scanner_ban is set"
+    },
+    "refuse_if_explicit_scanner_ban_provenance": {
+      "id": "rule-takeover_hunter-refuse_if_explicit_scanner_ban-739e9",
+      "added": "2026-05-21T21:02:52Z",
+      "from_engagement": "int-uzleuven",
+      "confidence": "medium",
+      "reason": "Agent-side enforcement mirror of the parser-side explicit_scanner_ban flag; without this gate an operator who forgets to check the flag would run subzy HTTP probes against a program with a categorical automated-scanning ban."
+    },
     "subzy_body_recheck_required": [
       {
         "enabled": true,
@@ -611,6 +632,41 @@
       "from_engagement": "bc-monash-mbb",
       "confidence": "medium",
       "reason": "All 44 bc-monash-mbb assets have severity_cap=unknown due to Bugcrowd parser limitation; without this gate, any drafted report would have its severity silently capped at medium regardless of actual impact."
+    }
+  },
+  "program_scope_parser": {
+    "explicit_scanner_ban": {
+      "flag_name": "explicit_scanner_ban",
+      "detect_phrases": [
+        "automatic scanners",
+        "automated scanners",
+        "scanning tools",
+        "do not use any scanner",
+        "cannot accept any submissions found by using automatic scanners"
+      ],
+      "set_true_when": "any of detect_phrases found in policy with explicit prohibition language",
+      "effect": "orchestrator must skip hunt-takeovers; treated as a stronger gate than automated_tools_allowed=false for any agent issuing direct HTTP requests to program subdomains"
+    },
+    "explicit_scanner_ban_provenance": {
+      "id": "rule-program_scope_parser-explicit_scanner_ban-d0151",
+      "added": "2026-05-21T21:02:52Z",
+      "from_engagement": "int-uzleuven",
+      "confidence": "medium",
+      "reason": "UZ Leuven policy verbatim: 'We cannot accept any submissions found by using automatic scanners' — operator had to manually catch this before running hunt-takeovers; parser should detect and set the flag automatically at ingestion time."
+    },
+    "rate_limit_cap_rps": {
+      "flag_name": "rate_limit_cap_rps",
+      "detect_pattern": "max\\.?\\s*(\\d+)\\s*requests?\\s*/\\s*sec",
+      "set_value": "parsed integer from policy text",
+      "default": 10,
+      "note": "when policy explicitly states a rate cap lower than the default 10 req/sec, store it in rules.rate_limit_cap_rps so all agents that issue HTTP requests respect the tighter bound"
+    },
+    "rate_limit_cap_rps_provenance": {
+      "id": "rule-program_scope_parser-rate_limit_cap_rps-f1902",
+      "added": "2026-05-21T21:02:52Z",
+      "from_engagement": "int-uzleuven",
+      "confidence": "medium",
+      "reason": "UZ Leuven policy states 'max. 5 requests /sec'; this was captured in the rules.notes free-text field but not as a machine-readable cap that agents can enforce automatically — parser should extract it at ingestion time."
     }
   }
 }

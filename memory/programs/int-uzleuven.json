@@ -1,0 +1,275 @@
+{
+  "program": {
+    "slug": "int-uzleuven",
+    "platform": "intigriti",
+    "url": "https://www.intigriti.com/programs/uz%20leuven/uzleuven/detail",
+    "name": "UZ Leuven",
+    "fetched_at": "2026-05-21"
+  },
+  "scope": {
+    "in_scope": [
+      {
+        "type": "domain",
+        "asset": "autodiscover.uzleuven.be",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "ecrf.uzleuven.be",
+        "severity_cap": "critical",
+        "notes": "eCRF = Electronic Case Report Form; likely a clinical research data system with patient trial data"
+      },
+      {
+        "type": "domain",
+        "asset": "extranet-asa.uzleuven.be",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "extranet.uzleuven.be",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "domain",
+        "asset": "liquidfiles.uzleuven.be",
+        "severity_cap": "critical",
+        "notes": "LiquidFiles managed file transfer — likely handles sensitive/clinical file exchange"
+      },
+      {
+        "type": "domain",
+        "asset": "mx1.uzleuven.be",
+        "severity_cap": "critical",
+        "notes": "Mail exchanger (MX) — production email infrastructure"
+      },
+      {
+        "type": "domain",
+        "asset": "mx2.uzleuven.be",
+        "severity_cap": "critical",
+        "notes": "Mail exchanger (MX) — production email infrastructure"
+      },
+      {
+        "type": "domain",
+        "asset": "pcrstudioruzb.uzleuven.be",
+        "severity_cap": "critical",
+        "notes": "PCR Studio — likely a clinical PCR/lab result management system; handle with extreme care, patient data likely present"
+      },
+      {
+        "type": "domain",
+        "asset": "prddsplunkhf.uzleuven.be",
+        "severity_cap": "critical",
+        "notes": "Splunk heavy forwarder (prd = production, ds = deployment server); on-prem SIEM infrastructure; naming convention confirms on-prem deployment"
+      },
+      {
+        "type": "domain",
+        "asset": "sts.uzleuven.be",
+        "severity_cap": "critical",
+        "notes": "STS = Security Token Service / federation endpoint (ADFS or similar); identity infrastructure"
+      },
+      {
+        "type": "domain",
+        "asset": "www.uzleuven.be",
+        "severity_cap": "critical"
+      },
+      {
+        "type": "ip",
+        "asset": "193.58.149.121,193.58.149.98,193.58.149.82,193.58.149.101,193.58.149.107,193.58.149.108,193.58.149.111",
+        "severity_cap": "high",
+        "notes": "Reverse proxy IPs. The Host header determines bounty tier. If no Host header is used in a report, program defaults to Tier 2."
+      },
+      {
+        "type": "domain",
+        "asset": "wp5-truststroke.uzleuven.be",
+        "severity_cap": "high",
+        "notes": "TrustStroke — clinical stroke care platform (WP5 suggests EU research project). /api/ access restricted to BE or NL IPs; access to other paths or / should not work. Healthcare-critical system."
+      },
+      {
+        "type": "domain",
+        "asset": "cardsonline.azdiest.be",
+        "severity_cap": "high",
+        "notes": "External partner domain (AZ Diest hospital affiliate). Should return HTTP 403 due to IP whitelisting; testing the bypass itself is the scope intent. Original endpoint: cardsonline.azdiest.be"
+      },
+      {
+        "type": "domain",
+        "asset": "liquidfilestest.uzleuven.be",
+        "severity_cap": "high",
+        "notes": "Test instance of LiquidFiles managed file transfer"
+      },
+      {
+        "type": "domain",
+        "asset": "random.uzleuven.be",
+        "severity_cap": "high",
+        "notes": "Original endpoint: random.uzleuven.be/random/"
+      },
+      {
+        "type": "domain",
+        "asset": "teststs.uzleuven.be",
+        "severity_cap": "high",
+        "notes": "Test STS / federation endpoint"
+      },
+      {
+        "type": "domain",
+        "asset": "w1.uzleuven.be",
+        "severity_cap": "high"
+      },
+      {
+        "type": "domain",
+        "asset": "cardsonlinetst.azdiest.be",
+        "severity_cap": "medium",
+        "notes": "Test instance of cardsonline (AZ Diest affiliate). Should return HTTP 403 due to IP whitelisting."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.kwsdose.be",
+        "severity_cap": "medium",
+        "notes": "KWS Dose — likely a radiation dose management system (KWS = Klinisch Werkstation, clinical workstation). Possible patient dosimetry data; handle with care."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.playuzleuven.be",
+        "severity_cap": "medium",
+        "notes": "Play/staging environment subdomain"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.uzleuven.*",
+        "severity_cap": "medium",
+        "notes": "Catch-all for uzleuven subdomains not explicitly listed. Tier 3 only applies to assets not already listed in scope."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.contactallerg(y|ie).uzleuven.be",
+        "severity_cap": "info",
+        "notes": "Contact allergy registry — PHI-bearing clinical database; No Bounty (VDP-only within bounty program). GDPR Article 9 special category health data."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*.mir.uzleuven.be",
+        "severity_cap": "info",
+        "notes": "MIR = Medical Imaging / Radiology subdomain range. Patient imaging data highly likely. No Bounty (VDP-only)."
+      },
+      {
+        "type": "wildcard",
+        "asset": "*dev.uzleuven.be",
+        "severity_cap": "info",
+        "notes": "Development environment subdomains; No Bounty (VDP-only)"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*idp*.uzleuven.be",
+        "severity_cap": "info",
+        "notes": "Identity provider subdomains; No Bounty (VDP-only)"
+      },
+      {
+        "type": "wildcard",
+        "asset": "*stag*.uzleuven.be",
+        "severity_cap": "info",
+        "notes": "Staging environment subdomains; No Bounty (VDP-only)"
+      },
+      {
+        "type": "domain",
+        "asset": "files.uzleuven.be",
+        "severity_cap": "info",
+        "notes": "General file sharing; No Bounty (VDP-only)"
+      },
+      {
+        "type": "domain",
+        "asset": "kumulus.uzleuven.be",
+        "severity_cap": "info",
+        "notes": "Kumulus — likely cloud/storage portal. No Bounty (VDP-only)"
+      },
+      {
+        "type": "domain",
+        "asset": "mijnacc.uzleuven.be",
+        "severity_cap": "info",
+        "notes": "Mijn Acc = 'My Account' in Dutch — patient/staff self-service portal. No Bounty (VDP-only). PHI-bearing if patient portal."
+      },
+      {
+        "type": "domain",
+        "asset": "mirc.uzleuven.be",
+        "severity_cap": "info",
+        "notes": "MIRC = Medical Imaging Resource Center (clinical imaging archive/teaching files). Patient imaging data highly likely. No Bounty (VDP-only)."
+      },
+      {
+        "type": "domain",
+        "asset": "prddnighting01.uzleuven.be",
+        "severity_cap": "info",
+        "notes": "Florence Nightingale server (prd = production, 01 = node 1) — naming convention confirms on-prem server. No Bounty (VDP-only)."
+      },
+      {
+        "type": "domain",
+        "asset": "w1.uzleuven.be",
+        "severity_cap": "info",
+        "notes": "Sub-path w1.uzleuven.be/random is No Bounty (VDP-only); the root w1.uzleuven.be is Tier 2/high. This entry covers the /random path specifically. Original endpoint: w1.uzleuven.be/random"
+      },
+      {
+        "type": "domain",
+        "asset": "ziekenhuisschool.be",
+        "severity_cap": "info",
+        "notes": "Ziekenhuisschool.be = hospital school (educational program for hospitalized children). No Bounty (VDP-only). Separate domain from uzleuven.be."
+      }
+    ],
+    "out_of_scope": [
+      {
+        "type": "domain",
+        "asset": "boekentoy.uzleuven.be"
+      },
+      {
+        "type": "domain",
+        "asset": "uz-laboboeken.web.app",
+        "reason": "Firebase hosting app (Google Firebase infrastructure, not hospital-owned server)"
+      },
+      {
+        "type": "domain",
+        "asset": "laboboeken.uzleuven.be"
+      },
+      {
+        "type": "domain",
+        "asset": "boekentoy.firebaseio.com",
+        "reason": "Firebase Realtime Database — third-party Google infrastructure"
+      },
+      {
+        "type": "domain",
+        "asset": "uz-laboboeken.firebaseio.com",
+        "reason": "Firebase Realtime Database — third-party Google infrastructure"
+      },
+      {
+        "type": "domain",
+        "asset": "jobs.uzleuven.be",
+        "reason": "HR/recruitment portal"
+      },
+      {
+        "type": "domain",
+        "asset": "uzleuven.atlassian.net",
+        "reason": "Atlassian-hosted Jira/Confluence — third-party SaaS, not in scope per program"
+      },
+      {
+        "type": "domain",
+        "asset": "vacatures.uzleuven.be",
+        "reason": "Vacatures = job listings in Dutch — HR/recruitment portal"
+      }
+    ]
+  },
+  "rules": {
+    "mass_scanning_allowed": false,
+    "bucket_listing_allowed": true,
+    "bucket_download_allowed": false,
+    "automated_tools_allowed": false,
+    "cve_age_min_days": 14,
+    "requires_ownership_proof": true,
+    "safe_harbor": true,
+    "submission_form": "https://app.intigriti.com/researcher/programs/uz%20leuven/uzleuven/submit",
+    "notes": "AUTOMATED TOOLS EXPLICITLY PROHIBITED: Policy states 'Please do not use automatic scanners — be creative and do it yourself! We cannot accept any submissions found by using automatic scanners.' Rate limit cap is max 5 requests/sec even for manual testing. CONTACT FORMS: 'Please DO NOT use any scanner or tool on contact forms.' SAFE HARBOR: Policy states 'We respect the safe harbour clause' — set safe_harbor=true (read from policy, not dump). CVE AGE: Program explicitly states zero-days within 14 days post-patch are out of scope, which implies a 14-day minimum CVE age rather than the default 30; set cve_age_min_days=14. HEALTHCARE/GDPR: Program explicitly lists 'leaking of personal and medical data' as a priority finding type — GDPR Article 9 (special category health data) applies to all assets. No production clinical system testing guidance given explicitly; no sandbox credentials provided. Researchers test against production. Treat any clinical-facing asset (ecrf, pcrstudioruzb, mir*, mirc, contactallerg*) with extreme caution — patient safety risk. HEALTHCARE-SPECIFIC NOTE: ecrf.uzleuven.be is an eCRF (Electronic Case Report Form) system for clinical trials; pcrstudioruzb.uzleuven.be is a PCR/lab system; *.mir.uzleuven.be and mirc.uzleuven.be are medical imaging/radiology assets — all contain GDPR Article 9 special category data. INFRASTRUCTURE PROFILE: Heavy on-prem naming conventions: prddsplunkhf (production Splunk heavy forwarder), prddnighting01 (production Nightingale node 01), sts/teststs (ADFS federation). Reverse proxies at 7 explicit IPs in the 193.58.149.0/24 range. No cloud provider patterns (no AWS/GCP/Azure subdomains visible). wp5-truststroke.uzleuven.be geo-restricts /api/ to BE/NL IPs — EU-only access enforcement. INTIGRITI BOUNTY TABLE: Coarse-grained — only min/max range known from dump; refine from program Rewards tab if drafting against medium/low severity. SUBMISSION FORM: Best-guess URL; confirm by reading program page once before submitting. SAFE-DEFAULT FLAGS: bucket_listing_allowed=true (no bucket-related policy found; safe default applied); bucket_download_allowed=false (no policy found; safe default applied); requires_ownership_proof=true (no explicit waiver found; safe default applied). Per-asset severity_cap mapped from Tier 1/2/3 to critical/high/medium; No Bounty assets capped at info (VDP-only within bounty program — will not pay bounty, confirm before drafting)."
+  },
+  "bounty": {
+    "tier": "bug_bounty",
+    "table": [
+      {
+        "severity": "critical",
+        "min": 50,
+        "max": 5000,
+        "currency": "EUR"
+      }
+    ]
+  },
+  "raw_policy_excerpt": "Scope ingested from arkadiyt/bounty-targets-data dump (intigriti_data.json fetched 2026-05-21). Policy text retrieved via WebFetch on https://app.intigriti.com/programs/uz%20leuven/uzleuven/detail.\n\nKEY POLICY VERBATIM:\n\"Please do not use automatic scanners — be creative and do it yourself! We cannot accept any submissions found by using automatic scanners.\"\n\"Automated tooling: max. 5 requests /sec\"\n\"Please DO NOT use any scanner or tool on contact forms.\"\n\"We respect the safe harbour clause\"\n\nOUT-OF-SCOPE VULNERABILITIES (verbatim): API key disclosure without business impact; WordPress username disclosure; pre-auth account takeover/OAuth squatting; self-XSS lacking multi-user exploitation; verbose messages without sensitive data; CORS on non-sensitive endpoints; missing cookie flags; missing security headers; CSRF with minimal impact; autocomplete attributes; reverse tabnabbing; rate-limit bypasses; password policy violations; clickjacking lacking realistic impact; CSV injection; unvalidated logout/2FA sessions; tokens leaked to third parties; email spoofing/SPF/DMARC/DKIM issues; content injection without HTML modification; username/email enumeration; email bombing; HTTP request smuggling lacking impact; homograph attacks; XMLRPC; banner grabbing; unstripped file metadata; same-site scripting; subdomain takeover without actual takeover; arbitrary file upload lacking proof; blind SSRF lacking business impact; misconfigured Google Maps keys; host header injection lacking impact; broken links lacking broader impact; theoretical issues lacking realistic scenarios; spam/social engineering/physical intrusion; DoS/DDoS/brute force; outdated software vulnerabilities; attacks requiring physical access/MITM/compromised accounts; zero-days within 14 days post-patch; unproven software vulnerability claims.\n\nFOCUS AREAS: 'leaking of personal and medical data', 'administrative access'\n\nFull policy at: https://www.intigriti.com/programs/uz%20leuven/uzleuven/detail"
+}
