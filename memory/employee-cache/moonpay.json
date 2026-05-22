@@ -1,0 +1,29 @@
+{
+  "slug": "moonpay",
+  "domains_harvested": [
+    "moonpay.com"
+  ],
+  "providers_used": [
+    "commoncrawl",
+    "crtsh",
+    "certspotter",
+    "duckduckgo",
+    "hackertarget",
+    "mojeek",
+    "otx",
+    "rapiddns"
+  ],
+  "providers_excluded": [
+    "linkedin",
+    "linkedin_links",
+    "companies"
+  ],
+  "providers_api_key_missing": [
+    "brave",
+    "dnsdumpster"
+  ],
+  "fetched_at": "2026-05-22T00:00:00Z",
+  "ttl_days": 90,
+  "employees": [],
+  "notes": "brave: Missing API key (skipped). dnsdumpster: Missing API key (skipped). Remaining 8 providers ran successfully. theHarvester found 167 hosts but 0 emails. MoonPay appears to not publish employee emails publicly (Cloudflare-heavy, no indexed mail-signature pages)."
+}

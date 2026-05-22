@@ -93,12 +93,12 @@ If file is missing OR stale:
 
 1. **Derive the program's primary domain** from `scope.in_scope[*]`. Pick the longest in-scope wildcard or domain entry; strip leading `*.` if present. For a multi-brand program like int-watsons or bc-chime, you may want to harvest TWO domains (the primary + one strong sibling) and merge results — record both in `domains_harvested[]`.
 
-2. **Run theHarvester (passive providers ONLY, no LinkedIn):**
+2. **Run theHarvester (passive providers ONLY, no LinkedIn, no API-key-required providers):**
 
    ```bash
    /home/kenny/.local/bin/theHarvester-h \
      -d "<primary_domain>" \
-     -b google,duckduckgo,bing,crtsh,certspotter,dnsdumpster \
+     -b brave,commoncrawl,crtsh,certspotter,dnsdumpster,duckduckgo,hackertarget,mojeek,otx,rapiddns \
      -l 500 \
      -f "/tmp/theharvester-<slug>" \
      > "/tmp/theharvester-<slug>.log" 2>&1
@@ -106,10 +106,15 @@ If file is missing OR stale:
 
    Flag rationale:
    - `-l 500` caps results per provider
-   - `-b google,duckduckgo,bing,crtsh,certspotter,dnsdumpster` explicitly enumerates the safe providers
-   - **NEVER use `-b linkedin` or `-b linkedin_links` or `-b companies`** — LinkedIn scraping is prohibited by their ToS and risks researcher account suspension. Other ownership-verifier paths exist; we don't need LinkedIn data badly enough to take that risk.
+   - `-b` provider list — 10 listed, but **only 8 actually run without an API key** in theHarvester v4.10.1 (confirmed empirically 2026-05-22 on moonpay test):
+       - **Working without API key (8):** commoncrawl, crtsh, certspotter, duckduckgo, hackertarget, mojeek, otx (AlienVault), rapiddns
+       - **Need API key in v4.10.1 (silently skipped if no key):** brave, dnsdumpster — left in the `-b` list because future theHarvester versions may not require keys, AND because if the operator has configured keys in `~/.config/theHarvester/api-keys.yaml` they'll start working automatically
+   - **REMOVED from theHarvester in recent versions (silently dropped if specified):** google, bing — do NOT include them, they were the cause of the 0-email harvest in the initial Phase 3 test before this hotfix
+   - **NEVER use `linkedin` / `linkedin_links` / `companies` even if a future theHarvester version re-adds them** — LinkedIn scraping is prohibited by their ToS; risks researcher account suspension.
+   - **NEVER use other API-key-required providers** (bevigil, censys, chaos, criminalip, dehashed, fofa, fullhunt, hunter, hunterhow, intelx, leakix, leaklookup, netlas, onyphe, pentesttools, projectdiscovery, rocketreach, securityscorecard, securityTrails, shodan) — they would fail silently or prompt for keys we don't have configured at the agent level.
    - `-f` writes both `.json` and `.html` evidence files under `/tmp/`
    - theHarvester is slow (1-3 minutes per program on first run); the 90-day cache amortizes the cost
+   - **Important reality check:** a 0-email harvest for a major company is NOT necessarily a tool failure. Companies with disciplined email hygiene (no employee email signatures in indexed pages, no `firstname.lastname@company.com` patterns leaked via certificate transparency, no public LinkedIn-equivalent indexes) genuinely return 0 emails through these providers. MoonPay (test target on 2026-05-22) is one such case. Record the harvest as fact: A.5 returns `negative` honestly because there's nothing to match against, not because of a tooling failure. Do NOT downgrade confidence in the negative result just because the employee list is empty.
 
 3. **Parse theHarvester output** (JSON file at `/tmp/theharvester-<slug>.json`). Extract:
    - `emails[]` — surfaced email addresses (most useful signal)
@@ -226,6 +231,20 @@ For non-`gh_account` assets (bucket / dns_name / ip_address):
 | any | pos | pos | `owned` |
 | neg | neg | neg | `unowned` |
 | anything else | | | `unknown` |
+
+For `gh_account` assets, an analogous aggregation table applies — Check C is structurally inconclusive (GitHub usernames have no DNS chain), so the requirement shifts to A.5 being the third-rail substitute for C:
+
+| A | A.5 | B | Verdict |
+|---|---|---|---|
+| pos | pos_strong OR pos_weak | any | `owned` |
+| pos | any | pos | `owned` |
+| any | pos_strong | pos | `owned` |
+| neg OR ambiguous | neg | neg | **`unowned`** (gh_account override — A.5=negative is the third evidence point that justifies the unowned verdict) |
+| anything else | | | `unknown` |
+
+The `gh_account` override exists because Check C (DNS chain) is never `positive` for a GitHub username — it has no DNS to resolve. Without an override, every gh_account verdict would land at `unknown` instead of `unowned`, even when all three lines of evidence agree the account is third-party. A.5=negative (no employee email/name/company match against the harvested employee list) is the structural equivalent of C=negative for this asset class.
+
+The override requires A.5=negative explicitly. Inconclusive A.5 (theHarvester failed or GH profile fetch failed) does NOT count — falls through to `unknown` for safety.
 
 For `gh_account` assets, Check A.5 (Phase 3) influences Check A first per Step 3.5 logic, THEN this table applies with the (possibly-boosted) A status. Examples:
 
