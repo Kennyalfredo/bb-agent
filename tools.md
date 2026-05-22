@@ -1,7 +1,21 @@
 # Bug Bounty Agent — Tool Inventory
 
-Generated 2026-05-11. Single source of truth for which tool lives where.
-Subagents MUST use the full paths below — do not rely on PATH order.
+Generated 2026-05-11. Updated 2026-05-22 (Phase 2 — endpoint-hunter agent added).
+Single source of truth for which tool lives where. Subagents MUST use the full paths below — do not rely on PATH order.
+
+## Subagent → tool map (quick reference)
+
+| Subagent | Primary tools | Active probes? | Compliance gates |
+|---|---|---|---|
+| `program-scope-parser` | WebFetch + arkadiyt dump | passive only | n/a |
+| `program-scout` | WebFetch (one-time dump) | passive only | n/a |
+| `secret-hunter` | trufflehog (A,B) + gitleaks (B.5) + noseyparker (C) + `gh api` | passive only (GitHub-side, not against program) | `automated_tools_allowed`, `mass_scanning_allowed` |
+| `bucket-hunter` | s3scanner + aws s3api recheck | passive only (AWS-side) | `bucket_listing_allowed`, `mass_scanning_allowed` |
+| `takeover-hunter` | subfinder + amass + crt.sh + dnsx + subzy + curl (body recheck) + nuclei (gated) | passive enum + body recheck curl + gated nuclei | `automated_tools_allowed`, `explicit_scanner_ban`, `rate_limit_cap_rps` |
+| `endpoint-hunter` (Phase 2) | gau + grep + httpx (gated) + curl body fetch + nuclei (gated) | passive enum + gated active live-probe | `automated_tools_allowed`, `explicit_scanner_ban`, `rate_limit_cap_rps` |
+| `ownership-verifier` | gh api + gau + dig | passive only | n/a |
+| `report-drafter` | (no scanning — reads candidate JSONs + ownership cache) | n/a | path-leak filter |
+| `retro-analyzer` | (no scanning — analyzes engagement artifacts) | n/a | n/a |
 
 ## Binary paths
 
@@ -12,10 +26,10 @@ Subagents MUST use the full paths below — do not rely on PATH order.
 | gitleaks | `/home/kenny/go/bin/gitleaks` | latest | Second-pass secret scanner, different ruleset (RSA PEM, base64-encoded JWT-shaped, JDBC connection strings, custom regex patterns). **Phase 1 integration (2026-05-21):** used by `secret-hunter` Pass B.5 on cloned repos with `--no-git --redact --no-banner`. Filesystem-only; Pass C noseyparker covers git history. |
 | noseyparker | `/home/kenny/go/bin/noseyparker` | 0.24.0 | Fast historical-commit secret scanner. Used by `secret-hunter` Pass C — single shared datastore across all Pass B clones, one `report --format json` call at the end. |
 | subfinder | `/home/kenny/go/bin/subfinder` | v2.6.8 | Passive subdomain enumeration. Used by `takeover-hunter` Step 4.1 as the primary source (~50 indexed passive sources). |
-| httpx | `/home/kenny/go/bin/httpx` | v1.9.0 | HTTP probing (ProjectDiscovery, NOT the python lib). Reserved for Phase 2 endpoint-hunter; NOT used by takeover-hunter (curl body-recheck is the only allowed HTTP probe there). |
-| nuclei | `/home/kenny/go/bin/nuclei` | v3.3.10 | Template-based vuln + takeover scanner with ~9000 templates. **Phase 1 integration (2026-05-21):** used by `takeover-hunter` Step 6.7 with `-t http/takeovers/` only, GATED on `automated_tools_allowed=true` AND `explicit_scanner_ban != true`. Phase 2 will widen template scope to `exposures/*` for endpoint-hunter. |
+| httpx | `/home/kenny/go/bin/httpx` | v1.9.0 | HTTP probing (ProjectDiscovery, NOT the python lib). **Phase 2 integration (2026-05-22):** used by `endpoint-hunter` Step 6 for live-probe of gau-derived sensitive-path candidates. GATED on `automated_tools_allowed=true` AND `explicit_scanner_ban != true`. Rate-limited via `-rate-limit ${rate_limit_cap_rps:-5}`. NOT used by takeover-hunter (curl body-recheck is the only allowed HTTP probe there). |
+| nuclei | `/home/kenny/go/bin/nuclei` | v3.3.10 | Template-based vuln + takeover scanner with ~9000 templates. **Phase 1 integration (2026-05-21):** `takeover-hunter` Step 6.7 with `-t http/takeovers/`, GATED on `automated_tools_allowed=true` AND `explicit_scanner_ban != true`. **Phase 2 integration (2026-05-22):** `endpoint-hunter` Step 8 with `-t http/exposures/ -t http/misconfiguration/`, same gates. Templates restricted to those two directories — broader nuclei classes (weak-creds, vulnerability scanning) remain out of bb-agent's passive-recon scope. |
 | dnsx | `/home/kenny/go/bin/dnsx` | latest | DNS resolution toolkit. Used by `takeover-hunter` Step 5 for CNAME extraction. **Quirk:** the May 2026 binary hangs on `-l <file>`; pipe via stdin instead. |
-| katana | `/home/kenny/go/bin/katana` | latest | Modern web crawler. Reserved for Phase 2 endpoint-hunter (active crawl of in-scope domains for hidden endpoints). |
+| katana | `/home/kenny/go/bin/katana` | latest | Modern web crawler. NOT used by endpoint-hunter Phase 2 (relies on gau-archived URLs + nuclei templates instead). May be added in a future phase if archived-URL coverage proves insufficient on programs with newer/less-indexed sites. |
 | naabu | `/home/kenny/go/bin/naabu` | latest | Fast port scanner. NOT used — active by definition; doesn't fit passive recon. |
 | pdtm | `/home/kenny/go/bin/pdtm` | latest | ProjectDiscovery tool manager |
 | subzy | `/home/kenny/go/bin/subzy` | latest | Subdomain takeover scanner (uses can-i-take-over-xyz). Used by `takeover-hunter` Step 6 as the primary fingerprint engine. CLI: `subzy run --targets <file> --output <file>.json --vuln --hide_fails --concurrency 20 --timeout 15`. `--vuln` saves only VULNERABLE entries. **All subzy matches must pass the Step 6.5 body-recheck gate** (`rule-takeover_hunter-subzy_body_recheck_required-e91f7`) before reaching report-drafter. |
@@ -24,8 +38,8 @@ Subagents MUST use the full paths below — do not rely on PATH order.
 | cloud_enum | `/usr/local/bin/cloud_enum` | system | Multi-cloud (AWS/GCS/Azure) enumerator. Used by `bucket-hunter` Pass B as a fallback if Pass A returns zero hits — has not triggered in any engagement to date. |
 | theHarvester-h | `/home/kenny/.local/bin/theHarvester-h` | 4.10.1 | Email/employee OSINT |
 | gh | `/home/kenny/.local/bin/gh` | 2.92.0 | GitHub CLI for API queries |
-| gau | `/home/kenny/go/bin/gau` | 2.2.4 | Get All URLs (Wayback + CC + AlienVault + URLScan) |
-| waybackurls | `/home/kenny/go/bin/waybackurls` | latest | Wayback URL dumper |
+| gau | `/home/kenny/go/bin/gau` | 2.2.4 | Get All URLs (Wayback + CC + AlienVault + URLScan). Used by `ownership-verifier` Check B for asset reference history. **Phase 2 integration (2026-05-22):** primary discovery surface for `endpoint-hunter` Step 4 — queries Wayback + CommonCrawl + AlienVault OTX + URLScan in parallel for each in-scope seed domain. Fully passive (no requests against program infra). |
+| waybackurls | `/home/kenny/go/bin/waybackurls` | latest | Wayback URL dumper. Redundant with `gau` (gau queries Wayback as one of its providers). Not used by any current agent. |
 | assetfinder | `/home/kenny/go/bin/assetfinder` | latest | Lightweight subdomain finder |
 | cariddi | `/home/kenny/go/bin/cariddi` | latest | Web crawl + secret extractor in one pass |
 
