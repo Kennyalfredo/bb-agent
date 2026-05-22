@@ -13,7 +13,7 @@ Single source of truth for which tool lives where. Subagents MUST use the full p
 | `bucket-hunter` | s3scanner + aws s3api recheck | passive only (AWS-side) | `bucket_listing_allowed`, `mass_scanning_allowed` |
 | `takeover-hunter` | subfinder + amass + crt.sh + dnsx + subzy + curl (body recheck) + nuclei (gated) | passive enum + body recheck curl + gated nuclei | `automated_tools_allowed`, `explicit_scanner_ban`, `rate_limit_cap_rps` |
 | `endpoint-hunter` (Phase 2) | gau + grep + httpx (gated) + curl body fetch + nuclei (gated) | passive enum + gated active live-probe | `automated_tools_allowed`, `explicit_scanner_ban`, `rate_limit_cap_rps` |
-| `ownership-verifier` | gh api + gau + dig | passive only | n/a |
+| `ownership-verifier` | gh api + gau + dig + **theHarvester (Phase 3, gh_account assets only)** | passive only | n/a |
 | `report-drafter` | (no scanning — reads candidate JSONs + ownership cache) | n/a | path-leak filter |
 | `retro-analyzer` | (no scanning — analyzes engagement artifacts) | n/a | n/a |
 
@@ -36,7 +36,7 @@ Single source of truth for which tool lives where. Subagents MUST use the full p
 | amass | `/home/kenny/.local/bin/amass` | older | OWASP subdomain enumeration. **Phase 1 integration (2026-05-21):** used by `takeover-hunter` Step 4.2 alongside subfinder + crt.sh. **Must run `amass enum -passive`** — active mode does ASN sweeps and DNS bruteforce which violate the passive-only rule. |
 | s3scanner | `/home/kenny/go/bin/s3scanner` | dev | S3 bucket permission scanner. Used by `bucket-hunter` Pass A. **Always rechecked via `aws s3api list-objects-v2 --no-sign-request`** at Step 4.5 — `rule-bucket_hunter-s3scanner_acl_recheck_required-37651`. |
 | cloud_enum | `/usr/local/bin/cloud_enum` | system | Multi-cloud (AWS/GCS/Azure) enumerator. Used by `bucket-hunter` Pass B as a fallback if Pass A returns zero hits — has not triggered in any engagement to date. |
-| theHarvester-h | `/home/kenny/.local/bin/theHarvester-h` | 4.10.1 | Email/employee OSINT |
+| theHarvester-h | `/home/kenny/.local/bin/theHarvester-h` | 4.10.1 | Email/employee OSINT. **Phase 3 integration (2026-05-22):** used by `ownership-verifier` Step 3.5 (Check A.5) when `asset_class == "gh_account"`. Run once per program (90-day employee-cache TTL at memory/employee-cache/<slug>.json). MANDATORY flags: `-b google,duckduckgo,bing,crtsh,certspotter,dnsdumpster` (passive search engines + cert-transparency + DNS records). **NEVER use `-b linkedin`, `-b linkedin_links`, or `-b companies`** — LinkedIn ToS prohibits scraping; researcher account suspension risk. The 6 default providers cover the same employee-email signal. Output is cross-referenced against the GH account's public profile (name/email/company) to attribute the account to a real program employee — boosts Check A from negative to positive when matched. |
 | gh | `/home/kenny/.local/bin/gh` | 2.92.0 | GitHub CLI for API queries |
 | gau | `/home/kenny/go/bin/gau` | 2.2.4 | Get All URLs (Wayback + CC + AlienVault + URLScan). Used by `ownership-verifier` Check B for asset reference history. **Phase 2 integration (2026-05-22):** primary discovery surface for `endpoint-hunter` Step 4 — queries Wayback + CommonCrawl + AlienVault OTX + URLScan in parallel for each in-scope seed domain. Fully passive (no requests against program infra). |
 | waybackurls | `/home/kenny/go/bin/waybackurls` | latest | Wayback URL dumper. Redundant with `gau` (gau queries Wayback as one of its providers). Not used by any current agent. |
