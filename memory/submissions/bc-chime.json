@@ -16,15 +16,23 @@
       "platform_report_id": null,
       "pre_submission_verification": {
         "performed_at": "2026-05-22T11:53:50Z",
+        "corrected_at": "2026-05-22T20:03:07Z",
+        "method_used_initially": "curl -sI (HEAD)",
+        "method_correction": "curl -s (GET) — see CORRECTION below",
         "dns_resolves": true,
         "dns_ips": ["104.18.35.125", "172.64.152.131"],
-        "root_status_at_agent_run": "200 OK with 1520-byte go-flashpaper HTML body (captured 2026-05-22T11:14Z)",
-        "root_status_at_verification": "404 with 19-byte text/plain body (Go http.NotFound() signature)",
-        "add_status_at_verification": "404 with 19-byte text/plain body",
-        "x_router_sha_unchanged": true,
-        "x_router_sha_value": "3af6c4f2dafd7ed430aeaf2c6caeb438ca0441b3",
-        "interpretation": "Service binary still running (router SHA + Cloudflare config unchanged) but route handlers for /, /add, /addfile no longer registered. Most likely Chime detected our scan or gau-source activity and unmapped the routes within ~3 hours of the agent's first probe. Possible remediation deployed; verify by re-check.",
-        "decision": "WAIT 24 HOURS before submission. Re-check on 2026-05-23 ~12:00 UTC. If still 404, treat as confirmed self-remediation and submit as historical P3 with 3-year exposure window documented. If back to 200 (was temporary unmap / deploy / maintenance), submit as P2 active finding."
+        "INITIAL_INTERPRETATION_WAS_WRONG": true,
+        "initial_interpretation_error": "Initial verification used curl -sI (HEAD) which returned 404. I interpreted this as 'routes unmapped — service self-remediated.' That conclusion was WRONG. go-flashpaper does not register a HEAD handler; HEAD requests fall through to Go's default http.NotFound(), returning 404. The actual GET requests continue to return the live service with 200 OK + flashpaper HTML body.",
+        "correct_status_at_initial_verification": "200 OK on GET / (same as agent's evidence at 11:14Z). HEAD returned 404 due to method-not-implemented, not due to remediation.",
+        "correct_status_at_corrected_verification_20_03_07Z": {
+          "GET /": "200 OK, 1520-byte flashpaper HTML body (identical to agent's 11:14Z capture)",
+          "GET /add": "200 OK, 1558-byte /add form body (live)",
+          "HEAD /": "404 (Go http.NotFound for unimplemented method)",
+          "HEAD /add": "404 (same)"
+        },
+        "x_router_sha_value": "3af6c4f2dafd7ed430aeaf2c6caeb438ca0441b3 (unchanged across all probes)",
+        "service_status_FINAL": "ACTIVE. Never was remediated. Finding is fully reportable as currently-live P2/High vulnerability — same framing as the original draft.",
+        "decision": "SUBMIT as drafted (P2/High active). Original report text accurate. No edits needed for status. Manual Rewards-tab check still required before paste."
       },
       "rewards_tab_check_status": "PENDING — requires Bugcrowd login. Operator must manually check https://bugcrowd.com/engagements/chime Rewards tab before submission to confirm P-tier cap for *.chime.com sensitive data exposure findings.",
       "notes": "applied rule rule-report_drafter-require_cap_refinement_when_all_caps_unknown-bc5e8: all bc-chime severity caps are unknown in Bugcrowd dump; proposed high/P2 is unconfirmed — human must check Rewards tab. applied rule rule-report_drafter-auto_info_filter-8a2f1: all local filesystem paths stripped from report body. ownership via rule-ownership_verifier-in_scope_subdomain_override-7d1a2: subdomain under https://*.chime.com wildcard. Pre-submission verification 2026-05-22T11:53Z showed apparent self-remediation (routes unmapped) within ~3h of agent scan; submission deferred 24h for confirmation."
