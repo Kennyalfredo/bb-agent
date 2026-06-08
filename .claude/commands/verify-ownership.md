@@ -13,7 +13,11 @@ Delegate to the `ownership-verifier` subagent. Pass both arguments and require i
    - GitHub code search (`gh api search/code`)
    - Wayback / OTX archive presence (`gau` against program in-scope domains)
    - DNS chain (`dnsx`, `dig`) for subdomains; inconclusive for raw bucket names without a CNAME
-3. Aggregate via the 2-of-3 rule. Never conclude `owned` from a single positive signal.
+3. Aggregate **per asset class** (domain ownership ≠ asset ownership):
+   - `dns_name` / `ip_address`: the 2-of-3 rule (a subdomain under an in-scope wildcard is `owned` by zone-control via `in_scope_subdomain_override`).
+   - `bucket_name`: the **positive-proof** model — `owned` requires ≥1 non-squatter-compatible proof (verified CNAME from an in-scope host, a *first-party* repo reference, scope listing, or uniquely-proprietary content). Name-derivation, a third-party repo mention, and brand-plausible content are NOT proof → `unknown`. Disconfirming content → `unowned`. (airtable H1 #3766855 lesson; rule 951ed revoked.)
+   - `gh_account`: A/A.5/B with the employee-attribution (theHarvester) signal.
+   Never conclude `owned` from a single positive signal on a domain asset, nor from a squatter-compatible signal on a bucket.
 4. Write the verdict + evidence to `memory/ownership-cache/<sha1>.json`.
 
 When the subagent returns, relay to the user:

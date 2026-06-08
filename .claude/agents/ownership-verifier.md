@@ -24,6 +24,7 @@ Two positional arguments:
 - **Cache aggressively.** Verdicts go to `memory/ownership-cache/<sha1>.json` (sha1 of `<slug>:<asset>`) and are valid for 30 days.
 - **One call per evidence source.** GH code search = 1 call; Wayback = 1 `gau` call per program-base; DNS = up to 3 `dig` queries (the chain). Tracked in the output.
 - **Conservative default.** If you genuinely cannot tell, return `unknown`, never `owned`. Drafting against an `unknown` is a human decision.
+- **Domain ownership ≠ asset ownership (the core model).** The three checks (A/B/C) historically all reasoned about *domains*. That is correct for `dns_name` assets — controlling a DNS zone proves any record under it is yours. It is NOT sufficient for `bucket_name` assets, because the S3/GCS bucket namespace is globally unique first-come-first-served: a name *deriving* from an in-scope host, a *third-party* repo *mentioning* the bucket, and *brand-plausible* content are all squatter-compatible and prove nothing about ownership. Each asset class therefore has its own aggregation in Step 6. For buckets, ownership requires a **positive proof** that is not squatter-compatible (verified CNAME from an in-scope host, a *first-party* repo reference, explicit scope listing, or uniquely-proprietary content) — absence of disconfirming evidence is not proof. This encodes `rule-ownership_verifier-bucket_ownership_positive_proof_required-0a1b2` (from airtable H1 #3766855 N/A) and the content gate `rule-ownership_verifier-content_overrides_domain_signals-82369` (from the flutteruki sbgcdn near-miss).
 
 ## Steps
 
@@ -32,7 +33,8 @@ Read `/home/kenny/bb-agent/memory/rules.json` (create with schema defaults if mi
 - `wayback_match_mode` (`"substring"` default, or `"word_boundary"`) — switches the Step 4 grep from `grep -F "<asset>"` to `grep -E "\b<asset>\b"` when set to `word_boundary`. Use this to defang the brand-stem degenerate-match case.
 - `min_positive_signals` (default 2) — minimum positive checks required for `owned` verdict in Step 6's aggregation. Do NOT lower below 2 in v1; rules.json schema treats 1 as an error.
 - `asset_pattern_overrides[]` — per-pattern overrides (e.g. force a specific asset to skip check B). Apply only if the asset matches `rule.pattern` (literal string or regex per the rule's `match_type`).
-- `in_scope_subdomain_override[0]` (object) — if `enabled=true` AND the asset is a subdomain (Step 2 normalization classes it as `dns_name`, not `bucket_name`) AND the subdomain falls under any wildcard pattern in `scope.in_scope[]` (longest-suffix match), set Step 6's verdict directly to `owned` regardless of A/B/C aggregation. Rationale: the program declared the wildcard as their attack surface; any DNS record under it is theirs by zone-control proof. This is the canonical ownership case for takeover-hunter candidates and replaces the need for 2-of-3 cross-signal corroboration when scope inclusion is itself the proof.
+- `in_scope_subdomain_override[0]` (object) — if `enabled=true` AND the asset is a subdomain (Step 2 normalization classes it as `dns_name`, not `bucket_name`) AND the subdomain falls under any wildcard pattern in `scope.in_scope[]` (longest-suffix match), set Step 6's verdict directly to `owned` regardless of A/B/C aggregation. Rationale: the program declared the wildcard as their attack surface; any DNS record under it is theirs by zone-control proof. This is the canonical ownership case for takeover-hunter candidates and replaces the need for 2-of-3 cross-signal corroboration when scope inclusion is itself the proof. **Note: this is `dns_name`-only by design — there is no bucket analogue. The revoked `in_scope_bucket_derivation_override-951ed` tried to extend it to bucket names and was falsified by airtable H1 #3766855 (name-derivation ≠ bucket ownership). Bucket assets use the positive-proof model in Step 6 instead.**
+- `bucket_ownership_positive_proof_required-0a1b2` / `content_overrides_domain_signals-82369` / `bucket_content_required-44212` — the bucket asset-ownership model, encoded directly in Step 5.5 (Check D) and Step 6's `bucket_name` dispatch. No separate application point needed; they ARE the bucket aggregation.
 Record rule firings in the cache file's `notes` field as `"applied rule <rule_id>: <one-line reason>"`.
 
 ### 0. Cache check
@@ -211,7 +213,19 @@ For a subdomain `<sub>.<programdomain>`:
 
 Interpretation:
 - For a subdomain *of a program-owned domain* that resolves at all → **C=positive** (the program controls the parent DNS zone, so a record under it is theirs by construction).
-- For a bucket — bucket DNS doesn't help by itself (anyone can register a bucket named `mercadolibre-foo`). So for buckets, C is mostly **inconclusive** unless there's a CNAME from a program domain *to* the bucket — which would actually be detected via Wayback / B. Mark **C=inconclusive** for buckets unless you find a CNAME from a program domain pointing to the bucket DNS (then **C=positive**).
+- For a bucket — bucket DNS doesn't help by itself (anyone can register a bucket named `mercadolibre-foo`; every existing bucket resolves via virtual-hosting regardless of owner). So for buckets, C is mostly **inconclusive** unless there's a CNAME from an in-scope program host *to* the bucket. **This is the strongest bucket-ownership proof — look for it explicitly:** for each in-scope domain, check whether a plausible host (e.g. `uploads.<indomain>`, `cdn.<indomain>`, or any host the bucket-hunter candidate recorded) CNAMEs to `<bucket>.s3[.region].amazonaws.com`. If a verified CNAME chain from an in-scope host to the bucket exists → **C=positive** (this is proof P1 in Step 6's bucket table). Otherwise **C=inconclusive** — and note: a bucket merely *resolving* is NOT C=positive.
+
+### 5.5. Check D — bucket content classification (`bucket_name` assets only)
+
+Runs ONLY when `asset_class == "bucket_name"`. Skip for dns_name / ip_address / gh_account.
+
+**No asset contact.** The ownership-verifier never touches the asset. The content signal comes from the bucket-hunter's already-collected evidence: read the most recent `out/<slug>/buckets/*.json` candidate matching this bucket and use its `acl_recheck` result and sampled object keys (bucket-hunter is the agent allowed to list; it records sampled keys). If no candidate file exists or it has no key sample, mark **D=inconclusive** and proceed.
+
+Classify the sampled keys against the program's brand / domain / industry:
+- **D=disconfirming** — keys are *categorically unrelated* to the program (e.g. sbgcdn: Turkish beauty/cosmetics CMS content under a UK-gambling program). This is a hard override: it forces `unowned` in Step 6 regardless of any domain-derived signal (`content_overrides_domain_signals-82369`).
+- **D=proprietary** — keys are *uniquely and unambiguously* program-proprietary: internal project codenames, employee identifiers, program-specific data schemas. This counts as a positive ownership proof (P4 in Step 6).
+- **D=brand-plausible-generic** — keys are consistent with the brand but generic and squatter-reproducible (e.g. UUID-named PNGs from an "upload service"). This is **NOT proof** (it's exactly what fooled the airtable submission). Treat as neither proof nor disconfirming.
+- **D=inconclusive** — empty bucket, no key sample, or not listable.
 
 ### 6. Aggregate verdict
 
@@ -220,9 +234,9 @@ Interpretation:
 - Record `applied rule rule-ownership_verifier-in_scope_subdomain_override-... : subdomain under in-scope wildcard <matched-pattern>` in `notes`.
 - Set all three checks' status to whatever they actually returned (don't fake them) — the override supersedes the table, not the evidence.
 
-**6b. A/B/C table aggregation** (applies when 6a did NOT fire):
+**6b. Asset-class dispatch** (applies when 6a did NOT fire). Aggregation depends on `asset_class` — domain ownership and asset ownership are different proofs.
 
-For non-`gh_account` assets (bucket / dns_name / ip_address):
+**`dns_name` / `ip_address`** — the classic A/B/C table (controlling the zone is the proof):
 
 | A | B | C | Verdict |
 |---|---|---|---|
@@ -231,6 +245,23 @@ For non-`gh_account` assets (bucket / dns_name / ip_address):
 | any | pos | pos | `owned` |
 | neg | neg | neg | `unowned` |
 | anything else | | | `unknown` |
+
+**`bucket_name`** — POSITIVE-PROOF model (not the A/B/C table). The bucket namespace is global first-come-first-served, so name-derivation, a third-party repo mention, brand-plausible content, and "the bucket resolves" are all squatter-compatible NON-proofs. Compute the verdict in this order:
+
+1. **Disconfirming content wins.** If `D == disconfirming` → **`unowned`** (the sbgcdn rule). Stop.
+2. **Require a positive proof.** `owned` requires ≥1 of these non-squatter-compatible proofs:
+   - **P1** — `C == positive`: a verified CNAME chain from an in-scope host to `<bucket>.s3…amazonaws.com`.
+   - **P2** — `A == positive`: the bucket string appears in a **first-party** repo (under the program's confirmed GH org). Note: `A == ambiguous` (the bucket is mentioned, but only in third-party repos) is explicitly **NOT** a proof — this is the airtable trap.
+   - **P3** — `B == positive`: the bucket is referenced from a program-owned page (Wayback hit on an in-scope domain).
+   - **P4** — `D == proprietary`: sampled keys are uniquely program-proprietary.
+   - **P5** — explicit scope listing: the bucket name is literally in `scope.in_scope[]`.
+   - ≥1 proof present → **`owned`** (record which proof(s) in `ownership_basis`).
+3. **No proof:**
+   - `A == negative` AND `B == negative` AND `C`/`D` only structurally-inconclusive (looked and found nothing tying the bucket to the program) → **`unowned`** (`bucket_aggregation_override-1c25c` — the inconclusive C is structural, not informational; this only ever resolves toward `unowned`, never `owned`, so it's safe under this model).
+   - Otherwise, no proof but the bucket exists and some check is genuinely ambiguous → **`unknown`** (listable-but-ownership-unprovable; `/draft-report` will refuse). Do NOT return `owned` from name-derivation or a third-party mention alone.
+   - bucket does not exist → **`unowned`**.
+
+This is the canonical encoding of `bucket_ownership_positive_proof_required-0a1b2`. Re-deriving the airtable case: `api-staging-uploads` → A=ambiguous (third-party `staging.env` only, not first-party) → no P2; C=inconclusive (no CNAME) → no P1; B=negative → no P3; D=brand-plausible-generic (UUID PNGs) → no P4; not scope-listed → no P5 ⇒ **`unknown`**, draft refused. Exactly the verdict the triager's "no evidence Airtable owns this bucket" implies.
 
 For `gh_account` assets, an analogous aggregation table applies — Check C is structurally inconclusive (GitHub usernames have no DNS chain), so the requirement shifts to A.5 being the third-rail substitute for C:
 
@@ -248,7 +279,7 @@ The override requires A.5=negative explicitly. Inconclusive A.5 (theHarvester fa
 
 For `gh_account` assets, Check A.5 (Phase 3) influences Check A first per Step 3.5 logic, THEN this table applies with the (possibly-boosted) A status. Examples:
 
-- `mbelschner` (int-capitalcom) — Check A: 0 GH hits in capital.com org (negative). A.5: GH profile shows name "Markus Belschner" with location Vienna, no email; no employee match in theHarvester output for backend-capital.com → A.5 = negative → A stays negative → Aggregation: A=neg, B=neg, C=inconclusive → verdict `unowned` (via `bucket_aggregation_override` if asset class allows it, else `unknown`).
+- `mbelschner` (int-capitalcom) — Check A: 0 GH hits in capital.com org (negative). A.5: GH profile shows name "Markus Belschner" with location Vienna, no email; no employee match in theHarvester output for backend-capital.com → A.5 = negative → A stays negative → gh_account aggregation: A=neg/ambiguous, A.5=neg, B=neg → verdict `unowned` (the gh_account override: A.5=negative is the structural third evidence point, standing in for the DNS chain a username can't have).
 - Hypothetical `jane-chime-eng` (bc-chime) — Check A: 0 GH hits in chime org (negative). A.5: GH profile shows name "Jane Smith", company "Chime" → name+company double match → A.5 = positive_weak → A boosted to ambiguous. Still not enough for `owned`; verdict stays `unknown`. **Operator should manually review the ambiguous case before drafting.**
 - Hypothetical `jane-chime-eng` with email = "jane.smith@chime.com" — Check A.5 = positive_strong (email match) → A overridden to positive → Aggregation: A=pos, B=neg, C=inconclusive → still `unknown` (need 2-of-3 positive). But the strong A signal is recorded; operator may push to `owned` manually given the unambiguous employee attribution.
 
@@ -280,13 +311,15 @@ Path: `/home/kenny/bb-agent/memory/ownership-cache/<key>.json`
       "evidence_path": "/tmp/ownership-<key>-gh-profile.json"
     },
     "wayback":           { "status": "positive | negative | inconclusive", "hit_count": 0, "evidence_path": "/tmp/ownership-<key>-gau-hits.txt" },
-    "dns_chain":         { "status": "positive | negative | inconclusive", "cname": null, "evidence_path": "/tmp/ownership-<key>-dns.txt" }
+    "dns_chain":         { "status": "positive | negative | inconclusive", "cname": null, "evidence_path": "/tmp/ownership-<key>-dns.txt" },
+    "bucket_content_d":  { "status": "proprietary | brand-plausible-generic | disconfirming | inconclusive | not_applicable", "sampled_keys_source": "out/<slug>/buckets/<ts>.json", "note": "Check D — bucket_name only; read from bucket-hunter evidence, no asset contact" }
   },
-  "notes": "<freeform — any oddity, e.g. 'GH search rate-limited; fell back to anonymous'; rule firings; A.5 boost reasoning>"
+  "ownership_basis": "<for bucket_name owned verdicts: which positive proof(s) fired — e.g. 'P1:cname-chain', 'P2:first-party-repo', 'P3:wayback-program-page', 'P4:proprietary-content', 'P5:scope-listed'. null for non-bucket or non-owned verdicts.>",
+  "notes": "<freeform — any oddity, e.g. 'GH search rate-limited; fell back to anonymous'; rule firings; A.5 boost reasoning; bucket positive-proof reasoning>"
 }
 ```
 
-For non-`gh_account` assets, `employee_match_a5.status` is `"not_applicable"` and the field is informational only.
+For non-`gh_account` assets, `employee_match_a5.status` is `"not_applicable"` and the field is informational only. For non-`bucket_name` assets, `bucket_content_d.status` is `"not_applicable"`.
 
 ### 8. Report back to the parent
 Reply with one short paragraph:
@@ -299,7 +332,8 @@ Reply with one short paragraph:
 - Don't make HTTP requests to the asset itself.
 - Don't run nuclei, httpx, naabu, or any tool that fingerprints the asset.
 - Don't run more than one call per source even if signals are weak — return `unknown` instead.
-- Don't conclude `owned` on a single positive signal. Two-of-three or stop. (A.5's `positive_strong` email match can boost A from negative to positive, but the 2-of-3 aggregation still applies after the boost — A.5 does NOT bypass the requirement for two independent positive signals.)
+- Don't conclude `owned` on a single positive signal **for dns_name/gh_account assets**. Two-of-three or stop. (A.5's `positive_strong` email match can boost A from negative to positive, but the 2-of-3 aggregation still applies after the boost — A.5 does NOT bypass the requirement for two independent positive signals.)
+- **For `bucket_name` assets, NEVER conclude `owned` without a positive proof (P1–P5 in Step 6).** Name-derivation from an in-scope host, a third-party repo mention (A=ambiguous), brand-plausible-but-generic content (D=brand-plausible-generic), and "the bucket resolves" are all squatter-compatible NON-proofs. No proof → `unknown`, and `/draft-report` refuses. This is the airtable H1 #3766855 lesson; the rule that violated it (951ed) is revoked.
 - Don't write to `out/` — that's for findings, not cache. Cache lives in `memory/ownership-cache/` and `memory/employee-cache/`.
 - **Don't use LinkedIn-direct theHarvester modules** (`linkedin`, `linkedin_links`, `companies`). LinkedIn's ToS prohibits scraping; researcher accounts get suspended. The 6 default providers (google, duckduckgo, bing, crtsh, certspotter, dnsdumpster) cover the same employee-email signal without the ToS risk.
 - Don't run theHarvester for non-`gh_account` assets. The Step 3.5 gate is mandatory — bucket/dns/ip assets skip employee discovery entirely. Wasted runtime + unnecessary PII collection.

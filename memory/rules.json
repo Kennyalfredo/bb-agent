@@ -816,6 +816,9 @@
       }
     ],
     "subzy_concurrency_override": null,
+    "subdomain_cap_override": null,
+    "active_probe_cap_override": null,
+    "seed_cap_override": null,
     "refuse_if_explicit_scanner_ban": {
       "enabled": true,
       "refuse_when": "program.rules.explicit_scanner_ban == true",

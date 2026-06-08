@@ -20,7 +20,11 @@ Discover subdomains under in-scope wildcards/domains that have a CNAME pointing 
 - **Passive enumeration only.** subfinder runs in passive mode (`-all` aggregates ~50+ passive sources; no active bruteforce). No active resolution beyond dnsx CNAME lookups against public resolvers. No HTTP requests to the candidate subdomain beyond what subzy issues for its fingerprint check (subzy does a single GET to read the response body / detect the "fingerprint" string per `can-i-take-over-xyz`). That single GET is the validation; do NOT add a second.
 - **Never register/claim.** subzy's `--vuln` flag reports vulnerable candidates; do NOT follow up by attempting to register the dangling endpoint to "prove" exploit. Detection is the report; claiming is exploitation.
 - **One validation call per candidate.** subzy hits each subdomain once. Do not re-run subzy on the same list.
-- **Respect program rules.** Read `rules.automated_tools_allowed` and `rules.mass_scanning_allowed` from the program JSON. If both are `false`, cap seed domains at 3 and the final subdomain list (post-dnsx, with CNAMEs only) at 100.
+- **Respect program rules — but cap the right thing.** Read `rules.automated_tools_allowed` and `rules.mass_scanning_allowed`. The compliance-relevant cap is the **active-probe count** — the number of CNAME-bearing subdomains sent to subzy + body-recheck curl + nuclei, because ONLY those touch program infrastructure. Passive enumeration (subfinder/amass/crt.sh) and dnsx CNAME resolution hit third-party indexes and public resolvers, NOT the program, so `mass_scanning_allowed` does not constrain enumeration breadth — only runtime does. Therefore:
+  - **Active-probe cap** (compliance): strict (`automated_tools_allowed=false`) → **150 total** CNAME-bearing subdomains to subzy/recheck; default → 500. Applied at Step 6.
+  - **Passive enumeration cap** (runtime only): **per-seed**, not global — strict → 150/seed, default → 500/seed, with a global runtime ceiling of 3000. This is the flutteruki fix: a global 100-cap before dnsx starved wide-wildcard targets (219 betfair + 133 paddypower subs truncated to 100 total → most never CNAME-checked). Per-seed budgeting gives each in-scope wildcard its own enumeration allowance.
+  - **Seed cap**: strict → 12, default → 25 (raised from the old 3/10 — seeds drive passive enumeration only, one subfinder/amass/crt.sh call to third-party indexes per seed, so seed count is a runtime knob, not a compliance one). Beyond the cap, recommend per-seed re-runs in `summary.notes` rather than silently dropping seeds.
+  Overridable via `rules.takeover_hunter.subdomain_cap_override` / `active_probe_cap_override` / `seed_cap_override` (Step 0).
 - **Output is candidates, not findings.** A `subzy_status: VULNERABLE` row is a candidate until ownership-verifier confirms the subdomain's parent zone is program-controlled.
 
 ## Steps
@@ -30,6 +34,7 @@ Read `/home/kenny/bb-agent/memory/rules.json` (create with the schema-default sk
 - `fingerprint_engine_ignore[]` — drop any subzy hit whose `engine` matches before Step 6 candidate build (e.g. retire known-FP fingerprints).
 - `subdomain_skip[]` — drop any enumerated subdomain whose name matches a literal/regex before Step 4 dnsx (e.g. internal staging suffixes that always look dangling but aren't).
 - `subzy_concurrency_override` (int|null) — passes through as `--concurrency=` instead of the default 20.
+- `subdomain_cap_override` / `active_probe_cap_override` / `seed_cap_override` (int|null each) — override the per-seed passive enumeration cap, the total active-probe cap, and the seed cap respectively (see the cap model in Hard rules). Null → use the strict/default values there.
 - `cname_hub_skip[]` — drop any dnsx CNAME result whose target matches an `exact` or `suffix` entry, before Step 6 subzy (hub-and-spoke CDN/ad-platform delegations are never individually dangling).
 - `subzy_body_recheck_required[]` — **mandatory live HTTP body recheck after subzy match.** If `enabled: true`, every subzy `VULNERABLE` hit must pass through Step 6.5 below before reaching the candidate output. Symmetric to bucket_hunter's s3scanner_acl_recheck_required — subzy's single passive GET is not authoritative (8th-style FP class). Disqualify candidates whose live response body does not contain the can-i-take-over-xyz fingerprint string.
 
@@ -37,7 +42,7 @@ Record any rule firings in the output's `summary.notes` as `"applied rule <rule_
 
 ### 1. Validate inputs
 - Read `/home/kenny/bb-agent/memory/programs/<slug>.json`. If missing → stop: `takeover-hunter: program <slug> not ingested — run /program-load first.`
-- Read `rules.automated_tools_allowed` and `rules.mass_scanning_allowed`. Both `false` → apply strict caps in the hard-rules section above. Otherwise use defaults below.
+- Read `rules.automated_tools_allowed` and `rules.mass_scanning_allowed`. `automated_tools_allowed=false` → strict tier (active-probe cap 150, per-seed enum cap 150, seed cap 12); otherwise default tier (500 / 500 / 25). Apply any `*_cap_override` rules from Step 0 on top. See the cap model in Hard rules.
 - Confirm tool paths: `/home/kenny/go/bin/subfinder`, `/home/kenny/go/bin/dnsx`, `/home/kenny/go/bin/subzy`. If any missing, stop with the exact missing-path error.
 
 ### 2. Derive seed domains from in-scope wildcards/domains
@@ -48,7 +53,7 @@ From `scope.in_scope[*]` where `type` ∈ {`wildcard`, `domain`}:
 
 Also record the original wildcard patterns (`scope.in_scope[]` entries) so Step 6 can attach `in_scope_wildcard_match` to each candidate.
 
-Cap seed domains at 10 default / 3 strict. If the program has more, take the first 10/3 in the order they appear.
+Cap seed domains at the seed cap (default 25 / strict 12, or `seed_cap_override`). If the program has more, take the first N in order AND record in `summary.notes`: `"seed cap hit: <total> wildcards, ran first <N>; re-run on the remainder for full coverage"` — wide-wildcard targets are exactly where takeover findings live, so a dropped seed is a real coverage gap, not noise.
 
 ### 3. Pre-flight
 ```bash
@@ -101,7 +106,9 @@ crt.sh has rate limits (no auth — be patient, max ~10 req/min). On a 503 or em
 
 Combine `subfinder-<seed>.jsonl` host extracts + `amass-<seed>.txt` lines + `crtsh-<seed>.txt` lines across all seeds. Record per-source contribution in `summary.notes` as `"<source>_unique_contributions: subfinder=X, amass=Y, crtsh=Z"` (subdomains only that source surfaced — measures whether each source is paying its keep).
 
-Dedupe. Cap the merged list at 500 (default) or 100 (strict). If exceeded, prefer **round-robin sampling across seeds** over global alphabetical sort (this is the Phase 1 fix for the shopify/int-capitalcom alphabetical-truncation bias — when one seed produced 1369 subs and another produced 100, the global sort favored the prolific seed and starved the others). Implementation: bucket subs by their parent seed, then take ceil(cap/N_seeds) from each bucket in alphabetical order until cap reached. Record the per-seed truncation count in `summary.notes`.
+Dedupe **within each seed's bucket**. Apply the **per-seed** enumeration cap (default 500/seed, strict 150/seed, or `subdomain_cap_override`) to each bucket independently — do NOT collapse to a single global cap. This is the flutteruki fix: the old global cap (100 strict) truncated 219 betfair + 133 paddypower subs to ~100 total before dnsx, so most were never CNAME-checked. Per-seed budgeting gives each wildcard its own allowance, so a prolific seed can't starve the others and no wide-wildcard seed is gutted. Enforce the global runtime ceiling (3000) only as a backstop; if hit, record per-seed truncation counts in `summary.notes`. (The old round-robin-from-a-global-cap logic is superseded — per-seed caps achieve the same anti-starvation goal without the total-coverage loss.)
+
+Note: this merged list is the PASSIVE enumeration output — it has not touched program infrastructure yet. The compliance-relevant **active-probe cap** is applied later, at Step 6, to the CNAME-bearing subset only.
 
 Apply any `rules.takeover_hunter.subdomain_skip[]` filters now — drop matching subdomains before writing the final list to `$EVID/subdomains.txt` (one per line).
 
@@ -125,6 +132,8 @@ Resolve each subdomain and emit only those with a non-empty CNAME chain (those a
 **Why stdin redirect instead of `-l <file>`:** the `/home/kenny/go/bin/dnsx` build from May 2026 hangs indefinitely on `-l <file>` (sleeping process, 0 bytes written, no active sockets) but works instantly when the same list is piped via stdin. Cause unknown (possibly a buffering/blocking-IO regression in the dnsx file-reader path on this specific binary). The stdin form is reliable. Explicit `-r` resolvers and `-retry 1 -t 50` are added for hygiene — don't depend on the system resolver under strict-mode timing budgets.
 
 Parse `dnsx.jsonl`. For each entry where `cname` array has at least one entry, write the `host` to `$EVID/subdomains-with-cname.txt`. Keep a map `host → cname[]` for use in Step 6.
+
+**Apply the active-probe cap now.** `subdomains-with-cname.txt` is the list that will be hit by subzy + body-recheck curl + nuclei — the only requests that touch program infrastructure. Cap it at the active-probe cap (default 500 / strict 150, or `active_probe_cap_override`). CNAME-bearing hosts are typically a small fraction of enumerated subs, so this rarely binds — but when it does, it is the compliance boundary, not the enumeration breadth. If the cap truncates, record `"active-probe cap hit: <total> CNAME-bearing hosts, probing first <N>"` in `summary.notes`. dnsx itself uses public resolvers (1.1.1.1/8.8.8.8) and does NOT count against this cap.
 
 If `subdomains-with-cname.txt` is empty, write an empty-candidates output file and report back — no takeover-relevant attack surface for this program.
 
@@ -316,8 +325,12 @@ Schema:
       "crtsh_only": 21,
       "multi_source": 24
     },
-    "subdomains_after_cap": 100,
+    "subdomains_after_per_seed_cap": 600,
+    "per_seed_cap_applied": 150,
+    "seed_cap_applied": 12,
     "subdomains_with_cname": 89,
+    "active_probe_cap_applied": 150,
+    "cname_hosts_after_active_probe_cap": 89,
     "subzy_vulnerable_pre_recheck": 3,
     "subzy_vulnerable_post_body_recheck": 2,
     "subzy_disqualified_by_body_recheck": 1,
