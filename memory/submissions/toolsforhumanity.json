@@ -15,6 +15,18 @@
       "submitted_at": "2026-05-17",
       "submission_url": "https://hackerone.com/reports/3742794",
       "platform_report_id": "3742794",
+      "platform_outcome": {
+        "disposition": "duplicate",
+        "duplicate_of": "3020852",
+        "closed_at": "2026-05-19T05:49:00Z",
+        "closed_by": "h1_analyst_anya",
+        "captured_at": "2026-06-07",
+        "per_credential_program_assessment": {
+          "alchemy_signup_sequencer": "originally reported in #3020852; program determined these are 'just for testing services' without significant security impact",
+          "infura_simulator": "reported in #3543111; program noted 'This key is on a free plan and no longer being used by our simulator'"
+        },
+        "lesson": "Two compounding errors, both ground-truth-confirmed: (1) DUPLICATE — both credentials were previously reported (we cannot dedupe against others' private reports, so this is unavoidable noise, but the keys being old/well-known should have lowered prior). (2) IMPACT MISJUDGED — trufflehog Verified=true proved only that the ISSUER accepts the key, NOT that it carries security impact. Both keys are low/no-impact: a free-tier/test RPC key. The report inflated impact with speculative capabilities ('request interception', 'World ID proof interception', 'higher-privilege methods MAY also be available') that blockchain JSON-RPC keys do not grant. Blockchain RPC provider keys (Alchemy/Infura/QuickNode/etc.) are frequently public-by-design, free-tier, or test fixtures and grant at most rate-limit consumption against PUBLIC chains. See [[feedback-rpc-key-low-impact]] and rule-report_drafter-blockchain_rpc_key_severity_cap-7c4d9."
+      },
       "notes": "2 trufflehog-verified candidates bundled: Alchemy (signup-sequencer/e2e_tests/compose.yml, commit f679ddf, first_seen 2024-04-29) + Infura (simulator/WalletProvider.tsx, commit edc2cc1, first_seen 2022-04-20). Proposed high = min(high, critical cap). Rule rule-report_drafter-require_cap_refinement_when_all_caps_unknown-bc5e8 evaluated: applies_to_platforms=[bugcrowd] only — did not fire (platform=hackerone). Rule rule-report_drafter-auto_info_filter-8a2f1 applied: all local filesystem paths stripped from final report markdown. Auto_info_filter bucket-listing rules did not fire (finding class = credential-leak, not bucket-listing). 7 NoseyParker-only Postgres URI candidates excluded (unverified local-dev/test fixtures). GenericAPIKey (G5CK...QQNH) excluded (NP-only, tx-sitter local e2e fixture, TX_SITTER__SERVER__DISABLE_AUTH=true in same file). Reportability caveat noted in report: TFH policy requires working PoC against production for open-source repo findings; trufflehog passive issuer verification satisfies this threshold."
     }
   ]

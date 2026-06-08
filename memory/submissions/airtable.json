@@ -1,0 +1,32 @@
+{
+  "slug": "airtable",
+  "platform": "hackerone",
+  "audit_trail": [
+    {
+      "asset": "api-staging-uploads",
+      "asset_class": "bucket_name",
+      "drafted_at": "2026-05-28T03:45:00Z",
+      "report_path_local": "out/airtable/reports/api-staging-uploads-20260528-034500.md",
+      "severity_drafted": "Medium",
+      "severity_cap_from_program": "critical",
+      "ownership_verdict_automated": "unknown",
+      "ownership_verdict_effective": "owned_human_override",
+      "human_override_reason": "Bucket name api-staging-uploads is strict one-to-one derivation of in-scope critical-severity asset api-staging.airtable.com. Pipeline gap: in_scope_subdomain_override only covers dns_name assets, not bucket_name derivations. Queued as discovery-rule candidate for retro.",
+      "finding_summary": "Anonymous ListObjectsV2 permitted on staging upload bucket; 45 UUID-named PNG keys enumerable.",
+      "evidence_basis": "aws s3api list-objects-v2 --no-sign-request --bucket api-staging-uploads (exit 0, 45 objects).",
+      "auto_info_filter_applied": "rule-report_drafter-auto_info_filter-8a2f1 (no local paths leaked, scanned clean)",
+      "submission_state": "CLOSED_NOT_APPLICABLE",
+      "submitted_at": "2026-05-28T14:00:00Z",
+      "h1_report_id": "3766855",
+      "h1_report_url": "https://hackerone.com/reports/3766855",
+      "platform_outcome": {
+        "disposition": "not_applicable",
+        "closed_at": "2026-06-01",
+        "closed_by": "matthew_bryant",
+        "triager_reason_verbatim": "I see no evidence that Airtable owns this bucket.",
+        "captured_at": "2026-06-07",
+        "lesson": "Ground-truth refutation of ownership_verdict_effective=owned_human_override. The human override AND the discovery rule it spawned (rule-ownership_verifier-in_scope_bucket_derivation_override-951ed) both treated bucket-name-derivation-from-in-scope-host as sufficient ownership provenance. A bucket-takeover-specialist triager rejected exactly that premise. S3 bucket names are globally unique first-come-first-served; name derivation + a THIRD-PARTY repo reference + brand-plausible content is NOT proof of program ownership. Valid bucket-ownership proofs are: (1) DNS CNAME from a confirmed in-scope host to the bucket, (2) reference in a FIRST-PARTY (program-owned GH org) repo/config, or (3) explicit scope listing. Action taken: rule 951ed disabled; see memory/lessons.md and [[feedback-bucket-ownership-proof]]."
+      }
+    }
+  ]
+}

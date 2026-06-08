@@ -25,7 +25,13 @@ apply <proposal-id> [rule-id-1] [rule-id-2] ...
 ```
 Read the proposal file. If no rule-ids are given, apply ALL rules in the proposal. Otherwise apply only the named ones. Merge each rule into `memory/rules.json` and append the narrative to `memory/lessons.md`. Print which rules landed.
 
-If the first arg is neither a known slug nor the literal `apply`, refuse with: `retro-analyzer: first arg must be a program slug or 'apply'.`
+**Outcome mode** — invoked by `/outcome` after a platform disposition was recorded. Inputs: a slug, a report-id/asset, and the full `platform_outcome` object already written to `memory/submissions/<slug>.json`.
+```
+outcome <slug> <report-id-or-asset>
+```
+This is a FOCUSED single-finding retro, not an engagement walk. Read only the matching submission entry and `memory/programs/<slug>.json`. Propose **≤2** rules grounded SOLELY in this disposition. Write the proposal to `memory/lessons/proposals/<ts>-<slug>-outcome.json`. Never auto-apply. See the dedicated steps below.
+
+If the first arg is none of: a known slug, the literal `apply`, or the literal `outcome` — refuse with: `retro-analyzer: first arg must be a program slug, 'apply', or 'outcome'.`
 
 ## Hard rules
 
@@ -33,7 +39,7 @@ If the first arg is neither a known slug nor the literal `apply`, refuse with: `
 2. **Apply requires an existing proposal.** Apply mode reads `memory/lessons/proposals/<proposal-id>.json`. If missing, refuse.
 3. **Apply is additive only.** Append entries to `rules.json` array fields; set scalar fields only if they're at the schema default (e.g. `wayback_match_mode == "substring"`). Never overwrite an existing non-default scalar without an explicit `--force` flag (which v1 does not expose — refuse instead and tell the human to use `/forget` when that's built).
 4. **Rule provenance is mandatory.** Every applied rule gets `id`, `added` (UTC ISO8601), `from_engagement` (slug), `confidence` (`low` / `medium` / `high`), and `reason`. No rule lands without all five.
-5. **Confidence ceiling in v1.** Without cross-engagement corroboration, the highest confidence a single-engagement rule can claim is `medium`. v1.5 will introduce a corroboration check that promotes rules to `high`.
+5. **Confidence ceiling — and the one sanctioned exception.** In **analyze mode** (self-judged engagement evidence), the ceiling is `medium`; cross-engagement corroboration that would justify `high` lands in v1.5. The **exception is outcome mode**: a rule grounded in a real platform disposition (a triager's verdict) is ground truth, not self-judgment, and MAY carry `confidence: high`. This is the only path to `high` today. Such a rule's `reason` must begin with `GROUND TRUTH:` and quote/cite the disposition. A disposition that FALSIFIES an existing rule also licenses a **revoke proposal** (set that rule `enabled: false` with a `disabled`/`disabled_reason` provenance block — do not delete it).
 6. **Read-only on engagement artifacts.** This agent reads `out/<slug>/`, `memory/ownership-cache/`, `memory/submissions/<slug>.json`. It does not rescan, re-verify, or fetch anything new.
 
 ## Steps — analyze mode
@@ -186,6 +192,33 @@ Print:
 - exact command to apply all: `/retro apply <proposal-id>`
 - exact command to apply selectively: `/retro apply <proposal-id> <rule-id-1> <rule-id-2>`
 
+## Steps — outcome mode
+
+A platform disposition is the highest-value signal the loop receives. Treat it as ground truth and convert it into at most two well-aimed rules.
+
+### 1. Read the recorded outcome
+Open `memory/submissions/<slug>.json`, find the entry matching the report-id/asset, and read its `platform_outcome` block (already written by `/outcome`). Read `memory/programs/<slug>.json` for scope context. Do NOT walk the full engagement — this is finding-scoped.
+
+### 2. Diagnose the root cause
+Classify what the disposition actually teaches. Common shapes seen so far:
+- **ownership-inference error** (asset wasn't the program's; e.g. bucket name-derivation) → `not_applicable`.
+- **impact misjudged / verified≠impact** (a scanner-verified signal that carried no real impact) → `informative` / low-impact `duplicate`.
+- **impact inflation** (report asserted capabilities not demonstrated).
+- **duplicate-risk** (finding was valid — look for `validity: ACCEPTED_AS_VALID_ISSUE` — but already known; lesson is about prior-report probability, NOT about the technique being wrong).
+- **scope/severity-cap miscalibration.**
+
+### 3. Propose ≤2 rules
+Each rule may be:
+- a NEW guard/severity/derivation rule (`confidence: high`, `reason` starting `GROUND TRUTH:` with a citation), OR
+- a REVOKE of an existing rule the disposition falsified (target the rule by id; mark `enabled: false` with a `disabled_reason`), OR
+- a SOFT annotation rule (`rule_type: SOFT_annotation_not_suppression`) when the finding was valid-but-duplicate — never suppress a valid technique.
+
+### 4. Write the proposal
+Write to `memory/lessons/proposals/<UTC-ts>-<slug>-outcome.json`, same schema as analyze mode plus a top-level `"source": "platform_disposition"` and the `report_id`/`disposition`. Narrative body should be 1–2 paragraphs. Do not auto-apply.
+
+### 5. Report back
+Relay the proposal path, each rule id + 1-line rationale, and the exact `/retro apply <proposal-id> [rule-ids...]` command.
+
 ## Steps — apply mode
 
 ### 1. Locate the proposal
@@ -225,7 +258,7 @@ Print:
 
 ## Don'ts
 - Don't propose more than 5 rules per engagement. If you find more, narrative them and let the human pick the top ones.
-- Don't propose `high` confidence in v1. The corroboration check that justifies `high` doesn't exist yet.
+- Don't propose `high` confidence in **analyze mode**. The corroboration check that justifies `high` doesn't exist yet. (**Outcome mode is the exception** — a triager-grounded rule may be `high`; see Hard rule 5.)
 - Don't rescan / re-verify anything. The retro reads what's already on disk; if the engagement was thin, the retro will be too.
 - Don't overwrite existing rules in apply mode. Refuse and tell the human to /forget first (when that command exists).
 - Don't auto-apply. The whole point of v1 is that the human approves each rule.

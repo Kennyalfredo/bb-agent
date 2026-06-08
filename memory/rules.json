@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "description": "Machine-readable rules learned from past engagements. Each subagent reads its own section at the start of every run and applies the rules at the points documented in its agent .md. Rules are appended by /retro apply; never edit by hand unless you know what you're doing — /forget will land in v1.5.",
+  "description": "Machine-readable rules learned from past engagements. Each subagent reads its own section at the start of every run and applies the rules at the points documented in its agent .md. Rules are appended by /retro apply; never edit by hand unless you know what you're doing \u2014 /forget will land in v1.5. CONFIDENCE CONVENTION: low/medium are self-judged (analyze-mode retros). `high` is reserved for rules grounded in EXTERNAL TRUTH and MUST carry a `grounding` field \u2014 either `platform_disposition:<report-id>` (a triager verdict, via /outcome) or `user_policy` (an explicit operator directive). Run scripts/bb_rule_audit.py to flag self-judged-high rules, missing provenance, dup IDs, stale refs to disabled rules, and filter:discovery drift. Disabled rules keep `enabled:false` + a `disabled_reason` as cautionary records (not deleted).",
   "bucket_hunter": {
     "basename_skip": [
       {
@@ -28,7 +28,7 @@
         "added": "2026-05-15T18:46:14Z",
         "from_engagement": "cloudflare",
         "confidence": "medium",
-        "reason_provenance": "61 GH hits for 'backup-cloudflare' are all third-party backup scripts (ishapiro/markdown-website, tim-arnold/librarycard, etc.); 0 org hits; gau returned empty output; DNS is generic AWS CNAME — no ownership signal exists for this name."
+        "reason_provenance": "61 GH hits for 'backup-cloudflare' are all third-party backup scripts (ishapiro/markdown-website, tim-arnold/librarycard, etc.); 0 org hits; gau returned empty output; DNS is generic AWS CNAME \u2014 no ownership signal exists for this name."
       },
       {
         "pattern": "indrive",
@@ -37,7 +37,7 @@
         "added": "2026-05-16T03:08:43Z",
         "from_engagement": "indrive",
         "confidence": "medium",
-        "reason_provenance": "Bucket 'indrive' is the 7-char bare brand name; A=ambiguous (51 inDriver org hits are all self-referential docs), B=ambiguous even under word_boundary (10,627 hits from brand token in company's own URL paths), C=inconclusive — all three checks were structurally blocked and verdict locked at unknown with no path to resolution."
+        "reason_provenance": "Bucket 'indrive' is the 7-char bare brand name; A=ambiguous (51 inDriver org hits are all self-referential docs), B=ambiguous even under word_boundary (10,627 hits from brand token in company's own URL paths), C=inconclusive \u2014 all three checks were structurally blocked and verdict locked at unknown with no path to resolution."
       },
       {
         "pattern": "indrive-test",
@@ -46,11 +46,11 @@
         "added": "2026-05-16T03:08:43Z",
         "from_engagement": "indrive",
         "confidence": "low",
-        "reason_provenance": "Bucket 'indrive-test' returned A=ambiguous (3 GitHub hits, all third-party repos with zero hits in inDriver org — one is a bucket-enumeration dump by external scanner, one is unrelated QEMU script, one is Cognito sample data), B=negative (0 wayback hits), C=inconclusive; aggregation-override rule did not fire because A is not negative, so verdict is locked at unknown."
+        "reason_provenance": "Bucket 'indrive-test' returned A=ambiguous (3 GitHub hits, all third-party repos with zero hits in inDriver org \u2014 one is a bucket-enumeration dump by external scanner, one is unrelated QEMU script, one is Cognito sample data), B=negative (0 wayback hits), C=inconclusive; aggregation-override rule did not fire because A is not negative, so verdict is locked at unknown."
       },
       {
         "pattern": "found",
-        "reason": "Bucket 'found' returned all checks ambiguous/inconclusive in elastic engagement (A=ambiguous — 10,832 org:elastic prose hits, 0 bucket-specific; B=ambiguous — 34 phrase-collision hits from 'not found'/'results found'; C=inconclusive — found.elastic.co exists but CNAMEs to Fastly, not to this bucket). Bucket is empty (0 objects). Cross-engagement corroboration with indrive 'indrive' bare-brand unknown verdict — pattern observed in 2 distinct engagements.",
+        "reason": "Bucket 'found' returned all checks ambiguous/inconclusive in elastic engagement (A=ambiguous \u2014 10,832 org:elastic prose hits, 0 bucket-specific; B=ambiguous \u2014 34 phrase-collision hits from 'not found'/'results found'; C=inconclusive \u2014 found.elastic.co exists but CNAMEs to Fastly, not to this bucket). Bucket is empty (0 objects). Cross-engagement corroboration with indrive 'indrive' bare-brand unknown verdict \u2014 pattern observed in 2 distinct engagements.",
         "id": "rule-bucket_hunter-basename_skip-ab4c5",
         "added": "2026-05-16T04:30:00Z",
         "from_engagement": "elastic",
@@ -58,7 +58,7 @@
       },
       {
         "pattern": "snapchat",
-        "reason": "Check A returned 0 GH hits; Check B inconclusive (CDX timeout, gau returned 0 URLs); Check C inconclusive (generic AWS CNAME) — no ownership path exists for this 9-char bare brand name; Snap's infrastructure is GCP-based, not bare-name S3.",
+        "reason": "Check A returned 0 GH hits; Check B inconclusive (CDX timeout, gau returned 0 URLs); Check C inconclusive (generic AWS CNAME) \u2014 no ownership path exists for this 9-char bare brand name; Snap's infrastructure is GCP-based, not bare-name S3.",
         "id": "rule-bucket_hunter-basename_skip-31083",
         "added": "2026-05-16T00:00:00Z",
         "from_engagement": "snapchat",
@@ -66,7 +66,7 @@
       },
       {
         "pattern": "snapchat-backup",
-        "reason": "A=ambiguous (197 GH hits all third-party memory-downloaders, 0 in Snap org); B=inconclusive (gau 0 bytes, pattern mirrors backup-cloudflare from cloudflare engagement); C=inconclusive — no ownership path; bucket_aggregation_override did not fire; verdict locked at unknown.",
+        "reason": "A=ambiguous (197 GH hits all third-party memory-downloaders, 0 in Snap org); B=inconclusive (gau 0 bytes, pattern mirrors backup-cloudflare from cloudflare engagement); C=inconclusive \u2014 no ownership path; bucket_aggregation_override did not fire; verdict locked at unknown.",
         "id": "rule-bucket_hunter-basename_skip-eb54c",
         "added": "2026-05-16T00:00:00Z",
         "from_engagement": "snapchat",
@@ -74,7 +74,7 @@
       },
       {
         "pattern": "snapchat-data",
-        "reason": "A=ambiguous (212 GH hits, all third-party — breach archives, fan tools, data-viz scrapers, 0 in Snap org); B=negative; C=inconclusive — bucket_aggregation_override did not fire (A not negative); verdict locked at unknown.",
+        "reason": "A=ambiguous (212 GH hits, all third-party \u2014 breach archives, fan tools, data-viz scrapers, 0 in Snap org); B=negative; C=inconclusive \u2014 bucket_aggregation_override did not fire (A not negative); verdict locked at unknown.",
         "id": "rule-bucket_hunter-basename_skip-06e32",
         "added": "2026-05-16T00:00:00Z",
         "from_engagement": "snapchat",
@@ -82,7 +82,7 @@
       },
       {
         "pattern": "wordpress",
-        "reason": "Program out_of_scope section explicitly disclaims all AWS/S3 buckets with 'wordpress' in the name; bare stem 'wordpress' is globally popular — every s3scanner hit is a third-party site or plugin backup, not the open-source project.",
+        "reason": "Program out_of_scope section explicitly disclaims all AWS/S3 buckets with 'wordpress' in the name; bare stem 'wordpress' is globally popular \u2014 every s3scanner hit is a third-party site or plugin backup, not the open-source project.",
         "id": "rule-bucket_hunter-basename_skip-921e2",
         "added": "2026-05-21T14:00:00Z",
         "from_engagement": "wordpress",
@@ -114,7 +114,7 @@
       },
       {
         "pattern": "seek",
-        "reason": "The bare 4-char 'seek' bucket (us-east-1, AccessDenied on recheck) is the brand stem; ownership-verifier would lock at unknown for the same structural reasons as indrive, snapchat, and other bare-stem entries in basename_skip — the name is too common and too short to distinguish squatters from the program.",
+        "reason": "The bare 4-char 'seek' bucket (us-east-1, AccessDenied on recheck) is the brand stem; ownership-verifier would lock at unknown for the same structural reasons as indrive, snapchat, and other bare-stem entries in basename_skip \u2014 the name is too common and too short to distinguish squatters from the program.",
         "id": "rule-bucket_hunter-basename_skip-c9755",
         "added": "2026-05-21T18:15:17Z",
         "from_engagement": "bc-seek",
@@ -143,16 +143,15 @@
         "added": "2026-05-21T19:08:48Z",
         "from_engagement": "int-watsons",
         "confidence": "low",
-        "reason_provenance": "The 'watsons' bucket (ap-south-1) returned AccessDenied on recheck; GH Check A would be structurally ambiguous due to IBM Watson SDK collision — same structural argument as the existing bare-stem skip entries for indrive, snapchat, seek, and others."
+        "reason_provenance": "The 'watsons' bucket (ap-south-1) returned AccessDenied on recheck; GH Check A would be structurally ambiguous due to IBM Watson SDK collision \u2014 same structural argument as the existing bare-stem skip entries for indrive, snapchat, seek, and others."
       },
       {
         "pattern": "capital-backups",
-        "reason": "Bucket capital-backups (us-east-1) was publicly listable but ownership-unowned: object-key prefix www-unocero/ identifies unocero.com (Mexican tech news) as the actual owner. Even when recheck-positive, generic-noun+generic-suffix bucket names are ownership-indeterminate.",
+        "reason": "capital-backups is the first recheck-positive bucket in 11 consecutive engagements, yet still scored unowned via object-key evidence; the name is structurally identical to the other bare-stem+suffix entries already in basename_skip.",
         "id": "rule-bucket_hunter-basename_skip-feebd",
         "added": "2026-05-21T20:00:01Z",
         "from_engagement": "int-capitalcom",
-        "confidence": "medium",
-        "reason": "capital-backups is the first recheck-positive bucket in 11 consecutive engagements, yet still scored unowned via object-key evidence; the name is structurally identical to the other bare-stem+suffix entries already in basename_skip."
+        "confidence": "medium"
       },
       {
         "pattern": "chime",
@@ -165,12 +164,98 @@
       },
       {
         "pattern": "mir",
-        "reason": "bare 3-char acronym 'mir' resolves in AWS us-east-1 with zero ownership signal: too short and too generic to distinguish hospital MIR subdomains from squatters in int-uzleuven engagement",
+        "reason": "mir, mir-prod, and mir-backup all exist in AWS us-east-1 (not eu-west-1 where a Belgian hospital would provision) and returned only AccessDenied with no GitHub or Wayback ownership signal; 3-char generic acronym used in thousands of non-hospital repos worldwide.",
         "id": "rule-bucket_hunter-basename_skip-33571",
         "added": "2026-05-21T21:02:52Z",
         "from_engagement": "int-uzleuven",
+        "confidence": "low"
+      },
+      {
+        "pattern": "spotify",
+        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in spotify engagement",
+        "id": "rule-bucket_hunter-basename_skip-ae4c6",
+        "added": "2026-05-24T18:14:26Z",
+        "from_engagement": "spotify",
         "confidence": "low",
-        "reason": "mir, mir-prod, and mir-backup all exist in AWS us-east-1 (not eu-west-1 where a Belgian hospital would provision) and returned only AccessDenied with no GitHub or Wayback ownership signal; 3-char generic acronym used in thousands of non-hospital repos worldwide."
+        "rationale": "The bare 'spotify' bucket (ap-northeast-2) returned AccessDenied on recheck; ownership-verifier would lock at unknown for the same structural reasons as indrive, snapchat, seek, and other bare-stem entries \u2014 the name is a globally-known brand with high squatter interest."
+      },
+      {
+        "pattern": "backstage",
+        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in spotify engagement; backstage is also the name of a widely-used open-source project with thousands of third-party forks, making ownership-verifier Check A structurally degenerate",
+        "id": "rule-bucket_hunter-basename_skip-5b683",
+        "added": "2026-05-24T18:14:26Z",
+        "from_engagement": "spotify",
+        "confidence": "medium",
+        "rationale": "The bare 'backstage' bucket (eu-west-3) and 11 backstage-prefixed variants all returned AccessDenied on recheck; additionally 'backstage' is a globally-popular OSS project name used by organizations worldwide \u2014 GH Check A would be overwhelmingly dominated by non-Spotify repos."
+      },
+      {
+        "pattern": "customers-*",
+        "match_type": "glob",
+        "reason": "11 customers-* variants scanned in gitlab engagement: 10 returned AccessDenied (ACL FP), 1 (customers-staging) returned verified-listable but ownership=unknown with no path to resolution. The entire customers-* family is structurally degenerate when 'customers' is a subdomain prefix not a brand stem.",
+        "id": "rule-bucket_hunter-basename_skip-6808a",
+        "added": "2026-05-25T22:34:03Z",
+        "from_engagement": "gitlab",
+        "confidence": "medium"
+      },
+      {
+        "pattern": "netflix",
+        "reason": "Bucket 'netflix' (us-east-2) returned AccessDenied on recheck; at 7 chars and globally recognisable, squatter interest is extremely high and no ownership signal path exists \u2014 same structural argument as spotify, indrive, snapchat, and other bare-stem entries.",
+        "id": "rule-bucket_hunter-basename_skip-8c2e4",
+        "added": "2026-05-28T01:51:13Z",
+        "from_engagement": "netflix",
+        "confidence": "medium"
+      },
+      {
+        "pattern": "chain",
+        "reason": "bare 5-char generic English word; chain-* buckets in chainlink engagement all returned AccessDenied; ownership-verifier check A would return thousands of unrelated blockchain/supply-chain hits making verdict structurally unknowable",
+        "id": "rule-bucket_hunter-basename_skip-5eb4b",
+        "added": "2026-05-28T02:55:00Z",
+        "from_engagement": "chainlink",
+        "confidence": "medium",
+        "rationale": "7 chain-prefixed buckets (chain-production, chain-backup, chain-test, chain-staging, chain-prod, chain-assets, chain-data, chain-logs) all returned AccessDenied; 'chain' as a 5-char generic word yields structurally degenerate ownership-verifier results."
+      },
+      {
+        "pattern": "smartcontract",
+        "reason": "bare brand stem bucket; smartcontract and smartcontract-uploads returned AccessDenied in chainlink engagement; ownership-verifier check A would be dominated by third-party Ethereum tutorial repos worldwide",
+        "id": "rule-bucket_hunter-basename_skip-39d25",
+        "added": "2026-05-28T02:55:00Z",
+        "from_engagement": "chainlink",
+        "confidence": "medium",
+        "rationale": "Both smartcontract and smartcontract-uploads returned AccessDenied; 'smartcontract' as a base name is swamped in GH code search by the entire global Ethereum/Solidity developer ecosystem, making ownership-verifier Check A structurally degenerate."
+      },
+      {
+        "pattern": "airtable",
+        "reason": "bare-brand bucket name is structurally indistinguishable from squatters in airtable engagement; 5th brand-stem corroboration",
+        "id": "rule-bucket_hunter-basename_skip-7b316",
+        "added": "2026-05-28T13:16:31Z",
+        "from_engagement": "airtable",
+        "confidence": "medium",
+        "rationale": "The bare 'airtable' bucket (us-east-1, 702 objects) is the 8-char brand stem with .aws/config as its first key \u2014 squatter-owned, A=ambiguous (598 hits all brand-stem degenerate), B=negative, C=inconclusive, no path to owned verdict; 5th bare-brand-stem skip entry after spotify/indrive/snapchat/netflix."
+      },
+      {
+        "pattern": "marionnaud",
+        "reason": "Pass A and Pass B both returned 0 results; a future scan that finds a 'marionnaud'-named bucket would be a squatter, not the brand \u2014 pre-arming the skip avoids re-running a doomed ownership verification chain.",
+        "id": "rule-bucket_hunter-basename_skip-ec66e",
+        "added": "2026-05-28T00:00:00Z",
+        "from_engagement": "int-marionnaud",
+        "confidence": "medium"
+      },
+      {
+        "pattern": "basecamp",
+        "reason": "The bare 'basecamp' bucket (us-east-1, AccessDenied on recheck) is the primary brand stem; at 8 chars and globally recognisable as a developer product brand, squatter interest is high \u2014 same structural argument as spotify, netflix, airtable, and other bare-stem skip entries already in the list.",
+        "id": "rule-bucket_hunter-basename_skip-3b995",
+        "added": "2026-06-07T00:00:00Z",
+        "from_engagement": "basecamp",
+        "confidence": "medium"
+      },
+      {
+        "pattern": "sbgcdn",
+        "reason": "bare CDN-stem bucket name registered by unrelated Turkish beauty/cosmetics site in flutteruki engagement; S3 name-collision squatter confirmed via content inspection (55,743 Turkish beauty objects)",
+        "id": "rule-bucket_hunter-basename_skip-aa886",
+        "added": "2026-06-07T00:00:00Z",
+        "from_engagement": "flutteruki",
+        "confidence": "medium",
+        "reason_provenance": "sbgcdn (eu-central-1) verified-listable, had three domain-based owned signals firing simultaneously (wildcard_stem_dns_override-a18c1 + in_scope_bucket_derivation_override-951ed + A=ambiguous/B=positive/C=positive), yet held 55,743 Turkish beauty/cosmetics objects; content inspection was the only check that exposed the squatter. Skip on future scans to avoid re-running the content-inspection loop on a known squatter."
       }
     ],
     "candidate_suffix_skip": [],
@@ -179,11 +264,34 @@
         "enabled": true,
         "recheck_command": "aws s3api list-objects-v2 --no-sign-request --bucket {bucket_name}",
         "disqualify_if_access_denied": true,
-        "reason": "8/8 Opera buckets flagged ALLOWED by s3scanner returned AccessDenied on aws s3api list-objects-v2 --no-sign-request recheck — third corroboration of this pattern (Snapchat sc-core was first; Valve likely second); promotes the human-mediated memory note to a machine-enforced gate.",
+        "reason": "8/8 Opera buckets flagged ALLOWED by s3scanner returned AccessDenied on aws s3api list-objects-v2 --no-sign-request recheck \u2014 third corroboration of this pattern (Snapchat sc-core was first; Valve likely second); promotes the human-mediated memory note to a machine-enforced gate.",
         "id": "rule-bucket_hunter-s3scanner_acl_recheck_required-37651",
         "added": "2026-05-17T00:00:00Z",
         "from_engagement": "bc-opera",
         "confidence": "medium"
+      }
+    ],
+    "squatter_first_key_signals": [
+      {
+        "when": "first_key_from_list_objects_matches_squatter_signal_pattern",
+        "squatter_signal_patterns": [
+          ".aws/config",
+          ".aws/credentials",
+          "aws-credentials",
+          "id_rsa",
+          "id_rsa.pub",
+          ".ssh/id_rsa",
+          "Dockerfile",
+          "README.md",
+          ".env"
+        ],
+        "action": "suppress_ownership_promotion_set_verdict_unknown",
+        "do_not": "promote_to_owned_regardless_of_other_signals",
+        "reason": "The 'airtable' bucket's first object key was '.aws/config' \u2014 a canonical squatter signal; legitimate corporate infrastructure never stores AWS credentials at S3 bucket root under a brand name.",
+        "id": "rule-bucket_hunter-squatter_first_key_signals-3bda1",
+        "added": "2026-05-28T13:16:31Z",
+        "from_engagement": "airtable",
+        "confidence": "low"
       }
     ]
   },
@@ -206,10 +314,47 @@
         "match_in": [
           "sk_test_JieJALRz7rPz7boV17oMma7a"
         ],
-        "reason": "sk_test_JieJALRz7rPz7boV17oMma7a appeared in 2 distinct test fixture files (SourceTest.php, ProductTest.php) inside a vendored stripe-php library; context is PHPUnit setUp() — structurally identical to the canonical SDK README example key already suppressed.",
+        "reason": "sk_test_JieJALRz7rPz7boV17oMma7a appeared in 2 distinct test fixture files (SourceTest.php, ProductTest.php) inside a vendored stripe-php library; context is PHPUnit setUp() \u2014 structurally identical to the canonical SDK README example key already suppressed.",
         "id": "rule-secret_hunter-detector_ignore-9c696",
         "added": "2026-05-21T14:00:00Z",
         "from_engagement": "wordpress",
+        "confidence": "medium"
+      },
+      {
+        "detector": "Generic Password",
+        "match_in": [
+          "mypass",
+          "otherpass"
+        ],
+        "reason": "3 noseyparker matches in test fixture (giantswarm/backstage plugins/gs-backend/src/services/RegistryAuthClient.test.ts) in spotify engagement \u2014 dev placeholder values, not credentials",
+        "id": "rule-secret_hunter-detector_ignore-a42d7",
+        "added": "2026-05-24T18:14:26Z",
+        "from_engagement": "spotify",
+        "confidence": "low",
+        "rationale": "Both values appear in a test setUp() fixture confirming they are developer test strings, not real passwords; 3 matches across the same file."
+      },
+      {
+        "detector": "HTTP Bearer Token",
+        "match_in": [
+          "mock-none-token",
+          "mock-service-token"
+        ],
+        "reason": "3 noseyparker matches in dev template file (giantswarm/backstage plugins/gs-backend/dev/index.ts) in spotify engagement \u2014 explicit TEMPLATE NOTE comment, mock placeholders not credentials",
+        "id": "rule-secret_hunter-detector_ignore-0e30b",
+        "added": "2026-05-24T18:14:26Z",
+        "from_engagement": "spotify",
+        "confidence": "low",
+        "rationale": "Both values appear in a dev/index.ts template file with an explicit 'TEMPLATE NOTE' comment; structurally fixture data not operational tokens."
+      },
+      {
+        "detector": "gitlab-pat",
+        "match_in": [
+          "glpat-3Hm21_tY3sn4Wafwq39p"
+        ],
+        "reason": "Token value glpat-3Hm21_tY3sn4Wafwq39p appears 8 times across NARKOZ/gitlab spec/fixtures and client test files; expires_at 2025-05-24 confirms it was created as a fixture example, not an operational key. Would fire again on any future scan of this repo.",
+        "id": "rule-secret_hunter-detector_ignore-be54e",
+        "added": "2026-05-25T22:34:03Z",
+        "from_engagement": "gitlab",
         "confidence": "medium"
       }
     ],
@@ -217,7 +362,7 @@
       {
         "path_pattern": "*.rest",
         "match_type": "glob",
-        "reason": "Both noseyparker Generic Password FPs in this engagement came from a .rest HTTP test fixture file (codetipster/oudioo) containing dev placeholder passwords and a phone number — structurally fixture data, never real credentials.",
+        "reason": "Both noseyparker Generic Password FPs in this engagement came from a .rest HTTP test fixture file (codetipster/oudioo) containing dev placeholder passwords and a phone number \u2014 structurally fixture data, never real credentials.",
         "id": "rule-secret_hunter-noseyparker_path_skip-fc13d",
         "added": "2026-05-21T16:33:46Z",
         "from_engagement": "int-nmt",
@@ -263,12 +408,112 @@
           "*avada-training*"
         ],
         "match_type": "repo_name_glob",
-        "reason": "3 Vietnamese developer bootcamp repos with avada in name (trantuananh-17/product-reviews, XuanTho2k/Simple-Sales-Pop, trunghoang12202/avada-training-app) all contained the same Avada marketplace token; avada-named repos are structurally vendor training repos, not Shopify-org infrastructure",
+        "reason": "Three distinct bootcamp repos with 'avada' in their name all carry the identical Avada marketplace token; skipping avada-named repos prevents cloning cost and FP propagation on future Shopify-adjacent codesearch runs.",
         "id": "rule-secret_hunter-repo_name_skip-a244d",
         "added": "2026-05-21T19:23:00Z",
         "from_engagement": "shopify",
+        "confidence": "medium"
+      },
+      {
+        "patterns": [
+          "NARKOZ/gitlab"
+        ],
+        "match_type": "repo_full_name_exact",
+        "reason": "11 of 21 candidates in the gitlab engagement came from NARKOZ/gitlab (third-party Ruby API client). All were spec/fixtures/*.json fixture responses and spec/gitlab/client/*.rb unit test stubs with no GitLab infrastructure access. Cloning this repo in future GitLab-slug codesearch runs adds noise with zero yield path.",
+        "id": "rule-secret_hunter-repo_name_skip-1de97",
+        "added": "2026-05-25T22:34:03Z",
+        "from_engagement": "gitlab",
+        "confidence": "medium"
+      }
+    ],
+    "base_name_length_override": [
+      {
+        "slug": "kiwicom",
+        "override_base_names": [
+          "kiwi"
+        ],
+        "reason": "The `kiwi` base (4 chars) was dropped by the stem-length filter, leaving 0 Pass B dork coverage on kiwi-prefixed names; for kiwicom specifically, `kiwi` is the only meaningful brand stem and should be force-included.",
+        "id": "rule-secret_hunter-base_name_length_override-3becd",
+        "added": "2026-05-25T00:00:00Z",
+        "from_engagement": "kiwicom",
+        "confidence": "low"
+      }
+    ],
+    "employee_dotfiles_infra_check": [
+      {
+        "when": "gh_account_verdict == owned AND repo_name_contains_any_of ['dotfiles', '.dotfiles', 'dotfiles_bck', 'dotfiles-old', 'config', 'setup']",
+        "action": "flag_for_infra_disclosure_review",
+        "check_for": [
+          "vpn_config_path",
+          "rdp_target_ip",
+          "internal_hostname",
+          "corp_email_in_filename",
+          "private_rfc1918_ip"
+        ],
+        "reason": "rpalaciosg/dotfiles_bck yielded the employee-attribution finding (internal VPN identity + RDP host) specifically because a dotfiles repo was checked after Check A.5 confirmed the account as a Mutazuay employee; the pattern is generalizable across engagements.",
+        "id": "rule-secret_hunter-employee_dotfiles_infra_check-6a0f4",
+        "added": "2026-05-27T17:50:36Z",
+        "from_engagement": "mutazuay",
+        "confidence": "medium"
+      }
+    ],
+    "source_code_priority_scan": [
+      {
+        "when": "scope.in_scope contains source_code typed assets",
+        "action": "include_in_scope_source_code_repos_in_pass_b5_scan",
+        "rationale": "Explicitly rewarded repos in scope deserve guaranteed coverage independent of dork hit selection; Netflix names Zuul (primary), Atlas, Spectator as in-scope repos; these should be cloned+scanned before generic dork-selected repos consume the repos_cloned_max budget",
+        "priority": "before_dork_selected",
+        "id": "rule-secret_hunter-source_code_priority_scan-af736",
+        "added": "2026-05-28T01:51:13Z",
+        "from_engagement": "netflix",
         "confidence": "medium",
-        "reason": "Three distinct bootcamp repos with 'avada' in their name all carry the identical Avada marketplace token; skipping avada-named repos prevents cloning cost and FP propagation on future Shopify-adjacent codesearch runs."
+        "reason": "Netflix's 3-repo clone budget was spent on 2 third-party hobby repos from dork results while the explicitly in-scope program repos (Netflix/zuul, Netflix/atlas, Netflix/spectator) only received Pass A org-sweep coverage; a priority rule guarantees program-declared source_code assets get full deep-scan slots before dork-selected external repos."
+      }
+    ],
+    "oversized_inscope_shallow_scan": [
+      {
+        "when": "in_scope source_code repo exceeds size_limit_mb AND severity_cap in [\"critical\",\"high\"]",
+        "action": "attempt_shallow_clone_then_trufflehog",
+        "shallow_clone_args": "--depth=1 --filter=blob:limit=10m",
+        "fallback": "skip_with_note",
+        "size_limit_mb_for_shallow_override": 500,
+        "rationale": "smartcontractkit/chainlink (849MB critical) and smartcontractkit/external-adapters-js (2.3GB high) skipped entirely under flat 500MB cap; a shallow-clone+blob-filter pass covers HEAD secrets at minimal bandwidth cost and guarantees critical/high in-scope repos are not zero-coverage",
+        "id": "rule-secret_hunter-oversized_inscope_shallow_scan-fe3b0",
+        "added": "2026-05-28T02:55:00Z",
+        "from_engagement": "chainlink",
+        "confidence": "medium",
+        "reason": "The two highest-severity explicitly-named in-scope repos (critical + high caps) had zero secret-hunter coverage because they exceeded the flat 500MB size cap; partial coverage via shallow clone is strictly better than no coverage."
+      }
+    ],
+    "scope_question_routing": [
+      {
+        "when": "candidate.verified == true AND candidate.repo_owner == program_gh_org AND candidate.in_named_inscope_repo == false",
+        "action": "emit_SCOPE_QUESTION_flag_and_surface_in_summary",
+        "do_not": "silently_classify_as_oos_and_drop",
+        "rationale": "13 trufflehog-verified Infura/Alchemy keys in smartcontractkit org but outside the 5 named in-scope repos were silently dropped; human review is required to resolve the org-but-not-named scope ambiguity before final triage",
+        "id": "rule-secret_hunter-scope_question_routing-b4378",
+        "added": "2026-05-28T02:55:00Z",
+        "from_engagement": "chainlink",
+        "confidence": "medium",
+        "reason": "13 verified keys in the program's own GitHub org were silently dropped as NOTE_SCOPE_QUESTION with no human-facing surface point; the org-but-not-named boundary is a policy question, not a machine classification call."
+      }
+    ],
+    "history_only_test_fixture_low_impact": [
+      {
+        "enabled": true,
+        "applies_when": "leaked-secret candidate matches ANY of: (a) file path is a test/CI fixture (test/, tests/, __tests__/, spec/, e2e/, e2e_tests/, fixtures/, *.test.*, *.spec.*, .github/workflows when the secret is a CI service account); (b) secret is git-history-only (file deleted from HEAD); (c) first-commit age is very old (> ~3 years) in a popular/flagship public repo",
+        "action": "default_low_impact_route_to_manual_triage",
+        "verified_does_not_override": true,
+        "do_not_draft_standalone_high_or_medium": true,
+        "poc_threshold_note": "If a meaningful PoC would require active access to (likely third-party) infrastructure — Sauce Labs, an RPC provider, a SaaS dashboard — the issuer-side trufflehog Verified=true check does NOT satisfy impact. Treat as informative-tier unless live program-data access is demonstrated.",
+        "duplicate_prior_note": "git-history-only + very-old + popular-public-repo = high probability the credential was already reported (we cannot dedupe against private reports) AND high probability the account is orphaned/deprovisioned. Both lower expected value; surface to operator, do not auto-draft.",
+        "rationale": "Verified=true proves only that the issuer accepts the credential; test/CI fixtures and old history-only credentials are routinely orphaned service accounts with no access to program data. Verified status must NOT override the test-fixture/history-only discount the loop already applies to noseyparker-only hits.",
+        "id": "rule-secret_hunter-history_only_test_fixture_low_impact-9d2e1",
+        "grounding": "platform_disposition:3739639",
+        "added": "2026-06-07T00:00:00Z",
+        "from_engagement": "elastic",
+        "confidence": "high",
+        "reason": "GROUND TRUTH: H1 #3739639 (SauceLabs key in elastic/elasticsearch-js test/utils/keys.js, git-history-only, ~12yr age) closed DUPLICATE of #2926439; original closed INFORMATIVE — 'the credential has no impact. The account was associated with a former employee and cannot access any program data.' All three discount signals were present (test path + history-only + extreme age) yet Verified=true drove a draft. The later dynatrace engagement (2026-05-30) articulated this exact pattern as a non-finding but had no rule to enforce it; this codifies it. Confidence=high (triager-grounded). Complements rule-report_drafter-blockchain_rpc_key_severity_cap-7c4d9 and rule-report_drafter-no_speculative_impact_inflation-3f2a8."
       }
     ],
     "skip_brand_stem_orgs": false,
@@ -296,7 +541,20 @@
         "added": "2026-05-14T01:12:48Z",
         "from_engagement": "8x8-bounty",
         "confidence": "medium",
-        "reason": "8x8-bounty slug → GH 404. The fallback path through base-name-derived orgs recovered (landed on 'jitsi') but a per-slug override makes it deterministic and avoids burning a discovery round-trip on every run."
+        "reason": "8x8-bounty slug \u2192 GH 404. The fallback path through base-name-derived orgs recovered (landed on 'jitsi') but a per-slug override makes it deterministic and avoids burning a discovery round-trip on every run."
+      },
+      {
+        "slug_map": {
+          "basecamp": [
+            "basecamp"
+          ]
+        },
+        "note": "37signals on GitHub is a USER account with 0 public repos (type=User, not Org). The sole engineering org is basecamp (235 repos). No supplemental org-gap run is needed for this slug.",
+        "id": "rule-secret_hunter-gh_org_override-b6093",
+        "added": "2026-06-07T00:00:00Z",
+        "from_engagement": "basecamp",
+        "confidence": "medium",
+        "reason": "Run 2 was launched solely to investigate the '37signals org gap'; discovering that 37signals is a dormant user account (not an org) required 6 extra code-search calls and 3 clone slots \u2014 a cached note eliminates this cost on every future basecamp run."
       }
     ],
     "gh_org_supplement": [
@@ -328,7 +586,7 @@
         "added": "2026-05-21T19:08:48Z",
         "from_engagement": "int-watsons",
         "confidence": "medium",
-        "reason_provenance": "Pass B dorks for bare 'watsons' returned 24–30 hits per dork in int-watsons, 100% attributable to IBM Watson AI repos (watson-developer-cloud, ibm-mas, ibm-client-engineering, WatsonX SDK) — the name collision is structural and permanent; domain-qualified alternatives returned 0 hits confirming no A.S. Watson GH footprint."
+        "reason_provenance": "Pass B dorks for bare 'watsons' returned 24\u201330 hits per dork in int-watsons, 100% attributable to IBM Watson AI repos (watson-developer-cloud, ibm-mas, ibm-client-engineering, WatsonX SDK) \u2014 the name collision is structural and permanent; domain-qualified alternatives returned 0 hits confirming no A.S. Watson GH footprint."
       }
     ]
   },
@@ -373,7 +631,7 @@
         "added": "2026-05-14T01:12:48Z",
         "from_engagement": "8x8-bounty",
         "confidence": "medium",
-        "reason": "`8x8-staging` had A=neg (0 GH hits), B=neg (0 wayback hits across 3645 URLs), C=inconclusive (generic AWS CNAME) — verdict landed at 'unknown' but the only inconclusive signal is structural, not informational. Refinement promotes this row to 'unowned'."
+        "reason": "`8x8-staging` had A=neg (0 GH hits), B=neg (0 wayback hits across 3645 URLs), C=inconclusive (generic AWS CNAME) \u2014 verdict landed at 'unknown' but the only inconclusive signal is structural, not informational. Refinement promotes this row to 'unowned'."
       }
     ],
     "internal_infra_override": [
@@ -431,7 +689,7 @@
         "added": "2026-05-16T19:20:21Z",
         "from_engagement": "automattic+snapchat",
         "confidence": "medium",
-        "reason": "snapchat sc-core had A=neg/B=neg/C=positive with MarkMonitor registration + Route53 NS + explicit *.sc-core.net Tier A critical-severity wildcard in scope — DNS check C is positive precisely because of the enterprise-zone + program-scope combination; this rule fires only when all three C-gates are met."
+        "reason": "snapchat sc-core had A=neg/B=neg/C=positive with MarkMonitor registration + Route53 NS + explicit *.sc-core.net Tier A critical-severity wildcard in scope \u2014 DNS check C is positive precisely because of the enterprise-zone + program-scope combination; this rule fires only when all three C-gates are met."
       }
     ],
     "in_scope_subdomain_override": [
@@ -445,13 +703,118 @@
         "added": "2026-05-18T22:57:00Z",
         "from_engagement": "design-time (takeover-hunter integration)",
         "confidence": "medium",
-        "reason": "Added at takeover-hunter integration time. Subdomains under in-scope wildcards are owned by zone-control proof; without this override every takeover-hunter candidate would land at 'unknown' verdict for dangling subdomains that lack Wayback presence (typical, since the program already stopped linking them) and lack GH code-search hits (also typical, since dangling subdomains aren't actively referenced in code). High-confidence ownership case structurally — no third party can impersonate a record under the program's own DNS zone."
+        "reason": "Added at takeover-hunter integration time. Subdomains under in-scope wildcards are owned by zone-control proof; without this override every takeover-hunter candidate would land at 'unknown' verdict for dangling subdomains that lack Wayback presence (typical, since the program already stopped linking them) and lack GH code-search hits (also typical, since dangling subdomains aren't actively referenced in code). High-confidence ownership case structurally \u2014 no third party can impersonate a record under the program's own DNS zone."
       }
-    ]
+    ],
+    "in_scope_bucket_derivation_override": [
+      {
+        "enabled": false,
+        "asset_class": "bucket_name",
+        "match_condition": "bucket_name strictly derives from in-scope domain via <host-stem>[-_]<suffix> or <prefix>[-_]<host-stem> decomposition where host-stem is the full leftmost label(s) of any explicit in-scope domain",
+        "verdict": "owned",
+        "note": "REVOKED 2026-06-07 \u2014 empirically falsified by ground truth. Premise 'strict derivation is not guessable by squatters, therefore owned' is WRONG: S3 bucket names are globally unique first-come-first-served, so name derivation alone proves nothing about ownership. Kept disabled (not deleted) as a cautionary record. Bucket ownership now requires POSITIVE proof \u2014 see rule-ownership_verifier-bucket_ownership_positive_proof_required-0a1b2.",
+        "id": "rule-ownership_verifier-in_scope_bucket_derivation_override-951ed",
+        "added": "2026-05-28T13:16:31Z",
+        "from_engagement": "airtable",
+        "confidence": "medium",
+        "disabled": "2026-06-07T00:00:00Z",
+        "disabled_from_engagement": "airtable",
+        "disabled_reason": "H1 #3766855 (api-staging-uploads \u2014 the very report this rule was spawned from) closed NOT APPLICABLE by triager matthew_bryant: 'I see no evidence that Airtable owns this bucket.' This rule encoded the exact reasoning the triager rejected. First ground-truth-driven rule revocation in the loop. The flutteruki content-gate (82369) does NOT cover this case because api-staging-uploads held brand-plausible UUID-PNG content that passes a content classification check.",
+        "reason": "api-staging-uploads derives one-to-one from in-scope explicit domain api-staging.airtable.com (host-stem: api-staging) yet ownership-verifier returned unknown because in_scope_subdomain_override is scoped to dns_name assets only \u2014 operator had to manually override and draft the report by hand."
+      }
+    ],
+    "bucket_content_required": {
+      "enabled": true,
+      "applies_when": "asset_class == bucket_name AND acl_recheck.verified_listable == true",
+      "action": "require_content_check_before_owned_verdict",
+      "content_check": "aws s3api list-objects-v2 --no-sign-request --bucket {bucket_name} --max-items 50",
+      "authoritative": true,
+      "override_previous_verdict_if_negative": true,
+      "negative_signals": [
+        "top_level_prefixes and key patterns are categorically unrelated to program brand/domain/industry",
+        "content_language contradicts program known geography",
+        "no_cname_from_program_domain_to_bucket_virtual_host_confirmed"
+      ],
+      "note": "domain-ownership and wildcard-stem-name-match are NECESSARY-NOT-SUFFICIENT for bucket ownership in S3 globally-unique namespace; an unrelated party may have registered the same bucket name; content is the authoritative tell"
+    },
+    "bucket_content_required_provenance": {
+      "id": "rule-ownership_verifier-bucket_content_required-44212",
+      "added": "2026-06-07T00:00:00Z",
+      "from_engagement": "flutteruki",
+      "confidence": "medium",
+      "reason": "sbgcdn (flutteruki) was verified-listable with three domain-based owned signals, yet held 55,743 Turkish beauty/cosmetics objects; without a mandatory content gate this false-positive would have shipped to H1."
+    },
+    "content_overrides_domain_signals": {
+      "when": "bucket_content_check.status == negative AND (wildcard_stem_dns_override fired OR in_scope_bucket_derivation_override fired)",
+      "action": "set_verdict_unowned_and_suppress_report",
+      "authoritative_signal": "bucket_content",
+      "rationale": "Domain ownership != bucket ownership when bucket name merely matches a homonymous in-scope wildcard stem; S3 bucket namespace is globally unique first-come-first-served; an unrelated party can register the same name independently"
+    },
+    "content_overrides_domain_signals_provenance": {
+      "id": "rule-ownership_verifier-content_overrides_domain_signals-82369",
+      "added": "2026-06-07T00:00:00Z",
+      "from_engagement": "flutteruki",
+      "confidence": "medium",
+      "reason": "Both wildcard_stem_dns_override-a18c1 and in_scope_bucket_derivation_override-951ed fired correctly on the sbgcdn.com DOMAIN yet the BUCKET held Turkish beauty content; the override rules need an explicit content-wins-over-domain-signals escape hatch to prevent a false-positive report."
+    },
+    "bucket_ownership_positive_proof_required": {
+      "enabled": true,
+      "applies_when": "asset_class == bucket_name AND a report is being considered (verified-listable bucket headed toward an owned verdict)",
+      "action": "require_at_least_one_positive_proof_else_downgrade_to_unknown",
+      "rationale": "S3 bucket names are globally unique first-come-first-served. Name-derivation from an in-scope host, a third-party repo referencing the bucket, and brand-plausible content are ALL squatter-compatible and prove nothing about ownership. The content gate (44212/82369) is a NEGATIVE filter (off-brand content -> unowned); it passes brand-plausible squats. Ownership of a bucket therefore requires POSITIVE proof, not merely the absence of disconfirming content.",
+      "positive_proofs_any_one_suffices": [
+        "DNS CNAME chain from a confirmed in-scope host resolves to <bucket>.s3[.region].amazonaws.com (the host->bucket binding is verified, not assumed)",
+        "the bucket is referenced in a FIRST-PARTY repo/config — a repo under a confirmed program-owned GitHub org — NOT a third-party repo",
+        "the bucket name is explicitly listed in program scope",
+        "the bucket returns an object/key whose content is uniquely and unambiguously program-proprietary (internal project names, employee identifiers, program-specific data schemas)"
+      ],
+      "non_proofs_explicit": [
+        "name strictly derives from an in-scope host stem (REVOKED rule 951ed)",
+        "a third-party / external GitHub repo references the bucket",
+        "bucket content is merely brand-plausible (e.g. UUID PNGs consistent with an upload service) without being uniquely program-proprietary",
+        "bucket virtual-host resolves (every existing bucket resolves regardless of owner)"
+      ],
+      "if_no_positive_proof": "set verdict=unknown (NOT owned); /draft-report then refuses per the standard owned-gate. Surface to operator as 'listable but ownership-unprovable' — do not draft."
+    },
+    "bucket_ownership_positive_proof_required_provenance": {
+      "id": "rule-ownership_verifier-bucket_ownership_positive_proof_required-0a1b2",
+      "grounding": "platform_disposition:3766855",
+      "added": "2026-06-07T00:00:00Z",
+      "from_engagement": "airtable",
+      "confidence": "high",
+      "reason": "GROUND TRUTH: H1 #3766855 (api-staging-uploads) closed NOT APPLICABLE by bucket-specialist triager matthew_bryant — 'I see no evidence that Airtable owns this bucket.' The report rested on name-derivation + a third-party repo's staging.env + brand-plausible UUID-PNG content — all squatter-compatible. No CNAME chain and no first-party reference were ever established. This is the loop's first triager-disposition-driven rule, hence confidence=high (vs the self-judged medium ceiling). Supersedes revoked 951ed and complements the negative content-gate 82369."
+    }
   },
   "takeover_hunter": {
     "fingerprint_engine_ignore": [],
     "subdomain_skip": [],
+    "subdomain_name_fingerprint_required": [
+      {
+        "when": "subdomain_hostname_label suggests_specific_application",
+        "application_name_patterns": [
+          "glpi",
+          "jira",
+          "confluence",
+          "redmine",
+          "gitlab",
+          "jenkins",
+          "grafana",
+          "kibana",
+          "nextcloud",
+          "owncloud",
+          "roundcube",
+          "horde",
+          "squirrelmail"
+        ],
+        "action": "fingerprint_actual_service_before_cve_lookup",
+        "do_not": "assume_cve_applicability_from_hostname_alone",
+        "reason": "glpi.mutazuay.com was not running GLPI \u2014 the DNS label was a legacy name for a service that was replaced; fingerprinting before CVE pivot is mandatory to avoid chasing wrong-application vulnerabilities.",
+        "id": "rule-takeover_hunter-subdomain_name_fingerprint_required-3dedb",
+        "added": "2026-05-27T17:50:36Z",
+        "from_engagement": "mutazuay",
+        "confidence": "medium"
+      }
+    ],
     "subzy_concurrency_override": null,
     "refuse_if_explicit_scanner_ban": {
       "enabled": true,
@@ -481,7 +844,7 @@
             "reason": "SendGrid sender-authentication CNAMEs return plain nginx 404 from SendGrid's edge. SendGrid CNAMEs are not user-claimable (tied to authenticated accounts via API keys + ownership verification), so even if subzy's fingerprint matched coincidentally, no exploitable takeover scenario exists."
           }
         ],
-        "reason": "Subzy's fingerprint match against can-i-take-over-xyz is a single passive GET at scan time; the fingerprint database has stale/loose patterns and false-positive overlap with generic 404 pages. Confirmed FP in bc-seek 15705866.careerfair.jobstreet.com: subzy claimed Cargo Collective dangling, but live body is plain nginx 404 from SendGrid edge — no Cargo branding, no claimable binding. Without this gate the takeover-hunter pipeline propagates FPs through ownership-verifier and report-drafter (no live verification was done at any stage in v1) and ships a false-positive report. Symmetric to bucket_hunter.s3scanner_acl_recheck_required which catches the same class of FP on bucket-listing claims.",
+        "reason": "Subzy's fingerprint match against can-i-take-over-xyz is a single passive GET at scan time; the fingerprint database has stale/loose patterns and false-positive overlap with generic 404 pages. Confirmed FP in bc-seek 15705866.careerfair.jobstreet.com: subzy claimed Cargo Collective dangling, but live body is plain nginx 404 from SendGrid edge \u2014 no Cargo branding, no claimable binding. Without this gate the takeover-hunter pipeline propagates FPs through ownership-verifier and report-drafter (no live verification was done at any stage in v1) and ships a false-positive report. Symmetric to bucket_hunter.s3scanner_acl_recheck_required which catches the same class of FP on bucket-listing claims.",
         "id": "rule-takeover_hunter-subzy_body_recheck_required-e91f7",
         "added": "2026-05-21T19:00:00Z",
         "from_engagement": "bc-seek",
@@ -493,7 +856,7 @@
       {
         "cname_target": "swerve.bild.de",
         "match_type": "exact",
-        "reason": "34 bild.de campaign subdomains (100euro.bild.de, 150.bild.de, 12monate.bild.de, etc.) all CNAME to swerve.bild.de which is a live Bild-owned internal redirect mesh — none are individually dangling.",
+        "reason": "34 bild.de campaign subdomains (100euro.bild.de, 150.bild.de, 12monate.bild.de, etc.) all CNAME to swerve.bild.de which is a live Bild-owned internal redirect mesh \u2014 none are individually dangling.",
         "id": "rule-takeover_hunter-cname_hub_skip-14622",
         "added": "2026-05-21T16:33:46Z",
         "from_engagement": "int-nmt",
@@ -502,7 +865,7 @@
       {
         "cname_target": "schneevonmorgen.com",
         "match_type": "suffix",
-        "reason": "57 welt.de subdomains CNAME-delegate to schneevonmorgen.com (Damoh ad platform) which is fully live and claimed — this is a normal CDN/ad-tech delegation pattern, not an exploitable dangling endpoint.",
+        "reason": "57 welt.de subdomains CNAME-delegate to schneevonmorgen.com (Damoh ad platform) which is fully live and claimed \u2014 this is a normal CDN/ad-tech delegation pattern, not an exploitable dangling endpoint.",
         "id": "rule-takeover_hunter-cname_hub_skip-2fcb9",
         "added": "2026-05-21T16:33:46Z",
         "from_engagement": "int-nmt",
@@ -529,32 +892,58 @@
       {
         "cname_target": "wc.shopify.com",
         "match_type": "exact",
-        "reason": "54/60 CNAME-bearing subdomains in shopify engagement resolve to wc.shopify.com, Shopify internal wildcard redirect cluster (live A 23.227.38.33); never a dangling takeover candidate",
+        "reason": "54/60 CNAMEs resolve to wc.shopify.com (Shopify's own live redirect mesh); hub-skip would have cut subzy input from 60 to 6 and prevented the one FP that still required two rules to discharge.",
         "id": "rule-takeover_hunter-cname_hub_skip-a2fdc",
         "added": "2026-05-21T19:23:00Z",
         "from_engagement": "shopify",
-        "confidence": "medium",
-        "reason": "54/60 CNAMEs resolve to wc.shopify.com (Shopify's own live redirect mesh); hub-skip would have cut subzy input from 60 to 6 and prevented the one FP that still required two rules to discharge."
+        "confidence": "medium"
       },
       {
         "cname_target": "impervadns.net",
         "match_type": "suffix",
-        "reason": "Imperva/Incapsula CDN internal delegation: 4 CNAMEs in int-capitalcom engagement resolved to *.impervadns.net. Imperva is a live enterprise WAF/CDN; these are never dangling user-claimable endpoints.",
+        "reason": "4 of 33 CNAME chains in this engagement resolved to *.impervadns.net (Imperva internal nameserver tree); hub-skip would have cut subzy input by 4 and prevented the Cargo FP on img.capital.com from needing body-recheck discharge.",
         "id": "rule-takeover_hunter-cname_hub_skip-2dea0",
         "added": "2026-05-21T20:00:01Z",
         "from_engagement": "int-capitalcom",
-        "confidence": "medium",
-        "reason": "4 of 33 CNAME chains in this engagement resolved to *.impervadns.net (Imperva internal nameserver tree); hub-skip would have cut subzy input by 4 and prevented the Cargo FP on img.capital.com from needing body-recheck discharge."
+        "confidence": "medium"
       },
       {
         "cname_target": "mailgun.org",
         "match_type": "suffix",
-        "reason": "3 Chime sender-authentication subdomains (email.news, email.rally, email.talent) all CNAME to mailgun.org; Mailgun sender-auth CNAMEs are account-bound and structurally not user-claimable — parallel to SendGrid cname_hub_skip; adding as suffix drops all mailgun.org CNAMEs before subzy.",
+        "reason": "3 Chime sender-authentication subdomains (email.news, email.rally, email.talent) all CNAME to mailgun.org; Mailgun sender-auth CNAMEs are account-bound and structurally not user-claimable \u2014 parallel to SendGrid cname_hub_skip; adding as suffix drops all mailgun.org CNAMEs before subzy.",
         "id": "rule-takeover_hunter-cname_hub_skip-5c6bc",
         "added": "2026-05-21T20:38:17Z",
         "from_engagement": "bc-chime",
         "confidence": "medium",
         "rationale": "Mailgun sender-auth CNAMEs (account-bound, verified-domain-required) cannot be claimed by third parties; 3 firings confirm mailgun.org suffix is a reliable hub-skip candidate."
+      },
+      {
+        "cname_target": "cloudfront.net",
+        "match_type": "suffix",
+        "reason": "CloudFront distributions (*.cloudfront.net CNAMEs) are live AWS CDN infrastructure and structurally not user-claimable; subzy fired Cargo Collective VULNERABLE on clicks.anchor.fm (CNAME d3p8mhf5vuafd9.cloudfront.net) in spotify engagement \u2014 4th Cargo FP corroboration; suffix-skip prevents subzy capacity waste on all CloudFront CNAMEs",
+        "id": "rule-takeover_hunter-cname_hub_skip-e2844",
+        "added": "2026-05-24T18:14:26Z",
+        "from_engagement": "spotify",
+        "confidence": "medium",
+        "rationale": "AWS CloudFront distributions require AWS-account ownership to create/claim; a *.cloudfront.net CNAME can never be taken over by an attacker registering a new distribution \u2014 the distribution ID in the CNAME is the account-bound handle. Body recheck in this engagement confirmed: live openresty 404 from the distribution, no Cargo Collective branding. Adding cloudfront.net suffix to cname_hub_skip eliminates an entire class of subzy noise (parallel to the existing cdn.cloudflare.net and impervadns.net entries)."
+      },
+      {
+        "cname_target": "aswatson-mid-prod4-alb-.eu-west-1.elb.amazonaws.com",
+        "match_type": "substring",
+        "reason": "6 subdomains resolved to live aswatson ELB targets; the AWS ELB hub-skip is the upstream prevention rather than relying on the downstream Cargo FP discharge rule \u2014 parallel to the existing cloudfront.net and impervadns.net hub-skip entries.",
+        "id": "rule-takeover_hunter-cname_hub_skip-fdea1",
+        "added": "2026-05-28T00:00:00Z",
+        "from_engagement": "int-marionnaud",
+        "confidence": "medium"
+      },
+      {
+        "cname_target": "aswatson.eu.edgekey.net",
+        "match_type": "suffix",
+        "reason": "2 Marionnaud subdomains resolved to Akamai EdgeKey CDN targets which are live account-bound infrastructure; adding the suffix drops them before subzy wastes probes on non-dangling CDN endpoints.",
+        "id": "rule-takeover_hunter-cname_hub_skip-11fb1",
+        "added": "2026-05-28T00:00:00Z",
+        "from_engagement": "int-marionnaud",
+        "confidence": "medium"
       }
     ],
     "subzy_known_fp_patterns": [
@@ -567,7 +956,7 @@
         "added": "2026-05-21T19:08:48Z",
         "from_engagement": "int-watsons",
         "confidence": "medium",
-        "reason_provenance": "m.newsletter.watsons.com.tr CNAMEs to an AWS ELB host; subzy flagged Cargo Collective VULNERABLE but live body was a generic Apache 404 with zero Cargo branding — same FP mechanism as bc-seek/SendGrid, showing the Cargo fingerprint fires on any bare 404 irrespective of the hosting platform."
+        "reason_provenance": "m.newsletter.watsons.com.tr CNAMEs to an AWS ELB host; subzy flagged Cargo Collective VULNERABLE but live body was a generic Apache 404 with zero Cargo branding \u2014 same FP mechanism as bc-seek/SendGrid, showing the Cargo fingerprint fires on any bare 404 irrespective of the hosting platform."
       },
       {
         "fingerprint_engine": "Unbounce",
@@ -578,18 +967,17 @@
         "added": "2026-05-21T19:08:48Z",
         "from_engagement": "int-watsons",
         "confidence": "medium",
-        "reason_provenance": "Two independent Emarsys suite CNAMEs (suite16 and suite40) both triggered subzy's Unbounce fingerprint in the same engagement; live body recheck in both cases showed live Emarsys SAP service headers and no Unbounce branding — dual corroboration in a single run."
+        "reason_provenance": "Two independent Emarsys suite CNAMEs (suite16 and suite40) both triggered subzy's Unbounce fingerprint in the same engagement; live body recheck in both cases showed live Emarsys SAP service headers and no Unbounce branding \u2014 dual corroboration in a single run."
       },
       {
         "fingerprint_engine": "Cargo Collective",
         "cname_endpoint_pattern": "*",
         "live_body_signature": "generic server 404 (no Cargo Collective branding)",
-        "reason": "Cargo Collective fingerprint fires on any bare 404 regardless of hosting platform (sendgrid.net bc-seek, *.elb.amazonaws.com int-watsons, *.shopifycloud.com shopify); 3rd corroboration; require actual Cargo branding string in body",
+        "reason": "Third consecutive engagement (bc-seek SendGrid, int-watsons ELB, shopify PaaS) confirms Cargo fingerprint fires on any bare 404; a wildcard endpoint pattern subsumes all three per-platform entries and prevents future one-off additions.",
         "id": "rule-takeover_hunter-subzy_known_fp_patterns-466fa",
         "added": "2026-05-21T19:23:00Z",
         "from_engagement": "shopify",
-        "confidence": "medium",
-        "reason": "Third consecutive engagement (bc-seek SendGrid, int-watsons ELB, shopify PaaS) confirms Cargo fingerprint fires on any bare 404; a wildcard endpoint pattern subsumes all three per-platform entries and prevents future one-off additions."
+        "confidence": "medium"
       },
       {
         "fingerprint_engine": "Uptimerobot",
@@ -601,6 +989,41 @@
         "from_engagement": "bc-chime",
         "confidence": "medium",
         "rationale": "Uptimerobot fingerprint string 'page not found' matches Go's http.NotFound() body served by Mailgun's edge on 3 independent email.*.chime.com CNAMEs; parallel to the Cargo+SendGrid FP class in bc-seek."
+      },
+      {
+        "fingerprint_engine": "Gemfury",
+        "cname_endpoint_pattern": "*.vercel-dns-*.com",
+        "live_body_signature": "HTTP 200 Next.js app (Vercel server, x-vercel-cache HIT; Gemfury string appears only in compiled JS bundle 404 component)",
+        "reason": "Gemfury fingerprint string 'This page could not be found.' appears in compiled Next.js JS bundles as the framework-default 404 component; any Vercel-hosted Next.js app will falsely trigger this fingerprint regardless of whether it is a dangling Gemfury endpoint.",
+        "id": "rule-takeover_hunter-subzy_known_fp_patterns-26157",
+        "added": "2026-05-28T02:55:00Z",
+        "from_engagement": "chainlink",
+        "confidence": "medium"
+      }
+    ],
+    "amass_cap_warning_threshold": {
+      "unique_abs_threshold": 300,
+      "action": "emit_operator_warning",
+      "warning_text": "amass produced {count} unique subdomains not covered by subfinder+crtsh that were unavailable under the strict subdomain cap; on future revisit consider running takeover-hunter with a higher cap",
+      "reason": "kiwicom: 868 amass-unique subs (511 kiwi.com + 357 skypicker.com) unavailable under 100-sub strict cap; the strict cap is per-program-policy but the wasted coverage warrants operator notification"
+    },
+    "amass_cap_warning_threshold_provenance": {
+      "id": "rule-takeover_hunter-amass_cap_warning_threshold-01a32",
+      "added": "2026-05-25T00:00:00Z",
+      "from_engagement": "kiwicom",
+      "confidence": "low",
+      "reason": "amass ran in parallel and found 868 unique subs not in subfinder+crtsh that were structurally unavailable under the 100-sub strict cap filled by round-robin alphabetical subfinder+crtsh results; an operator warning threshold prevents silent funnel-narrowing on high-subdomain-count programs."
+    },
+    "slug_dir_hygiene": [
+      {
+        "rule": "output_dir_must_match_program_slug",
+        "rationale": "Always derive the output path from program[\"slug\"] in the program JSON \u2014 never reuse a sibling or prior engagement slug. Observed bug: mutualistaazuay run wrote takeovers to out/mutazuay/takeovers/ and referenced wrong slug in verify call.",
+        "check": "Before writing any output file, assert os.path.basename(output_dir) == program[\"slug\"] from the loaded program JSON.",
+        "id": "rule-takeover_hunter-slug_dir_hygiene-6df70",
+        "added": "2026-05-27T20:00:00Z",
+        "from_engagement": "mutualistaazuay",
+        "confidence": "medium",
+        "reason": "takeover-hunter wrote output to out/mutazuay/takeovers/ instead of out/mutualistaazuay/takeovers/ \u2014 wrong sibling-engagement slug used for both file path and verify-ownership call; requires the subagent to derive output dir strictly from program JSON slug."
       }
     ]
   },
@@ -612,13 +1035,73 @@
         "scope": "applied_to_final_report_text_before_writing_to_disk",
         "reason": "Local filesystem paths must never appear in submitted bug-bounty reports. They leak researcher tooling internals and directory structure to the program triager, give competing researchers operational intel, can subtly bias triagers against the finding (looks like automated/scripted submission), and reveal internal classifier/rule identifiers that add nothing to the technical case.",
         "id": "rule-report_drafter-auto_info_filter-8a2f1",
+        "grounding": "user_policy",
         "added": "2026-05-16T22:00:00Z",
         "from_engagement": "automattic",
         "confidence": "high",
-        "reason_provenance": "User direct policy instruction 2026-05-16, given twice: 'In the next reports do not include this local information like: Cache: memory/ownership-cache/00a486a91e889634.json. Those sort of thinks referring local paths of my system'. High confidence because explicit user policy, not inferred heuristic. The Automattic bundled report (H1 #3741482) shipped with 6 such leaks before this rule existed — exactly the failure mode this rule prevents going forward."
+        "reason_provenance": "User direct policy instruction 2026-05-16, given twice: 'In the next reports do not include this local information like: Cache: memory/ownership-cache/00a486a91e889634.json. Those sort of thinks referring local paths of my system'. High confidence because explicit user policy, not inferred heuristic. The Automattic bundled report (H1 #3741482) shipped with 6 such leaks before this rule existed \u2014 exactly the failure mode this rule prevents going forward."
       }
     ],
-    "severity_overrides": [],
+    "severity_overrides": [
+      {
+        "enabled": true,
+        "match_condition": "leaked-secret candidate whose detector is a blockchain RPC provider (Alchemy, Infura, QuickNode, Ankr, Moralis, GetBlock, Chainstack, Pokt/Grove, or any JSON-RPC endpoint key) — EVEN IF trufflehog Verified==true",
+        "default_severity": "informational",
+        "max_severity_without_demonstrated_elevation": "low",
+        "do_not_draft_high": true,
+        "route": "manual_triage",
+        "elevation_requires_all": [
+          "the key is demonstrably NOT a public/client-side dApp project ID (i.e. not committed in browser-shipped frontend code where exposure is by design)",
+          "the key is NOT free-tier and NOT a test/e2e fixture (check surrounding file: compose.yml, e2e_tests/, *.test.*, simulator, DISABLE_AUTH flags, etc.)",
+          "the key demonstrably grants capability beyond public-chain JSON-RPC reads (e.g. private tx broadcast, webhook/admin management) — and that capability is shown, not speculated"
+        ],
+        "rationale": "trufflehog Verified==true proves only that the ISSUER accepts the credential, NOT that it carries security impact. Blockchain RPC keys are frequently public-by-design (browser dApps expose project IDs), free-tier, or test fixtures, and grant at most rate-limit consumption against PUBLIC chains. Default them low and route to manual triage instead of auto-drafting High.",
+        "id": "rule-report_drafter-blockchain_rpc_key_severity_cap-7c4d9",
+        "grounding": "platform_disposition:3742794",
+        "added": "2026-06-07T00:00:00Z",
+        "from_engagement": "toolsforhumanity",
+        "confidence": "high",
+        "reason": "GROUND TRUTH: H1 #3742794 (worldcoin Alchemy+Infura keys) closed DUPLICATE; program's own assessment surfaced by triager h1_analyst_anya — Alchemy key 'just for testing services' without significant security impact (#3020852), Infura key 'on a free plan and no longer being used by our simulator' (#3543111). Both were trufflehog-verified-live yet low/no-impact. The loop has surfaced this exact key class repeatedly (chainlink: 15 verified Infura/Alchemy; okg: Infura/OKLink) — now ground-truth-confirmed as low-value. Confidence=high because grounded in a program disposition, not self-judgment."
+      },
+      {
+        "enabled": true,
+        "match_condition": "ANY leaked-secret or exposed-asset report where the impact section asserts a capability that was not directly observed",
+        "action": "strip_speculative_capability_claims_before_drafting",
+        "banned_constructions": ["MAY also be available", "could potentially", "if it carries elevated permissions", "request interception", "traffic interception", "depending on account configuration"],
+        "requirement": "Impact statements must describe only capabilities demonstrated by the evidence at hand. State the confirmed impact plainly; if a higher impact is conditional, omit it rather than speculate — triagers read speculative escalation as inflation and it can bias the whole report down.",
+        "id": "rule-report_drafter-no_speculative_impact_inflation-3f2a8",
+        "grounding": "platform_disposition:3742794",
+        "added": "2026-06-07T00:00:00Z",
+        "from_engagement": "toolsforhumanity",
+        "confidence": "high",
+        "reason": "The H1 #3742794 report inflated a free-tier/test RPC key with speculative capabilities — 'request interception', 'World ID proof interception', 'higher-privilege methods (private tx broadcasting, webhook management) MAY also be available'. None are granted by blockchain JSON-RPC keys. The speculative framing did not survive contact with a triager who knew the keys were test/free-tier. Confirmed alongside rule-report_drafter-blockchain_rpc_key_severity_cap-7c4d9."
+      }
+    ],
+    "vendor_credential_attribution_override": [
+      {
+        "applies_to_platform": "direct",
+        "condition": "credential_billing_or_deploy_target_is_scope_owner AND repo_owner_verdict == unowned",
+        "action": "allow_report_if_credential_owner_attributable_via_deploy_context",
+        "reason": "The strongest finding (live billing-enabled Maps key) would have been blocked by the owned gate because it lives in a vendor repo scored unowned; credential attribution to the scope owner via deploy context is the correct ownership signal for directed engagements.",
+        "id": "rule-report_drafter-vendor_credential_attribution_override-124ae",
+        "added": "2026-05-27T17:50:36Z",
+        "from_engagement": "mutazuay",
+        "confidence": "medium"
+      }
+    ],
+    "cve_patch_date_gate": [
+      {
+        "condition": "cve_fix_release_date is known AND app_build_date > cve_fix_release_date",
+        "action": "mark_patched_do_not_report",
+        "reasoning": "When the application build date is later than the CVE fix release date, the build is almost certainly patched. Build recency (a recent build date) does NOT imply unpatched status \u2014 it implies the opposite for CVEs with known fix dates. Always anchor the patched/vulnerable verdict to: (fix_release_date <= app_build_date) => likely patched; (app_build_date < fix_release_date) => possibly unpatched.",
+        "example": "CVE-2025-29927 fix shipped Next.js 15.2.3 on 2025-03-XX. React 19 canary build dated 2025-12-17 in glpi.mutazuay.com is post-fix => correctly concluded patched. Confirmed by status-code-only middleware bypass test (all 307->login, bypass did not fire).",
+        "id": "rule-report_drafter-cve_patch_date_gate-56280",
+        "added": "2026-05-27T17:50:36Z",
+        "from_engagement": "mutazuay",
+        "confidence": "medium",
+        "reason": "The initial CVE-2025-29927 assessment for glpi.mutazuay.com incorrectly reasoned that a December 2025 build 'may be unpatched' when in fact the fix shipped in March 2025; correcting this reasoning at the rule level prevents future report drafts from flagging false CVE findings based on build recency alone."
+      }
+    ],
     "require_cap_refinement_when_all_caps_unknown": {
       "enabled": true,
       "applies_to_platforms": [
@@ -632,7 +1115,20 @@
       "from_engagement": "bc-monash-mbb",
       "confidence": "medium",
       "reason": "All 44 bc-monash-mbb assets have severity_cap=unknown due to Bugcrowd parser limitation; without this gate, any drafted report would have its severity silently capped at medium regardless of actual impact."
-    }
+    },
+    "severity_cap_synthesized_override": [
+      {
+        "platform": "direct",
+        "rule": "synthesized_scope_severity_cap_is_placeholder",
+        "override": "rate_by_true_impact",
+        "note": "For direct/owner-authorized engagements with a SYNTHESIZED scope, severity_cap is a conservative default \u2014 not an authoritative program ceiling. Rate the finding by actual impact and document the override reason. First observed: mutualistaazuay Azure subdomain takeover rated High despite medium cap.",
+        "id": "rule-report_drafter-severity_cap_synthesized_override-8db0e",
+        "added": "2026-05-27T20:00:00Z",
+        "from_engagement": "mutualistaazuay",
+        "confidence": "medium",
+        "reason": "mutualistaazuay synthesized scope defaulted severity_cap=medium; the Azure subdomain takeover on a financial brand warrants High by impact \u2014 the synthesized cap was a placeholder, not an authoritative ceiling; report_drafter must not mechanically apply synthesized caps."
+      }
+    ]
   },
   "program_scope_parser": {
     "explicit_scanner_ban": {
@@ -652,7 +1148,7 @@
       "added": "2026-05-21T21:02:52Z",
       "from_engagement": "int-uzleuven",
       "confidence": "medium",
-      "reason": "UZ Leuven policy verbatim: 'We cannot accept any submissions found by using automatic scanners' — operator had to manually catch this before running hunt-takeovers; parser should detect and set the flag automatically at ingestion time."
+      "reason": "UZ Leuven policy verbatim: 'We cannot accept any submissions found by using automatic scanners' \u2014 operator had to manually catch this before running hunt-takeovers; parser should detect and set the flag automatically at ingestion time."
     },
     "rate_limit_cap_rps": {
       "flag_name": "rate_limit_cap_rps",
@@ -666,7 +1162,36 @@
       "added": "2026-05-21T21:02:52Z",
       "from_engagement": "int-uzleuven",
       "confidence": "medium",
-      "reason": "UZ Leuven policy states 'max. 5 requests /sec'; this was captured in the rules.notes free-text field but not as a machine-readable cap that agents can enforce automatically — parser should extract it at ingestion time."
+      "reason": "UZ Leuven policy states 'max. 5 requests /sec'; this was captured in the rules.notes free-text field but not as a machine-readable cap that agents can enforce automatically \u2014 parser should extract it at ingestion time."
     }
+  },
+  "endpoint_hunter": {
+    "wayback_confidence_ceiling": [
+      {
+        "rule": "archive_derived_leads_require_live_confirmation",
+        "ceiling": "low",
+        "reason": "Three archive-derived candidates (Telerik CVE, Yii2 debug, banking IDOR paths) were presented at high/medium confidence from Wayback pattern-match alone; all three cleared on live GET \u2014 archive-only provenance must be a hard confidence ceiling of low/needs-live-check.",
+        "id": "rule-endpoint_hunter-wayback_confidence_ceiling-3df8f",
+        "added": "2026-05-27T20:00:00Z",
+        "from_engagement": "mutualistaazuay",
+        "confidence": "medium"
+      }
+    ],
+    "long_exposure_duplicate_prior": [
+      {
+        "enabled": true,
+        "rule_type": "SOFT_annotation_not_suppression",
+        "applies_when": "an exposed-endpoint/service candidate has multi-year archive history (Wayback/CommonCrawl earliest snapshot > ~1.5 years old) on a prominent/high-traffic brand domain",
+        "action": "annotate_high_duplicate_risk_and_surface_to_operator",
+        "do_not": "suppress_drafting \u2014 the finding may still be valid and may earn duplicate points (Bugcrowd P1/P2). Duplicate-risk is partially unavoidable since private reports are invisible.",
+        "rationale": "A service publicly reachable and archive-indexed for years on a major brand has a near-certain prior-report probability. Surface the duplicate-risk so the operator can calibrate effort and expectation, but still draft if the finding is valid. Same long-exposure-duration duplicate signal as the secret-side rule history_only_test_fixture_low_impact-9d2e1, generalized to exposed services.",
+        "id": "rule-endpoint_hunter-long_exposure_duplicate_prior-5e7c2",
+        "grounding": "platform_disposition:bc-chime-flashpaper",
+        "added": "2026-06-07T00:00:00Z",
+        "from_engagement": "bc-chime",
+        "confidence": "medium",
+        "reason": "GROUND TRUTH: Bugcrowd flashpaper.chime.com submission was ACCEPTED AS VALID but marked Duplicate of a 2021-10-30 report; the service had Wayback snapshots from 2022-08-03 onward (3+ years public). The finding and report were correct \u2014 the only learning is that multi-year archive-indexed exposure on a prominent domain predicts a prior report. Soft signal (annotate, do not skip) because the finding was genuinely valid and duplicate points may still accrue."
+      }
+    ]
   }
 }

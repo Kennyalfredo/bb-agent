@@ -39,6 +39,18 @@
         "service_status_FINAL": "ACTIVE. Never was remediated. Finding is fully reportable as currently-live P2/High vulnerability — same framing as the original draft.",
         "decision": "SUBMIT as drafted (P2/High active). Original report text accurate. No edits needed for status. Manual Rewards-tab check still required before paste."
       },
+      "platform_outcome": {
+        "disposition": "duplicate",
+        "validity": "ACCEPTED_AS_VALID_ISSUE",
+        "state": "unresolved",
+        "duplicate_of_original_submitted": "2021-10-30T17:30:09Z",
+        "duplicate_of_title": "File Upload Bug in flashpaper allows attackers to Upload and send malicious files to anyone using the name of the bank",
+        "marked_at": "2026-05-27T18:26:29Z",
+        "marked_by": "brunoc_bugcrowd",
+        "captured_at": "2026-06-07",
+        "points_pending": "Bugcrowd awards duplicate points when the P1/P2 original reaches a final state; original is P2-class.",
+        "lesson": "QUALITATIVELY DIFFERENT from the airtable/TFH/elastic dispositions — this finding was ACCEPTED AS A VALID ISSUE, correctly characterized (unauthenticated public go-flashpaper on a Primary-Target domain), with accurate ownership (genuine *.chime.com wildcard, not name-derivation) and no impact inflation on the core claim. The pipeline did this one RIGHT; endpoint-hunter is the only engine to produce a technically-accepted finding so far. The only miss was duplicate-risk: the service had 3+ years of Wayback/archive indexing (earliest snapshot 2022-08-03) and the duplicate's original was filed 2021-10-30. A multi-year publicly-archived exposure on a prominent brand domain has a near-certain prior-report probability. This is the same long-exposure-duration duplicate signal as elastic (12yr secret) but for an exposed service. Duplicate-risk is partially unavoidable (we cannot see private reports), so this is a SOFT prioritization signal, not a draft-suppression rule. See rule-endpoint_hunter-long_exposure_duplicate_prior-5e7c2."
+      },
       "rewards_tab_check_status": "PENDING — requires Bugcrowd login. Operator must manually check https://bugcrowd.com/engagements/chime Rewards tab before submission to confirm P-tier cap for *.chime.com sensitive data exposure findings.",
       "notes": "applied rule rule-report_drafter-require_cap_refinement_when_all_caps_unknown-bc5e8: all bc-chime severity caps are unknown in Bugcrowd dump; proposed high/P2 is unconfirmed — human must check Rewards tab. applied rule rule-report_drafter-auto_info_filter-8a2f1: all local filesystem paths stripped from report body. ownership via rule-ownership_verifier-in_scope_subdomain_override-7d1a2: subdomain under https://*.chime.com wildcard. Pre-submission verification 2026-05-22T11:53Z showed apparent self-remediation (routes unmapped) within ~3h of agent scan; submission deferred 24h for confirmation."
     }

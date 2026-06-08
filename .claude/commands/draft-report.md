@@ -17,7 +17,7 @@ Delegate to the `report-drafter` subagent. Pass the arguments and require it to:
 
 When the subagent returns:
 - **List mode**: relay the three lists verbatim. End with "Reply `/draft-report <slug> <asset>` to draft one."
-- **Draft mode**: relay the report path, final severity, audit-trail path, and the program's submission URL. End with: **"Do not auto-submit. Human edits + pastes; then sets `submitted: true` in `memory/submissions/<slug>.json`."**
+- **Draft mode**: relay the report path, final severity, audit-trail path, and the program's submission URL. Then prompt the operator to run **`/dup-check <slug> <asset>`** before submitting — 3 of the first 4 recorded dispositions were duplicates, and the pre-flight is cheapest to run now. End with: **"Do not auto-submit. Human edits + pastes; then sets `submitted: true` in `memory/submissions/<slug>.json`. Once a verdict comes back, run `/outcome <slug> <asset>` to close the loop."**
 
 Reminders:
 - This subagent NEVER touches the asset for fresh evidence (no curl, no nuclei, no httpx, no GH API).

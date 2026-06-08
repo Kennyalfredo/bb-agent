@@ -15,6 +15,16 @@
       "submitted_at": "2026-05-16T03:42:00Z",
       "submission_url": "https://hackerone.com/reports/3739639",
       "platform_report_id": "3739639",
+      "platform_outcome": {
+        "disposition": "duplicate",
+        "duplicate_of": "2926439",
+        "original_disposition": "informative",
+        "closed_at": "2026-05-18T06:23:00Z",
+        "closed_by": "h1_analyst_sanji",
+        "captured_at": "2026-06-07",
+        "triager_reason_verbatim": "The original report was evaluated and closed as informative, indicating that the program investigated and determined the credential has no impact. The account was associated with a former employee and cannot access any program data.",
+        "lesson": "Third negative disposition in a row; reinforces toolsforhumanity. trufflehog Verified=true (live SauceLabs issuer check) again did NOT mean impact — the account was an orphaned former-employee subaccount with no data access. THREE missed signals: (1) the secret lived in a TEST-FIXTURE path (test/utils/keys.js) — a CI/test credential by location; Verified=true wrongly overrode the test-path discount the loop already applies to noseyparker hits. (2) git-history-only (deleted from HEAD) + ~12-year age in a flagship public repo (elasticsearch-js) = very high duplicate prior AND likely-orphaned-account prior. (3) impact was speculative ('past test runs MAY have recorded sensitive data', 'Sauce Connect pivot IF configured') — same inflation pattern as #3742794. This is exactly the pattern the later dynatrace engagement (2026-05-30) articulated as a non-finding ('history-only secret needing active third-party infra access to PoC') but no rule existed yet. See [[feedback-rpc-key-low-impact]] and rule-secret_hunter-history_only_test_fixture_low_impact-9d2e1."
+      },
       "notes": "Candidate: elastic-saucelabs-2014. SauceLabs detector (DetectorType=398), trufflehog Verified=true, VerificationFromCache=false, scan 2026-05-15T23:21:09-04:00. Repo: elastic/elasticsearch-js, commit bacd515545fc86bbd16b8e639301475f9acc438f, file test/utils/keys.js:4, committed 2014-01-17 by Spencer Alger. File deleted from HEAD; credential remains in git history and is still live (~12-year exposure). Username: elasticsearch-js (Elastic-owned Sauce Labs subaccount). Redacted access key: 24f4...e46. Scope: 'elastic.co credentials' explicit in-scope asset, severity_cap=low. Severity: min(high, low)=low. No auto_info_filter or severity_overrides rules fired (both arrays empty in rules.json). Policy framing: leak of Elastic's own credential, not a third-party system vulnerability — explicitly in-scope."
     }
   ]
