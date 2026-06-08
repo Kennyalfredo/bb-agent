@@ -70,6 +70,12 @@ of self-graded retros. Tooling that closes and measures that loop:
 - **`scripts/bb_rule_audit.py`** — standing rule-base hygiene: flags self-judged-`high`
   rules (must carry a `grounding` field), missing provenance, dup IDs, stale refs to
   disabled rules, and filter:discovery drift.
+- **`/route <slug>`** (`scripts/bb_route.py`) — pre-hunt engine-routing plan. Reads the
+  target profile (GH org, wildcard count, web assets, caps) + actual historical per-engine
+  yield and recommends RUN / DEPRIORITIZE / SKIP per hunt. Advisory; attacks the
+  clean-negative streak by not spending budget on engines that don't pay off on a given
+  target class (e.g. secret-hunter SKIP when there's no GH org; takeover-hunter SKIP on
+  narrow scope / scanner ban). The prior sharpens as `/outcome` records more dispositions.
 
 Rule confidence convention: `low`/`medium` are self-judged; `high` requires a `grounding`
 field (`platform_disposition:<id>` or `user_policy`). Falsified rules are disabled
