@@ -218,8 +218,8 @@ Hunt → Verify → Draft → Submit → /outcome → /retro → rules.json
 ```
 bb-agent/
 ├── .claude/
-│   ├── agents/            31 subagent definitions
-│   ├── commands/           36 slash commands
+│   ├── agents/            30 subagent definitions
+│   ├── commands/           35 slash commands
 │   ├── skills/            Compliance gate (webvuln-compliance)
 │   ├── hooks/             Coverage gate hook
 │   └── settings.json      Project settings
