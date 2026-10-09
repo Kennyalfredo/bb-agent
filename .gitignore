@@ -1,0 +1,56 @@
+# Drafted reports — contain validity proofs, JWTs, secret material.
+# Even in a private repo, safer to keep these on local disk only.
+out/
+
+# Logs and scratch
+*.log
+.DS_Store
+*.swp
+*.tmp
+*~
+
+# Editor / IDE
+.vscode/
+.idea/
+
+# Claude Code per-machine local settings (MCP enablement, allowed permissions).
+# Project-scope shared settings, if any, go in .claude/settings.json instead.
+.claude/settings.local.json
+
+# Local-only credential storage — if anyone ever puts an .env here by mistake
+.env
+.env.*
+*.key
+*.pem
+secrets.yml
+secrets.yaml
+
+# Python cruft (in case any subagent helper scripts get added)
+__pycache__/
+*.pyc
+.venv/
+
+# Engagement memory — program scopes, ownership verdicts, submission trails,
+# employee caches, retro proposals, and learned rules. Contains client names,
+# asset identifiers, and operational details. Local-only; never push to a
+# public remote.
+memory/
+
+# Playwright MCP session data — console logs, engagement artifacts, APKs
+.playwright-mcp/
+
+# Obsidian vault resources — engagement screenshots (potentially sensitive)
+_resources/
+
+# Node dependencies (rebuild from package.json)
+node_modules/
+
+# Engagement-specific directories (client work products, not part of the agent)
+informes/
+
+# Binary / large files that don't belong in the agent source
+*.xlsx
+*.sqlite3
+*.xapk
+*.zip
+*.png
