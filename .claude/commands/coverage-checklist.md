@@ -12,15 +12,15 @@ Run this shell logic (slug = first token of `$ARGUMENTS`; refuse if empty):
 
 ```bash
 SLUG="$(echo "$ARGUMENTS" | awk '{print $1}')"
-[ -z "$SLUG" ] && { echo "Uso: /coverage-checklist <slug>"; exit 1; }
+[ -z "$SLUG" ] && { echo "Usage: /coverage-checklist <slug>"; exit 1; }
 TPL="methodology/internal-network-pentest-checklist.md"
-[ -f "$TPL" ] || { echo "FALTA la plantilla maestra: $TPL"; exit 1; }
-# usar la carpeta de engagement interno más reciente, o crear una nueva
+[ -f "$TPL" ] || { echo "MISSING master template: $TPL"; exit 1; }
+# use the most recent internal engagement folder, or create a new one
 if [ -f "out/$SLUG/internal/.latest" ]; then DIR="$(cat out/$SLUG/internal/.latest)"; else
   DIR="out/$SLUG/internal/$(date -u +%Y%m%dT%H%M%SZ)"; mkdir -p "$DIR"; echo "$DIR" > "out/$SLUG/internal/.latest"; fi
 DEST="$DIR/coverage-checklist.md"
-if [ -f "$DEST" ]; then echo "YA EXISTE (no se sobrescribe): $DEST"; echo "Marca los ítems ahí o bórralo si quieres re-instanciar."; else
-  cp "$TPL" "$DEST"; echo "Instanciado: $DEST"; fi
+if [ -f "$DEST" ]; then echo "ALREADY EXISTS (not overwritten): $DEST"; echo "Mark items there or delete it to re-instantiate."; else
+  cp "$TPL" "$DEST"; echo "Instantiated: $DEST"; fi
 ```
 
 After running:
