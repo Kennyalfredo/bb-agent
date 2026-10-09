@@ -1,6 +1,6 @@
-# bb-agent — SYSCLOUDSEC offensive-security agent
+# bb-agent — offensive-security agent
 
-Security-assessment workflows for Claude Code and Codex. Bug-bounty recon, web-application pentesting, cloud-configuration audits, and digital-footprint assessments — with a documentation axis (Eje 3) that packages findings into HackerOne markdown or SYSCLOUDSEC Typst reports.
+Security-assessment workflows for Claude Code and Codex. Bug-bounty recon, web-application pentesting, cloud-configuration audits, and digital-footprint assessments — with reporting agents that package findings into HackerOne/Bugcrowd markdown or Spanish digital-footprint reports.
 
 **Codex:** open this repository in Codex and ask `Run stats`, `Run route <slug>`, or
 name any workflow below in ordinary language. [AGENTS.md](AGENTS.md) loads the
@@ -17,9 +17,9 @@ Claude slash commands are workflow names in Codex, not registered UI commands.
 | # | Mode | Trigger | Deliverable |
 |---|------|---------|-------------|
 | 1 | **Bug-bounty passive recon** | `/program-load <url>` → hunts → `/draft-report` | HackerOne/Bugcrowd markdown |
-| 2 | **Huella Digital** | `/domain <domain>` | SYSCLOUDSEC "Informe de Huella Digital" (Spanish) |
-| 3 | **Active web-vuln** | `/auth-load` → `/webvuln-surface` → `/hunt-*` | Bounty markdown or SYSCLOUDSEC Typst |
-| 4 | **Cloud audit** | `/audit-cloud <slug> <aws-profile>` | SYSCLOUDSEC Typst técnico |
+| 2 | **Huella Digital** | `/domain <domain>` | Spanish digital-footprint report (markdown) |
+| 3 | **Active web-vuln** | `/auth-load` → `/webvuln-surface` → `/hunt-*` | Bounty markdown |
+| 4 | **Cloud audit** | `/audit-cloud <slug> <aws-profile>` | Findings markdown |
 
 ### Mode 1 — Bug-bounty passive recon
 
@@ -27,7 +27,7 @@ Ingest a HackerOne/Bugcrowd/Intigriti program, run four passive hunters (secrets
 
 ### Mode 2 — Huella Digital
 
-External-attack-surface assessment of a client domain. Synthesizes scope, runs the four hunts **plus `footprint-hunter`** (DNS surface, web portals + screenshots, IP reputation, emails/phones/social, passive breach listing). `huella-reporter` assembles the Spanish SYSCLOUDSEC report scored on a Relevancia×Complejidad severity matrix.
+External-attack-surface assessment of a client domain. Synthesizes scope, runs the four hunts **plus `footprint-hunter`** (DNS surface, web portals + screenshots, IP reputation, emails/phones/social, passive breach listing). `huella-reporter` assembles the Spanish report scored on a Relevancia×Complejidad severity matrix.
 
 Boundaries: light-active tier ON (httpx probe + screenshot + DNSBL), credential validation HARD-OFF, heavy-active OFF, LinkedIn-automation ban (manual paste only).
 
@@ -52,14 +52,14 @@ Boundaries: read-only, no writes, no privesc execution, no port scans, no GetObj
 
 ---
 
-## Documentation axis (Eje 3)
+## Reporting
 
 Two reporting channels, neither auto-submits:
 
 | Channel | Command | Agent | Format |
 |---------|---------|-------|--------|
 | Bug-bounty | `/draft-report <slug>` | `report-drafter` | HackerOne/Bugcrowd markdown |
-| SYSCLOUDSEC | `/informe <slug> <tecnico\|ejecutivo\|huella>` | `syscloud-reporter` | Typst (`@local/plantilla-syscloud`), compiled clean, staged for typst.app |
+| Digital footprint | `/domain <domain>` | `huella-reporter` | Spanish markdown report |
 
 ---
 
@@ -112,7 +112,7 @@ Two reporting channels, neither auto-submits:
      │  cloud-auditor: Prowler + ScoutSuite + CloudFox      │
      │  + PMapper + Cloudsplaining + IAM cred report        │
      │  + Access Analyzer + GuardDuty                       │
-     │  → FP triage → FINDINGS.md → /informe tecnico       │
+     │  → FP triage → FINDINGS.md                          │
      └──────────────────────────────────────────────────────┘
 ```
 
@@ -131,7 +131,6 @@ Two reporting channels, neither auto-submits:
 | `footprint-hunter` | Digital-footprint OSINT (DNS, portals, reputation) | Bash |
 | `ownership-verifier` | 3-check ownership chain + positive-proof model | Bash |
 | `report-drafter` | Bug-bounty markdown (H1/BC format) | Read, Write |
-| `syscloud-reporter` | SYSCLOUDSEC Typst deliverables (Eje 3) | Read, Write, Bash |
 | `huella-reporter` | Spanish digital-footprint report assembly | Read, Write |
 | `access-control-hunter` | IDOR / BOLA / BFLA / mass-assignment | Burp MCP |
 | `xss-hunter` | Reflected / stored / DOM XSS | Burp + Playwright |
@@ -175,7 +174,6 @@ Two reporting channels, neither auto-submits:
 ```
 /verify-ownership <asset>    3-check ownership chain + positive-proof model
 /draft-report <slug>         Bug-bounty markdown (gated on ownership == owned)
-/informe <slug> <type>       SYSCLOUDSEC Typst deliverable (tecnico|ejecutivo|huella)
 /domain <domain>             Digital-footprint assessment (Huella Digital)
 /audit-cloud <slug> <prof>   AWS cloud-configuration audit
 ```

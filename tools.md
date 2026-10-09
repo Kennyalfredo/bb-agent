@@ -128,18 +128,18 @@ Arsenal for **authenticated cloud-configuration pentests** (contracted engagemen
 | GuardDuty | `aws guardduty` (built into AWS CLI) | Runtime threat-detection findings (the one non-config dimension). `list-detectors` per region → `get-findings` top-by-severity. SecurityAudit-readable; `get-detector` confirms the detector's status. |
 | boto3 / policyuniverse | `pip install boto3 policyuniverse` | Ad-hoc AWS scripting + IAM policy analysis primitives. Powers the FP-triage scripts (SG→live-instance correlation, SNS/S3 policy-condition classification, RDS PubliclyAccessible check). |
 
-The above is orchestrated by the **`cloud-auditor`** subagent via the **`/audit-cloud <slug> <profile>`** command. cloud-auditor runs the non-redundant set (Prowler + pmapper + cloudfox + credential report + Access Analyzer + GuardDuty; ScoutSuite/cloudsplaining kept for their HTML) and applies the mandatory false-positive triage before writing `out/<slug>/cloud/<ts>/FINDINGS.md`. Deliverable = `/informe <slug> tecnico` (Typst). **pacu** + **enumerate-iam** are intentionally NOT wired in — pacu's value is write/exploitation (out of scope for the read-only role) and enumerate-iam is redundant when SecurityAudit lets us read policies directly.
+The above is orchestrated by the **`cloud-auditor`** subagent via the **`/audit-cloud <slug> <profile>`** command. cloud-auditor runs the non-redundant set (Prowler + pmapper + cloudfox + credential report + Access Analyzer + GuardDuty; ScoutSuite/cloudsplaining kept for their HTML) and applies the mandatory false-positive triage before writing `out/<slug>/cloud/<ts>/FINDINGS.md`. **pacu** + **enumerate-iam** are intentionally NOT wired in — pacu's value is write/exploitation (out of scope for the read-only role) and enumerate-iam is redundant when SecurityAudit lets us read policies directly.
 
 **Credential handling (hard rules for this tier):**
 - Store creds in an AWS CLI **named profile** (`~/.aws/credentials` under `[<engagement>]`), set up by the operator via `! aws configure --profile <engagement>` so secrets never transit the chat/transcript. Every tool takes `--profile <engagement>`.
 - First call on any new creds is always `aws sts get-caller-identity` (read-only) to confirm the identity + account before anything else.
 - Read-only/enumeration by default. Any write, privesc *execution*, persistence, or data exfil requires explicit per-action operator authorization (mirrors the pentest-playbook proof ceiling — confirm the path, don't detonate it). No snapshot-sharing to external accounts, no key minting, no policy edits without sign-off.
 - Rotate/revoke the engagement keys when the engagement closes; delete the profile.
-- Deliverable is a SYSCLOUDSEC **Typst** report via Eje 3 (`/informe <slug> tecnico`), not loose markdown.
+- Deliverable is the consolidated FINDINGS.md, which may be reformatted for the client.
 
 ## Huella Digital mode (`/domain`)
 
-A second engagement mode for **client work-projects**, distinct from bug-bounty passive-recon. Triggered by `/domain <domain>`; synthesizes a `engagement_type:"huella_digital"` scope JSON, runs the four existing hunts PLUS `footprint-hunter`, then `huella-reporter` assembles a Spanish **SYSCLOUDSEC "Informe de Huella Digital"** at `out/<slug>/reports/huella-digital-<ts>.md`. Authorization = bare-domain-is-go (the user supplying the domain is the authorization).
+A second engagement mode for **client work-projects**, distinct from bug-bounty passive-recon. Triggered by `/domain <domain>`; synthesizes a `engagement_type:"huella_digital"` scope JSON, runs the four existing hunts PLUS `footprint-hunter`, then `huella-reporter` assembles a Spanish **"Informe de Huella Digital"** at `out/<slug>/reports/huella-digital-<ts>.md`. Authorization = bare-domain-is-go (the user supplying the domain is the authorization).
 
 **Capability tiers (encoded as scope-rule flags, not hardcoded):**
 - **Passive** (always): bbot passive presets, subfinder/amass/crt.sh, **waymore (`-mode U`, archive-derived hostnames → §DNS surface; optional, timeout-guarded)**, dnsx, gau, theHarvester (allowed providers only), DNSBL via dig, HIBP/breach lookup.

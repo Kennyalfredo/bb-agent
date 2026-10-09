@@ -1,5 +1,5 @@
 ---
-description: Digital-footprint ("Huella Digital") engagement on a bare domain — synthesizes scope, runs the full passive pipeline PLUS footprint OSINT (DNS surface, web portals + screenshots, IP reputation, emails/phones/social, passive breach listing), and assembles a Spanish SYSCLOUDSEC "Informe de Huella Digital". Authorized footprinting (light-active tier), NOT credential validation.
+description: Digital-footprint ("Huella Digital") engagement on a bare domain — synthesizes scope, runs the full passive pipeline PLUS footprint OSINT (DNS surface, web portals + screenshots, IP reputation, emails/phones/social, passive breach listing), and assembles a Spanish "Informe de Huella Digital". Authorized footprinting (light-active tier), NOT credential validation.
 argument-hint: <domain>  (e.g. example.com)
 allowed-tools: Agent, Bash, Write, Read, AskUserQuestion
 ---
@@ -33,12 +33,10 @@ Run a quick inline DNS/whois baseline (A/NS/MX/TXT + registrar/creation) like th
 After collection, use AskUserQuestion (or a plain prompt) to offer: paste LinkedIn employee data (Nombre — Cargo, Ubicación lines) for §1.4.3, or skip. If provided, write it to `out/<slug>/footprint/linkedin-manual.json` as `{ "company_url": "...", "employees": [{"name":"...","role":"...","location":"..."}] }`. If skipped, write `{ "employees": [], "skipped": true }`.
 
 ### 5. Assemble the report
-Call `huella-reporter` — slug. It reads the footprint output + the four hunt outputs + the LinkedIn paste + ownership cache, applies the severity matrix, and writes `out/<slug>/reports/huella-digital-<ts>.md` (Spanish, SYSCLOUDSEC-branded). Copy any login-portal screenshots into `out/<slug>/reports/screenshots/` so the report's relative image links resolve.
-
-**This markdown is the classified intermediate, not the client deliverable.** The SYSCLOUDSEC-facing artifact is authored in Typst (standing instruction — every SYSCLOUDSEC deliverable is Typst, not markdown). After huella-reporter finishes, the operator produces the final deliverable with **`/informe <slug> huella`** (Eje 3 — Documentación), which transposes this classified markdown into the `huella-digital.typ` skeleton, compiles it clean, and stages it for typst.app.
+Call `huella-reporter` — slug. It reads the footprint output + the four hunt outputs + the LinkedIn paste + ownership cache, applies the severity matrix, and writes `out/<slug>/reports/huella-digital-<ts>.md` (Spanish). Copy any login-portal screenshots into `out/<slug>/reports/screenshots/` so the report's relative image links resolve.
 
 ### 6. Summarize to the user
-Report: chosen slug + scope path; baseline stack; per-section collection counts (subdomains/private-IPs, web hosts/login portals/non-standard ports, emails, phones, social [official footer / maigret candidates / impersonation leads], breach accounts + provider, reputation); any findings folded in from the hunts (takeover, exposed endpoints, attributable secrets); the report path; and the overall posture rating. Point the operator to **`/informe <slug> huella`** for the final Typst deliverable. State plainly that **credential validation + access PoC were NOT performed (passive list only) and require written client authorization**, and that **LinkedIn data was manual-only**.
+Report: chosen slug + scope path; baseline stack; per-section collection counts (subdomains/private-IPs, web hosts/login portals/non-standard ports, emails, phones, social [official footer / maigret candidates / impersonation leads], breach accounts + provider, reputation); any findings folded in from the hunts (takeover, exposed endpoints, attributable secrets); the report path; and the overall posture rating. State plainly that **credential validation + access PoC were NOT performed (passive list only) and require written client authorization**, and that **LinkedIn data was manual-only**.
 
 ## Guardrails (state these hold)
 - Light-active ceiling: against the CLIENT's infrastructure only DNS, single httpx homepage probe, one screenshot per host, DNSBL queries, and a one-shot homepage GET for footer social-link extraction. No login attempts, no credential reuse, no nuclei CVE/exploit, no LinkedIn scraping, no port sweeps.

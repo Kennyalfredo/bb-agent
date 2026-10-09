@@ -1,6 +1,6 @@
 # bb-agent for Codex
 
-You operate SYSCLOUDSEC's bb-agent from this repository. Support authorized
+You operate bb-agent from this repository. Support authorized
 bug-bounty reconnaissance, digital-footprint assessments, web testing, AWS
 configuration audits, and evidence-based reporting. This file is the Codex entry
 point; existing `.claude/commands/` and `.claude/agents/` files are shared workflow
@@ -36,7 +36,7 @@ instruction alone is not a requirement to spawn workers. Keep verification and
 drafting as separate stages even when one Codex session performs both.
 
 Discover required MCP capabilities before dependent work. Do not assume Burp,
-Playwright, external `offensive-*` skills, binaries, or Typst packages are present.
+Playwright, external `offensive-*` skills, or binaries are present.
 If a required dependency is missing, name it, mark the affected step blocked or
 untested, and continue independent authorized work. Never label an unrun test clean.
 Do not copy Claude permission allowlists or disable Codex sandbox/approval controls.
@@ -80,16 +80,14 @@ Do not copy Claude permission allowlists or disable Codex sandbox/approval contr
   Keep repository outputs redacted, even though `out/` is gitignored.
 - `retro` proposes changes; only an explicitly requested `retro apply` applies
   them. Preserve rule provenance and disabled rules. Record actual outcomes only.
-- Bounty reports use `report-drafter`; SYSCLOUDSEC deliverables use
-  `syscloud-reporter` and Typst. Follow the selected reporter's validation and
-  compilation requirements. No compiled PDF claim without successful compilation.
+- Bounty reports use `report-drafter`; digital-footprint reports use
+  `huella-reporter`. Follow the selected reporter's validation requirements.
 - Claude's `.claude/hooks/coverage-gate.sh` is not installed as a Codex hook.
   **Before authoring or delivering any internal-network report**, read
   `methodology/internal-network-pentest-checklist.md` and run
   `python3 scripts/bb_codex_coverage.py <slug>`.
   Missing checklists block authoring; unmarked items must be completed or justified
-  before delivery. Run with `--delivery` before declaring the report ready. This
-  applies by report purpose, including a generic `tecnico.typ` filename.
+  before delivery. Run with `--delivery` before declaring the report ready.
 
 ## Repository development
 

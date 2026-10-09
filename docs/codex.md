@@ -12,7 +12,6 @@ Run stats
 Run route <slug>
 Summarize the existing <slug> evidence without making network requests
 Run program-load <program-policy-url>
-Run informe <slug> tecnico
 ```
 
 Workflow names are conversational routing conventions. This integration does not
@@ -37,7 +36,6 @@ if the UI intercepts a slash command. Each request loads the matching
 | Web vulnerability classes | `hunt-xss`, `hunt-sqli`, `hunt-ssrf`, `hunt-xxe`, `hunt-jwt`, `hunt-oauth`, `hunt-graphql`, `hunt-race`, `hunt-upload`, `hunt-redirect`, `hunt-deser`, `hunt-ssti`, `hunt-rce`, `hunt-smuggling` | Corresponding `<class>-hunter.md` |
 | Ownership proof | `verify-ownership` | `ownership-verifier.md` |
 | Bounty report | `draft-report` | `report-drafter.md` |
-| Client report | `informe` | `syscloud-reporter.md` |
 | Internal-network coverage | `coverage-checklist` | `methodology/internal-network-pentest-checklist.md` |
 | Learn / record disposition | `retro`, `outcome` | `retro-analyzer.md`, existing outcome utility |
 

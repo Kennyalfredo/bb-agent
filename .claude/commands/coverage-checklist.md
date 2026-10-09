@@ -27,6 +27,6 @@ After running:
 1. Report the destination path.
 2. Remind the operator (and yourself) that EVERY item must be marked `[x]` (with evidence) / `[~]` / `[N/A]` / `[B]-with-cause` / `[ ]`, and that **"covered everything possible" = no bare `[ ]`**.
 3. If engagement findings already exist (e.g. `out/<slug>/internal/*/FINDINGS*.md`), offer to pre-fill the checklist statuses from them.
-4. The completed checklist is attached to the SYSCLOUDSEC report (playbook Phase 5, item J5).
+4. The completed checklist is attached to the engagement report (playbook Phase 5, item J5).
 
 Do NOT collect fresh data or run scans here — this command only instantiates the checklist. Testing is driven separately by the playbook.

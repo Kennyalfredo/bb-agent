@@ -7,7 +7,7 @@ allowed-tools: Agent, Bash, Read, Write, AskUserQuestion
 You are running an **authenticated AWS cloud-configuration audit** (contracted-pentest tier).
 Arguments: $ARGUMENTS  (expected: `<slug> <aws-cli-profile>`)
 
-This is credential-gated client work: the operator provisioned a read-only engagement role and configured an AWS CLI profile. Distinct from bug-bounty passive recon and the web-vuln tier. Authorization = the provisioned role + profile. Deliverable = SYSCLOUDSEC Typst via `/informe <slug> tecnico` (Eje 3) — this command does NOT draft it.
+This is credential-gated client work: the operator provisioned a read-only engagement role and configured an AWS CLI profile. Distinct from bug-bounty passive recon and the web-vuln tier. Authorization = the provisioned role + profile. Deliverable = the consolidated FINDINGS.md — this command does NOT draft the client report.
 
 ## Orchestration
 
@@ -25,7 +25,7 @@ Call the `cloud-auditor` subagent with `<slug> <profile>`. It runs the read-only
 Remind it (hard rules): read-only only; proof ceiling (no port-scan/GetObject/secret-value reads/AssumeRole); pause + request refresh on `ExpiredToken`; never ship a raw scanner FAIL without triage; document FP counts killed; never auto-submit or draft the client report.
 
 ### 3. Summarize to the operator
-Relay: account + role; per-severity CONFIRMED counts; the headline confirmed findings (with concrete resource names); the false-positive counts killed by triage (so the value of verification is explicit); any steps left incomplete (e.g. pmapper if the token expired mid-run, or "no Access Analyzer enabled"); the FINDINGS.md path. End by pointing to **`/informe <slug> tecnico`** for the Typst deliverable, and note nothing was written/exploited/submitted.
+Relay: account + role; per-severity CONFIRMED counts; the headline confirmed findings (with concrete resource names); the false-positive counts killed by triage (so the value of verification is explicit); any steps left incomplete (e.g. pmapper if the token expired mid-run, or "no Access Analyzer enabled"); the FINDINGS.md path, and note nothing was written/exploited/submitted.
 
 ## Guardrails (state these hold)
 - Read-only, proof ceiling. No writes, privesc execution, persistence, snapshot-share, port scans, bucket-object reads, or secret-value reads.
